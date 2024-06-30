@@ -5,6 +5,7 @@
 import { useEffect, useState } from 'react';
 import { PlaceholderBar } from '@/app/components/PlaceholderBar';
 import { currency } from '@/app/common/utils';
+import { fetchStxPrice } from '@/app/components/AppContext';
 
 interface CenterProps {
   className: string;
@@ -14,18 +15,6 @@ export function Center({ className }: CenterProps) {
   const [isLoading, setIsLoading] = useState(true);
   const [startedLoading, setStartedLoading] = useState(false);
   const [amountLocked, setAmountLocked] = useState<number>(0);
-
-  const fetchStxPrice = async () => {
-    const url = 'https://laozi1.bandchain.org/api/oracle/v1/request_prices?ask_count=16&min_count=10&symbols=STX';
-    const response = await fetch(url, { cache: 'no-store' });
-    const data = await response.json();
-    if (data['price_results']?.length > 0) {
-      const priceSTX = data['price_results'][0]['px'] / Number(data['price_results'][0]['multiplier']);
-      return priceSTX;
-    }
-
-    return 0;
-  }
 
   const loadPoxData = async () => {
     const url = 'https://api.mainnet.hiro.so/v2/pox';
