@@ -64,7 +64,7 @@ export const blocksToTime = (blocks: number) => {
 };
 
 export const resolveProvider = () => {
-  const providerName = localStorage.getItem("stacking-sign-provider");
+  const providerName = localStorage.getItem("stacking-tracker-sign-provider");
   if (!providerName) return null;
 
   if (providerName === "xverse" && window.XverseProviders?.StacksProvider) {
