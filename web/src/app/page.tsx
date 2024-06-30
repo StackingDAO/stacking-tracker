@@ -1,12 +1,9 @@
 import { Center } from '@/app/components/Center';
-import { Footer } from '@/app/components/Footer';
 
 export default function Home() {
   return (
-    <main>
+    <main className="flex flex-col justify-between pt-36">
       <Center />
-
-      <Footer />
     </main>
   );
 }
