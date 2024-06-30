@@ -1,4 +1,8 @@
+import { useAppContext } from '@/app/components/AppContext';
+
 export function Footer() {
+  const { stackingCycle } = useAppContext();
+
   return (
     <main className="flex flex-col items-center justify-between p-24">
       <div className="mb-32 grid text-center lg:mb-0 lg:w-full lg:max-w-5xl lg:grid-cols-4 lg:text-left">
@@ -9,7 +13,7 @@ export function Footer() {
           rel="noopener noreferrer"
         >
           <h2 className="mb-3 text-2xl font-semibold">
-            Cycle 87{" "}
+            Cycle {stackingCycle}{" "}
             <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
               -&gt;
             </span>
