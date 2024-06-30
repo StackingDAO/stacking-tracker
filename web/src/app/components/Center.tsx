@@ -35,7 +35,7 @@ export function Center({ className }: CenterProps) {
   }, []);
 
   return (
-    <div className="relative z-[-1] flex text-2xl">
+    <div className="text-2xl">
       {isLoading ? (
         <div className="inline-flex">
           <PlaceholderBar

@@ -20,8 +20,6 @@ interface AppContextProps {
   stxBalance: number;
   stStxBalance: number;
   stxPrice?: string;
-  stxRatio?: string;
-  stackingApy: number;
 
   stackedStx?: string;
   stackingCycle?: string;
@@ -46,8 +44,6 @@ export const AppContext = createContext<AppContextProps>({
   stStxBalance: 0,
   sDaoBalance: undefined,
   stxPrice: undefined,
-  stxRatio: undefined,
-  stackingApy: 0,
 
   stackedStx: undefined,
   stackingCycle: undefined,
@@ -77,7 +73,7 @@ interface IBalances {
 
 const fetchBalances = async (stxAddress: string): Promise<IBalances> => {
   const client = getRPCClient();
-  const stStxAddress = `${process.env.NEXT_PUBLIC_STSTX_ADDRESS}.ststx-token::ststx`;
+  const stStxAddress = `SP4SZE494VC2YC5JYG7AYFQ44F5Q4PYV7DVMDPBG.ststx-token::ststx`;
   const url = `${client.url}/extended/v1/address/${stxAddress}/balances`;
   const response = await fetch(url, { credentials: 'omit' });
   const data = await response.json();
@@ -192,12 +188,10 @@ function useAppContextData(userData: any): AppContextProps {
     stStxBalance: balances.stacked,
     sDaoBalance: `${balances.dao}`,
     stxPrice: `${stxPrice}`,
-    stxRatio: `${stxRatio}`,
     stxAddress: stxAddress,
     setStxAddress: setStxAddress,
     okxProvider: okxProvider,
     setOkxProvider: setOkxProvider,
-    stackingApy: stackingApy,
     stackingCycle: `${stackingCycle.currentCycle}`,
     stackedStx: `${stackingCycle.stackedStx}`,
     cycleDaysLeft: `${stackingCycle.cycleDaysLeft}`,
