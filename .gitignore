@@ -20,3 +20,24 @@ yarn-error.log*
 
 # vercel
 .vercel
+
+notes.md
+web/.env
+scripts/.env
+keychain_testnet
+keychain_mainnet
+node_modules
+.next
+
+# Local Netlify folder
+.netlify
+web/pnpm-lock.yaml
+/.idea
+services/.env.local
+
+# cdk
+.cdk.staging
+cdk.out
+*.tsbuildinfo
+
+**/.env
