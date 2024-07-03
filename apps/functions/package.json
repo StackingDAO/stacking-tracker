@@ -1,0 +1,33 @@
+{
+    "name": "tracker-lambda-functions",
+    "version": "0.1.0",
+    "main": "dist/index.js",
+    "scripts": {
+        "dev:daily-points": "sam local invoke Points-WalletTracker --env-vars .env.json -e events/sqs_block.json -t ../../cdk.out/PointsStack.template.json",
+        "start:wallet-tracker": "node -r ts-node/register --env-file=.env src/wallet-tracker.ts"
+    },
+    "dependencies": {
+        "@aws-sdk/client-sns": "^3.568.0",
+        "@neondatabase/serverless": "^0.9.1",
+        "@stacks/blockchain-api-client": "^7.9.1",
+        "@stacks/network": "6.10.0",
+        "@stacks/rpc-client": "0.8.18",
+        "@stacks/stacks-blockchain-api-types": "^7.10.0",
+        "@stacks/transactions": "6.11.0",
+        "aws-lambda": "^1.0.7",
+        "dotenv": "^16.3.1",
+        "drizzle-orm": "^0.30.8",
+        "esbuild": "^0.20.2",
+        "express": "^4.19.2",
+        "pg": "^8.11.5",
+        "tqdm": "^2.0.3"
+    },
+    "devDependencies": {
+        "@types/node": "^20.12.7",
+        "drizzle-kit": "^0.20.14",
+        "eslint": "^8.57.0",
+        "eslint-config-next": "14.2.2",
+        "tsconfig-paths": "^4.2.0",
+        "typescript": "^5.4.5"
+    }
+}
