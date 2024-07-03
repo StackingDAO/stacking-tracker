@@ -5,6 +5,7 @@
     "dependencies": {
         "@aws-sdk/client-sns": "^3.568.0",
         "@neondatabase/serverless": "^0.9.1",
+        "@prisma/client": "^5.16.1",
         "@stacks/blockchain-api-client": "^7.9.1",
         "@stacks/network": "6.10.0",
         "@stacks/rpc-client": "0.8.18",
@@ -23,6 +24,7 @@
         "drizzle-kit": "^0.20.14",
         "eslint": "^8.57.0",
         "eslint-config-next": "14.2.2",
+        "prisma": "^5.16.1",
         "tsconfig-paths": "^4.2.0",
         "typescript": "^5.4.5"
     }
