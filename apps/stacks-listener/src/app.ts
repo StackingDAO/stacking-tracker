@@ -1,7 +1,7 @@
-import type {Block} from "@stacks/stacks-blockchain-api-types";
-import {SendMessageCommand, SQSClient} from "@aws-sdk/client-sqs";
+import type { Block } from "@stacks/stacks-blockchain-api-types";
+import { SendMessageCommand, SQSClient } from "@aws-sdk/client-sqs";
 import * as stacks from "@stacks/blockchain-api-client";
-import {io, Socket} from "socket.io-client";
+import { io, Socket } from "socket.io-client";
 
 export class StacksListener {
     sqs: SQSClient;
@@ -11,17 +11,27 @@ export class StacksListener {
     private readonly unsubscribeBlocks: () => void;
 
     constructor(queueUrl: string) {
-        this.sqs = new SQSClient({region: "ap-southeast-1"});
-        this.queueUrl = queueUrl
+        this.sqs = new SQSClient({
+            region: "eu-central-1",
+        });
+        this.queueUrl = queueUrl;
 
-        this._socket = io("https://api.mainnet.hiro.so/", {transports: ['websocket']});
-        this._socket.on("connect", () => console.log("socket connected: listening for confirmed blocks..."));
+        this._socket = io("https://api.mainnet.hiro.so/", {
+            transports: ["websocket"],
+        });
+        this._socket.on("connect", () =>
+            console.log("socket connected: listening for confirmed blocks...")
+        );
         this._socket.on("disconnect", () => console.log("socket disconnected"));
-        this._socket.on("connect_error", (err) => console.log("connection error: ", err));
+        this._socket.on("connect_error", (err) =>
+            console.log("connection error: ", err)
+        );
 
         this.listener = new stacks.StacksApiSocketClient(this._socket);
 
-        const {unsubscribe} = this.listener.subscribeBlocks(this.sendBlock.bind(this));
+        const { unsubscribe } = this.listener.subscribeBlocks(
+            this.sendBlock.bind(this)
+        );
         this.unsubscribeBlocks = unsubscribe;
     }
 

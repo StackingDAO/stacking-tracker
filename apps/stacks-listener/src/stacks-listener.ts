@@ -1,8 +1,8 @@
-import {BlocksApi} from "@stacks/blockchain-api-client";
+import { BlocksApi } from "@stacks/blockchain-api-client";
 
-import express, {Express, Request, Response} from "express";
+import express, { Express, Request, Response } from "express";
 import dotenv from "dotenv";
-import {StacksListener} from "./app";
+import { StacksListener } from "./app";
 
 dotenv.config();
 
@@ -16,8 +16,9 @@ const stacks = new StacksListener(queue);
 app.use(express.json());
 
 app.get("/health", (_: Request, res: Response) => {
-    if (stacks.listener.socket.connected) res.status(200).json({status: "ok"});
-    else res.status(500).json({status: "disconnected"});
+    if (stacks.listener.socket.connected)
+        res.status(200).json({ status: "ok" });
+    else res.status(500).json({ status: "disconnected" });
 });
 
 app.post("/block", async (req: Request, res: Response) => {
@@ -25,13 +26,15 @@ app.post("/block", async (req: Request, res: Response) => {
 
     try {
         const body = req.body as { block_height: number };
-        const block = await blocks.getBlockByHeight({height: body.block_height});
+        const block = await blocks.getBlockByHeight({
+            height: body.block_height,
+        });
 
         await stacks.sendBlock(block);
 
-        res.status(200).json({success: true});
+        res.status(200).json({ success: true });
     } catch (e) {
-        res.status(500).json({success: false, error: e})
+        res.status(500).json({ success: false, error: e });
     }
 });
 
@@ -45,5 +48,5 @@ function shutdown() {
     process.exit();
 }
 
-process.on('SIGTERM', shutdown);
-process.on('SIGINT', shutdown);
+process.on("SIGTERM", shutdown);
+process.on("SIGINT", shutdown);

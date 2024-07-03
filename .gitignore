@@ -40,4 +40,8 @@ services/.env.local
 cdk.out
 *.tsbuildinfo
 
+# env
 **/.env
+
+# vscode
+.vscode
