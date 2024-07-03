@@ -102,6 +102,13 @@ export class Tracker extends cdk.Stack {
             }
         );
 
+        databaseSecurityGroup.addIngressRule(
+            ec2.Peer.anyIpv4(),
+            ec2.Port.tcp(5432),
+            "Allow inbound PostgreSQL"
+        );
+
+        const databaseName = "tracker";
         const databaseInstance = new rds.DatabaseInstance(this, "RDSInstance", {
             engine: rds.DatabaseInstanceEngine.postgres({
                 version: rds.PostgresEngineVersion.VER_16_2,
@@ -113,7 +120,7 @@ export class Tracker extends cdk.Stack {
             vpc,
             vpcSubnets: { subnetType: ec2.SubnetType.PUBLIC },
             securityGroups: [databaseSecurityGroup],
-            databaseName: "tracker",
+            databaseName: databaseName,
             credentials: rds.Credentials.fromSecret(databaseSecret), // Use credentials from Secrets Manager
             allocatedStorage: 20,
             storageType: rds.StorageType.GP2,
@@ -131,7 +138,7 @@ export class Tracker extends cdk.Stack {
             handlerFilePath: "apps/functions/src/block-processor.ts",
             handler: "processBlock",
             environment: {
-                DATABASE_URL: `postgres://${databaseSecret.secretValueFromJson("username").unsafeUnwrap()}:${databaseSecret.secretValueFromJson("password").unsafeUnwrap()}@${databaseInstance.dbInstanceEndpointAddress}:${databaseInstance.dbInstanceEndpointPort}/mydatabase`,
+                DATABASE_URL: `postgres://${databaseSecret.secretValueFromJson("username").unsafeUnwrap()}:${databaseSecret.secretValueFromJson("password").unsafeUnwrap()}@${databaseInstance.dbInstanceEndpointAddress}:${databaseInstance.dbInstanceEndpointPort}/${databaseName}`,
             },
         });
 
@@ -143,6 +150,7 @@ export class Tracker extends cdk.Stack {
             })
         );
 
+        // Setup
         new cdk.CfnOutput(this, "BlockProcessorArn", {
             value: blockProcessor.lambda.functionArn,
         });
