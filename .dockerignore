@@ -1,0 +1,25 @@
+node_modules
+Dockerfile*
+docker-compose*
+.dockerignore
+.git
+.gitignore
+.github
+README.md
+LICENSE
+.vscode
+Makefile
+helm-charts
+web/.env
+.editorconfig
+.idea
+coverage\*
+.DS_Store
+
+# StackingDAO specific folders
+
+cdk\*
+clarity
+web
+scripts
+.npmignore
