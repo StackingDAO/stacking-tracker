@@ -20,9 +20,6 @@ https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html
 https://docs.aws.amazon.com/cdk/v2/guide/getting_started.html
 `npm install -g aws-cdk`
 
-**AWS SAM**
-https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/install-sam-cli.html
-
 ## Setup
 
 **Credentials**

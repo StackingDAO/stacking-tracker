@@ -7,11 +7,6 @@
         "apps/*",
         "packages/*"
     ],
-    "scripts": {
-        "cdk:synth": "cdk synth --no-staging",
-        "dev:stacks-listener": "yarn workspace stacks-listener dev",
-        "dev:daily-points": "yarn run cdk:synth && yarn workspace functions dev:daily-points"
-    },
     "devDependencies": {
         "@types/node": "20.12.7",
         "aws-cdk": "2.141.0",
