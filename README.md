@@ -27,8 +27,8 @@ Run `aws configure`. The `access_key_id` and `secret_access_key` can be found vi
 
 This should create 2 files:
 
--   ~/.aws/credentials
--   ~/.aws/config
+- ~/.aws/credentials
+- ~/.aws/config
 
 **Environment Vars**
 Create a `.env` file in `/apps/stacks-listener` similar to `.env.example`
@@ -40,6 +40,6 @@ Set correct account and region in `cdk.context.json`
 
 **CDK**
 
--   `cdk bootstrap`
--   `cdk deploy`
--   `cdk destroy`
+- `cdk bootstrap`
+- `cdk deploy`
+- `cdk destroy`

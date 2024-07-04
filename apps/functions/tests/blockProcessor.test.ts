@@ -1,11 +1,11 @@
 import { processBlock } from "../src/block-processor";
 
 describe("BlockProcessor - ...", () => {
-    // beforeEach
-    // mocks
+  // beforeEach
+  // mocks
 
-    test("...", async () => {
-        // processBlock()
-        expect(true).toStrictEqual(true);
-    }, 10000);
+  test("...", async () => {
+    // processBlock()
+    expect(true).toStrictEqual(true);
+  }, 10000);
 });
