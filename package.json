@@ -1,27 +1,22 @@
 {
-    "name": "stacking-tracker",
-    "version": "0.1.0",
-    "private": true,
-    "workspaces": [
-        "web",
-        "apps/*",
-        "packages/*"
-    ],
-    "scripts": {
-        "cdk:synth": "cdk synth --no-staging",
-        "dev:stacks-listener": "yarn workspace stacks-listener dev",
-        "dev:daily-points": "yarn run cdk:synth && yarn workspace functions dev:daily-points"
-    },
-    "devDependencies": {
-        "@types/node": "20.12.7",
-        "aws-cdk": "2.141.0",
-        "dotenv": "^16.4.5",
-        "ts-node": "^10.9.2",
-        "typescript": "~5.4.5"
-    },
-    "dependencies": {
-        "aws-cdk-lib": "2.140.0",
-        "constructs": "^10.0.0",
-        "source-map-support": "^0.5.21"
-    }
+  "name": "stacking-tracker",
+  "version": "0.1.0",
+  "private": true,
+  "workspaces": [
+    "web",
+    "apps/*",
+    "packages/*"
+  ],
+  "devDependencies": {
+    "@types/node": "20.12.7",
+    "aws-cdk": "2.141.0",
+    "dotenv": "^16.4.5",
+    "ts-node": "^10.9.2",
+    "typescript": "~5.4.5"
+  },
+  "dependencies": {
+    "aws-cdk-lib": "2.140.0",
+    "constructs": "^10.0.0",
+    "source-map-support": "^0.5.21"
+  }
 }
