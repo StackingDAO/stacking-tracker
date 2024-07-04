@@ -10,10 +10,5 @@
     "skipLibCheck": true
   },
   "lib": ["es2015"],
-  "exclude": ["node_modules", "dist"],
-  "references": [
-    {
-      "path": "../../packages/database"
-    }
-  ]
+  "exclude": ["node_modules", "dist"]
 }

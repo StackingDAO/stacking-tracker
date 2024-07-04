@@ -1,5 +1,5 @@
 {
-  "name": "stacks-listener",
+  "name": "tracker-stacks-listener",
   "version": "0.1.0",
   "main": "dist/index.js",
   "scripts": {
