@@ -30,9 +30,6 @@ This should create 2 files:
 - ~/.aws/credentials
 - ~/.aws/config
 
-**Environment Vars**
-Create a `.env` file in `/apps/stacks-listener` similar to `.env.example`
-
 **CDK**
 Set correct account and region in `cdk.context.json`
 
@@ -43,3 +40,15 @@ Set correct account and region in `cdk.context.json`
 - `cdk bootstrap`
 - `cdk deploy`
 - `cdk destroy`
+
+**Drizzle**
+
+- `npx drizzle-kit studio`
+
+## Local Setup
+
+**Stacks Listener**
+Create a `.env` file in `/apps/stacks-listener` similar to `.env.example`
+
+**Packages Database**
+Create a `.env` file in `/packages/database` similar to `.env.example`
