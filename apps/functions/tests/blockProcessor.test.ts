@@ -1,11 +1,18 @@
+import { getLatestBlock } from "@repo/database/src/actions";
 import { processBlock } from "../src/block-processor";
 
-describe("BlockProcessor - ...", () => {
-  // beforeEach
-  // mocks
+describe("BlockProcessor - Process block", () => {
+  test("Save latest block and read from db", async () => {
+    const block = {
+      Records: [
+        {
+          body: '{"height":14900}',
+        },
+      ],
+    };
+    await processBlock(block, undefined);
 
-  test("...", async () => {
-    // processBlock()
-    expect(true).toStrictEqual(true);
-  }, 10000);
+    const latestSavedBlock = await getLatestBlock();
+    expect(latestSavedBlock).toStrictEqual(14900);
+  });
 });

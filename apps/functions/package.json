@@ -29,7 +29,6 @@
   "devDependencies": {
     "@types/mocha": "^10.0.7",
     "@types/node": "^20.12.7",
-    "drizzle-kit": "^0.20.14",
     "eslint": "^8.57.0",
     "eslint-config-next": "14.2.2",
     "tsconfig-paths": "^4.2.0",

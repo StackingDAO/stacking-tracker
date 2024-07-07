@@ -47,8 +47,23 @@ Set correct account and region in `cdk.context.json`
 
 ## Local Setup
 
-**Stacks Listener**
+**Local Postgresql on Mac OS**
+Needed to run tests.
+
+- `brew install postgresql`
+- `brew services start postgresql`
+
+- `psql postgres`
+
+- `CREATE ROLE test WITH LOGIN PASSWORD 'test';`
+- `CREATE DATABASE tracker_test;`
+- `GRANT ALL PRIVILEGES ON DATABASE tracker_test TO test;`
+
+**Apps Functions**
+Create a `.env` file in `/apps/functions` similar to `.env.example`
+
+**Apps Stacks Listener**
 Create a `.env` file in `/apps/stacks-listener` similar to `.env.example`
 
-**Packages Database**
+**Package Database**
 Create a `.env` file in `/packages/database` similar to `.env.example`

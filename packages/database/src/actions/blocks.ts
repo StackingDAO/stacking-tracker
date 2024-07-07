@@ -6,7 +6,10 @@ import { desc } from 'drizzle-orm';
 
 export async function getLatestBlock(): Promise<any> {
   const result = await db.select().from(blocks).orderBy(desc(blocks.blockHeight)).limit(1);
-  return result;
+  if (result.length === 0) {
+    return 0;
+  }
+  return result[0].blockHeight;
 }
 
 export async function saveBlock(height: number): Promise<any> {
