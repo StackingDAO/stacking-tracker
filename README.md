@@ -67,3 +67,6 @@ Create a `.env` file in `/apps/stacks-listener` similar to `.env.example`
 
 **Package Database**
 Create a `.env` file in `/packages/database` similar to `.env.example`
+
+**Package Stacks**
+Create a `.env` file in `/packages/stacks` similar to `.env.example`
