@@ -3,7 +3,7 @@ CREATE TABLE IF NOT EXISTS "rewards" (
 	"burn_block_height" integer NOT NULL,
 	"reward_recipient" varchar NOT NULL,
 	"reward_amount" numeric(16, 6) DEFAULT 0 NOT NULL,
-	CONSTRAINT "rewards_cycle_number_reward_recipient_pk" PRIMARY KEY("cycle_number","reward_recipient")
+	CONSTRAINT "rewards_cycle_number_burn_block_height_reward_recipient_pk" PRIMARY KEY("cycle_number","burn_block_height","reward_recipient")
 );
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "signers" (

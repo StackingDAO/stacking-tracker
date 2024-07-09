@@ -1,4 +1,4 @@
-import processRewards from "../src/api-rewards-processor";
+import processRewards from "../src/rewards-processor";
 
 describe("ApiRewardsProcessor - ...", () => {
   test(".....", async () => {

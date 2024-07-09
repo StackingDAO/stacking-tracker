@@ -32,7 +32,7 @@ export async function getBurnchainRewardsForAddress(address: string): Promise<an
 
 export async function getBurnchainRewards(): Promise<any> {
   // TODO: get all pages
-  const signers = await poxRewardsApi.getBurnchainRewardList({});
+  const signers = await poxRewardsApi.getBurnchainRewardList({ limit: 250 });
   return signers.results;
 }
 

@@ -1,5 +1,5 @@
 import { getLatestCycle } from "@repo/database/src/actions";
-import processSigners from "../src/api-signers-processor";
+import processSigners from "../src/signers-processor";
 
 describe("ApiSignersProcessor - ...", () => {
   test(".....", async () => {

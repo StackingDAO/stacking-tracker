@@ -69,7 +69,9 @@ export const rewards = pgTable(
   },
   table => {
     return {
-      pk: primaryKey({ columns: [table.cycleNumber, table.rewardRecipient] }),
+      pk: primaryKey({
+        columns: [table.cycleNumber, table.burnBlockHeight, table.rewardRecipient],
+      }),
       cycleNumberIndex: index('rewards_idx_cycle_number').on(table.cycleNumber).asc(),
       rewardRecipientIndex: index('rewards_idx_reward_recipient').on(table.rewardRecipient).asc(),
       burnBlockHeightIndex: index('rewards_idx_burn_block_height').on(table.burnBlockHeight).asc(),

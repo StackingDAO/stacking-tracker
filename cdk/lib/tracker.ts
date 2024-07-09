@@ -3,12 +3,16 @@ import { Construct } from "constructs";
 import * as sqs from "aws-cdk-lib/aws-sqs";
 import * as iam from "aws-cdk-lib/aws-iam";
 import * as ec2 from "aws-cdk-lib/aws-ec2";
+import * as sns from "aws-cdk-lib/aws-sns";
 import * as rds from "aws-cdk-lib/aws-rds";
 import * as ecs from "aws-cdk-lib/aws-ecs";
 import * as ecsPatterns from "aws-cdk-lib/aws-ecs-patterns";
 import * as secretsmanager from "aws-cdk-lib/aws-secretsmanager";
 import { TypeScriptLambda } from "./constructs/lambda";
-import { SqsEventSource } from "aws-cdk-lib/aws-lambda-event-sources";
+import {
+  SnsEventSource,
+  SqsEventSource,
+} from "aws-cdk-lib/aws-lambda-event-sources";
 import { Duration } from "aws-cdk-lib";
 
 import "dotenv/config";
@@ -29,6 +33,9 @@ export class Tracker extends cdk.Stack {
         }),
       },
     });
+
+    const topicRewardsProcessor = new sns.Topic(this, "Topic-RewardsProcessor");
+    const topicSignersProcessor = new sns.Topic(this, "Topic-SignersProcessor");
 
     // VPC
     const vpc = new ec2.Vpc(this, "VPC", {
@@ -130,6 +137,7 @@ export class Tracker extends cdk.Stack {
       publiclyAccessible: true,
       multiAz: false,
     });
+    const databaseUrl = `postgres://${databaseSecret.secretValueFromJson("username").unsafeUnwrap()}:${databaseSecret.secretValueFromJson("password").unsafeUnwrap()}@${databaseInstance.dbInstanceEndpointAddress}:${databaseInstance.dbInstanceEndpointPort}/${databaseName}`;
 
     // Lambda Functions
     const blockProcessor = new TypeScriptLambda(this, "BlockProcessor", {
@@ -137,10 +145,11 @@ export class Tracker extends cdk.Stack {
       handlerFilePath: "apps/functions/src/block-processor.ts",
       handler: "processBlock",
       environment: {
-        DATABASE_URL: `postgres://${databaseSecret.secretValueFromJson("username").unsafeUnwrap()}:${databaseSecret.secretValueFromJson("password").unsafeUnwrap()}@${databaseInstance.dbInstanceEndpointAddress}:${databaseInstance.dbInstanceEndpointPort}/${databaseName}`,
+        DATABASE_URL: databaseUrl,
+        TOPIC_SIGNERS: topicSignersProcessor.topicArn,
+        TOPIC_REWARDS: topicRewardsProcessor.topicArn,
       },
     });
-
     blockProcessor.lambda.addEventSource(new SqsEventSource(queue));
     blockProcessor.lambda.addToRolePolicy(
       new iam.PolicyStatement({
@@ -149,9 +158,45 @@ export class Tracker extends cdk.Stack {
       })
     );
 
+    const signersProcessor = new TypeScriptLambda(this, "SignersProcessor", {
+      lambdaRootDir: ".",
+      handlerFilePath: "apps/functions/src/signers-processor.ts",
+      handler: "processSigners",
+      environment: {
+        DATABASE_URL: databaseUrl,
+      },
+    });
+    signersProcessor.lambda.addEventSource(
+      new SnsEventSource(topicSignersProcessor)
+    );
+
+    const rewardsProcessor = new TypeScriptLambda(this, "RewardsProcessor", {
+      lambdaRootDir: ".",
+      handlerFilePath: "apps/functions/src/rewards-processor.ts",
+      handler: "processRewards",
+      environment: {
+        DATABASE_URL: databaseUrl,
+      },
+    });
+    rewardsProcessor.lambda.addEventSource(
+      new SnsEventSource(topicRewardsProcessor)
+    );
+
     // Setup
     new cdk.CfnOutput(this, "BlockProcessorArn", {
       value: blockProcessor.lambda.functionArn,
+    });
+    new cdk.CfnOutput(this, "SignersProcessorArn", {
+      value: signersProcessor.lambda.functionArn,
+    });
+    new cdk.CfnOutput(this, "RewardsProcessorArn", {
+      value: rewardsProcessor.lambda.functionArn,
+    });
+    new cdk.CfnOutput(this, "TopicSignersArn", {
+      value: topicSignersProcessor.topicArn,
+    });
+    new cdk.CfnOutput(this, "TopicRewardsArn", {
+      value: topicRewardsProcessor.topicArn,
     });
     new cdk.CfnOutput(this, "BlocksQueueArn", {
       value: queue.queueArn,

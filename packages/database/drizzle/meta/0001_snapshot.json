@@ -1,5 +1,5 @@
 {
-  "id": "bf483ac1-cb92-4845-922c-b4922b0149df",
+  "id": "db83a94b-aa44-431f-bd0b-956c8151df4c",
   "prevId": "21b2d69d-1584-4afc-9f17-9b2838347a0a",
   "version": "6",
   "dialect": "postgresql",
@@ -90,10 +90,11 @@
       },
       "foreignKeys": {},
       "compositePrimaryKeys": {
-        "rewards_cycle_number_reward_recipient_pk": {
-          "name": "rewards_cycle_number_reward_recipient_pk",
+        "rewards_cycle_number_burn_block_height_reward_recipient_pk": {
+          "name": "rewards_cycle_number_burn_block_height_reward_recipient_pk",
           "columns": [
             "cycle_number",
+            "burn_block_height",
             "reward_recipient"
           ]
         }

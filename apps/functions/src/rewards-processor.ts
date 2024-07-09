@@ -11,6 +11,8 @@ export default async function processRewards(
 
   const rewards = await stacksPox.getBurnchainRewards();
 
+  console.log("GOT REWARDS", rewards.length);
+
   for (const reward of rewards) {
     await saveRewards(
       cycleNumber,
