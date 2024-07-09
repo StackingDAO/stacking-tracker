@@ -64,7 +64,7 @@ export class Tracker extends cdk.Stack {
         cluster,
         memoryReservationMiB: 512,
         taskImageOptions: {
-          image: ecs.ContainerImage.fromAsset("."),
+          image: ecs.ContainerImage.fromAsset("./apps/stacks-listener"),
           containerPort: 3000,
           environment: {
             QUEUE_URL: queue.queueUrl,
