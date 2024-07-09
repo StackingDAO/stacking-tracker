@@ -9,6 +9,12 @@ export async function getCurrentCycle(): Promise<number> {
   return cycles.results[0].cycle_number;
 }
 
+export async function getCycles(): Promise<any> {
+  // TODO: get all pages
+  const cycles = await poxApi.getPoxCycles({});
+  return cycles.results;
+}
+
 export async function getCycleSigners(cycleNumber: number): Promise<any> {
   // TODO: get all pages
   const signers = await poxApi.getPoxCycleSigners({ cycleNumber: cycleNumber });
@@ -24,18 +30,6 @@ export async function getCycleSigner(cycleNumber: number, signerKey: string): Pr
   return signer;
 }
 
-export async function getBurnchainRewardsForAddress(address: string): Promise<any> {
-  // TODO: get all pages
-  const signers = await poxRewardsApi.getBurnchainRewardListByAddress({ address: address });
-  return signers.results;
-}
-
-export async function getBurnchainRewards(): Promise<any> {
-  // TODO: get all pages
-  const signers = await poxRewardsApi.getBurnchainRewardList({ limit: 250 });
-  return signers.results;
-}
-
 export async function getSignerStackers(cycleNumber: number, signerKey: string): Promise<any> {
   // TODO: get all pages
   const stackers = await poxApi.getPoxCycleSignerStackers({
@@ -43,4 +37,26 @@ export async function getSignerStackers(cycleNumber: number, signerKey: string):
     signerKey: signerKey,
   });
   return stackers.results;
+}
+
+export async function getBurnchainRewards(burnBlockEnd: number): Promise<any> {
+  let result: any[] = [];
+  let hasReachedEndBlock = false;
+
+  while (!hasReachedEndBlock) {
+    const rewards = await poxRewardsApi.getBurnchainRewardList({
+      limit: 250,
+      offset: result.length,
+    });
+    result = result.concat(rewards.results);
+
+    console.log('GOT REWARDS', rewards.results.length, 'total:', result.length);
+
+    hasReachedEndBlock =
+      rewards.results.filter((reward: any) => {
+        reward.burn_block_height < burnBlockEnd;
+      }).length > 0;
+  }
+
+  return result;
 }

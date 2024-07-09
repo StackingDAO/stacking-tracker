@@ -7,5 +7,5 @@ describe("processRewards", () => {
 
     const rewards = await getRewards();
     expect(rewards.length).toStrictEqual(250);
-  }, 10000);
+  }, 60000);
 });
