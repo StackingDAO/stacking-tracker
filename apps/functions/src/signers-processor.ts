@@ -7,7 +7,7 @@ import {
   saveStacker,
 } from "@repo/database/src/actions";
 
-export default async function processSigners(
+export async function processSigners(
   _: ScheduledEvent,
   __: Context
 ): Promise<void> {

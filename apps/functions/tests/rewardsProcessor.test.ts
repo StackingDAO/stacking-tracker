@@ -1,10 +1,11 @@
-import processRewards from "../src/rewards-processor";
+import { getRewards } from "@repo/database/src/actions";
+import { processRewards } from "../src/rewards-processor";
 
-describe("ApiRewardsProcessor - ...", () => {
-  test(".....", async () => {
+describe("processRewards", () => {
+  test("should save rewards", async () => {
     await processRewards(undefined, undefined);
 
-    // const latestCycle = await getLatestCycle();
-    // expect(latestCycle).toStrictEqual(84);
+    const rewards = await getRewards();
+    expect(rewards.length).toStrictEqual(250);
   }, 10000);
 });

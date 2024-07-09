@@ -15,7 +15,8 @@ import {
 } from "aws-cdk-lib/aws-lambda-event-sources";
 import { Duration } from "aws-cdk-lib";
 
-import "dotenv/config";
+import * as dotenv from "dotenv";
+dotenv.config({ path: "cdk/.env" });
 
 export class Tracker extends cdk.Stack {
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
@@ -164,6 +165,7 @@ export class Tracker extends cdk.Stack {
       handler: "processSigners",
       environment: {
         DATABASE_URL: databaseUrl,
+        STACKS_API: process.env.STACKS_API ?? "",
       },
     });
     signersProcessor.lambda.addEventSource(
@@ -176,6 +178,7 @@ export class Tracker extends cdk.Stack {
       handler: "processRewards",
       environment: {
         DATABASE_URL: databaseUrl,
+        STACKS_API: process.env.STACKS_API ?? "",
       },
     });
     rewardsProcessor.lambda.addEventSource(

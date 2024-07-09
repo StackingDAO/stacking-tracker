@@ -35,6 +35,9 @@ web/pnpm-lock.yaml
 /.idea
 services/.env.local
 
+# dist folders
+dist
+
 # cdk
 .cdk.staging
 cdk.out

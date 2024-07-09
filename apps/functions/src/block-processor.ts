@@ -20,7 +20,7 @@ export async function processBlock(event: SQSEvent, _: Context): Promise<void> {
     const responseSigners = await sns.send(
       new PublishCommand({
         TopicArn: process.env.TOPIC_SIGNERS,
-        Message: latest_block.height.toString(),
+        Message: JSON.stringify({ block_height: latest_block.height }),
       })
     );
 
@@ -31,7 +31,7 @@ export async function processBlock(event: SQSEvent, _: Context): Promise<void> {
     const responseRewards = await sns.send(
       new PublishCommand({
         TopicArn: process.env.TOPIC_REWARDS,
-        Message: latest_block.height.toString(),
+        Message: JSON.stringify({ block_height: latest_block.height }),
       })
     );
 

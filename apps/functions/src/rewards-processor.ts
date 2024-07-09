@@ -2,7 +2,7 @@ import type { Context, ScheduledEvent } from "aws-lambda";
 import * as stacksPox from "@repo/stacks/src/pox";
 import { saveRewards } from "@repo/database/src/actions";
 
-export default async function processRewards(
+export async function processRewards(
   _: ScheduledEvent,
   __: Context
 ): Promise<void> {

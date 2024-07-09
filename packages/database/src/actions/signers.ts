@@ -12,17 +12,9 @@ export async function getLatestCycle(): Promise<any> {
   return result[0].cycleNumber;
 }
 
-export async function getLatestRewardsBurnBlockHeight(rewardRecipient: string): Promise<any> {
-  const result = await db
-    .select()
-    .from(rewards)
-    .where(eq(rewards.rewardRecipient, rewardRecipient))
-    .orderBy(desc(rewards.burnBlockHeight))
-    .limit(1);
-  if (result.length === 0) {
-    return 0;
-  }
-  return result[0].burnBlockHeight;
+export async function getSigners(): Promise<any> {
+  const result = await db.select().from(signers);
+  return result;
 }
 
 export async function saveSigner(
