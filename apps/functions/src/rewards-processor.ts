@@ -1,16 +1,17 @@
 import type { Context, ScheduledEvent } from "aws-lambda";
 import * as stacksPox from "@repo/stacks/src/pox";
 import * as stacksBlocks from "@repo/stacks/src/blocks";
-import { saveRewards } from "@repo/database/src/actions";
+import {
+  getLatestRewardBurnBlock,
+  getRewards,
+  saveRewards,
+} from "@repo/database/src/actions";
 
-export async function processRewards(
-  _: ScheduledEvent,
-  __: Context
-): Promise<void> {
-  // TODO: 842351 is block of cycle 84
-  const rewards = await stacksPox.getBurnchainRewards(842351);
-
-  const cycles = await stacksPox.getCycles();
+async function processRewardsHelper(burnBlockEnd: number, offset: number) {
+  const [rewards, cycles] = await Promise.all([
+    stacksPox.getBurnchainRewards(burnBlockEnd, offset),
+    stacksPox.getCycles(),
+  ]);
 
   const cyclesInfoPromises = cycles.map(async (cycle: any) => {
     const block = await stacksBlocks.getBlock(cycle.block_height);
@@ -36,4 +37,19 @@ export async function processRewards(
       reward.reward_amount / 100000000.0
     );
   }
+}
+
+export async function processRewards(
+  _: ScheduledEvent,
+  __: Context
+): Promise<void> {
+  const lastRewardBurnBlock = await getLatestRewardBurnBlock();
+
+  await processRewardsHelper(lastRewardBurnBlock, 0);
+
+  const savedRewardsCount = (await getRewards()).length;
+  const offset = savedRewardsCount - 250;
+
+  // 842351 = start of cycle 84
+  await processRewardsHelper(842351, offset);
 }

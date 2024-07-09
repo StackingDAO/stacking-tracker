@@ -5,7 +5,12 @@ describe("processRewards", () => {
   test("should save rewards", async () => {
     await processRewards(undefined, undefined);
 
-    const rewards = await getRewards();
-    expect(rewards.length).toStrictEqual(250);
-  }, 60000);
+    let rewards = await getRewards();
+    expect(rewards.length).toStrictEqual(9750);
+
+    await processRewards(undefined, undefined);
+
+    rewards = await getRewards();
+    expect(rewards.length).toBeGreaterThan(13000);
+  }, 120000);
 });

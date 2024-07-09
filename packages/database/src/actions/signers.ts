@@ -4,7 +4,7 @@ import { signers, rewards } from '../schema';
 import { db } from '../drizzle';
 import { desc, eq } from 'drizzle-orm';
 
-export async function getLatestCycle(): Promise<any> {
+export async function getLatestCycle(): Promise<number> {
   const result = await db.select().from(signers).orderBy(desc(signers.cycleNumber)).limit(1);
   if (result.length === 0) {
     return 0;
