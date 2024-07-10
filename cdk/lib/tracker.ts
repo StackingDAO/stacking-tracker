@@ -49,43 +49,6 @@ export class Tracker extends cdk.Stack {
       ],
     });
 
-    // ECS Cluster
-    const cluster = new ecs.Cluster(this, "Cluster", { vpc });
-    cluster.addCapacity("ASG", {
-      instanceType: new ec2.InstanceType("t2.small"),
-      desiredCapacity: 1,
-    });
-
-    // ECS Service
-    const stacksListener = new ecsPatterns.ApplicationLoadBalancedEc2Service(
-      this,
-      "Stacks-Listener",
-      {
-        cluster,
-        memoryReservationMiB: 512,
-        taskImageOptions: {
-          image: ecs.ContainerImage.fromAsset("./apps/stacks-listener"),
-          containerPort: 3000,
-          environment: {
-            QUEUE_URL: queue.queueUrl,
-          },
-        },
-        desiredCount: 1, // Number of instances to run
-        healthCheckGracePeriod: cdk.Duration.seconds(60), // Grace period before health checks start
-        circuitBreaker: { enable: true, rollback: true },
-      }
-    );
-
-    queue.grantSendMessages(stacksListener.taskDefinition.taskRole);
-
-    stacksListener.targetGroup.configureHealthCheck({
-      path: "/health", // Health check endpoint
-      interval: cdk.Duration.seconds(30), // Health check interval
-      timeout: cdk.Duration.seconds(5), // Timeout for health checks
-      healthyThresholdCount: 2, // Number of consecutive successful health checks required
-      unhealthyThresholdCount: 2, // Number of consecutive failed health checks required to mark as unhealthy
-    });
-
     // RDS Database
     const databaseSecret = new secretsmanager.Secret(this, "DBSecret", {
       secretName: "DatabaseSecret",
@@ -139,6 +102,70 @@ export class Tracker extends cdk.Stack {
       multiAz: false,
     });
     const databaseUrl = `postgres://${databaseSecret.secretValueFromJson("username").unsafeUnwrap()}:${databaseSecret.secretValueFromJson("password").unsafeUnwrap()}@${databaseInstance.dbInstanceEndpointAddress}:${databaseInstance.dbInstanceEndpointPort}/${databaseName}`;
+
+    // ECS Cluster
+    const cluster = new ecs.Cluster(this, "Cluster", { vpc });
+    cluster.addCapacity("ASG", {
+      instanceType: new ec2.InstanceType("t2.small"),
+      desiredCapacity: 1,
+    });
+
+    // ECS Service
+    const stacksListener = new ecsPatterns.ApplicationLoadBalancedEc2Service(
+      this,
+      "Stacks-Listener",
+      {
+        cluster,
+        memoryReservationMiB: 512,
+        taskImageOptions: {
+          image: ecs.ContainerImage.fromAsset("./apps/stacks-listener"),
+          containerPort: 3000,
+          environment: {
+            QUEUE_URL: queue.queueUrl,
+          },
+        },
+        desiredCount: 1, // Number of instances to run
+        healthCheckGracePeriod: cdk.Duration.seconds(60), // Grace period before health checks start
+        circuitBreaker: { enable: true, rollback: true },
+      }
+    );
+
+    queue.grantSendMessages(stacksListener.taskDefinition.taskRole);
+
+    stacksListener.targetGroup.configureHealthCheck({
+      path: "/health", // Health check endpoint
+      interval: cdk.Duration.seconds(30), // Health check interval
+      timeout: cdk.Duration.seconds(5), // Timeout for health checks
+      healthyThresholdCount: 2, // Number of consecutive successful health checks required
+      unhealthyThresholdCount: 2, // Number of consecutive failed health checks required to mark as unhealthy
+    });
+
+    const publicApi = new ecsPatterns.ApplicationLoadBalancedEc2Service(
+      this,
+      "Public-API",
+      {
+        cluster,
+        memoryReservationMiB: 512,
+        taskImageOptions: {
+          image: ecs.ContainerImage.fromAsset("./apps/public-api"),
+          containerPort: 3000,
+          environment: {
+            DATABASE_URL: databaseUrl,
+          },
+        },
+        desiredCount: 1, // Number of instances to run
+        healthCheckGracePeriod: cdk.Duration.seconds(60), // Grace period before health checks start
+        circuitBreaker: { enable: true, rollback: true },
+      }
+    );
+
+    publicApi.targetGroup.configureHealthCheck({
+      path: "/health", // Health check endpoint
+      interval: cdk.Duration.seconds(30), // Health check interval
+      timeout: cdk.Duration.seconds(5), // Timeout for health checks
+      healthyThresholdCount: 2, // Number of consecutive successful health checks required
+      unhealthyThresholdCount: 2, // Number of consecutive failed health checks required to mark as unhealthy
+    });
 
     // Lambda Functions
     const blockProcessor = new TypeScriptLambda(this, "BlockProcessor", {
