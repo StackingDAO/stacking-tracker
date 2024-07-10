@@ -1,5 +1,5 @@
 import { Router, Request, Response } from "express";
-import * as db from "@repo/database/src/actions";
+import * as db from "@repo/database";
 
 const router = Router();
 

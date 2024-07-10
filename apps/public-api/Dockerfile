@@ -6,10 +6,15 @@ RUN mkdir -p /home/node/app
 
 WORKDIR /home/node/app
 
-COPY --chown=node . .
+COPY --chown=node ../../ .
 
-RUN npm install 
-RUN npm run build
+RUN npm install --workspace=packages/database
+RUN npm run build --workspace=packages/database
+
+RUN npm install --workspace=apps/public-api
+RUN npm run build --workspace=apps/public-api
+
+WORKDIR /home/node/app/apps/public-api
 
 EXPOSE 3000
 
