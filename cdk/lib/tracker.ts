@@ -1,5 +1,7 @@
 import * as cdk from "aws-cdk-lib";
 import { Construct } from "constructs";
+import * as acm from "aws-cdk-lib/aws-certificatemanager";
+import * as route53 from "aws-cdk-lib/aws-route53";
 import * as sqs from "aws-cdk-lib/aws-sqs";
 import * as iam from "aws-cdk-lib/aws-iam";
 import * as ec2 from "aws-cdk-lib/aws-ec2";
@@ -110,6 +112,18 @@ export class Tracker extends cdk.Stack {
       desiredCapacity: 1,
     });
 
+    // Certificate
+    const domainName = process.env.DOMAIN ?? "stacking-tracker.com";
+
+    const hostedZone = route53.HostedZone.fromLookup(this, "HostedZone", {
+      domainName: domainName,
+    });
+
+    const certificate = new acm.Certificate(this, "Certificate", {
+      domainName: domainName,
+      validation: acm.CertificateValidation.fromDns(hostedZone),
+    });
+
     // ECS Service
     const stacksListener = new ecsPatterns.ApplicationLoadBalancedEc2Service(
       this,
@@ -147,7 +161,9 @@ export class Tracker extends cdk.Stack {
         cluster,
         memoryReservationMiB: 512,
         taskImageOptions: {
-          image: ecs.ContainerImage.fromAsset(".", { file: "apps/public-api/Dockerfile" }),
+          image: ecs.ContainerImage.fromAsset(".", {
+            file: "apps/public-api/Dockerfile",
+          }),
           containerPort: 3000,
           environment: {
             DATABASE_URL: databaseUrl,
@@ -156,6 +172,9 @@ export class Tracker extends cdk.Stack {
         desiredCount: 1, // Number of instances to run
         healthCheckGracePeriod: cdk.Duration.seconds(60), // Grace period before health checks start
         circuitBreaker: { enable: true, rollback: true },
+        certificate,
+        domainName: domainName,
+        domainZone: hostedZone,
       }
     );
 

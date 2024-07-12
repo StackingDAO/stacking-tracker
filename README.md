@@ -28,6 +28,8 @@ https://docs.aws.amazon.com/cdk/v2/guide/getting_started.html
 
 **Credentials**
 
+Create a `.env` file similar to `.env.example` in `/cdk`
+
 Run `aws configure`. The `access_key_id` and `secret_access_key` can be found via AWS IAM console. Output format should be set to `json`.
 
 This should create 2 files:
@@ -36,13 +38,10 @@ This should create 2 files:
 
 - ~/.aws/config
 
-**CDK**
-
-Set correct account and region in `cdk.context.json`
-
 **Deploy**
 
 - `docker build -t stacking-tracker .`
+
 - `cdk bootstrap`
 - `cdk deploy`
 
