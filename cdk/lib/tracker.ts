@@ -120,7 +120,7 @@ export class Tracker extends cdk.Stack {
     });
 
     const certificate = new acm.Certificate(this, "Certificate", {
-      domainName: domainName,
+      domainName: `api.${domainName}`,
       validation: acm.CertificateValidation.fromDns(hostedZone),
     });
 
@@ -173,7 +173,7 @@ export class Tracker extends cdk.Stack {
         healthCheckGracePeriod: cdk.Duration.seconds(60), // Grace period before health checks start
         circuitBreaker: { enable: true, rollback: true },
         certificate,
-        domainName: domainName,
+        domainName: `api.${domainName}`,
         domainZone: hostedZone,
       }
     );

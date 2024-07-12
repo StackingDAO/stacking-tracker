@@ -15,7 +15,7 @@ app.get("/health", (_: Request, res: Response) => {
   res.status(200).json({ status: "ok" });
 });
 
-app.use("/api/signers", routerSigners);
+app.use("/signers", routerSigners);
 
 const server = app.listen(port, () => {
   console.log(`[server]: Server is running at http://localhost:${port}`);
