@@ -42,7 +42,7 @@ router
       };
     });
 
-    res.send(result);
+    res.send(result.reverse());
   })
 
   .get("/:signer", async (req: Request, res: Response) => {
