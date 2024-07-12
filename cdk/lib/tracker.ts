@@ -164,7 +164,7 @@ export class Tracker extends cdk.Stack {
           image: ecs.ContainerImage.fromAsset(".", {
             file: "apps/public-api/Dockerfile",
           }),
-          containerPort: 3000,
+          containerPort: 3030,
           environment: {
             DATABASE_URL: databaseUrl,
           },
