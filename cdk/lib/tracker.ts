@@ -120,7 +120,7 @@ export class Tracker extends cdk.Stack {
     });
 
     const certificate = new acm.Certificate(this, "Certificate", {
-      domainName: `api.${domainName}`,
+      domainName: `*.${domainName}`,
       validation: acm.CertificateValidation.fromDns(hostedZone),
     });
 
@@ -185,6 +185,36 @@ export class Tracker extends cdk.Stack {
       healthyThresholdCount: 2, // Number of consecutive successful health checks required
       unhealthyThresholdCount: 2, // Number of consecutive failed health checks required to mark as unhealthy
     });
+
+    const website = new ecsPatterns.ApplicationLoadBalancedEc2Service(
+      this,
+      "Website",
+      {
+        cluster,
+        memoryReservationMiB: 512,
+        taskImageOptions: {
+          image: ecs.ContainerImage.fromAsset("./web"),
+          containerPort: 3000,
+          environment: {
+            PUBLIC_API_URL: `https://api.${domainName}/`,
+          },
+        },
+        desiredCount: 1, // Number of instances to run
+        healthCheckGracePeriod: cdk.Duration.seconds(60), // Grace period before health checks start
+        circuitBreaker: { enable: true, rollback: true },
+        certificate,
+        domainName: `www.${domainName}`,
+        domainZone: hostedZone,
+      }
+    );
+
+    // website.targetGroup.configureHealthCheck({
+    //   path: "/health", // Health check endpoint
+    //   interval: cdk.Duration.seconds(30), // Health check interval
+    //   timeout: cdk.Duration.seconds(5), // Timeout for health checks
+    //   healthyThresholdCount: 2, // Number of consecutive successful health checks required
+    //   unhealthyThresholdCount: 2, // Number of consecutive failed health checks required to mark as unhealthy
+    // });
 
     // Lambda Functions
     const blockProcessor = new TypeScriptLambda(this, "BlockProcessor", {
