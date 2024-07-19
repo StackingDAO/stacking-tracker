@@ -5,7 +5,7 @@ import routerSigners from "./endpoints/signers";
 
 dotenv.config();
 
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 3030;
 
 const app: Express = express();
 
@@ -15,7 +15,7 @@ app.get("/health", (_: Request, res: Response) => {
   res.status(200).json({ status: "ok" });
 });
 
-app.use("/api/signers", routerSigners);
+app.use("/signers", routerSigners);
 
 const server = app.listen(port, () => {
   console.log(`[server]: Server is running at http://localhost:${port}`);

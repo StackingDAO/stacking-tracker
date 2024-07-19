@@ -3,5 +3,9 @@
     "eu-central-1a",
     "eu-central-1b",
     "eu-central-1c"
-  ]
+  ],
+  "hosted-zone:account=637423182197:domainName=stacking-tracker.com:region=eu-central-1": {
+    "Id": "/hostedzone/Z0449200255HNVB6YDOOR",
+    "Name": "stacking-tracker.com."
+  }
 }

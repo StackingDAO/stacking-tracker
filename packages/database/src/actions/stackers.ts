@@ -1,8 +1,8 @@
-"use server";
+'use server';
 
-import { stackers } from "../schema";
-import { db } from "../drizzle";
-import { desc, eq } from "drizzle-orm";
+import { stackers } from '../schema';
+import { db } from '../drizzle';
+import { eq } from 'drizzle-orm';
 
 export async function getStackers(): Promise<any> {
   const result = await db.select().from(stackers);
@@ -10,10 +10,7 @@ export async function getStackers(): Promise<any> {
 }
 
 export async function getStackersForSigner(signerKey: string): Promise<any> {
-  const result = await db
-    .select()
-    .from(stackers)
-    .where(eq(stackers.signerKey, signerKey));
+  const result = await db.select().from(stackers).where(eq(stackers.signerKey, signerKey));
   return result;
 }
 
