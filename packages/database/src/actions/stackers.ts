@@ -2,7 +2,7 @@
 
 import { stackers } from '../schema';
 import { db } from '../drizzle';
-import { desc, eq } from 'drizzle-orm';
+import { eq } from 'drizzle-orm';
 
 export async function getStackers(): Promise<any> {
   const result = await db.select().from(stackers);
