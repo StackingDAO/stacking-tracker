@@ -40,14 +40,31 @@ This should create 2 files:
 
 **Deploy**
 
+Test docker build:
+
 - `docker build -t stacking-tracker .`
 
-- `cdk bootstrap`
-- `cdk deploy`
+Setup domain:
 
-- Add `.env` in `/packages/database` with contents of `.env.example`
-- In `/packages/database` run `npm db:generate`
-- In `/packages/database` run `npm db:push`
+- The domain and hosted zone should be set up in AWS manually.
+
+Deploy setup:
+
+1.  Bootstrap: `cdk bootstrap`
+2.  Deploy setup: `cdk deploy Setup`
+
+Setup Database:
+
+1.  Get the database url from AWS, add to `.env` in `/packages/database`
+2.  In `/packages/database` run `npm db:generate`
+3.  In `/packages/database` run `npm db:push`
+
+Deploy Services:
+
+1.  `cdk deploy StacksListener`
+2.  `cdk deploy PublicApi`
+3.  `cdk deploy Web`
+4.  `cdk deploy Lambdas`
 
 ## Local Setup
 
