@@ -1,0 +1,252 @@
+{
+  "id": "db83a94b-aa44-431f-bd0b-956c8151df4c",
+  "prevId": "21b2d69d-1584-4afc-9f17-9b2838347a0a",
+  "version": "6",
+  "dialect": "postgresql",
+  "tables": {
+    "public.blocks": {
+      "name": "blocks",
+      "schema": "",
+      "columns": {
+        "block_height": {
+          "name": "block_height",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {
+        "created_at_idx": {
+          "name": "created_at_idx",
+          "columns": [
+            "block_height"
+          ],
+          "isUnique": false
+        }
+      },
+      "foreignKeys": {},
+      "compositePrimaryKeys": {
+        "blocks_block_height_pk": {
+          "name": "blocks_block_height_pk",
+          "columns": [
+            "block_height"
+          ]
+        }
+      },
+      "uniqueConstraints": {}
+    },
+    "public.rewards": {
+      "name": "rewards",
+      "schema": "",
+      "columns": {
+        "cycle_number": {
+          "name": "cycle_number",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "burn_block_height": {
+          "name": "burn_block_height",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "reward_recipient": {
+          "name": "reward_recipient",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "reward_amount": {
+          "name": "reward_amount",
+          "type": "numeric(16, 6)",
+          "primaryKey": false,
+          "notNull": true,
+          "default": 0
+        }
+      },
+      "indexes": {
+        "rewards_idx_cycle_number": {
+          "name": "rewards_idx_cycle_number",
+          "columns": [
+            "cycle_number"
+          ],
+          "isUnique": false
+        },
+        "rewards_idx_reward_recipient": {
+          "name": "rewards_idx_reward_recipient",
+          "columns": [
+            "reward_recipient"
+          ],
+          "isUnique": false
+        },
+        "rewards_idx_burn_block_height": {
+          "name": "rewards_idx_burn_block_height",
+          "columns": [
+            "burn_block_height"
+          ],
+          "isUnique": false
+        }
+      },
+      "foreignKeys": {},
+      "compositePrimaryKeys": {
+        "rewards_cycle_number_burn_block_height_reward_recipient_pk": {
+          "name": "rewards_cycle_number_burn_block_height_reward_recipient_pk",
+          "columns": [
+            "cycle_number",
+            "burn_block_height",
+            "reward_recipient"
+          ]
+        }
+      },
+      "uniqueConstraints": {}
+    },
+    "public.signers": {
+      "name": "signers",
+      "schema": "",
+      "columns": {
+        "cycle_number": {
+          "name": "cycle_number",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "signer_key": {
+          "name": "signer_key",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "stackers_count": {
+          "name": "stackers_count",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "default": 0
+        },
+        "stacked_amount": {
+          "name": "stacked_amount",
+          "type": "numeric(16, 6)",
+          "primaryKey": false,
+          "notNull": true,
+          "default": 0
+        }
+      },
+      "indexes": {
+        "signers_idx_cycle_number": {
+          "name": "signers_idx_cycle_number",
+          "columns": [
+            "cycle_number"
+          ],
+          "isUnique": false
+        },
+        "signers_idx_signer_key": {
+          "name": "signers_idx_signer_key",
+          "columns": [
+            "signer_key"
+          ],
+          "isUnique": false
+        }
+      },
+      "foreignKeys": {},
+      "compositePrimaryKeys": {
+        "signers_cycle_number_signer_key_pk": {
+          "name": "signers_cycle_number_signer_key_pk",
+          "columns": [
+            "cycle_number",
+            "signer_key"
+          ]
+        }
+      },
+      "uniqueConstraints": {}
+    },
+    "public.stackers": {
+      "name": "stackers",
+      "schema": "",
+      "columns": {
+        "cycle_number": {
+          "name": "cycle_number",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "signer_key": {
+          "name": "signer_key",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "stacker_address": {
+          "name": "stacker_address",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "''"
+        },
+        "stacked_amount": {
+          "name": "stacked_amount",
+          "type": "numeric(16, 6)",
+          "primaryKey": false,
+          "notNull": true,
+          "default": 0
+        },
+        "pox_address": {
+          "name": "pox_address",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "''"
+        },
+        "stacker_type": {
+          "name": "stacker_type",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'pooled'"
+        }
+      },
+      "indexes": {
+        "stackers_idx_cycle_number": {
+          "name": "stackers_idx_cycle_number",
+          "columns": [
+            "cycle_number"
+          ],
+          "isUnique": false
+        },
+        "stackers_idx_signer_key": {
+          "name": "stackers_idx_signer_key",
+          "columns": [
+            "signer_key"
+          ],
+          "isUnique": false
+        },
+        "stackers_idx_pox_address": {
+          "name": "stackers_idx_pox_address",
+          "columns": [
+            "pox_address"
+          ],
+          "isUnique": false
+        }
+      },
+      "foreignKeys": {},
+      "compositePrimaryKeys": {
+        "stackers_cycle_number_signer_key_stacker_address_pk": {
+          "name": "stackers_cycle_number_signer_key_stacker_address_pk",
+          "columns": [
+            "cycle_number",
+            "signer_key",
+            "stacker_address"
+          ]
+        }
+      },
+      "uniqueConstraints": {}
+    }
+  },
+  "enums": {},
+  "schemas": {},
+  "_meta": {
+    "columns": {},
+    "schemas": {},
+    "tables": {}
+  }
+}
