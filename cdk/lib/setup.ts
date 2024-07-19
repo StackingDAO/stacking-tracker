@@ -20,7 +20,7 @@ export type StackSetup = {
   databaseUrl: string;
   cluster: ecs.Cluster;
   hostedZone: route53.IHostedZone;
-  certificate: acm.Certificate;
+  // certificate: acm.Certificate;
 };
 
 export class Setup extends cdk.Stack {
@@ -106,6 +106,7 @@ export class Setup extends cdk.Stack {
       multiAz: false,
     });
     const databaseUrl = `postgres://${databaseSecret.secretValueFromJson("username").unsafeUnwrap()}:${databaseSecret.secretValueFromJson("password").unsafeUnwrap()}@${databaseInstance.dbInstanceEndpointAddress}:${databaseInstance.dbInstanceEndpointPort}/${databaseName}`;
+    console.log("databaseUrl", databaseUrl);
 
     // ECS Cluster
     const cluster = new ecs.Cluster(this, "Cluster", { vpc });
@@ -119,10 +120,10 @@ export class Setup extends cdk.Stack {
       domainName: domainName,
     });
 
-    const certificate = new acm.Certificate(this, "Certificate", {
-      domainName: `*.${domainName}`,
-      validation: acm.CertificateValidation.fromDns(hostedZone),
-    });
+    // const certificate = new acm.Certificate(this, "Certificate", {
+    //   domainName: `*.${domainName}`,
+    //   validation: acm.CertificateValidation.fromDns(hostedZone),
+    // });
 
     // Setup
     this.setup = {
@@ -131,7 +132,7 @@ export class Setup extends cdk.Stack {
       databaseUrl,
       cluster,
       hostedZone,
-      certificate,
+      // certificate,
     };
   }
 }

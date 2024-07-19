@@ -37,7 +37,7 @@ export class PublicApi extends cdk.Stack {
         desiredCount: 1, // Number of instances to run
         healthCheckGracePeriod: cdk.Duration.seconds(120), // Grace period before health checks start
         circuitBreaker: { enable: true, rollback: true },
-        certificate: setupStack.certificate,
+        // certificate: setupStack.certificate,
         domainName: `api.${domainName}`,
         domainZone: setupStack.hostedZone,
       }

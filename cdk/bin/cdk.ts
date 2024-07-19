@@ -2,6 +2,7 @@
 import "source-map-support/register";
 import * as cdk from "aws-cdk-lib";
 import { Setup } from "../lib/setup";
+import { CloudFront } from "../lib/cloudfront";
 import { StacksListener } from "../lib/stacks-listener";
 import { Web } from "../lib/web";
 import { PublicApi } from "../lib/public-api";
@@ -13,9 +14,16 @@ const env = {
   region: process.env.CDK_AWS_REGION,
 };
 
+const envUs = {
+  account: process.env.CDK_AWS_ACCOUNT,
+  region: "us-east-1",
+};
+
 const setupStack = new Setup(app, "Setup", { env });
 
 new StacksListener(app, "StacksListener", setupStack.setup, { env });
 new PublicApi(app, "PublicApi", setupStack.setup, { env });
 new Web(app, "Web", setupStack.setup, { env });
 new Lambdas(app, "Lambdas", setupStack.setup, { env });
+
+new CloudFront(app, "CloudFront", { env: envUs });
