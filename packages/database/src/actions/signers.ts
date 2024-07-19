@@ -1,11 +1,15 @@
-'use server';
+"use server";
 
-import { signers, rewards } from '../schema';
-import { db } from '../drizzle';
-import { desc, eq } from 'drizzle-orm';
+import { signers, rewards } from "../schema";
+import { db } from "../drizzle";
+import { desc, eq } from "drizzle-orm";
 
 export async function getLatestCycle(): Promise<number> {
-  const result = await db.select().from(signers).orderBy(desc(signers.cycleNumber)).limit(1);
+  const result = await db
+    .select()
+    .from(signers)
+    .orderBy(desc(signers.cycleNumber))
+    .limit(1);
   if (result.length === 0) {
     return 0;
   }
@@ -14,6 +18,14 @@ export async function getLatestCycle(): Promise<number> {
 
 export async function getSigners(): Promise<any> {
   const result = await db.select().from(signers);
+  return result;
+}
+
+export async function getSigner(signerKey: string): Promise<any> {
+  const result = await db
+    .select()
+    .from(signers)
+    .where(eq(signers.signerKey, signerKey));
   return result;
 }
 
