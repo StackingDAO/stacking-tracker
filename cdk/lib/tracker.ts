@@ -147,7 +147,9 @@ export class Tracker extends cdk.Stack {
         cluster,
         memoryReservationMiB: 512,
         taskImageOptions: {
-          image: ecs.ContainerImage.fromAsset(".", { file: "apps/public-api/Dockerfile" }),
+          image: ecs.ContainerImage.fromAsset(".", {
+            file: "apps/public-api/Dockerfile",
+          }),
           containerPort: 3000,
           environment: {
             DATABASE_URL: databaseUrl,
