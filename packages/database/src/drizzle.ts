@@ -8,11 +8,13 @@ dotenv.config();
 
 const isTest = process.env.NODE_ENV === 'test';
 
-const client = !isTest
-  ? postgres(process.env.DATABASE_URL!, {
-      ssl: { rejectUnauthorized: false },
-    })
-  : postgres(process.env.TEST_DATABASE_URL!);
+const client = isTest
+  ? postgres(process.env.TEST_DATABASE_URL!)
+  : process.env.DATABASE_URL!.includes('sslmode')
+    ? postgres(process.env.DATABASE_URL!, {
+        ssl: { rejectUnauthorized: false },
+      })
+    : postgres(process.env.DATABASE_URL!, {});
 
 export const db = drizzle(client, { schema: schema });
 

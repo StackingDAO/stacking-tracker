@@ -54,6 +54,7 @@ export const stackers = pgTable(
       pk: primaryKey({ columns: [table.cycleNumber, table.signerKey, table.stackerAddress] }),
       cycleNumberIndex: index('stackers_idx_cycle_number').on(table.cycleNumber).asc(),
       signerKeyIndex: index('stackers_idx_signer_key').on(table.signerKey).asc(),
+      stackerAddressIndex: index('stackers_idx_stacker_address').on(table.stackerAddress).asc(),
       poxAddressIndex: index('stackers_idx_pox_address').on(table.poxAddress).asc(),
     };
   }
@@ -75,6 +76,28 @@ export const rewards = pgTable(
       cycleNumberIndex: index('rewards_idx_cycle_number').on(table.cycleNumber).asc(),
       rewardRecipientIndex: index('rewards_idx_reward_recipient').on(table.rewardRecipient).asc(),
       burnBlockHeightIndex: index('rewards_idx_burn_block_height').on(table.burnBlockHeight).asc(),
+    };
+  }
+);
+
+export const stackersRewards = pgTable(
+  'stackers_rewards',
+  {
+    cycleNumber: integer('cycle_number').notNull(),
+    signerKey: varchar('signer_key').notNull(),
+    stackerAddress: varchar('stacker_address').notNull(),
+    rewardAmount: currency('reward_amount').notNull().default(0),
+  },
+  table => {
+    return {
+      pk: primaryKey({
+        columns: [table.cycleNumber, table.signerKey, table.stackerAddress],
+      }),
+      cycleNumberIndex: index('stackers_rewards_idx_cycle_number').on(table.cycleNumber).asc(),
+      signerKeyIndex: index('stackersrewards__idx_signer_key').on(table.signerKey).asc(),
+      stackerAddressIndex: index('stackers_rewards_idx_stacker_address')
+        .on(table.stackerAddress)
+        .asc(),
     };
   }
 );
