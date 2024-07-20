@@ -66,6 +66,12 @@ Deploy Services:
 3.  `cdk deploy Web`
 4.  `cdk deploy Lambdas`
 
+Setup CloudFront:
+
+1.  Deploy CloudFront: `cdk deploy CloudFront`
+2.  If a new hosted zone is created, we need to manually copy the NS servers from the created hosted zone to our registered domain while deploying.
+3.  Once deployed, edit the CloudFront distribution origin and link to the correct load balancer (services should be deployed)
+
 ## Local Setup
 
 **Local Postgresql on Mac OS**

@@ -35,9 +35,6 @@ export class Web extends cdk.Stack {
         desiredCount: 1, // Number of instances to run
         healthCheckGracePeriod: cdk.Duration.seconds(60), // Grace period before health checks start
         circuitBreaker: { enable: true, rollback: true },
-        // certificate: setupStack.certificate,
-        domainName: `www.${domainName}`,
-        domainZone: setupStack.hostedZone,
       }
     );
 
