@@ -2,7 +2,7 @@ import type { Context, ScheduledEvent } from "aws-lambda";
 import * as stacksPox from "@repo/stacks/src/pox";
 import { getCurrentCycle } from "@repo/stacks/src/pox";
 import {
-  getLatestCycle,
+  getSignersLatestCycle,
   saveSigner,
   saveStacker,
 } from "@repo/database/src/actions";
@@ -13,7 +13,7 @@ export async function processSigners(
 ): Promise<void> {
   const [currentCycleNumber, latestCycleNumber] = await Promise.all([
     getCurrentCycle(),
-    getLatestCycle(),
+    getSignersLatestCycle(),
   ]);
   const cycleNumber = Math.max(latestCycleNumber, 83) + 1;
 

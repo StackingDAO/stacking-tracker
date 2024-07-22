@@ -5,6 +5,7 @@ import { getLatestBlock } from "@repo/database/src/actions";
 
 process.env.TOPIC_SIGNERS = "topic_signers";
 process.env.TOPIC_REWARDS = "topic_rewards";
+process.env.TOPIC_STACKERS_REWARDS = "topic_stackers_rewards";
 
 const snsSendMock = jest.fn();
 jest.mock("aws-sdk/clients/sns", () => {
@@ -19,6 +20,9 @@ snsSendMock.mockResolvedValueOnce({
 });
 snsSendMock.mockResolvedValueOnce({
   MessageId: "mock-message-id-rewards",
+});
+snsSendMock.mockResolvedValueOnce({
+  MessageId: "mock-message-id-stackers-rewards",
 });
 
 const message = JSON.stringify({ block_height: 14900 });
@@ -48,7 +52,7 @@ describe("processBlock", () => {
 
     await processBlock(event, context);
 
-    expect(snsSendMock).toHaveBeenCalledTimes(2);
+    expect(snsSendMock).toHaveBeenCalledTimes(3);
     expect(snsSendMock).toHaveBeenCalledWith(
       expect.objectContaining({
         input: expect.objectContaining({
@@ -61,6 +65,14 @@ describe("processBlock", () => {
       expect.objectContaining({
         input: expect.objectContaining({
           TopicArn: process.env.TOPIC_REWARDS,
+          Message: message,
+        }),
+      })
+    );
+    expect(snsSendMock).toHaveBeenCalledWith(
+      expect.objectContaining({
+        input: expect.objectContaining({
+          TopicArn: process.env.TOPIC_STACKERS_REWARDS,
           Message: message,
         }),
       })

@@ -9,14 +9,9 @@ export async function processBlock(event: SQSEvent, _: Context): Promise<void> {
   for (const record of event.Records) {
     const latest_block = (await JSON.parse(record.body)) as NakamotoBlock;
     console.log(`Processing block ${latest_block.height}`);
-    console.log(`DATABASE_URL: ${process.env.DATABASE_URL}`);
 
     const latestBlock = await db.getLatestBlock();
-    console.log("Latest Block", latestBlock);
-
     const addResult = await db.saveBlock(latest_block.height);
-    console.log("Add result:", addResult);
-
     const responseSigners = await sns.send(
       new PublishCommand({
         TopicArn: process.env.TOPIC_SIGNERS,
@@ -37,6 +32,17 @@ export async function processBlock(event: SQSEvent, _: Context): Promise<void> {
 
     console.log(
       `Published message ${responseRewards.MessageId} to topic ${process.env.TOPIC_REWARDS}`
+    );
+
+    const responseStackersRewards = await sns.send(
+      new PublishCommand({
+        TopicArn: process.env.TOPIC_STACKERS_REWARDS,
+        Message: JSON.stringify({ block_height: latest_block.height }),
+      })
+    );
+
+    console.log(
+      `Published message ${responseStackersRewards.MessageId} to topic ${process.env.TOPIC_STACKERS_REWARDS}`
     );
   }
 }

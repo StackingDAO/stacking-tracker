@@ -1,17 +1,51 @@
-import { getRewards } from "@repo/database/src/actions";
-import { processStackerRewards } from "../src/stacker-rewards-processor";
+import { getStackersRewards } from "@repo/database";
+import { processRewards } from "../src/rewards-processor";
+import { processSigners } from "../src/signers-processor";
+import { processStackerRewards } from "../src/stackers-rewards-processor";
+
+const event: any = {
+  Records: [
+    {
+      Sns: {
+        Message: JSON.stringify({ block_height: 15120 }),
+      },
+    },
+  ],
+};
 
 describe("processStackerRewards", () => {
+  test("should not calculate stacker rewards on all block heights", async () => {
+    const event: any = {
+      Records: [
+        {
+          Sns: {
+            Message: JSON.stringify({ block_height: 15110 }),
+          },
+        },
+      ],
+    };
+
+    await processStackerRewards(event, undefined);
+
+    const stackerRewards = await getStackersRewards();
+    expect(stackerRewards.length).toStrictEqual(0);
+  });
+
+  test("should not calculate stacker rewards if signer and rewards history not fetched yet", async () => {
+    await processStackerRewards(event, undefined);
+
+    const stackerRewards = await getStackersRewards();
+    expect(stackerRewards.length).toStrictEqual(0);
+  });
+
   test("should save rewards", async () => {
-    await processStackerRewards(undefined, undefined);
+    await processSigners(undefined, undefined);
+    await processRewards(undefined, undefined);
+
+    await processStackerRewards(event, undefined);
 
     // TODO: check result
-    // let rewards = await getRewards();
-    // expect(rewards.length).toStrictEqual(9750);
-
-    // await processRewards(undefined, undefined);
-
-    // rewards = await getRewards();
-    // expect(rewards.length).toBeGreaterThan(13000);
+    // const stackerRewards = await getStackersRewards();
+    // expect(stackerRewards.length).toStrictEqual(0);
   }, 120000);
 });

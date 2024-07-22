@@ -1,11 +1,14 @@
-import type { Context, ScheduledEvent } from "aws-lambda";
+import type { Context, SNSEvent } from "aws-lambda";
 import {
+  getFirstRewardBurnBlock,
   getLatestRewardCycle,
   getLatestStackersRewardCycle,
   getRewardsForCycle,
+  getSignersLatestCycle,
   getStackersForRewards,
   saveStackerReward,
 } from "@repo/database/src/actions";
+import { getCurrentCycle } from "@repo/stacks/src/pox";
 
 async function processStackerRewardsHelper(cycleNumber: number) {
   const cycleRewards = await getRewardsForCycle(cycleNumber);
@@ -51,23 +54,45 @@ async function processStackerRewardsHelper(cycleNumber: number) {
 }
 
 export async function processStackerRewards(
-  _: ScheduledEvent,
+  event: SNSEvent,
   __: Context
 ): Promise<void> {
-  // TODO: only process if block % 144 = 0
+  const eventBody = await JSON.parse(event.Records[0].Sns.Message);
+  const eventBlockHeight = eventBody.block_height;
 
-  // TODO: only process if complete history of rewards & signers is fetched
+  // Only process once a day
+  if (eventBlockHeight % 144 !== 0) {
+    return;
+  }
 
-  const latestStackersRewardCycle = await getLatestStackersRewardCycle();
+  const [
+    currentCycle,
+    firstRewardBurnBlock,
+    signersLatestCycle,
+    latestStackersRewardCycle,
+    latestRewardCycle,
+  ] = await Promise.all([
+    getCurrentCycle(),
+    getFirstRewardBurnBlock(),
+    getSignersLatestCycle(),
+    getLatestStackersRewardCycle(),
+    getLatestRewardCycle(),
+  ]);
+
+  // Only process if signer and rewards history is fetched
+  const hasFetchedHistory =
+    firstRewardBurnBlock === 842451 && currentCycle === signersLatestCycle;
+  if (!hasFetchedHistory) {
+    return;
+  }
+
   const latestProcessedCycle = Math.max(latestStackersRewardCycle, 84);
-
-  const cycleNumber = await getLatestRewardCycle();
 
   // Process last cycle again
   await processStackerRewardsHelper(latestProcessedCycle);
 
   // Process next cycle if needed
-  if (cycleNumber > latestProcessedCycle) {
+  if (latestRewardCycle > latestProcessedCycle) {
     await processStackerRewardsHelper(latestProcessedCycle + 1);
   }
 }
