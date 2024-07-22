@@ -24,6 +24,10 @@ export class Lambdas extends cdk.Stack {
     // Topics
     const topicRewardsProcessor = new sns.Topic(this, "Topic-RewardsProcessor");
     const topicSignersProcessor = new sns.Topic(this, "Topic-SignersProcessor");
+    const topicStackersRewardsProcessor = new sns.Topic(
+      this,
+      "Topic-StackersRewardsProcessor"
+    );
 
     // Lambda Functions
     const blockProcessor = new TypeScriptLambda(this, "BlockProcessor", {
@@ -34,6 +38,7 @@ export class Lambdas extends cdk.Stack {
         DATABASE_URL: setupStack.databaseUrl,
         TOPIC_SIGNERS: topicSignersProcessor.topicArn,
         TOPIC_REWARDS: topicRewardsProcessor.topicArn,
+        TOPIC_STACKERS_REWARDS: topicStackersRewardsProcessor.topicArn,
       },
     });
     blockProcessor.lambda.addEventSource(new SqsEventSource(setupStack.queue));
@@ -68,6 +73,23 @@ export class Lambdas extends cdk.Stack {
     });
     rewardsProcessor.lambda.addEventSource(
       new SnsEventSource(topicRewardsProcessor)
+    );
+
+    const stackersRewardsProcessor = new TypeScriptLambda(
+      this,
+      "StackersRewardsProcessor",
+      {
+        lambdaRootDir: ".",
+        handlerFilePath: "apps/functions/src/stackers-rewards-processor.ts",
+        handler: "processStackerRewards",
+        environment: {
+          DATABASE_URL: setupStack.databaseUrl,
+          STACKS_API: process.env.STACKS_API ?? "",
+        },
+      }
+    );
+    stackersRewardsProcessor.lambda.addEventSource(
+      new SnsEventSource(topicStackersRewardsProcessor)
     );
   }
 }

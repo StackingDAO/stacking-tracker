@@ -1,5 +1,5 @@
 import {
-  getLatestCycle,
+  getSignersLatestCycle,
   getSigners,
   getStackers,
 } from "@repo/database/src/actions";
@@ -7,7 +7,7 @@ import { processSigners } from "../src/signers-processor";
 
 describe("processSigners", () => {
   test("should save signers and stackers", async () => {
-    let latestCycle = await getLatestCycle();
+    let latestCycle = await getSignersLatestCycle();
     expect(latestCycle).toStrictEqual(0);
 
     await processSigners(undefined, undefined);
@@ -18,7 +18,7 @@ describe("processSigners", () => {
     const stackers = await getStackers();
     expect(stackers.length).toStrictEqual(366);
 
-    latestCycle = await getLatestCycle();
+    latestCycle = await getSignersLatestCycle();
     expect(latestCycle).toStrictEqual(84);
   }, 10000);
 });

@@ -7,6 +7,6 @@ beforeEach(async () => {
   expect(latestSavedBlock).toStrictEqual(0);
 });
 
-afterEach(async () => {
+afterAll(async () => {
   await closeDatabase();
 });
