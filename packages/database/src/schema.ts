@@ -101,3 +101,40 @@ export const stackersRewards = pgTable(
     };
   }
 );
+
+export const miners = pgTable(
+  'miners',
+  {
+    blockHeight: integer('block_height').notNull(),
+    bitcoinAddress: varchar('bitcoin_address').notNull(),
+    rewardAmount: currency('reward_amount').notNull().default(0),
+    feesAmount: currency('fees_amount').notNull().default(0),
+  },
+  table => {
+    return {
+      pk: primaryKey({
+        columns: [table.blockHeight, table.bitcoinAddress],
+      }),
+      blockHeightIndex: index('miners_idx_block_height').on(table.blockHeight).asc(),
+      bitcoinAddressIndex: index('miners_idx_bitcoin_address').on(table.bitcoinAddress).asc(),
+    };
+  }
+);
+
+export const minersBids = pgTable(
+  'miners_bids',
+  {
+    blockHeight: integer('block_height').notNull(),
+    bitcoinAddress: varchar('bitcoin_address').notNull(),
+    bidAmount: currency('bid_amount').notNull().default(0),
+  },
+  table => {
+    return {
+      pk: primaryKey({
+        columns: [table.blockHeight, table.bitcoinAddress],
+      }),
+      blockHeightIndex: index('miners_bids_idx_block_height').on(table.blockHeight).asc(),
+      bitcoinAddressIndex: index('miners_bids_idx_bitcoin_address').on(table.bitcoinAddress).asc(),
+    };
+  }
+);
