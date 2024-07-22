@@ -1,7 +1,5 @@
 import * as cdk from "aws-cdk-lib";
 import { Construct } from "constructs";
-import * as acm from "aws-cdk-lib/aws-certificatemanager";
-import * as route53 from "aws-cdk-lib/aws-route53";
 import * as sqs from "aws-cdk-lib/aws-sqs";
 import * as ec2 from "aws-cdk-lib/aws-ec2";
 import * as rds from "aws-cdk-lib/aws-rds";
@@ -19,8 +17,6 @@ export type StackSetup = {
   vpc: ec2.Vpc;
   databaseUrl: string;
   cluster: ecs.Cluster;
-  hostedZone: route53.IHostedZone;
-  certificate: acm.Certificate;
 };
 
 export class Setup extends cdk.Stack {
@@ -106,6 +102,7 @@ export class Setup extends cdk.Stack {
       multiAz: false,
     });
     const databaseUrl = `postgres://${databaseSecret.secretValueFromJson("username").unsafeUnwrap()}:${databaseSecret.secretValueFromJson("password").unsafeUnwrap()}@${databaseInstance.dbInstanceEndpointAddress}:${databaseInstance.dbInstanceEndpointPort}/${databaseName}`;
+    console.log("databaseUrl", databaseUrl);
 
     // ECS Cluster
     const cluster = new ecs.Cluster(this, "Cluster", { vpc });
@@ -114,24 +111,12 @@ export class Setup extends cdk.Stack {
       desiredCapacity: 1,
     });
 
-    // Certificate
-    const hostedZone = route53.HostedZone.fromLookup(this, "HostedZone", {
-      domainName: domainName,
-    });
-
-    const certificate = new acm.Certificate(this, "Certificate", {
-      domainName: `*.${domainName}`,
-      validation: acm.CertificateValidation.fromDns(hostedZone),
-    });
-
     // Setup
     this.setup = {
       queue,
       vpc,
       databaseUrl,
       cluster,
-      hostedZone,
-      certificate,
     };
   }
 }
