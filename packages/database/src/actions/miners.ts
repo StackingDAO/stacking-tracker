@@ -2,7 +2,7 @@
 
 import { minersBids, miners } from '../schema';
 import { db } from '../drizzle';
-import { and, gte, lte } from 'drizzle-orm';
+import { and, gte, lte, asc } from 'drizzle-orm';
 
 export async function getMiners(afterBlock: number, beforeBlock: number): Promise<any> {
   const result = await db
@@ -10,6 +10,14 @@ export async function getMiners(afterBlock: number, beforeBlock: number): Promis
     .from(miners)
     .where(and(gte(miners.blockHeight, afterBlock), lte(miners.blockHeight, beforeBlock)));
   return result;
+}
+
+export async function getMinersFirstBlockHeight(): Promise<any> {
+  const result = await db.select().from(miners).orderBy(asc(miners.blockHeight)).limit(1);
+  if (result.length === 0) {
+    return 0;
+  }
+  return result[0].blockHeight;
 }
 
 export async function getMinersBids(afterBlock: number, beforeBlock: number): Promise<any> {

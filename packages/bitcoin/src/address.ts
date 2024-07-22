@@ -1,13 +1,11 @@
-import axios from 'axios';
-import { baseUrl } from './constants';
+import { get } from './api';
 
 export async function getAddressTransactions(
   address: string,
   afterBlock: number,
   beforeBlock: number
 ): Promise<any> {
-  const path = `${baseUrl}/v1/btc/main/addrs/${address}/full?after=${afterBlock}&before=${beforeBlock}`;
-  console.log('path', path);
-  const data = (await axios.get(path)).data;
+  const path = `/v1/btc/main/addrs/${address}/full?after=${afterBlock}&before=${beforeBlock}`;
+  const data = await get(path);
   return data;
 }
