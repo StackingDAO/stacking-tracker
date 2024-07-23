@@ -16,16 +16,8 @@ export default async function Home() {
 
   return (
     <main className="flex flex-col justify-between w-full max-w-5xl pt-12">
-      <div className="pb-4 mb-12 bg-white rounded-lg">
+      <div className="mb-12 bg-white rounded-lg">
         <div className="mb-32 grid text-center rounded-lg lg:mb-0 lg:w-full lg:max-w-5xl lg:grid-cols-4 lg:text-left transition-colors border-gray-300 bg-gray-100 dark:border-neutral-700 dark:bg-neutral-800/30">
-          <div className="group rounded-lg border border-transparent px-5 py-4 ">
-            <h2 className="mb-3 text-xl font-semibold">
-              {minersInfo.length} Active Miners
-            </h2>
-            <p className="m-0 max-w-[30ch] text-sm opacity-50">
-              In last 144 blocks
-            </p>
-          </div>
           <div className="group rounded-lg border border-transparent px-5 py-4 ">
             <h2 className="mb-3 text-xl font-semibold">${priceBtc}</h2>
             <p className="m-0 max-w-[30ch] text-sm opacity-50">BTC Price</p>
@@ -33,6 +25,74 @@ export default async function Home() {
           <div className="group rounded-lg border border-transparent px-5 py-4 ">
             <h2 className="mb-3 text-xl font-semibold">${priceStx}</h2>
             <p className="m-0 max-w-[30ch] text-sm opacity-50">STX Price</p>
+          </div>
+        </div>
+      </div>
+
+      <div className="pb-4 mb-12 bg-white rounded-lg">
+        <div className="mb-32 grid text-center rounded-lg lg:mb-0 lg:w-full lg:max-w-5xl lg:grid-cols-4 lg:text-left transition-colors border-gray-300 bg-gray-100 dark:border-neutral-700 dark:bg-neutral-800/30">
+          <div className="group rounded-lg border border-transparent px-5 py-4 ">
+            <h2 className="mb-3 text-xl font-semibold">Last 144 Blocks</h2>
+            <p className="m-0 max-w-[30ch] text-sm opacity-50">
+              {minersInfo.length} Active Miners
+            </p>
+          </div>
+          <div className="group rounded-lg border border-transparent px-5 py-4 ">
+            <h2 className="mb-3 text-xl font-semibold">
+              {currency.short.format(
+                minersInfo
+                  .map((miner: any) => miner.rewards + miner.fees)
+                  .reduce((acc: number, current: number) => acc + current, 0)
+              )}{" "}
+              STX
+            </h2>
+            <p className="m-0 max-w-[30ch] text-sm opacity-50">
+              Total Rewards $
+              {currency.short.format(
+                minersInfo
+                  .map((miner: any) => miner.rewards + miner.fees)
+                  .reduce((acc: number, current: number) => acc + current, 0) *
+                  priceStx
+              )}
+            </p>
+          </div>
+          <div className="group rounded-lg border border-transparent px-5 py-4 ">
+            <h2 className="mb-3 text-xl font-semibold">
+              {currency.short.format(
+                minersInfo
+                  .map((miner: any) => miner.bids)
+                  .reduce((acc: number, current: number) => acc + current, 0)
+              )}{" "}
+              BTC
+            </h2>
+            <p className="m-0 max-w-[30ch] text-sm opacity-50">
+              Total Bids $
+              {currency.short.format(
+                minersInfo
+                  .map((miner: any) => miner.bids)
+                  .reduce((acc: number, current: number) => acc + current, 0) *
+                  priceBtc
+              )}
+            </p>
+          </div>
+          <div className="group rounded-lg border border-transparent px-5 py-4 ">
+            <h2 className="mb-3 text-xl font-semibold">
+              $
+              {currency.short.format(
+                minersInfo
+                  .map((miner: any) => miner.rewards + miner.fees)
+                  .reduce((acc: number, current: number) => acc + current, 0) *
+                  priceStx -
+                  minersInfo
+                    .map((miner: any) => miner.bids)
+                    .reduce(
+                      (acc: number, current: number) => acc + current,
+                      0
+                    ) *
+                    priceBtc
+              )}
+            </h2>
+            <p className="m-0 max-w-[30ch] text-sm opacity-50">Total Profit</p>
           </div>
         </div>
 

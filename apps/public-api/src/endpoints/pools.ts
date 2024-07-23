@@ -53,10 +53,12 @@ async function getPoolsInfoForCycle(cycleNumber: number) {
   for (const poxAddress of poxAddresses) {
     let stackedAmount = 0.0;
     let rewardAmount = 0.0;
+    let stackersCount = 0;
     stackers
       .filter((stacker: any) => stacker.poxAddress === poxAddress)
       .forEach((stacker: any) => {
         stackedAmount += stacker.stackedAmount;
+        stackersCount += 1;
       });
     rewards
       .filter((reward: any) => reward.rewardRecipient === poxAddress)
@@ -68,6 +70,7 @@ async function getPoolsInfoForCycle(cycleNumber: number) {
     if (stackerNames) {
       for (const poolKey of Object.keys(stackerNames)) {
         let stackerStackedAmount = 0.0;
+        let stackersCount = 0;
         stackers
           .filter(
             (stacker: any) =>
@@ -76,11 +79,13 @@ async function getPoolsInfoForCycle(cycleNumber: number) {
           )
           .forEach((stacker: any) => {
             stackerStackedAmount += stacker.stackedAmount;
+            stackersCount += 1;
           });
 
         pools.push({
           name: stackerNames[poolKey],
           pox_address: poxAddress,
+          stackers_count: stackersCount,
           stacked_amount: stackerStackedAmount,
           rewards_amount: rewardAmount * (stackerStackedAmount / stackedAmount),
         });
@@ -88,6 +93,7 @@ async function getPoolsInfoForCycle(cycleNumber: number) {
     } else {
       pools.push({
         name: poxAddressName[poxAddress as string] ?? "-",
+        stackers_count: stackersCount,
         pox_address: poxAddress,
         stacked_amount: stackedAmount,
         rewards_amount: rewardAmount,

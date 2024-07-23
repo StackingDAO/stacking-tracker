@@ -42,10 +42,17 @@ export default async function Home() {
           </div>
 
           <Table
-            columnTitles={["Name", "PoX Address", "Stacked", "Rewards"]}
+            columnTitles={[
+              "Name",
+              "PoX Address",
+              "Stackers",
+              "Stacked",
+              "Rewards",
+            ]}
             rows={cycleInfo.pools.map((pool: any) => [
               pool.name,
               shortAddress(pool.pox_address),
+              pool.stackers_count,
               `${currency.short.format(pool.stacked_amount)} STX`,
               `${currency.short.format(pool.rewards_amount)} BTC`,
             ])}
