@@ -28,6 +28,7 @@ export class Lambdas extends cdk.Stack {
       this,
       "Topic-StackersRewardsProcessor"
     );
+    const topicMinersProcessor = new sns.Topic(this, "Topic-MinersProcessor");
 
     // Lambda Functions
     const blockProcessor = new TypeScriptLambda(this, "BlockProcessor", {
@@ -39,6 +40,7 @@ export class Lambdas extends cdk.Stack {
         TOPIC_SIGNERS: topicSignersProcessor.topicArn,
         TOPIC_REWARDS: topicRewardsProcessor.topicArn,
         TOPIC_STACKERS_REWARDS: topicStackersRewardsProcessor.topicArn,
+        TOPIC_MINERS: topicMinersProcessor.topicArn,
       },
     });
     blockProcessor.lambda.addEventSource(new SqsEventSource(setupStack.queue));
@@ -90,6 +92,20 @@ export class Lambdas extends cdk.Stack {
     );
     stackersRewardsProcessor.lambda.addEventSource(
       new SnsEventSource(topicStackersRewardsProcessor)
+    );
+
+    const minersProcessor = new TypeScriptLambda(this, "MinersProcessor", {
+      lambdaRootDir: ".",
+      handlerFilePath: "apps/functions/src/miners-processor.ts",
+      handler: "processMiners",
+      environment: {
+        DATABASE_URL: setupStack.databaseUrl,
+        STACKS_API: process.env.STACKS_API ?? "",
+        BLOCKCYPHER_TOKEN: process.env.BLOCKCYPHER_TOKEN ?? "",
+      },
+    });
+    minersProcessor.lambda.addEventSource(
+      new SnsEventSource(topicMinersProcessor)
     );
   }
 }

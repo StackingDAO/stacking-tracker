@@ -1,5 +1,6 @@
 import { Table } from "../components/Table";
 import * as api from "../common/public-api";
+import { currency, shortAddress } from "@/app/common/utils";
 
 export default async function Home() {
   const minersInfo = await api.get("/miners");
@@ -18,12 +19,25 @@ export default async function Home() {
       </div>
 
       <Table
-        columnTitles={["Address", "Rewards", "Fees", "Bids"]}
+        columnTitles={[
+          "Address",
+          "Blocks mined",
+          "Blocks participated",
+          "Rewards",
+          "Fees",
+          "Avg fees",
+          "Total bids",
+          "Avg bid",
+        ]}
         rows={minersInfo.map((miner: any) => [
-          miner.address,
+          shortAddress(miner.address),
+          miner.blocks_mined,
+          miner.blocks_participated,
           `${miner.rewards} STX`,
-          `${miner.fees} STX`,
-          `${miner.bids} BTC`,
+          `${currency.short.format(miner.fees)} STX`,
+          `${currency.short.format(miner.fees / miner.blocks_mined)} STX`,
+          `${currency.long.format(miner.bids)} BTC`,
+          `${currency.long.format(miner.bids / miner.blocks_participated)} BTC`,
         ])}
       />
     </main>

@@ -125,7 +125,7 @@ async function processBidsForBlock(blockHeight: number) {
 
   console.log("Active miners for bids", miners.length);
 
-  if (miners.length < 288) {
+  if (miners.length < 144) {
     return;
   }
 
