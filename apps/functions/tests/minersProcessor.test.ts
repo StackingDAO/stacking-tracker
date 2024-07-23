@@ -1,43 +1,32 @@
 import { getMiners } from "@repo/database";
 import { processMiners } from "../src/miners-processor";
 
-const events: any = [
-  {
-    Records: [
-      {
-        Sns: {
-          Message: JSON.stringify({ block_height: 150992 }),
-        },
+const event: any = {
+  Records: [
+    {
+      Sns: {
+        Message: JSON.stringify({ block_height: 158949 }),
       },
-    ],
-  },
-  {
-    Records: [
-      {
-        Sns: {
-          Message: JSON.stringify({ block_height: 150993 }),
-        },
-      },
-    ],
-  },
-  {
-    Records: [
-      {
-        Sns: {
-          Message: JSON.stringify({ block_height: 150994 }),
-        },
-      },
-    ],
-  },
-];
+    },
+  ],
+};
 
 describe("processMiners", () => {
   test("should process miners", async () => {
-    await processMiners(events[0], undefined);
-    await processMiners(events[1], undefined);
-    await processMiners(events[2], undefined);
+    await processMiners(event, undefined);
 
-    let miners = await getMiners(150990, 150994);
-    console.log("GOT MINERS", miners);
+    let miners = await getMiners(158949 - 100, 158949 - 50);
+    expect(miners.length).toStrictEqual(0);
+
+    miners = await getMiners(158949 + 1, 158949 + 10);
+    expect(miners.length).toStrictEqual(0);
+
+    miners = await getMiners(158949 - 100, 158949);
+    expect(miners.length).toStrictEqual(23);
+
+    await processMiners(event, undefined);
+
+    miners = await getMiners(158949 - 100, 158949);
+    expect(miners.length).toBeGreaterThan(23 + 1);
   }, 120000);
 });
