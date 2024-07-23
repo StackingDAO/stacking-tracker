@@ -1,8 +1,10 @@
 import { ProofOfTransferApi, StackingRewardsApi } from '@stacks/blockchain-api-client';
 import { configuration } from './constants';
+import { StacksExtended } from './stacks-api';
 
 const poxApi = new ProofOfTransferApi(configuration);
 const poxRewardsApi = new StackingRewardsApi(configuration);
+const stacksExtended = new StacksExtended();
 
 export async function getCurrentCycle(): Promise<number> {
   const cycles = await poxApi.getPoxCycles({ limit: 1 });
@@ -10,33 +12,52 @@ export async function getCurrentCycle(): Promise<number> {
 }
 
 export async function getCycles(): Promise<any> {
-  // TODO: get all pages
-  const cycles = await poxApi.getPoxCycles({});
-  return cycles.results;
+  let result: any[] = [];
+  let hasReachedEndBlock = false;
+
+  while (!hasReachedEndBlock) {
+    const cycles = await poxApi.getPoxCycles({ limit: 60, offset: result.length });
+    result = result.concat(cycles.results);
+    hasReachedEndBlock = cycles.results.length < 60;
+  }
+
+  return result;
 }
 
 export async function getCycleSigners(cycleNumber: number): Promise<any> {
-  // TODO: get all pages
-  const signers = await poxApi.getPoxCycleSigners({ cycleNumber: cycleNumber });
-  return signers.results;
+  let result: any[] = [];
+  let hasReachedEndBlock = false;
+
+  while (!hasReachedEndBlock) {
+    const info = await stacksExtended.getPoxCycleSigners(cycleNumber, 250, result.length);
+    result = result.concat(info.results);
+    hasReachedEndBlock = info.results.length < 250;
+  }
+
+  return result;
 }
 
 export async function getCycleSigner(cycleNumber: number, signerKey: string): Promise<any> {
-  // TODO: get all pages
-  const signer = await poxApi.getPoxCycleSigner({
-    cycleNumber: cycleNumber,
-    signerKey: signerKey,
-  });
-  return signer;
+  const info = await poxApi.getPoxCycleSigner({ cycleNumber: cycleNumber, signerKey: signerKey });
+  return info;
 }
 
 export async function getSignerStackers(cycleNumber: number, signerKey: string): Promise<any> {
-  // TODO: get all pages
-  const stackers = await poxApi.getPoxCycleSignerStackers({
-    cycleNumber: cycleNumber,
-    signerKey: signerKey,
-  });
-  return stackers.results;
+  let result: any[] = [];
+  let hasReachedEndBlock = false;
+
+  while (!hasReachedEndBlock) {
+    const stackers = await stacksExtended.getStackersForSignerInCycle(
+      signerKey,
+      cycleNumber,
+      250,
+      result.length
+    );
+    result = result.concat(stackers.results);
+    hasReachedEndBlock = stackers.results.length < 250;
+  }
+
+  return result;
 }
 
 // Rewards are an endliss list, newest rewards first

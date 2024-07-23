@@ -16,7 +16,7 @@ describe("processSigners", () => {
     expect(signers.length).toStrictEqual(27);
 
     const stackers = await getStackers();
-    expect(stackers.length).toStrictEqual(366);
+    expect(stackers.length).toStrictEqual(1939);
 
     latestCycle = await getSignersLatestCycle();
     expect(latestCycle).toStrictEqual(84);
