@@ -1,63 +1,66 @@
 import { Router, Request, Response } from "express";
 import * as db from "@repo/database";
 
+async function getSignersInfoForCycle(cycleNumber: number) {
+  const [signers, rewards] = await Promise.all([
+    db.getSignersForCycle(cycleNumber),
+    db.getStackersRewardsForCycle(cycleNumber),
+  ]);
+
+  const resultSigners: any[] = [];
+  for (const signer of signers) {
+    const signerRewards = rewards.filter(
+      (reward: any) => reward.signerKey === signer.signerKey
+    );
+
+    let signerRewardsAmount = 0;
+    signerRewards.forEach((reward: any) => {
+      signerRewardsAmount += reward.rewardAmount;
+    });
+
+    resultSigners.push({
+      signer_key: signer.signerKey,
+      stackers_count: signer.stackersCount,
+      stacked_amount: signer.stackedAmount,
+      rewards_amount: signerRewardsAmount,
+    });
+  }
+
+  let stackedAmount = 0.0;
+  let rewardAmount = 0.0;
+  let stackersCount = 0;
+  signers.forEach((signer: any) => {
+    stackersCount += signer.stackersCount;
+    stackedAmount += signer.stackedAmount;
+  });
+  rewards.forEach((reward: any) => {
+    rewardAmount += reward.rewardAmount;
+  });
+
+  return {
+    cycle_number: cycleNumber,
+    stackers: 0,
+    stacked_amount: stackedAmount,
+    rewards_amount: rewardAmount,
+    signers: resultSigners,
+  };
+}
+
 const router = Router();
 
 router
 
   .get("/", async (req: Request, res: Response) => {
-    const [signers, rewards] = await Promise.all([
-      db.getSigners(),
-      db.getStackersRewards(),
-    ]);
+    const currentCycle = await db.getSignersLatestCycle();
 
-    const cycleInfo: { [key: number]: any } = {};
-    for (const signer of signers) {
-      const rewardsAmount =
-        rewards.filter(
-          (rewardInfo: { signerKey: string; cycleNumber: number }) =>
-            rewardInfo.signerKey === signer.signerKey &&
-            rewardInfo.cycleNumber === signer.cycleNumber
-        )[0]?.rewardAmount ?? 0;
-
-      if (cycleInfo[signer.cycleNumber]) {
-        cycleInfo[signer.cycleNumber].signers.push({
-          signer_key: signer.signerKey,
-          stackers_count: signer.stackersCount,
-          stacked_amount: signer.stackedAmount,
-          rewards_amount: rewardsAmount,
-        });
-        cycleInfo[signer.cycleNumber].stackers += signer.stackersCount;
-        cycleInfo[signer.cycleNumber].stackedAmount += signer.stackedAmount;
-        cycleInfo[signer.cycleNumber].rewardsAmount += rewardsAmount;
-      } else {
-        cycleInfo[signer.cycleNumber] = {
-          signers: [
-            {
-              signer_key: signer.signerKey,
-              stackers_count: signer.stackersCount,
-              stacked_amount: signer.stackedAmount,
-              rewards_amount: rewardsAmount,
-            },
-          ],
-          stackers: signer.stackersCount,
-          stackedAmount: signer.stackedAmount,
-          rewardsAmount: rewardsAmount,
-        };
-      }
+    const promises: any[] = [];
+    for (let cycle = currentCycle; cycle > currentCycle - 6; cycle--) {
+      promises.push(getSignersInfoForCycle(cycle));
     }
 
-    const result = Object.keys(cycleInfo).map((cycle) => {
-      return {
-        cycle_number: cycle,
-        signers: cycleInfo[cycle].signers,
-        stackers_count: cycleInfo[cycle].stackersCount,
-        stacked_amount: cycleInfo[cycle].stackedAmount,
-        rewards_amount: cycleInfo[cycle].rewardsAmount,
-      };
-    });
+    const results = await Promise.all(promises);
 
-    res.send(result.reverse());
+    res.send(results);
   })
 
   .get("/:signer", async (req: Request, res: Response) => {

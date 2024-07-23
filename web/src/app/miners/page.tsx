@@ -49,7 +49,7 @@ export default async function Home() {
           ]}
           rows={minersInfo.map((miner: any) => [
             shortAddress(miner.address),
-            <div className="flex flex-col">
+            <div key={miner.address + "-blocks"} className="flex flex-col">
               <p>
                 {miner.blocks_mined}/{miner.blocks_participated}
               </p>
@@ -60,19 +60,19 @@ export default async function Home() {
                 %
               </p>
             </div>,
-            <div className="flex flex-col">
+            <div key={miner.address + "-rewards"} className="flex flex-col">
               <p>{miner.rewards} STX</p>
               <p className="text-xs text-gray-400">
                 ${currency.short.format(miner.rewards * priceStx)}
               </p>
             </div>,
-            <div className="flex flex-col">
+            <div key={miner.address + "-fees"} className="flex flex-col">
               <p>{currency.short.format(miner.fees)} STX</p>
               <p className="text-xs text-gray-400">
                 ${currency.short.format(miner.fees * priceStx)}
               </p>
             </div>,
-            <div className="flex flex-col">
+            <div key={miner.address + "-avgfees"} className="flex flex-col">
               <p>
                 {currency.short.format(miner.fees / miner.blocks_mined)} STX
               </p>
@@ -83,13 +83,13 @@ export default async function Home() {
                 )}
               </p>
             </div>,
-            <div className="flex flex-col">
+            <div key={miner.address + "-bids"} className="flex flex-col">
               <p>{currency.long.format(miner.bids)} BTC</p>
               <p className="text-xs text-gray-400">
                 ${currency.short.format(miner.bids * priceBtc)}
               </p>
             </div>,
-            <div className="flex flex-col">
+            <div key={miner.address + "-avgbids"} className="flex flex-col">
               <p>
                 {currency.long.format(miner.bids / miner.blocks_participated)}{" "}
                 BTC

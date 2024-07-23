@@ -17,6 +17,11 @@ export async function getSigners(): Promise<any> {
   return result;
 }
 
+export async function getSignersForCycle(cycleNumber: number): Promise<any> {
+  const result = await db.select().from(signers).where(eq(signers.cycleNumber, cycleNumber));
+  return result;
+}
+
 export async function getSigner(signerKey: string): Promise<any> {
   const result = await db.select().from(signers).where(eq(signers.signerKey, signerKey));
   return result;

@@ -13,7 +13,7 @@ export async function getStackersRewardsForCycle(cycleNumber: number): Promise<a
   const result = await db
     .select()
     .from(stackersRewards)
-    .where(eq(stackers.cycleNumber, cycleNumber));
+    .where(eq(stackersRewards.cycleNumber, cycleNumber));
   return result;
 }
 

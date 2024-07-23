@@ -39,10 +39,10 @@ const poxAddressStackerNames = {
   },
 };
 
-async function getPoolsInfoForBlock(blockHeight: number) {
+async function getPoolsInfoForCycle(cycleNumber: number) {
   const [stackers, rewards] = await Promise.all([
-    db.getStackersForCycle(blockHeight),
-    db.getRewardsForCycle(blockHeight),
+    db.getStackersForCycle(cycleNumber),
+    db.getRewardsForCycle(cycleNumber),
   ]);
 
   const poxAddresses = [
@@ -107,7 +107,7 @@ async function getPoolsInfoForBlock(blockHeight: number) {
   });
 
   return {
-    cycle_number: blockHeight,
+    cycle_number: cycleNumber,
     pools: pools,
     stacked_amount: stackedAmount,
     rewards_amount: rewardAmount,
@@ -121,7 +121,7 @@ router.get("/", async (req: Request, res: Response) => {
 
   const promises: any[] = [];
   for (let cycle = currentCycle; cycle > currentCycle - 6; cycle--) {
-    promises.push(getPoolsInfoForBlock(cycle));
+    promises.push(getPoolsInfoForCycle(cycle));
   }
 
   const results = await Promise.all(promises);
