@@ -38,8 +38,7 @@ export default async function Home() {
       <Table
         columnTitles={[
           "Address",
-          "Mined",
-          "Bids",
+          "Mined/Bids",
           "Rewards",
           "Fees",
           "Avg fees",
@@ -49,8 +48,7 @@ export default async function Home() {
         ]}
         rows={minersInfo.map((miner: any) => [
           shortAddress(miner.address),
-          miner.blocks_mined,
-          miner.blocks_participated,
+          `${miner.blocks_mined}/${miner.blocks_participated} (${currency.short.format((miner.blocks_mined / miner.blocks_participated) * 100)}%)`,
           `${miner.rewards} STX ($${currency.short.format(miner.rewards * priceStx)})`,
           `${currency.short.format(miner.fees)} STX ($${currency.short.format(miner.fees * priceStx)})`,
           `${currency.short.format(miner.fees / miner.blocks_mined)} STX ($${currency.short.format((miner.fees / miner.blocks_mined) * priceStx)})`,

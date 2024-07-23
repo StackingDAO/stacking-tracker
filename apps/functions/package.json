@@ -8,6 +8,7 @@
   "dependencies": {
     "@aws-sdk/client-sns": "^3.568.0",
     "@repo/database": "0.1.0",
+    "@repo/bitcoin": "0.1.0",
     "@stacks/blockchain-api-client": "^7.9.1",
     "@stacks/network": "6.10.0",
     "@stacks/rpc-client": "0.8.18",
