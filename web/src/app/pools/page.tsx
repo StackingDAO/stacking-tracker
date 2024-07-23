@@ -1,22 +1,13 @@
-import { FunctionComponent } from "react";
-import { Table } from "../../components/Table";
-import * as api from "../../common/public-api";
+import { Table } from "../components/Table";
+import * as api from "../common/public-api";
 import { currency, shortAddress } from "@/app/common/utils";
 
-type Props = {
-  params: {
-    signer: string;
-  };
-};
-
-const Home: FunctionComponent<Props> = async ({
-  params: { signer },
-}: Props) => {
-  const signerInfo = await api.get(`/signers/${signer}`);
+export default async function Home() {
+  const poolsInfo = await api.get("/pools");
 
   return (
     <main className="flex flex-col justify-between w-full max-w-5xl pt-12">
-      {signerInfo.map((cycleInfo: any) => (
+      {poolsInfo.map((cycleInfo: any) => (
         <div
           key={cycleInfo.cycle_number}
           className="pb-4 mb-12 bg-white rounded-lg"
@@ -28,12 +19,14 @@ const Home: FunctionComponent<Props> = async ({
               </h2>
               <p className="m-0 max-w-[30ch] text-sm opacity-50">Cycle</p>
             </div>
+
             <div className="group rounded-lg border border-transparent px-5 py-4">
               <h2 className="mb-3 text-xl font-semibold">
-                {cycleInfo.stackers_count}
+                {cycleInfo.pools.length}
               </h2>
-              <p className="m-0 max-w-[30ch] text-sm opacity-50">Stackers</p>
+              <p className="m-0 max-w-[30ch] text-sm opacity-50">Pools</p>
             </div>
+
             <div className="group rounded-lg border border-transparent px-5 py-4">
               <h2 className="mb-3 text-xl font-semibold">
                 {currency.short.format(cycleInfo.stacked_amount)} STX
@@ -49,18 +42,16 @@ const Home: FunctionComponent<Props> = async ({
           </div>
 
           <Table
-            columnTitles={["Address", "Type", "Stacked", "Rewards"]}
-            rows={cycleInfo.stackers.map((stacker: any) => [
-              shortAddress(stacker.address),
-              stacker.stacker_type,
-              `${currency.short.format(stacker.stacked_amount)} STX`,
-              `${currency.long.format(stacker.rewards_amount)} BTC`,
+            columnTitles={["Name", "PoX Address", "Stacked", "Rewards"]}
+            rows={cycleInfo.pools.map((pool: any) => [
+              pool.name,
+              shortAddress(pool.pox_address),
+              `${currency.short.format(pool.stacked_amount)} STX`,
+              `${currency.short.format(pool.rewards_amount)} BTC`,
             ])}
           />
         </div>
       ))}
     </main>
   );
-};
-
-export default Home;
+}

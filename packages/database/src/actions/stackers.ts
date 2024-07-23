@@ -9,6 +9,11 @@ export async function getStackers(): Promise<any> {
   return result;
 }
 
+export async function getStackersForCycle(cycleNumber: number): Promise<any> {
+  const result = await db.select().from(stackers).where(eq(stackers.cycleNumber, cycleNumber));
+  return result;
+}
+
 export async function getStackersForSigner(signerKey: string): Promise<any> {
   const result = await db.select().from(stackers).where(eq(stackers.signerKey, signerKey));
   return result;
