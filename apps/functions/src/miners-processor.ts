@@ -149,7 +149,7 @@ async function processBidsForBlock(blockHeight: number) {
         await saveMinerBids(
           blockHeight,
           minerAddress as string,
-          bid / 100000000.0
+          (bid * 2) / 100000000.0
         );
       }
     }
