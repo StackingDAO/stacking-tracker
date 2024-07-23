@@ -2,7 +2,7 @@
 
 import { minersBids, miners } from '../schema';
 import { db } from '../drizzle';
-import { and, gte, lte, asc } from 'drizzle-orm';
+import { and, desc, gte, lte, asc } from 'drizzle-orm';
 
 export async function getMiners(afterBlock: number, beforeBlock: number): Promise<any> {
   const result = await db
@@ -20,12 +20,36 @@ export async function getMinersFirstBlockHeight(): Promise<any> {
   return result[0].blockHeight;
 }
 
+export async function getMinersLastBlockHeight(): Promise<any> {
+  const result = await db.select().from(miners).orderBy(desc(miners.blockHeight)).limit(1);
+  if (result.length === 0) {
+    return 0;
+  }
+  return result[0].blockHeight;
+}
+
 export async function getMinersBids(afterBlock: number, beforeBlock: number): Promise<any> {
   const result = await db
     .select()
     .from(minersBids)
-    .where(and(gte(miners.blockHeight, afterBlock), lte(miners.blockHeight, beforeBlock)));
+    .where(and(gte(minersBids.blockHeight, afterBlock), lte(minersBids.blockHeight, beforeBlock)));
   return result;
+}
+
+export async function getMinersBidsFirstBlockHeight(): Promise<any> {
+  const result = await db.select().from(minersBids).orderBy(asc(minersBids.blockHeight)).limit(1);
+  if (result.length === 0) {
+    return 0;
+  }
+  return result[0].blockHeight;
+}
+
+export async function getMinersBidsLastBlockHeight(): Promise<any> {
+  const result = await db.select().from(minersBids).orderBy(desc(minersBids.blockHeight)).limit(1);
+  if (result.length === 0) {
+    return 0;
+  }
+  return result[0].blockHeight;
 }
 
 export async function saveMiner(

@@ -2,6 +2,7 @@ import express, { Express, Request, Response } from "express";
 import dotenv from "dotenv";
 
 import routerSigners from "./endpoints/signers";
+import routerMiners from "./endpoints/miners";
 
 dotenv.config();
 
@@ -16,6 +17,7 @@ app.get("/health", (_: Request, res: Response) => {
 });
 
 app.use("/signers", routerSigners);
+app.use("/miners", routerMiners);
 
 const server = app.listen(port, () => {
   console.log(`[server]: Server is running at http://localhost:${port}`);
