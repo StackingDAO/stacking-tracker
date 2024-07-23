@@ -1,10 +1,7 @@
-import axios from "axios";
-
 export const get = async (path: string) => {
-  const instance = axios.create({
-    baseURL: process.env.PUBLIC_API_URL,
+  const res = await fetch(`${process.env.PUBLIC_API_URL}${path.slice(1)}`, {
+    cache: "no-store",
   });
-
-  const result = await instance.get(path);
-  return result.data as any;
+  const result = await res.json();
+  return result;
 };

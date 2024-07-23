@@ -102,7 +102,6 @@ export class Setup extends cdk.Stack {
       multiAz: false,
     });
     const databaseUrl = `postgres://${databaseSecret.secretValueFromJson("username").unsafeUnwrap()}:${databaseSecret.secretValueFromJson("password").unsafeUnwrap()}@${databaseInstance.dbInstanceEndpointAddress}:${databaseInstance.dbInstanceEndpointPort}/${databaseName}`;
-    console.log("databaseUrl", databaseUrl);
 
     // ECS Cluster
     const cluster = new ecs.Cluster(this, "Cluster", { vpc });

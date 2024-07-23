@@ -102,7 +102,7 @@ router
         rewards_amount: totalCycleRewards,
       });
     }
-    res.send(results);
+    res.send(results.reverse());
   });
 
 export default router;
