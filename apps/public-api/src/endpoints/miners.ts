@@ -55,7 +55,7 @@ router.get("/", async (req: Request, res: Response) => {
       blocks_participated: aggregatedInfo[minerAddress].blocksParticipated,
       rewards: aggregatedInfo[minerAddress].rewardAmount,
       fees: aggregatedInfo[minerAddress].feesAmount,
-      bids: aggregatedInfo[minerAddress].bidAmount,
+      bids: aggregatedInfo[minerAddress].bidAmount * 2, // Need to bid twice
     });
   }
 
