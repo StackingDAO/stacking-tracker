@@ -61,7 +61,7 @@ export async function processStackerRewards(
   const eventBlockHeight = eventBody.block_height;
 
   // Only process once a day
-  if (eventBlockHeight % 144 !== 0) {
+  if (eventBlockHeight % 6 !== 0) {
     return;
   }
 

@@ -25,6 +25,7 @@ router.get("/", async (req: Request, res: Response) => {
         rewardAmount: 0,
         feesAmount: 0,
         bidAmount: 0,
+        bidFeeAmount: 0,
       };
     }
 
@@ -41,9 +42,11 @@ router.get("/", async (req: Request, res: Response) => {
         rewardAmount: 0,
         feesAmount: 0,
         bidAmount: 0,
+        bidFeeAmount: 0,
       };
     }
     aggregatedInfo[bid.bitcoinAddress].bidAmount += bid.bidAmount;
+    aggregatedInfo[bid.bitcoinAddress].bidFeeAmount += bid.feeAmount;
     aggregatedInfo[bid.bitcoinAddress].blocksParticipated += 1;
   }
 
@@ -56,6 +59,7 @@ router.get("/", async (req: Request, res: Response) => {
       rewards: aggregatedInfo[minerAddress].rewardAmount,
       fees: aggregatedInfo[minerAddress].feesAmount,
       bids: aggregatedInfo[minerAddress].bidAmount,
+      bids_fees: aggregatedInfo[minerAddress].bidFeeAmount,
     });
   }
 

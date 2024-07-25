@@ -1,4 +1,5 @@
 // Docs: https://docs.stacks.co/stacks-101/mining
+// Still at 1000 STX currently
 const rewardsInfo = [
   {
     startBlock: 0,
@@ -6,15 +7,15 @@ const rewardsInfo = [
   },
   {
     startBlock: 147022,
-    rewards: 500,
+    rewards: 1000,
   },
   {
     startBlock: 147022 + 210000,
-    rewards: 250,
+    rewards: 500,
   },
   {
     startBlock: 147022 + 210000 * 2,
-    rewards: 125,
+    rewards: 250,
   },
 ];
 

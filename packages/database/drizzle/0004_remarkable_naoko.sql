@@ -1,0 +1,1 @@
+ALTER TABLE "miners_bids" ADD COLUMN "fee_amount" numeric(16, 6) DEFAULT 0 NOT NULL;

@@ -73,7 +73,8 @@ export async function saveMiner(
 export async function saveMinerBids(
   blockHeight: number,
   bitcoinAddress: string,
-  bidAmount: number
+  bidAmount: number,
+  feeAmount: number
 ): Promise<any> {
   const result = await db
     .insert(minersBids)
@@ -81,6 +82,7 @@ export async function saveMinerBids(
       blockHeight: blockHeight,
       bitcoinAddress: bitcoinAddress,
       bidAmount: bidAmount,
+      feeAmount: feeAmount,
     })
     .onConflictDoNothing();
   return result;

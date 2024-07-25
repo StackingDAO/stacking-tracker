@@ -120,6 +120,17 @@ function getBidFromOutputs(outputs: any) {
   return bid[0];
 }
 
+function getTxFeeFromInputsOutputs(inputs: any, outputs: any) {
+  const totalInput = inputs
+    .map((input: any) => input.output_value)
+    .reduce((acc: number, current: number) => acc + current, 0);
+  const totalOutput = outputs
+    .map((output: any) => output.value)
+    .reduce((acc: number, current: number) => acc + current, 0);
+
+  return totalInput - totalOutput;
+}
+
 async function processBidsForBlock(blockHeight: number) {
   const miners = await getMiners(blockHeight - 300, blockHeight);
 
@@ -145,11 +156,16 @@ async function processBidsForBlock(blockHeight: number) {
     if (transactionsInfo.txs.length > 0) {
       const transaction = transactionsInfo.txs[0];
       const bid = getBidFromOutputs(transaction.outputs);
+      const fees = getTxFeeFromInputsOutputs(
+        transaction.inputs,
+        transaction.outputs
+      );
       if (bid > 0) {
         await saveMinerBids(
           blockHeight,
           minerAddress as string,
-          (bid * 2) / 100000000.0
+          (bid * 2) / 100000000.0,
+          fees / 100000000.0
         );
       }
     }
