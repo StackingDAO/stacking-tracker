@@ -9,6 +9,14 @@ export async function getStackersRewards(): Promise<any> {
   return result;
 }
 
+export async function getStackersRewardsForCycle(cycleNumber: number): Promise<any> {
+  const result = await db
+    .select()
+    .from(stackersRewards)
+    .where(eq(stackersRewards.cycleNumber, cycleNumber));
+  return result;
+}
+
 export async function getStackersRewardsForSigner(signerKey: string): Promise<any> {
   const result = await db
     .select()

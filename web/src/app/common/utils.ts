@@ -142,6 +142,15 @@ export function shortAddress(address) {
   if (address.length <= 10) {
     return address;
   }
+
+  if (address.includes(".")) {
+    let addressSplit = address.split(".");
+
+    const firstPart = addressSplit[0].slice(0, 4);
+    const lastPart = addressSplit[0].slice(-4);
+    return `${firstPart}...${lastPart}.${addressSplit[1]}`;
+  }
+
   const firstPart = address.slice(0, 4);
   const lastPart = address.slice(-4);
   return `${firstPart}...${lastPart}`;
