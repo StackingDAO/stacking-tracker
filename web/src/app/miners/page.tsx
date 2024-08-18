@@ -105,6 +105,8 @@ export default async function Home() {
             "Avg fees",
             "Total bids",
             "Avg bid",
+            "Total bid fees",
+            "Avg bid fees",
             "Profit",
           ]}
           rows={minersInfo.map((miner: any) => [
@@ -161,7 +163,27 @@ export default async function Home() {
                 )}
               </p>
             </div>,
-            `$${currency.short.format((miner.rewards + miner.fees) * priceStx - miner.bids * priceBtc)}`,
+            <div key={miner.address + "-bidfees"} className="flex flex-col">
+              <p>{currency.long.format(miner.bids_fees)} BTC</p>
+              <p className="text-xs text-gray-400">
+                ${currency.short.format(miner.bids_fees * priceBtc)}
+              </p>
+            </div>,
+            <div key={miner.address + "-avgbids"} className="flex flex-col">
+              <p>
+                {currency.long.format(
+                  miner.bids_fees / miner.blocks_participated
+                )}{" "}
+                BTC
+              </p>
+              <p className="text-xs text-gray-400">
+                $
+                {currency.short.format(
+                  (miner.bids_fees / miner.blocks_participated) * priceBtc
+                )}
+              </p>
+            </div>,
+            `$${currency.short.format((miner.rewards + miner.fees) * priceStx - (miner.bids + miner.bids_fees) * priceBtc)}`,
           ])}
         />
       </div>

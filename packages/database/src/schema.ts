@@ -127,6 +127,7 @@ export const minersBids = pgTable(
     blockHeight: integer('block_height').notNull(),
     bitcoinAddress: varchar('bitcoin_address').notNull(),
     bidAmount: currency('bid_amount').notNull().default(0),
+    feeAmount: currency('fee_amount').notNull().default(0),
   },
   table => {
     return {
