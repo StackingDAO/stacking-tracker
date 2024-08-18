@@ -1,15 +1,16 @@
 // @ts-nocheck
 
-import {RPCClient} from "@stacks/rpc-client";
-import {StacksMainnet, StacksTestnet} from "@stacks/network";
-import {MempoolApi} from "@stacks/blockchain-api-client";
+import { RPCClient } from "@stacks/rpc-client";
+import { StacksMainnet, StacksTestnet } from "@stacks/network";
+import { MempoolApi } from "@stacks/blockchain-api-client";
 
 require("dotenv").config();
 
 const env = process.env.NEXT_PUBLIC_NETWORK_ENV || "mainnet";
 
 // export let coreApiUrl = "https://api.hiro.so";
-export let coreApiUrl = "https://small-solemn-frost.stacks-mainnet.discover.quiknode.pro/deaf86bafdfbef850e40cdf5fa22c41cd447cdff"
+export let coreApiUrl =
+  "https://small-solemn-frost.stacks-mainnet.discover.quiknode.pro/deaf86bafdfbef850e40cdf5fa22c41cd447cdff";
 
 if (env.includes("mocknet")) {
   coreApiUrl = `http://localhost:${process.env.LOCAL_STACKS_API_PORT || 3999}`;
@@ -35,7 +36,8 @@ export const getRPCClient = () => {
   return new RPCClient(coreApiUrl);
 };
 
-export const stacksNetwork = env === "mainnet" ? new StacksMainnet() : new StacksTestnet();
+export const stacksNetwork =
+  env === "mainnet" ? new StacksMainnet() : new StacksTestnet();
 (stacksNetwork.coreApiUrl as any) = coreApiUrl;
 
 export const blocksToTime = (blocks: number) => {
@@ -71,7 +73,11 @@ export const resolveProvider = () => {
     return window.XverseProviders?.StacksProvider;
   } else if (providerName === "asigna" && window.AsignaProvider) {
     return window.AsignaProvider;
-  } else if (providerName === "okx" && window.okxwallet && window.okxwallet?.stacks) {
+  } else if (
+    providerName === "okx" &&
+    window.okxwallet &&
+    window.okxwallet?.stacks
+  ) {
     return window.okxwallet.stacks;
   } else if (window.LeatherProvider) {
     return window.LeatherProvider;
@@ -131,3 +137,12 @@ export const currency = {
     maximumFractionDigits: 6,
   }),
 } as const;
+
+export function shortAddress(address) {
+  if (address.length <= 10) {
+    return address;
+  }
+  const firstPart = address.slice(0, 4);
+  const lastPart = address.slice(-4);
+  return `${firstPart}...${lastPart}`;
+}

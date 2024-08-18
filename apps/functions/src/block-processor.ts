@@ -44,5 +44,16 @@ export async function processBlock(event: SQSEvent, _: Context): Promise<void> {
     console.log(
       `Published message ${responseStackersRewards.MessageId} to topic ${process.env.TOPIC_STACKERS_REWARDS}`
     );
+
+    const responseMiners = await sns.send(
+      new PublishCommand({
+        TopicArn: process.env.TOPIC_MINERS,
+        Message: JSON.stringify({ block_height: latest_block.height }),
+      })
+    );
+
+    console.log(
+      `Published message ${responseMiners.MessageId} to topic ${process.env.TOPIC_MINERS}`
+    );
   }
 }
