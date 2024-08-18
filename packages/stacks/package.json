@@ -2,9 +2,10 @@
   "name": "@repo/stacks",
   "version": "0.1.0",
   "dependencies": {
-    "@stacks/blockchain-api-client": "^7.10.0",
+    "@stacks/blockchain-api-client": "7.13.0",
     "@stacks/network": "6.10.0",
     "@stacks/transactions": "6.11.0",
+    "axios": "^1.7.2",
     "limiter": "^2.1.0"
   },
   "prettier": "@stacks/prettier-config",
