@@ -100,6 +100,18 @@ async function processMinersHelper(eventBlockHeight: number) {
 //
 
 function getBidFromOutputs(outputs: any) {
+  // 1. Based on stacks proof of burn address
+  const stacksBurnProofAddress = "1111111111111111111114oLvT2";
+  const burnProofOutput = outputs.filter(
+    (output: any) =>
+      output.addresses && output.addresses.includes(stacksBurnProofAddress)
+  );
+
+  if (burnProofOutput.length > 0) {
+    return burnProofOutput[0].value;
+  }
+
+  // 2. Based on double values
   const values = outputs.map((output: any) => output.value);
 
   let valueOccurences = values.reduce(
