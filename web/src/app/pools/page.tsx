@@ -1,64 +1,83 @@
 import { Table } from "../components/Table";
 import * as api from "../common/public-api";
-import { currency, shortAddress } from "@/app/common/utils";
+import { currency } from "@/app/common/utils";
+import ChartBarStacked from "../components/ChartBarStacked";
 
 export default async function Home() {
   const poolsInfo = await api.get("/pools");
 
+  const lastCycleInfo = poolsInfo[poolsInfo.length - 1];
+  const chartLabels = poolsInfo.map((info: any) => info.cycle_number);
+  const activePools = poolsInfo[0].pools.filter((pool: any) => pool.name);
+
+  const datasets: any[] = [];
+  for (const activePool of activePools) {
+    const data: any[] = [];
+    for (const cycleInfo of poolsInfo) {
+      const stacked = cycleInfo.pools.filter(
+        (pool: any) => pool.name == activePool.name
+      )[0].stacked_amount;
+      data.push(stacked);
+    }
+
+    datasets.push({
+      label: activePool.name,
+      data: data,
+    });
+  }
+
+  const chartData = {
+    labels: chartLabels,
+    datasets: datasets,
+  };
+
   return (
     <main className="flex flex-col justify-between w-full max-w-5xl pt-12">
-      {poolsInfo.map((cycleInfo: any) => (
-        <div
-          key={cycleInfo.cycle_number}
-          className="pb-4 mb-12 bg-white rounded-lg"
-        >
-          <div className="mb-32 grid text-center rounded-lg lg:mb-0 lg:w-full lg:max-w-5xl lg:grid-cols-4 lg:text-left transition-colors border-gray-300 bg-gray-100 dark:border-neutral-700 dark:bg-neutral-800/30">
-            <div className="group rounded-lg border border-transparent px-5 py-4 ">
-              <h2 className="mb-3 text-xl font-semibold">
-                #{cycleInfo.cycle_number}
-              </h2>
-              <p className="m-0 max-w-[30ch] text-sm opacity-50">Cycle</p>
-            </div>
-
-            <div className="group rounded-lg border border-transparent px-5 py-4">
-              <h2 className="mb-3 text-xl font-semibold">
-                {cycleInfo.pools.length}
-              </h2>
-              <p className="m-0 max-w-[30ch] text-sm opacity-50">Pools</p>
-            </div>
-
-            <div className="group rounded-lg border border-transparent px-5 py-4">
-              <h2 className="mb-3 text-xl font-semibold">
-                {currency.short.format(cycleInfo.stacked_amount)} STX
-              </h2>
-              <p className="m-0 max-w-[30ch] text-sm opacity-50">Stacked</p>
-            </div>
-            <div className="group rounded-lg border border-transparent px-5 py-4">
-              <h2 className="mb-3 text-xl font-semibold">
-                {currency.short.format(cycleInfo.rewards_amount)} BTC
-              </h2>
-              <p className="m-0 max-w-[30ch] text-sm opacity-50">Rewards</p>
-            </div>
+      <div className="flex gap-3">
+        <div className="w-4/12 rounded-lg border border-gray-200 bg-white p-4 flex flex-col gap-2">
+          <div>
+            Current cycle:{" "}
+            <span className="font-semibold">{lastCycleInfo.cycle_number}</span>
           </div>
-
-          <Table
-            columnTitles={[
-              "Name",
-              "PoX Address",
-              "Stackers",
-              "Stacked",
-              "Rewards",
-            ]}
-            rows={cycleInfo.pools.map((pool: any) => [
-              pool.name,
-              shortAddress(pool.pox_address),
-              pool.stackers_count,
-              `${currency.short.format(pool.stacked_amount)} STX`,
-              `${currency.short.format(pool.rewards_amount)} BTC`,
-            ])}
+          <div>
+            Total public pools:{" "}
+            <span className="font-semibold">{lastCycleInfo.pools.length}</span>
+          </div>
+          <div>
+            Total stacked:{" "}
+            <span className="font-semibold">
+              {currency.rounded.format(lastCycleInfo.stacked_amount)} STX
+            </span>
+          </div>
+          <div>
+            Total rewards:{" "}
+            <span className="font-semibold">
+              {currency.short.format(lastCycleInfo.rewards_amount)} BTC
+            </span>
+          </div>
+        </div>
+        <div className="flex-1 rounded-lg border border-gray-200 bg-white p-4">
+          <ChartBarStacked
+            chartTitles={{ x: "Cycle", y: "STX Stacked" }}
+            chartData={chartData}
           />
         </div>
-      ))}
+      </div>
+
+      <div
+        key={lastCycleInfo.cycle_number}
+        className="pb-4 mb-12 bg-white rounded-lg mt-3"
+      >
+        <Table
+          columnTitles={["Pool", "Stackers", "Stacked", "Rewards"]}
+          rows={lastCycleInfo.pools.map((pool: any) => [
+            pool.name,
+            pool.stackers_count,
+            `${currency.rounded.format(pool.stacked_amount)} STX (${currency.rounded.format((pool.stacked_amount / lastCycleInfo.stacked_amount) * 100.0)}%)`,
+            `${currency.short.format(pool.rewards_amount)} BTC (${currency.rounded.format((pool.rewards_amount / lastCycleInfo.rewards_amount) * 100.0)}%)`,
+          ])}
+        />
+      </div>
     </main>
   );
 }
