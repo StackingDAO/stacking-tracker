@@ -7,8 +7,9 @@ import { CategoryScale } from "chart.js";
 Chart.register(CategoryScale);
 
 type ChartTitles = {
-  x: string | undefined;
-  y: string | undefined;
+  x?: string | undefined;
+  y?: string | undefined;
+  yRight?: string | undefined;
 };
 
 export default function ChartBarStacked({
@@ -37,6 +38,16 @@ export default function ChartBarStacked({
             title: {
               display: chartTitles.y != undefined,
               text: chartTitles.y,
+            },
+          },
+          yRight: {
+            position: "right",
+            grid: {
+              drawOnChartArea: false,
+            },
+            title: {
+              display: chartTitles.yRight != undefined,
+              text: chartTitles.yRight,
             },
           },
         },

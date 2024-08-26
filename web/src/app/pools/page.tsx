@@ -71,10 +71,19 @@ export default async function Home() {
         <Table
           columnTitles={["Pool", "Stackers", "Stacked", "Rewards"]}
           rows={lastCycleInfo.pools.map((pool: any) => [
-            pool.name,
+            <div className="flex font-semibold">
+              <img className="w-5 mr-2" src={pool.logo} /> {pool.name}
+            </div>,
             pool.stackers_count,
             `${currency.rounded.format(pool.stacked_amount)} STX (${currency.rounded.format((pool.stacked_amount / lastCycleInfo.stacked_amount) * 100.0)}%)`,
             `${currency.short.format(pool.rewards_amount)} BTC (${currency.rounded.format((pool.rewards_amount / lastCycleInfo.rewards_amount) * 100.0)}%)`,
+            <a
+              key={pool.slug}
+              href={`/pools/${pool.slug}`}
+              className="underline hover:no-underline"
+            >
+              Pool Details
+            </a>,
           ])}
         />
       </div>

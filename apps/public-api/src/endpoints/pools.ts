@@ -1,16 +1,10 @@
 import { Router, Request, Response } from "express";
 import * as db from "@repo/database";
-
-const poxAddressName = {
-  bc1q9ll6ngymkla8mnk5fq6dwlhgr3yutuxvg3whz5: "StackingDAO",
-  bc1qmv2pxw5ahvwsu94kq5f520jgkmljs3af8ly6tr: "Xverse Pool",
-  bc1qs0kkdpsrzh3ngqgth7mkavlwlzr7lms2zv3wxe: "Fast Pool",
-  bc1qs33quxgnwkrspgu82lmaczw7gtcfa88pll8fqm: "Planbetter Pool",
-};
+import { poxAddressToPool } from "../constants";
 
 async function getPoolsInfoForCycle(cycleNumber: number) {
   const [stackers, rewards] = await Promise.all([
-    db.getStackersForCycle(cycleNumber),
+    db.getStackersForCycle(cycleNumber, Object.keys(poxAddressToPool)),
     db.getRewardsForCycle(cycleNumber),
   ]);
 
@@ -35,9 +29,11 @@ async function getPoolsInfoForCycle(cycleNumber: number) {
         rewardAmount += reward.rewardAmount;
       });
 
-    if (poxAddressName[poxAddress as string]) {
+    if (poxAddressToPool[poxAddress as string]) {
       pools.push({
-        name: poxAddressName[poxAddress as string] ?? "-",
+        name: poxAddressToPool[poxAddress as string].name,
+        slug: poxAddressToPool[poxAddress as string].slug,
+        logo: poxAddressToPool[poxAddress as string].logo,
         stackers_count: stackersCount,
         pox_address: poxAddress,
         stacked_amount: stackedAmount,
@@ -51,7 +47,6 @@ async function getPoolsInfoForCycle(cycleNumber: number) {
   let stackedAmount = 0.0;
   let rewardAmount = 0.0;
   pools.forEach((pool: any) => {
-    console.log("- ", pool);
     stackedAmount += pool.stacked_amount;
     rewardAmount += pool.rewards_amount;
   });
@@ -70,12 +65,11 @@ router.get("/", async (req: Request, res: Response) => {
   const currentCycle = await db.getSignersLatestCycle();
 
   const promises: any[] = [];
-  for (let cycle = currentCycle; cycle > currentCycle - 6; cycle--) {
+  for (let cycle = currentCycle; cycle > 83; cycle--) {
     promises.push(getPoolsInfoForCycle(cycle));
   }
 
   const results = await Promise.all(promises);
-
   res.send(results.reverse());
 });
 
