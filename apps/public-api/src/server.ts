@@ -1,6 +1,7 @@
 import express, { Express, Request, Response } from "express";
 import dotenv from "dotenv";
 
+import routerPox from "./endpoints/pox";
 import routerSigners from "./endpoints/signers";
 import routerMiners from "./endpoints/miners";
 import routerPools from "./endpoints/pools";
@@ -18,6 +19,7 @@ app.get("/health", (_: Request, res: Response) => {
   res.status(200).json({ status: "ok" });
 });
 
+app.use("/pox", routerPox);
 app.use("/signers", routerSigners);
 app.use("/miners", routerMiners);
 app.use("/pools", routerPools);
