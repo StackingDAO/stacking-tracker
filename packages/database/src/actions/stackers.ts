@@ -2,15 +2,26 @@
 
 import { stackers } from '../schema';
 import { db } from '../drizzle';
-import { eq, and } from 'drizzle-orm';
+import { eq, and, inArray } from 'drizzle-orm';
 
 export async function getStackers(): Promise<any> {
   const result = await db.select().from(stackers);
   return result;
 }
 
-export async function getStackersForCycle(cycleNumber: number): Promise<any> {
-  const result = await db.select().from(stackers).where(eq(stackers.cycleNumber, cycleNumber));
+export async function getStackersForCycle(
+  cycleNumber: number,
+  poxAddresses: string[] = []
+): Promise<any> {
+  if (poxAddresses.length === 0) {
+    const result = await db.select().from(stackers).where(eq(stackers.cycleNumber, cycleNumber));
+    return result;
+  }
+
+  const result = await db
+    .select()
+    .from(stackers)
+    .where(and(eq(stackers.cycleNumber, cycleNumber), inArray(stackers.poxAddress, poxAddresses)));
   return result;
 }
 
