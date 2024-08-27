@@ -2,6 +2,7 @@ import { FunctionComponent } from "react";
 import { Table } from "../../components/Table";
 import * as api from "../../common/public-api";
 import { currency, shortAddress } from "@/app/common/utils";
+import ChartBarStacked from "@/app/components/ChartBarStacked";
 
 type Props = {
   params: {
@@ -14,51 +15,64 @@ const Home: FunctionComponent<Props> = async ({
 }: Props) => {
   const signerInfo = await api.get(`/signer/${signer}`);
 
+  const chartLabels = signerInfo.cycles.map((info: any) => info.cycle_number);
+  const dataStacked = signerInfo.cycles.map((info: any) => info.stacked_amount);
+  const dataRewards = signerInfo.cycles.map((info: any) => info.rewards_amount);
+
+  const datasets: any[] = [];
+  datasets.push({
+    label: "Rewards BTC",
+    data: dataRewards,
+    type: "line",
+    yAxisID: "yRight",
+  });
+  datasets.push({
+    label: "Stacked STX",
+    data: dataStacked,
+  });
+
+  const chartData = {
+    labels: chartLabels,
+    datasets: datasets,
+  };
+
   return (
     <main className="flex flex-col justify-between w-full max-w-5xl pt-12">
-      {signerInfo.map((cycleInfo: any) => (
-        <div
-          key={cycleInfo.cycle_number}
-          className="pb-4 mb-12 bg-white rounded-lg"
-        >
-          <div className="mb-32 grid text-center rounded-lg lg:mb-0 lg:w-full lg:max-w-5xl lg:grid-cols-4 lg:text-left transition-colors border-gray-300 bg-gray-100 dark:border-neutral-700 dark:bg-neutral-800/30">
-            <div className="group rounded-lg border border-transparent px-5 py-4 ">
-              <h2 className="mb-3 text-xl font-semibold">
-                #{cycleInfo.cycle_number}
-              </h2>
-              <p className="m-0 max-w-[30ch] text-sm opacity-50">Cycle</p>
-            </div>
-            <div className="group rounded-lg border border-transparent px-5 py-4">
-              <h2 className="mb-3 text-xl font-semibold">
-                {cycleInfo.stackers_count}
-              </h2>
-              <p className="m-0 max-w-[30ch] text-sm opacity-50">Stackers</p>
-            </div>
-            <div className="group rounded-lg border border-transparent px-5 py-4">
-              <h2 className="mb-3 text-xl font-semibold">
-                {currency.short.format(cycleInfo.stacked_amount)} STX
-              </h2>
-              <p className="m-0 max-w-[30ch] text-sm opacity-50">Stacked</p>
-            </div>
-            <div className="group rounded-lg border border-transparent px-5 py-4">
-              <h2 className="mb-3 text-xl font-semibold">
-                {currency.short.format(cycleInfo.rewards_amount)} BTC
-              </h2>
-              <p className="m-0 max-w-[30ch] text-sm opacity-50">Rewards</p>
-            </div>
+      <div className="flex gap-3">
+        <div className="w-4/12 rounded-lg border border-gray-200 bg-white p-4 flex flex-col gap-2">
+          <img
+            className="w-10 mr-2 pb-4"
+            src={signerInfo.logo ?? "/logos/default.webp"}
+          />
+          <div className="font-semibold">
+            {signerInfo.name ?? "Unknown Signer"}
           </div>
-
-          <Table
-            columnTitles={["Address", "Type", "Stacked", "Rewards"]}
-            rows={cycleInfo.stackers.map((stacker: any) => [
-              shortAddress(stacker.address),
-              stacker.stacker_type,
-              `${currency.short.format(stacker.stacked_amount)} STX`,
-              `${currency.long.format(stacker.rewards_amount)} BTC`,
-            ])}
+          <div>{shortAddress(signerInfo.signer_key)}</div>
+          <a className="underline hover:no-underline" href={signerInfo.website}>
+            {signerInfo.website}
+          </a>
+        </div>
+        <div className="flex-1 rounded-lg border border-gray-200 bg-white p-4">
+          <ChartBarStacked
+            chartTitles={{ x: "Cycle", y: "STX Stacked", yRight: "BTC Yield" }}
+            chartData={chartData}
           />
         </div>
-      ))}
+      </div>
+
+      <div className="pb-4 mb-12 bg-white rounded-lg mt-3">
+        <Table
+          columnTitles={["Cycle", "Stackers", "Stacked", "Rewards"]}
+          rows={signerInfo.cycles
+            .reverse()
+            .map((info: any) => [
+              info.cycle_number,
+              info.stackers_count,
+              `${currency.rounded.format(info.stacked_amount)} STX`,
+              `${currency.short.format(info.rewards_amount)} BTC`,
+            ])}
+        />
+      </div>
     </main>
   );
 };

@@ -35,23 +35,26 @@ router.get("/:signer", async (req: Request, res: Response) => {
 
     results.push({
       cycle_number: signerInfo.cycleNumber,
-      signer_key: signerInfo.signerKey,
       stacked_amount: signerInfo.stackedAmount,
       stackers_count: signerInfo.stackersCount,
-      stackers: cycleStackers.map((stacker: any) => ({
-        address: stacker.stackerAddress,
-        stacked_amount: stacker.stackedAmount,
-        pox_address: stacker.poxAddress,
-        stacker_type: stacker.stackerType,
-        rewards_amount: cycleRewards.filter(
-          (rewardInfo: { stackerAddress: string }) =>
-            rewardInfo.stackerAddress === stacker.stackerAddress
-        )[0]?.rewardAmount,
-      })),
       rewards_amount: totalCycleRewards,
     });
   }
-  res.send(results.reverse());
+
+  if (signerKeyToPool[signerKey]) {
+    res.send({
+      signer_key: signerKey,
+      name: signerKeyToPool[signerKey].name,
+      logo: signerKeyToPool[signerKey].logo,
+      website: signerKeyToPool[signerKey].website,
+      cycles: results,
+    });
+  } else {
+    res.send({
+      signer_key: signerKey,
+      cycles: results,
+    });
+  }
 });
 
 export default router;
