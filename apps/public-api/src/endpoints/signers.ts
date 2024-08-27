@@ -1,5 +1,6 @@
 import { Router, Request, Response } from "express";
 import * as db from "@repo/database";
+import { signerKeyToPool } from "../constants";
 
 async function getSignersInfoForCycle(cycleNumber: number) {
   const [signers, rewards] = await Promise.all([
@@ -18,12 +19,25 @@ async function getSignersInfoForCycle(cycleNumber: number) {
       signerRewardsAmount += reward.rewardAmount;
     });
 
-    resultSigners.push({
-      signer_key: signer.signerKey,
-      stackers_count: signer.stackersCount,
-      stacked_amount: signer.stackedAmount,
-      rewards_amount: signerRewardsAmount,
-    });
+    if (signerKeyToPool[signer.signerKey as string]) {
+      resultSigners.push({
+        name: signerKeyToPool[signer.signerKey as string].name,
+        slug: signerKeyToPool[signer.signerKey as string].slug,
+        logo: signerKeyToPool[signer.signerKey as string].logo,
+        group: signerKeyToPool[signer.signerKey as string].group,
+        signer_key: signer.signerKey,
+        stackers_count: signer.stackersCount,
+        stacked_amount: signer.stackedAmount,
+        rewards_amount: signerRewardsAmount,
+      });
+    } else {
+      resultSigners.push({
+        signer_key: signer.signerKey,
+        stackers_count: signer.stackersCount,
+        stacked_amount: signer.stackedAmount,
+        rewards_amount: signerRewardsAmount,
+      });
+    }
   }
 
   let stackedAmount = 0.0;
@@ -37,75 +51,48 @@ async function getSignersInfoForCycle(cycleNumber: number) {
     rewardAmount += reward.rewardAmount;
   });
 
+  const resultAggregatedSigners: { [key: string]: number } = {};
+  for (const signer of resultSigners) {
+    const group =
+      signer.name && signer.stacked_amount > 1000000
+        ? signer.group
+          ? signer.group
+          : signer.name
+        : "Other";
+
+    resultAggregatedSigners[group] = resultAggregatedSigners[group]
+      ? resultAggregatedSigners[group] + signer.stacked_amount
+      : signer.stacked_amount;
+  }
+
   return {
     cycle_number: cycleNumber,
     stackers: 0,
     stacked_amount: stackedAmount,
     rewards_amount: rewardAmount,
     signers: resultSigners,
+    signers_grouped: Object.keys(resultAggregatedSigners).map((key: string) => {
+      return {
+        name: key,
+        stacked_amount: resultAggregatedSigners[key],
+      };
+    }),
   };
 }
 
 const router = Router();
 
-router
+router.get("/", async (req: Request, res: Response) => {
+  const currentCycle = await db.getSignersLatestCycle();
 
-  .get("/", async (req: Request, res: Response) => {
-    const currentCycle = await db.getSignersLatestCycle();
+  const promises: any[] = [];
+  for (let cycle = currentCycle; cycle > currentCycle - 6; cycle--) {
+    promises.push(getSignersInfoForCycle(cycle));
+  }
 
-    const promises: any[] = [];
-    for (let cycle = currentCycle; cycle > currentCycle - 6; cycle--) {
-      promises.push(getSignersInfoForCycle(cycle));
-    }
+  const results = await Promise.all(promises);
 
-    const results = await Promise.all(promises);
-
-    res.send(results);
-  })
-
-  .get("/:signer", async (req: Request, res: Response) => {
-    const { signer } = req.params;
-
-    const [signersInfo, stackersInfo, rewardsInfo] = await Promise.all([
-      db.getSigner(signer),
-      db.getStackersForSigner(signer),
-      db.getStackersRewardsForSigner(signer),
-    ]);
-
-    const results = [];
-    for (const signerInfo of signersInfo) {
-      const cycleStackers = stackersInfo.filter(
-        (stackerInfo: { cycleNumber: number }) =>
-          stackerInfo.cycleNumber === signerInfo.cycleNumber
-      );
-      const cycleRewards = rewardsInfo.filter(
-        (rewardInfo: { cycleNumber: number }) =>
-          rewardInfo.cycleNumber === signerInfo.cycleNumber
-      );
-
-      const totalCycleRewards = cycleRewards
-        .map((reward: any) => reward.rewardAmount)
-        .reduce((acc: number, current: number) => acc + current, 0);
-
-      results.push({
-        cycle_number: signerInfo.cycleNumber,
-        signer_key: signerInfo.signerKey,
-        stacked_amount: signerInfo.stackedAmount,
-        stackers_count: signerInfo.stackersCount,
-        stackers: cycleStackers.map((stacker: any) => ({
-          address: stacker.stackerAddress,
-          stacked_amount: stacker.stackedAmount,
-          pox_address: stacker.poxAddress,
-          stacker_type: stacker.stackerType,
-          rewards_amount: cycleRewards.filter(
-            (rewardInfo: { stackerAddress: string }) =>
-              rewardInfo.stackerAddress === stacker.stackerAddress
-          )[0]?.rewardAmount,
-        })),
-        rewards_amount: totalCycleRewards,
-      });
-    }
-    res.send(results.reverse());
-  });
+  res.send(results.reverse());
+});
 
 export default router;

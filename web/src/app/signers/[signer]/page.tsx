@@ -12,7 +12,7 @@ type Props = {
 const Home: FunctionComponent<Props> = async ({
   params: { signer },
 }: Props) => {
-  const signerInfo = await api.get(`/signers/${signer}`);
+  const signerInfo = await api.get(`/signer/${signer}`);
 
   return (
     <main className="flex flex-col justify-between w-full max-w-5xl pt-12">

@@ -41,6 +41,7 @@ export default function ChartBarStacked({
             },
           },
           yRight: {
+            display: chartTitles.yRight != undefined,
             position: "right",
             grid: {
               drawOnChartArea: false,
