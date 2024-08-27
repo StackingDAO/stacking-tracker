@@ -71,7 +71,7 @@ export default async function Home() {
         <Table
           columnTitles={["Pool", "Stackers", "Stacked", "Rewards"]}
           rows={lastCycleInfo.pools.map((pool: any) => [
-            <div className="flex font-semibold">
+            <div key={pool.name} className="flex font-semibold">
               <img className="w-5 mr-2" src={pool.logo} /> {pool.name}
             </div>,
             pool.stackers_count,
