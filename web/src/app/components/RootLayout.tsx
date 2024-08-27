@@ -18,14 +18,14 @@ export function RootLayout({ signOut, children }) {
               Stacking Tracker
             </a>
             <div className="flex gap-3 justify-center font-bold">
+              <a className="underline hover:no-underline" href="/">
+                PoX
+              </a>{" "}
               <a className="underline hover:no-underline" href="/signers">
                 Signers
               </a>{" "}
               <a className="underline hover:no-underline" href="/pools">
                 Pools
-              </a>
-              <a className="underline hover:no-underline" href="/miners">
-                Miners
               </a>
             </div>
             <div className="fixed bottom-0 left-0 flex h-48 w-full items-end justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:size-auto lg:bg-none">
