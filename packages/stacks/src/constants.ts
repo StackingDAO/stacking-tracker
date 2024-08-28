@@ -3,6 +3,8 @@ import { RateLimiter } from 'limiter';
 
 export const apiUrl = process.env.STACKS_API;
 
+console.log('URL', apiUrl);
+
 const limiter = new RateLimiter({ tokensPerInterval: 120, interval: 'second' });
 
 const configurationParameters: ConfigurationParameters = {

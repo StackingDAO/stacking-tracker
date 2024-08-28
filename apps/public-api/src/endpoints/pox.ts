@@ -1,6 +1,8 @@
 import { Router, Request, Response } from "express";
 import * as db from "@repo/database";
 import { poxAddressToPool } from "../constants";
+import * as stacksPox from "@repo/stacks/src/pox";
+import { fetchPrice } from "../prices";
 
 async function getInfoForCycle(cycleNumber: number) {
   const [signers, stackers, rewards] = await Promise.all([
@@ -41,7 +43,12 @@ async function getInfoForCycle(cycleNumber: number) {
 const router = Router();
 
 router.get("/", async (req: Request, res: Response) => {
-  const currentCycle = await db.getSignersLatestCycle();
+  const [stxPrice, btcPrice, pox, currentCycle] = await Promise.all([
+    fetchPrice("STX"),
+    fetchPrice("BTC"),
+    stacksPox.getPox(),
+    db.getSignersLatestCycle(),
+  ]);
 
   const promises: any[] = [];
   for (let cycle = currentCycle; cycle > 83; cycle--) {
@@ -49,7 +56,27 @@ router.get("/", async (req: Request, res: Response) => {
   }
 
   const results = await Promise.all(promises);
-  res.send(results.reverse());
+  res.send({
+    prices: {
+      stx: stxPrice,
+      btc: btcPrice,
+    },
+
+    current_burn_block: pox.current_burnchain_block_height,
+    next_cycle_prepare_start_block:
+      pox.next_cycle.prepare_phase_start_block_height,
+    next_cycle_reward_start_block:
+      pox.next_cycle.reward_phase_start_block_height,
+
+    details: {
+      total_liquid_supply_ustx: pox.total_liquid_supply_ustx,
+      next_cycle_min_threshold_ustx: pox.next_cycle.min_threshold_ustx,
+      prepare_phase_block_length: pox.prepare_phase_block_length,
+      reward_phase_block_length: pox.reward_phase_block_length,
+    },
+
+    cycles: results.reverse(),
+  });
 });
 
 export default router;

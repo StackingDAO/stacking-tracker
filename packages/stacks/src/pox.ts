@@ -6,6 +6,11 @@ const poxApi = new ProofOfTransferApi(configuration);
 const poxRewardsApi = new StackingRewardsApi(configuration);
 const stacksExtended = new StacksExtended();
 
+export async function getPox(): Promise<any> {
+  const result = await stacksExtended.getPox();
+  return result;
+}
+
 export async function getCurrentCycle(): Promise<number> {
   const cycles = await poxApi.getPoxCycles({ limit: 1 });
   return cycles.results[0].cycle_number;
