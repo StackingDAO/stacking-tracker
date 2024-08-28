@@ -1,9 +1,10 @@
 import { Configuration, ConfigurationParameters } from '@stacks/blockchain-api-client';
 import { RateLimiter } from 'limiter';
 
-export const apiUrl = process.env.STACKS_API;
+import * as dotenv from 'dotenv';
+dotenv.config();
 
-console.log('URL', apiUrl);
+export const apiUrl = process.env.STACKS_API;
 
 const limiter = new RateLimiter({ tokensPerInterval: 120, interval: 'second' });
 
