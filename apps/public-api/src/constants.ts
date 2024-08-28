@@ -1,3 +1,18 @@
+export const addressToToken = {
+  SP4SZE494VC2YC5JYG7AYFQ44F5Q4PYV7DVMDPBG: {
+    name: "StackingDAO",
+    slug: "stackingdao",
+    logo: "/logos/stackingdao.webp",
+    website: "https://www.stackingdao.com",
+  },
+  SM3KNVZS30WM7F89SXKVVFY4SN9RMPZZ9FX929N0V: {
+    name: "Lisa",
+    slug: "lisa",
+    logo: "/logos/lisa.webp",
+    website: "https://app.lisalab.io",
+  },
+};
+
 export const poxAddressToPool = {
   bc1q9ll6ngymkla8mnk5fq6dwlhgr3yutuxvg3whz5: {
     name: "StackingDAO",

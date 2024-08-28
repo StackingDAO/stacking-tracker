@@ -11,6 +11,14 @@ export default async function Home() {
   const activePools = poolsInfo[0].pools.filter((pool: any) => pool.name);
 
   const datasets: any[] = [];
+
+  datasets.push({
+    label: "BTC Yield",
+    data: poolsInfo.map((info: any) => info.rewards_amount),
+    type: "line",
+    yAxisID: "yRight",
+  });
+
   for (const activePool of activePools) {
     const data: any[] = [];
     for (const cycleInfo of poolsInfo) {

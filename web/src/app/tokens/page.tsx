@@ -1,34 +1,36 @@
 import { Table } from "../components/Table";
 import * as api from "../common/public-api";
-import { currency, shortAddress } from "@/app/common/utils";
+import { currency } from "@/app/common/utils";
 import ChartBarStacked from "../components/ChartBarStacked";
 
 export default async function Home() {
-  const signersInfo = await api.get("/signers");
+  const tokensInfo = await api.get("/tokens");
 
-  const lastCycleInfo = signersInfo[signersInfo.length - 1];
-  const chartLabels = signersInfo.map((info: any) => info.cycle_number);
+  const lastCycleInfo = tokensInfo[tokensInfo.length - 1];
+  const chartLabels = tokensInfo.map((info: any) => info.cycle_number);
+  const activePools = tokensInfo[0].tokens;
 
   const datasets: any[] = [];
 
   datasets.push({
     label: "BTC Yield",
-    data: signersInfo.map((info: any) => info.rewards_amount),
+    data: tokensInfo.map((info: any) => info.rewards_amount),
     type: "line",
     yAxisID: "yRight",
   });
 
-  for (const activeSigner of signersInfo[0].signers_grouped) {
+  for (const activePool of activePools) {
     const data: any[] = [];
-    for (const cycleInfo of signersInfo) {
-      const stacked = cycleInfo.signers_grouped.filter(
-        (signer: any) => signer.name == activeSigner.name
+
+    for (const cycleInfo of tokensInfo) {
+      const stacked = cycleInfo.tokens.filter(
+        (token: any) => token.name == activePool.name
       )[0].stacked_amount;
       data.push(stacked);
     }
 
     datasets.push({
-      label: activeSigner.name,
+      label: activePool.name,
       data: data,
     });
   }
@@ -47,10 +49,8 @@ export default async function Home() {
             <span className="font-semibold">{lastCycleInfo.cycle_number}</span>
           </div>
           <div>
-            Total signers:{" "}
-            <span className="font-semibold">
-              {lastCycleInfo.signers.length}
-            </span>
+            Total LSTs:{" "}
+            <span className="font-semibold">{lastCycleInfo.tokens.length}</span>
           </div>
           <div>
             Total stacked:{" "}
@@ -67,7 +67,7 @@ export default async function Home() {
         </div>
         <div className="flex-1 rounded-lg border border-gray-200 bg-white p-4">
           <ChartBarStacked
-            chartTitles={{ x: "Cycle", y: "STX Stacked" }}
+            chartTitles={{ x: "Cycle", y: "STX Stacked", yRight: "BTC Yield" }}
             chartData={chartData}
           />
         </div>
@@ -78,24 +78,19 @@ export default async function Home() {
         className="pb-4 mb-12 bg-white rounded-lg mt-3"
       >
         <Table
-          columnTitles={["Signer", "Stackers", "Stacked", "Rewards"]}
-          rows={lastCycleInfo.signers.map((signer: any) => [
-            signer.name ? (
-              <div key={signer.name} className="flex font-semibold">
-                <img className="w-5 mr-2" src={signer.logo} /> {signer.name}
-              </div>
-            ) : (
-              shortAddress(signer.signer_key)
-            ),
-            signer.stackers_count,
-            `${currency.rounded.format(signer.stacked_amount)} STX (${currency.rounded.format((signer.stacked_amount / lastCycleInfo.stacked_amount) * 100.0)}%)`,
-            `${currency.short.format(signer.rewards_amount)} BTC (${currency.rounded.format((signer.rewards_amount / lastCycleInfo.rewards_amount) * 100.0)}%)`,
+          columnTitles={["LST", "Stacked", "Rewards"]}
+          rows={lastCycleInfo.tokens.map((token: any) => [
+            <div key={token.name} className="flex font-semibold">
+              <img className="w-5 mr-2" src={token.logo} /> {token.name}
+            </div>,
+            `${currency.rounded.format(token.stacked_amount)} STX (${currency.rounded.format((token.stacked_amount / lastCycleInfo.stacked_amount) * 100.0)}%)`,
+            `${currency.short.format(token.rewards_amount)} BTC (${currency.rounded.format((token.rewards_amount / lastCycleInfo.rewards_amount) * 100.0)}%)`,
             <a
-              key={signer.slug}
-              href={`/signers/${signer.slug ?? signer.signer_key}`}
+              key={token.slug}
+              href={`/tokens/${token.slug}`}
               className="underline hover:no-underline"
             >
-              Signer Details
+              LST Details
             </a>,
           ])}
         />

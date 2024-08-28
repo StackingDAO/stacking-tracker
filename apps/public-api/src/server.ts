@@ -7,6 +7,8 @@ import routerSigner from "./endpoints/signer";
 import routerMiners from "./endpoints/miners";
 import routerPools from "./endpoints/pools";
 import routerPoolDetails from "./endpoints/pool";
+import routertokens from "./endpoints/tokens";
+import routertoken from "./endpoints/token";
 
 dotenv.config();
 
@@ -26,6 +28,8 @@ app.use("/signer", routerSigner);
 app.use("/miners", routerMiners);
 app.use("/pools", routerPools);
 app.use("/pool", routerPoolDetails);
+app.use("/tokens", routertokens);
+app.use("/token", routertoken);
 
 const server = app.listen(port, () => {
   console.log(`[server]: Server is running at http://localhost:${port}`);
