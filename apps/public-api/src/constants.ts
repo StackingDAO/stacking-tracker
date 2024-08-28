@@ -1,12 +1,14 @@
 export const addressToToken = {
   SP4SZE494VC2YC5JYG7AYFQ44F5Q4PYV7DVMDPBG: {
-    name: "StackingDAO",
+    entity: "StackingDAO",
+    name: "stSTX",
     slug: "stackingdao",
     logo: "/logos/stackingdao.webp",
     website: "https://www.stackingdao.com",
   },
   SM3KNVZS30WM7F89SXKVVFY4SN9RMPZZ9FX929N0V: {
-    name: "Lisa",
+    entity: "Lisa",
+    name: "LiSTX",
     slug: "lisa",
     logo: "/logos/lisa.webp",
     website: "https://app.lisalab.io",

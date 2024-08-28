@@ -48,6 +48,7 @@ async function getPoolsInfoForCycle(cycleNumber: number) {
 
     tokens.push({
       name: addressToToken[address].name,
+      entity: addressToToken[address].entity,
       logo: addressToToken[address].logo,
       slug: addressToToken[address].slug,
       address: address,

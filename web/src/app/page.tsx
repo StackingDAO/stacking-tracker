@@ -3,6 +3,7 @@ import { Table } from "./components/Table";
 import * as api from "./common/public-api";
 import { currency } from "@/app/common/utils";
 import ChartBarStacked from "@/app/components/ChartBarStacked";
+import { UserPositions } from "./components/UserPositions";
 
 type Props = {
   params: {
@@ -37,7 +38,8 @@ const Home: FunctionComponent<Props> = async ({ params: { pool } }: Props) => {
 
   return (
     <main className="flex flex-col justify-between w-full max-w-5xl pt-12">
-      <div className="flex gap-3">
+      <UserPositions />
+      <div className="flex gap-3 pt-3">
         <div className="w-4/12 rounded-lg border border-gray-200 bg-white p-4 flex flex-col gap-2">
           <div className="font-semibold">
             Current cycle:{" "}
@@ -145,9 +147,7 @@ const Home: FunctionComponent<Props> = async ({ params: { pool } }: Props) => {
         <div>
           Liquid STX supply:{" "}
           <span className="font-semibold">
-            {currency.rounded.format(
-              poxInfo.details.total_liquid_supply_ustx / 1000000.0
-            )}{" "}
+            {currency.rounded.format(poxInfo.details.total_liquid_supply_stx)}{" "}
             STX
           </span>
         </div>
@@ -155,7 +155,7 @@ const Home: FunctionComponent<Props> = async ({ params: { pool } }: Props) => {
           Next cycle min threshold:{" "}
           <span className="font-semibold">
             {currency.rounded.format(
-              poxInfo.details.next_cycle_min_threshold_ustx / 1000000.0
+              poxInfo.details.next_cycle_min_threshold_stx
             )}{" "}
             STX
           </span>

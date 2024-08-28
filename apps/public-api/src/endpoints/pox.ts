@@ -69,8 +69,9 @@ router.get("/", async (req: Request, res: Response) => {
       pox.next_cycle.reward_phase_start_block_height,
 
     details: {
-      total_liquid_supply_ustx: pox.total_liquid_supply_ustx,
-      next_cycle_min_threshold_ustx: pox.next_cycle.min_threshold_ustx,
+      total_liquid_supply_stx: pox.total_liquid_supply_ustx / 1000000.0,
+      next_cycle_min_threshold_stx:
+        pox.next_cycle.min_threshold_ustx / 1000000.0,
       prepare_phase_block_length: pox.prepare_phase_block_length,
       reward_phase_block_length: pox.reward_phase_block_length,
     },

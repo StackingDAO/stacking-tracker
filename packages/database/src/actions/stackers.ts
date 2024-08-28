@@ -9,6 +9,14 @@ export async function getStackers(): Promise<any> {
   return result;
 }
 
+export async function getStacker(stackerAddress: string): Promise<any> {
+  const result = await db
+    .select()
+    .from(stackers)
+    .where(eq(stackers.stackerAddress, stackerAddress));
+  return result;
+}
+
 export async function getStackersForCycle(
   cycleNumber: number,
   poxAddresses: string[] = []

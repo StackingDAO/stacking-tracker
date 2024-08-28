@@ -1,4 +1,6 @@
 import express, { Express, Request, Response } from "express";
+import cors from "cors";
+
 import dotenv from "dotenv";
 
 import routerUser from "./endpoints/user";
@@ -17,6 +19,7 @@ const port = process.env.PORT || 3030;
 
 const app: Express = express();
 
+app.use(cors());
 app.use(express.json());
 
 app.get("/health", (_: Request, res: Response) => {

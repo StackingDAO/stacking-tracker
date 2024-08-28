@@ -10,11 +10,13 @@
   },
   "dependencies": {
     "@repo/database": "0.1.0",
+    "cors": "^2.8.5",
     "dotenv": "^16.3.1",
     "esbuild": "^0.20.2",
     "express": "^4.19.2"
   },
   "devDependencies": {
+    "@types/cors": "^2.8.17",
     "@types/express": "^4.17.21",
     "@types/node": "^20.12.7",
     "eslint": "^8.57.0",

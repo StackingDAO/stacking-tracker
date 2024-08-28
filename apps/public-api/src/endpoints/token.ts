@@ -67,6 +67,7 @@ router.get("/:slug", async (req: Request, res: Response) => {
   const results = await Promise.all(promises);
   res.send({
     name: addressToToken[address].name,
+    entity: addressToToken[address].entity,
     logo: addressToToken[address].logo,
     website: addressToToken[address].website,
     cycles: results.reverse(),
