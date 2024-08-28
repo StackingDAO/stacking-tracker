@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 
 import routerPox from "./endpoints/pox";
 import routerSigners from "./endpoints/signers";
+import routerSigner from "./endpoints/signer";
 import routerMiners from "./endpoints/miners";
 import routerPools from "./endpoints/pools";
 import routerPoolDetails from "./endpoints/pool";
@@ -21,6 +22,7 @@ app.get("/health", (_: Request, res: Response) => {
 
 app.use("/pox", routerPox);
 app.use("/signers", routerSigners);
+app.use("/signer", routerSigner);
 app.use("/miners", routerMiners);
 app.use("/pools", routerPools);
 app.use("/pool", routerPoolDetails);
