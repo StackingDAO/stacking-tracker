@@ -12,7 +12,6 @@ export function UserPositions() {
 
   async function fetchUserInfo(stxAddress: string) {
     const result = await api.get(`/user/${stxAddress}`);
-    console.log("userInfo", result);
     setUserInfo(result);
   }
 
