@@ -78,10 +78,13 @@ export default async function Home() {
         className="pb-4 mb-12 bg-white rounded-lg mt-3"
       >
         <Table
-          columnTitles={["LST", "Stacked", "Rewards"]}
+          columnTitles={["LST", "Entity", "Stacked", "Rewards"]}
           rows={lastCycleInfo.tokens.map((token: any) => [
             <div key={token.name} className="flex font-semibold">
               <img className="w-5 mr-2" src={token.logo} /> {token.name}
+            </div>,
+            <div key={token.entity} className="flex">
+              <img className="w-5 mr-2" src={token.logo} /> {token.entity}
             </div>,
             `${currency.rounded.format(token.stacked_amount)} STX (${currency.rounded.format((token.stacked_amount / lastCycleInfo.stacked_amount) * 100.0)}%)`,
             `${currency.short.format(token.rewards_amount)} BTC (${currency.rounded.format((token.rewards_amount / lastCycleInfo.rewards_amount) * 100.0)}%)`,

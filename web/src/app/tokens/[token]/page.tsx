@@ -40,6 +40,7 @@ const Home: FunctionComponent<Props> = async ({ params: { token } }: Props) => {
         <div className="w-4/12 rounded-lg border border-gray-200 bg-white p-4 flex flex-col gap-2">
           <img className="w-10 mr-2 pb-4" src={tokenInfo.logo} />
           <div className="font-semibold">{tokenInfo.name}</div>
+          <div>{tokenInfo.entity}</div>
           <a className="underline hover:no-underline" href={tokenInfo.website}>
             {tokenInfo.website}
           </a>

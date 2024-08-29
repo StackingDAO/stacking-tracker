@@ -1,5 +1,9 @@
 import { Configuration, ConfigurationParameters } from '@stacks/blockchain-api-client';
 import { RateLimiter } from 'limiter';
+import { StacksMainnet } from '@stacks/network';
+
+import * as dotenv from 'dotenv';
+dotenv.config();
 
 export const apiUrl = process.env.STACKS_API;
 
@@ -17,3 +21,5 @@ const configurationParameters: ConfigurationParameters = {
 };
 
 export const configuration = new Configuration(configurationParameters);
+
+export const network = new StacksMainnet({ url: apiUrl });
