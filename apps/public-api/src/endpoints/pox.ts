@@ -1,7 +1,7 @@
 import { Router, Request, Response } from "express";
 import * as db from "@repo/database";
+import * as stacks from "@repo/stacks";
 import { poxAddressToPool } from "../constants";
-import * as stacksPox from "@repo/stacks/src/pox";
 import { fetchPrice } from "../prices";
 
 async function getInfoForCycle(cycleNumber: number) {
@@ -46,7 +46,7 @@ router.get("/", async (req: Request, res: Response) => {
   const [stxPrice, btcPrice, pox, currentCycle] = await Promise.all([
     fetchPrice("STX"),
     fetchPrice("BTC"),
-    stacksPox.getPox(),
+    stacks.getPox(),
     db.getSignersLatestCycle(),
   ]);
 

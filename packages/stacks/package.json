@@ -1,6 +1,10 @@
 {
   "name": "@repo/stacks",
   "version": "0.1.0",
+  "main": "dist/src/index.js",
+  "scripts": {
+    "build": "tsc"
+  },
   "dependencies": {
     "@stacks/blockchain-api-client": "7.13.0",
     "@stacks/network": "6.10.0",

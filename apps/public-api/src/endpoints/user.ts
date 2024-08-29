@@ -1,13 +1,11 @@
 import { Router, Request, Response } from "express";
-import * as stacksAccounts from "@repo/stacks/src/accounts";
-import * as contractsStackingDao from "@repo/stacks/src/contracts_stackingdao";
-
+import * as stacks from "@repo/stacks";
 import { fetchPrice } from "../prices";
 import { addressToToken, poxAddressToPool } from "../constants";
 import { getStacker } from "@repo/database";
 
 async function getTokenBalances(wallet: string) {
-  const balances = await stacksAccounts.getBalances(wallet);
+  const balances = await stacks.getBalances(wallet);
 
   const stStxInfo =
     balances.fungible_tokens[
@@ -27,13 +25,12 @@ async function getTokenBalances(wallet: string) {
 }
 
 async function getStxPerStStx() {
-  const result = await contractsStackingDao.getStxPerStStx();
+  const result = await stacks.getStxPerStStx();
   return result.value.value / 1000000.0;
 }
 
 async function getStackerInfo(wallet: string) {
   const result = await getStacker(wallet);
-  console.log("STACKER", wallet, result);
   if (result.length === 0) {
     return undefined;
   }
@@ -79,17 +76,11 @@ router.get("/:wallet", async (req: Request, res: Response) => {
     getStxPerStStx(),
     getTokenBalances(wallet),
     getStackerInfo(wallet),
-    contractsStackingDao.getProtocolStStxBalance(
-      wallet,
-      "protocol-arkadiko-v1"
-    ),
-    contractsStackingDao.getProtocolStStxBalance(wallet, "protocol-bitflow-v1"),
-    contractsStackingDao.getProtocolStStxBalance(
-      wallet,
-      "protocol-hermetica-v1"
-    ),
-    contractsStackingDao.getProtocolStStxBalance(wallet, "protocol-velar-v1"),
-    contractsStackingDao.getProtocolStStxBalance(wallet, "protocol-zest-v1"),
+    stacks.getProtocolStStxBalance(wallet, "protocol-arkadiko-v1"),
+    stacks.getProtocolStStxBalance(wallet, "protocol-bitflow-v1"),
+    stacks.getProtocolStStxBalance(wallet, "protocol-hermetica-v1"),
+    stacks.getProtocolStStxBalance(wallet, "protocol-velar-v1"),
+    stacks.getProtocolStStxBalance(wallet, "protocol-zest-v1"),
   ]);
 
   let positions = [

@@ -5,11 +5,12 @@
   "scripts": {
     "dev": "nodemon",
     "build": "tsc",
-    "build:packages": "tsc -p ../../packages/database",
+    "build:packages": "tsc -p ../../packages/database && tsc -p ../../packages/stacks",
     "start": "node ./dist/src/server.js"
   },
   "dependencies": {
     "@repo/database": "0.1.0",
+    "@repo/stacks": "0.1.0",
     "cors": "^2.8.5",
     "dotenv": "^16.3.1",
     "esbuild": "^0.20.2",

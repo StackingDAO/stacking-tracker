@@ -11,6 +11,9 @@ COPY --chown=node ../../ .
 RUN npm install --workspace=packages/database
 RUN npm run build --workspace=packages/database
 
+RUN npm install --workspace=packages/stacks
+RUN npm run build --workspace=packages/stacks
+
 RUN npm install --workspace=apps/public-api
 RUN npm run build --workspace=apps/public-api
 
