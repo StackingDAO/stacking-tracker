@@ -128,18 +128,29 @@ const Home: FunctionComponent<Props> = async ({ params: { pool } }: Props) => {
         </div>
       </div>
 
-      <div className="pb-4 mb-3 bg-white rounded-lg mt-3">
+      <div className="mb-3 bg-white rounded-lg mt-3">
         <Table
-          columnTitles={["Cycle", "Signers", "Pools", "Stacked", "Rewards"]}
-          rows={poxInfo.cycles
-            .reverse()
-            .map((info: any) => [
-              info.cycle_number,
-              info.signers_count,
-              info.pools_count,
-              `${currency.rounded.format(info.stacked_amount)} STX`,
-              `${currency.short.format(info.rewards_amount)} BTC`,
-            ])}
+          columnTitles={[
+            "Cycle",
+            "Signers",
+            "Pools",
+            "Stacked",
+            "Rewards",
+            "APY",
+          ]}
+          rows={poxInfo.cycles.reverse().map((info: any) => [
+            info.cycle_number,
+            info.signers_count,
+            info.pools_count,
+            `${currency.rounded.format(info.stacked_amount)} STX`,
+            `${currency.short.format(info.rewards_amount)} BTC`,
+            `${currency.short.format(
+              ((info.rewards_amount * poxInfo.prices.btc) /
+                (info.stacked_amount * poxInfo.prices.stx)) *
+                25 * // 25 cycles per year
+                100
+            )}%`,
+          ])}
         />
       </div>
 

@@ -19,6 +19,7 @@ interface AppContextProps {
   stxBalance: number;
   stStxBalance: number;
   stxPrice?: string;
+  btcPrice?: string;
 
   stackedStx?: string;
   stackingCycle?: string;
@@ -104,6 +105,22 @@ export const fetchStxPrice = async (): Promise<number> => {
   return 0;
 };
 
+export const fetchBtcPrice = async (): Promise<number> => {
+  const bandUrl =
+    "https://laozi1.bandchain.org/api/oracle/v1/request_prices?ask_count=16&min_count=10&symbols=BTC";
+
+  const result = await fetch(bandUrl).then((res) => res.json());
+
+  if (result["price_results"]?.length > 0) {
+    return (
+      result["price_results"][0]["px"] /
+      Number(result["price_results"][0]["multiplier"])
+    );
+  }
+
+  return 0;
+};
+
 interface IStackingCycleInfo {
   currentCycle: number;
   stackedStx: number;
@@ -144,6 +161,7 @@ function useAppContextData(userData: any): AppContextProps {
   const [stxAddress, setStxAddress] = useState("");
   const [okxProvider, setOkxProvider] = useState({});
   const [stxPrice, setStxPrice] = useState<number>(0.0);
+  const [btcPrice, setBtcPrice] = useState<number>(0.0);
   const [currentTxStatus, setCurrentTxStatus] = useState("");
   const [currentTxId, setCurrentTxId] = useState("");
   const [currentTxMessage, setCurrentTxMessage] = useState("");
@@ -178,6 +196,7 @@ function useAppContextData(userData: any): AppContextProps {
       await Promise.all([
         fetchStackingCycle().then(setStackingCycle),
         fetchStxPrice().then(setStxPrice),
+        fetchBtcPrice().then(setBtcPrice),
         ...(!stxAddress ? [] : [fetchBalances(stxAddress).then(setBalances)]),
       ]).catch(console.error);
     }
@@ -189,6 +208,7 @@ function useAppContextData(userData: any): AppContextProps {
     stxBalance: balances.total,
     stStxBalance: balances.stacked,
     stxPrice: `${stxPrice}`,
+    btcPrice: `${btcPrice}`,
     stxAddress: stxAddress,
     setStxAddress: setStxAddress,
     okxProvider: okxProvider,

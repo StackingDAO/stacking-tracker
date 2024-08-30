@@ -53,7 +53,7 @@ const Home: FunctionComponent<Props> = async ({ params: { token } }: Props) => {
         </div>
       </div>
 
-      <div className="pb-4 mb-12 bg-white rounded-lg mt-3">
+      <div className="mb-12 bg-white rounded-lg mt-3">
         <Table
           columnTitles={["Cycle", "Stacked", "Rewards"]}
           rows={tokenInfo.cycles

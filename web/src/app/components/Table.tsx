@@ -5,7 +5,7 @@ type Props = {
 
 export function Table({ columnTitles, rows }: Props) {
   return (
-    <div className="overflow-x-auto">
+    <div className="overflow-x-auto rounded-lg border border-gray-200">
       <div className="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
         <table className="min-w-full divide-y divide-gray-300">
           <thead>

@@ -4,8 +4,12 @@
 
 import { Footer } from "@/app/components/Footer";
 import { WalletConnectButton } from "@/app/components/WalletConnectButton";
+import { useAppContext } from "@/app/components/AppContext";
+import { currency } from "@/app/common/utils";
 
 export function RootLayout({ signOut, children }) {
+  const { stxPrice, btcPrice } = useAppContext();
+
   return (
     <div className="relative flex flex-auto overflow-hidden">
       <div className="relative flex flex-col w-full isolate">
@@ -30,6 +34,12 @@ export function RootLayout({ signOut, children }) {
               <a className="underline hover:no-underline" href="/pools">
                 Pools
               </a>
+            </div>
+            <div className="flex">
+              <img className="w-5 h-5 mr-2" src="/logos/stx.webp" />
+              <div>${currency.short.format(stxPrice)}</div>
+              <img className="w-5 h-5 mr-2 ml-4" src="/logos/btc.webp" />
+              <div>${currency.short.format(btcPrice)}</div>
             </div>
             <div className="fixed bottom-0 left-0 flex h-48 w-full items-end justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:size-auto lg:bg-none">
               <WalletConnectButton signOut={signOut} />

@@ -128,14 +128,14 @@ router.get("/:wallet", async (req: Request, res: Response) => {
     },
     {
       type: "defi",
-      name: "Hermetica vault",
+      name: "Hermetica stSTX vault",
       logo: addressToToken.SP4SZE494VC2YC5JYG7AYFQ44F5Q4PYV7DVMDPBG.logo,
       balance: stStxHermetica,
       balance_usd: stStxHermetica * stxPerStStx * stxPrice,
     },
     {
       type: "defi",
-      name: "Velar LP",
+      name: "Velar stSTX/aeUSDC LP",
       logo: addressToToken.SP4SZE494VC2YC5JYG7AYFQ44F5Q4PYV7DVMDPBG.logo,
       balance: stStxVelar,
       balance_usd: stStxVelar * stxPerStStx * stxPrice,

@@ -74,7 +74,7 @@ export default async function Home() {
 
       <div
         key={lastCycleInfo.cycle_number}
-        className="pb-4 mb-12 bg-white rounded-lg mt-3"
+        className="mb-12 bg-white rounded-lg mt-3"
       >
         <Table
           columnTitles={["Pool", "Stackers", "Stacked", "Rewards"]}
