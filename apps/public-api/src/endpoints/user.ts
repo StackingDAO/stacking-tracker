@@ -24,11 +24,6 @@ async function getTokenBalances(wallet: string) {
   };
 }
 
-async function getStxPerStStx() {
-  const result = await stacks.getStxPerStStx();
-  return result.value.value / 1000000.0;
-}
-
 async function getStackerInfo(wallet: string) {
   const result = await getStacker(wallet);
   if (result.length === 0) {
@@ -73,7 +68,7 @@ router.get("/:wallet", async (req: Request, res: Response) => {
   ] = await Promise.all([
     fetchPrice("STX"),
     fetchPrice("BTC"),
-    getStxPerStStx(),
+    stacks.getStxPerStStx(),
     getTokenBalances(wallet),
     getStackerInfo(wallet),
     stacks.getProtocolStStxBalance(wallet, "protocol-arkadiko-v1"),

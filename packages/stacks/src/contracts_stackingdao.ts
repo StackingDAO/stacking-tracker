@@ -17,21 +17,7 @@ export async function getStxPerStStx(): Promise<any> {
   });
 
   const result = cvToJSON(readResult);
-  return result;
-}
-
-export async function getStStxSupply(): Promise<any> {
-  const readResult = await callReadOnlyFunction({
-    contractAddress: 'SP4SZE494VC2YC5JYG7AYFQ44F5Q4PYV7DVMDPBG',
-    contractName: 'ststx-token',
-    functionName: 'get-total-supply',
-    functionArgs: [],
-    senderAddress: 'SP4SZE494VC2YC5JYG7AYFQ44F5Q4PYV7DVMDPBG',
-    network: network,
-  });
-
-  const result = cvToJSON(readResult);
-  return result;
+  return result.value.value / 1000000.0;
 }
 
 export async function getProtocolStStxBalance(
