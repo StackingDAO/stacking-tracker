@@ -32,6 +32,8 @@ export class PublicApi extends cdk.Stack {
           containerPort: 3030,
           environment: {
             DATABASE_URL: setupStack.databaseUrl,
+            STACKS_API: process.env.STACKS_API ?? "",
+            TELEGRAM_TOKEN: process.env.TELEGRAM_TOKEN ?? "",
           },
         },
         desiredCount: 1, // Number of instances to run

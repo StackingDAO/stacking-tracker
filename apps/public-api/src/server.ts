@@ -3,6 +3,7 @@ import cors from "cors";
 
 import dotenv from "dotenv";
 
+import routerTelegram from "./endpoints/telegram";
 import routerUser from "./endpoints/user";
 import routerPox from "./endpoints/pox";
 import routerSigners from "./endpoints/signers";
@@ -26,6 +27,7 @@ app.get("/health", (_: Request, res: Response) => {
   res.status(200).json({ status: "ok" });
 });
 
+app.use("/telegram", routerTelegram);
 app.use("/user", routerUser);
 app.use("/pox", routerPox);
 app.use("/signers", routerSigners);
