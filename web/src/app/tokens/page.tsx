@@ -6,15 +6,14 @@ import ChartBarStacked from "../components/ChartBarStacked";
 export default async function Home() {
   const tokensInfo = await api.get("/tokens");
 
-  const lastCycleInfo = tokensInfo[tokensInfo.length - 1];
-  const chartLabels = tokensInfo.map((info: any) => info.cycle_number);
-  const activePools = tokensInfo[0].tokens;
-
+  const lastCycleInfo = tokensInfo.cycles[tokensInfo.cycles.length - 1];
+  const chartLabels = tokensInfo.cycles.map((info: any) => info.cycle_number);
+  const activePools = tokensInfo.cycles[0].tokens;
   const datasets: any[] = [];
 
   datasets.push({
     label: "BTC Yield",
-    data: tokensInfo.map((info: any) => info.rewards_amount),
+    data: tokensInfo.cycles.map((info: any) => info.rewards_amount),
     type: "line",
     yAxisID: "yRight",
   });
@@ -22,7 +21,7 @@ export default async function Home() {
   for (const activePool of activePools) {
     const data: any[] = [];
 
-    for (const cycleInfo of tokensInfo) {
+    for (const cycleInfo of tokensInfo.cycles) {
       const stacked = cycleInfo.tokens.filter(
         (token: any) => token.name == activePool.name
       )[0].stacked_amount;
@@ -78,19 +77,38 @@ export default async function Home() {
         className="mb-12 bg-white rounded-lg mt-3"
       >
         <Table
-          columnTitles={["LST", "Entity", "Stacked", "Rewards"]}
-          rows={lastCycleInfo.tokens.map((token: any) => [
-            <div key={token.name} className="flex font-semibold">
-              <img className="w-5 mr-2" src={token.logo} /> {token.name}
+          columnTitles={[
+            "LST",
+            "Entity",
+            "Token Supply / Mcap",
+            "Stacked",
+            "Rewards",
+            "APY",
+          ]}
+          rows={tokensInfo.entities.map((entity: any) => [
+            <div key={entity.name} className="flex font-semibold">
+              <img className="w-5 mr-2" src={entity.logo} /> {entity.name}
             </div>,
-            <div key={token.entity} className="flex">
-              <img className="w-5 mr-2" src={token.logo} /> {token.entity}
+            <div key={entity.entity} className="flex">
+              <img className="w-5 mr-2" src={entity.logo} /> {entity.entity}
             </div>,
-            `${currency.rounded.format(token.stacked_amount)} STX (${currency.rounded.format((token.stacked_amount / lastCycleInfo.stacked_amount) * 100.0)}%)`,
-            `${currency.short.format(token.rewards_amount)} BTC (${currency.rounded.format((token.rewards_amount / lastCycleInfo.rewards_amount) * 100.0)}%)`,
+
+            <div>
+              <div>{`${currency.rounded.format(entity.token_supply)} ${entity.name}`}</div>
+              <div>{`$${currency.short.format(entity.token_mcap)}`}</div>
+            </div>,
+            <div>
+              <div>{`${currency.rounded.format(entity.stacked_amount)} STX (${currency.rounded.format((entity.stacked_amount / lastCycleInfo.stacked_amount) * 100.0)}%)`}</div>
+              <div>{`$${currency.rounded.format(entity.stacked_amount_usd)}`}</div>
+            </div>,
+            <div>
+              <div>{`${currency.short.format(entity.rewards_amount)} STX (${currency.rounded.format((entity.rewards_amount / lastCycleInfo.rewards_amount) * 100.0)}%)`}</div>
+              <div>{`$${currency.rounded.format(entity.rewards_amount_usd)}`}</div>
+            </div>,
+            `${currency.short.format(entity.apy)}%`,
             <a
-              key={token.slug}
-              href={`/tokens/${token.slug}`}
+              key={entity.slug}
+              href={`/tokens/${entity.slug}`}
               className="underline hover:no-underline"
             >
               LST Details

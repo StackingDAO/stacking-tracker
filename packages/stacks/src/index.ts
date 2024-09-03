@@ -6,3 +6,4 @@ export * from './mining';
 export * from './pox';
 export * from './stacks-api';
 export * from './transactions';
+export * from './tokens';

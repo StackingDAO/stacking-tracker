@@ -5,6 +5,7 @@ export const addressToToken = {
     slug: "stackingdao",
     logo: "/logos/stackingdao.webp",
     website: "https://www.stackingdao.com",
+    tokenAddress: "SP4SZE494VC2YC5JYG7AYFQ44F5Q4PYV7DVMDPBG.ststx-token",
   },
   SM3KNVZS30WM7F89SXKVVFY4SN9RMPZZ9FX929N0V: {
     entity: "Lisa",
@@ -12,6 +13,7 @@ export const addressToToken = {
     slug: "lisa",
     logo: "/logos/lisa.webp",
     website: "https://app.lisalab.io",
+    tokenAddress: "SM26NBC8SFHNW4P1Y4DFH27974P56WN86C92HPEHH.token-lqstx",
   },
 };
 
