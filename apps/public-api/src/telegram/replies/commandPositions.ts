@@ -2,9 +2,8 @@ import { sendMessageOptions } from "../api";
 import { RepliesHandler } from "../repliesHandler";
 import * as stacks from "@repo/stacks";
 import { fetchPrice } from "../../prices";
-import { delegationAddressToPool, poxAddressToPool } from "../../constants";
+import { delegationAddressToPool } from "../../constants";
 import { currency } from "../../utils";
-import { getStacker } from "@repo/database";
 
 export class CommandPositions extends RepliesHandler {
   canHandleMessage(message: any) {
@@ -57,7 +56,6 @@ export class CommandPositions extends RepliesHandler {
     if (!stackerInfoRaw["delegated-to"]?.value) {
       return {
         name: "Solo Stacking",
-        logo: "/logos/default.webp",
         amount: lockedAmount,
       };
     }
@@ -73,7 +71,6 @@ export class CommandPositions extends RepliesHandler {
 
     return {
       name: pool ? pool.name : delegatedTo,
-      logo: pool ? pool.logo : "/logos/default.webp",
       amount: lockedAmount,
       delegated_amount: delegatedAmount,
     };
