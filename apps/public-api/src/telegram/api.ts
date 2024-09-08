@@ -3,6 +3,15 @@ dotenv.config();
 
 const botToken = process.env.TELEGRAM_TOKEN;
 
+export async function getChat(userId: bigint) {
+  const response = await fetch(
+    `https://api.telegram.org/bot${botToken}/getChat?chat_id=${userId}`
+  );
+
+  const result = await response.json();
+  return result;
+}
+
 export async function sendMessage(userId: bigint, message: string) {
   const response = await fetch(
     `https://api.telegram.org/bot${botToken}/sendMessage?chat_id=${userId}&text=${message}&parse_mode=HTML&disable_web_page_preview=true`

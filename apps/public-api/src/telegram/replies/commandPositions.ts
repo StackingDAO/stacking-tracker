@@ -52,7 +52,6 @@ export class CommandPositions extends RepliesHandler {
       return {
         type: "solo",
         name: "Unknown",
-        logo: "/logos/default.webp",
         amount: stackerInfo.stackedAmount,
       };
     }
@@ -61,7 +60,6 @@ export class CommandPositions extends RepliesHandler {
     return {
       type: "pooled",
       name: pool ? pool.name : "Unknown",
-      logo: pool ? pool.logo : "/logos/default.webp",
       amount: stackerInfo.stackedAmount,
     };
   }
@@ -157,13 +155,18 @@ export class CommandPositions extends RepliesHandler {
       },
     ];
 
-    let replyMessage = `<b>${wallet}</b>%0A`;
+    let replyMessage = `<b>${wallet}</b>%0A%0A`;
 
+    var totalBalanceUsd = 0.0;
     positions.forEach((position: any) => {
       replyMessage += `<b>${position.name}: </b> `;
       replyMessage += `${currency.rounded.format(position.balance)} ${position.token} = `;
-      replyMessage += `$${currency.rounded.format(position.balance)} %0A`;
+      replyMessage += `$${currency.rounded.format(position.balance_usd)} %0A`;
+
+      totalBalanceUsd += position.balance_usd;
     });
+
+    replyMessage += `%0A<b>Total balance: $${currency.rounded.format(totalBalanceUsd)}</b> `;
 
     const options = [
       [

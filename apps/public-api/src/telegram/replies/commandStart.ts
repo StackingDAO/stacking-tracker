@@ -5,6 +5,7 @@ import { fetchPrice } from "../../prices";
 import { poxAddressToPool } from "../../constants";
 import * as db from "@repo/database";
 import { currency } from "../../utils";
+import { getMessage } from "../templates/commandStart";
 
 export class CommandStart extends RepliesHandler {
   canHandleMessage(message: any) {
@@ -91,22 +92,28 @@ export class CommandStart extends RepliesHandler {
     const blockHeightRewardPhase =
       pox.next_cycle.reward_phase_start_block_height;
 
-    const replyMessage =
-      `<b>Cycle number: ${currentCycleInfo.cycle_number}</b>%0A` +
-      `Next cycle in ~${currency.rounded.format(daysLeftRewardPhase)} days at bitcoin block ${blockHeightRewardPhase} %0A` +
-      `%0A<i>Stacked:</i> %0A` +
-      `${currency.rounded.format(currentCycleInfo.stacked_amount)} STX = ` +
-      `$${currency.rounded.format(currentCycleInfo.stacked_amount * stxPrice)} %0A` +
-      `%0A<i>Rewards:</i> %0A` +
-      `${currency.short.format(currentCycleInfo.rewards_amount)} BTC = ` +
-      `$${currency.rounded.format(currentCycleInfo.rewards_amount * btcPrice)} %0A` +
-      `%0A~${currency.short.format(apy)}% APY over last 4 cycles %0A`;
+    const replyMessage = getMessage({
+      stxPrice: stxPrice,
+      btcPrice: btcPrice,
+      cycleNumber: currentCycleInfo.cycle_number,
+      daysLeftRewardPhase: daysLeftRewardPhase,
+      blockHeightRewardPhase: blockHeightRewardPhase,
+      stackedAmount: currentCycleInfo.stacked_amount,
+      rewardsAmount: currentCycleInfo.rewards_amount,
+      apy: apy,
+    });
 
     const options = [
       [
         {
           text: "↻ Refresh",
           callback_data: JSON.stringify({ command: "/start" }),
+        },
+      ],
+      [
+        {
+          text: "Manage Wallet →",
+          callback_data: JSON.stringify({ command: "/wallet" }),
         },
       ],
       [
