@@ -44,6 +44,27 @@ export const poxAddressToPool = {
   },
 };
 
+export const delegationAddressToPool = {
+  SP4SZE494VC2YC5JYG7AYFQ44F5Q4PYV7DVMDPBG: {
+    name: "StackingDAO BTC Pool",
+    slug: "stackingdao",
+    logo: "/logos/stackingdao.webp",
+    website: "https://www.stackingdao.com",
+  },
+  SPXVRSEH2BKSXAEJ00F1BY562P45D5ERPSKR4Q33: {
+    name: "Xverse Pool",
+    slug: "xverse-pool",
+    logo: "/logos/xverse.webp",
+    website: "https://xverse-pool.com",
+  },
+  "SP21YTSM60CAY6D011EZVEVNKXVW8FVZE198XEFFP.pox4-fast-pool-v3": {
+    name: "Fast Pool",
+    slug: "fast-pool",
+    logo: "/logos/fastpool.webp",
+    website: "https://fastpool.org",
+  },
+};
+
 export const signerKeyToPool = {
   "0x02879477ec9ed8a56c0b26ba4b452246608d6e1b02ae1fa405a2c97ee8af5da202": {
     name: "StackingDAO",
