@@ -42,15 +42,44 @@ export function UserPositions() {
                   <div>
                     <span className="font-semibold">{position.name}</span>
                   </div>
-                  <div>
-                    Balance:{" "}
-                    <span className="font-semibold">
-                      {currency.short.format(position.balance)}
+                  {position.type === "direct_stacking" ? (
+                    <>
+                      <div>
+                        Delegated:{" "}
+                        <span className="font-semibold">
+                          {currency.short.format(position.delegated)}{" "}
+                          {position.symbol}
+                        </span>
+                        {position.delegated_usd ? (
+                          <>
+                            {" "}
+                            (${currency.short.format(position.delegated_usd)})
+                          </>
+                        ) : null}
+                      </div>
+                      <div>
+                        Stacked:{" "}
+                        <span className="font-semibold">
+                          {currency.short.format(position.balance)}{" "}
+                          {position.symbol}
+                        </span>
+                        {position.balance_usd ? (
+                          <> (${currency.short.format(position.balance_usd)})</>
+                        ) : null}
+                      </div>
+                    </>
+                  ) : (
+                    <div>
+                      Balance:{" "}
+                      <span className="font-semibold">
+                        {currency.short.format(position.balance)}{" "}
+                        {position.symbol}
+                      </span>
                       {position.balance_usd ? (
                         <> (${currency.short.format(position.balance_usd)})</>
                       ) : null}
-                    </span>
-                  </div>
+                    </div>
+                  )}
                 </div>
               ))}
           </div>

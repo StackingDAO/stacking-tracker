@@ -1,8 +1,7 @@
 import { Router, Request, Response } from "express";
 import * as stacks from "@repo/stacks";
 import { fetchPrice } from "../prices";
-import { addressToToken, poxAddressToPool } from "../constants";
-import { getStacker } from "@repo/database";
+import { addressToToken, delegationAddressToPool } from "../constants";
 
 async function getTokenBalances(wallet: string) {
   const balances = await stacks.getBalances(wallet);
@@ -25,27 +24,40 @@ async function getTokenBalances(wallet: string) {
 }
 
 async function getStackerInfo(wallet: string) {
-  const result = await getStacker(wallet);
-  if (result.length === 0) {
+  const [stackerInfoRaw, delegationInfoRaw, accountInfo] = await Promise.all([
+    stacks.getStackerInfo(wallet),
+    stacks.getDelegationInfo(wallet),
+    stacks.getBalances(wallet),
+  ]);
+
+  if (!stackerInfoRaw && !delegationInfoRaw) {
     return undefined;
   }
-  const stackerInfo = result[result.length - 1];
 
-  if (stackerInfo.stackerType === "solo") {
+  const lockedAmount = accountInfo.stx.locked / 1000000.0;
+
+  if (!stackerInfoRaw["delegated-to"]?.value) {
     return {
-      type: "solo",
-      name: "Unknown",
+      name: "Solo Stacking",
       logo: "/logos/default.webp",
-      amount: stackerInfo.stackedAmount,
+      amount: lockedAmount,
     };
   }
 
-  const pool = poxAddressToPool[stackerInfo.poxAddress];
+  const delegatedAmount = delegationInfoRaw
+    ? delegationInfoRaw["amount-ustx"].value / 1000000.0
+    : 0.0;
+
+  const delegatedTo = stackerInfoRaw
+    ? stackerInfoRaw["delegated-to"].value.value
+    : delegationInfoRaw["delegated-to"].value.value;
+  const pool = delegationAddressToPool[delegatedTo];
+
   return {
-    type: "pooled",
-    name: pool ? pool.name : "Unknown",
+    name: pool ? pool.name : delegatedTo,
     logo: pool ? pool.logo : "/logos/default.webp",
-    amount: stackerInfo.stackedAmount,
+    amount: lockedAmount,
+    delegated_amount: delegatedAmount,
   };
 }
 
@@ -82,6 +94,7 @@ router.get("/:wallet", async (req: Request, res: Response) => {
     {
       type: "wallet",
       name: "STX",
+      symbol: "STX",
       logo: "/logos/stx.webp",
       balance: balances.stx,
       balance_usd: balances.stx * stxPrice,
@@ -89,6 +102,7 @@ router.get("/:wallet", async (req: Request, res: Response) => {
     {
       type: "wallet",
       name: "stSTX",
+      symbol: "stSTX",
       logo: addressToToken.SP4SZE494VC2YC5JYG7AYFQ44F5Q4PYV7DVMDPBG.logo,
       balance: balances.stStx,
       balance_usd: balances.stStx * stxPerStStx * stxPrice,
@@ -96,6 +110,7 @@ router.get("/:wallet", async (req: Request, res: Response) => {
     {
       type: "wallet",
       name: "LiSTX",
+      symbol: "LiSTX",
       logo: addressToToken.SM3KNVZS30WM7F89SXKVVFY4SN9RMPZZ9FX929N0V.logo,
       balance: balances.liStx,
       balance_usd: balances.liStx * stxPrice,
@@ -103,13 +118,19 @@ router.get("/:wallet", async (req: Request, res: Response) => {
     {
       type: "direct_stacking",
       name: stackerInfo ? stackerInfo.name : "Direct Stacking",
+      symbol: "STX",
       logo: stackerInfo?.logo,
       balance: stackerInfo ? stackerInfo.amount : 0.0,
       balance_usd: stackerInfo ? stackerInfo.amount * stxPrice : 0.0,
+      delegated: stackerInfo ? stackerInfo.delegated_amount : 0.0,
+      delegated_usd: stackerInfo
+        ? stackerInfo.delegated_amount * stxPrice
+        : 0.0,
     },
     {
       type: "defi",
       name: "Arkadiko stSTX vault",
+      symbol: "stSTX",
       logo: addressToToken.SP4SZE494VC2YC5JYG7AYFQ44F5Q4PYV7DVMDPBG.logo,
       balance: stStxArkadiko,
       balance_usd: stStxArkadiko * stxPerStStx * stxPrice,
@@ -117,6 +138,7 @@ router.get("/:wallet", async (req: Request, res: Response) => {
     {
       type: "defi",
       name: "BitFlow stSTX/STX LP",
+      symbol: "stSTX",
       logo: addressToToken.SP4SZE494VC2YC5JYG7AYFQ44F5Q4PYV7DVMDPBG.logo,
       balance: stStxBitflow,
       balance_usd: stStxBitflow * stxPerStStx * stxPrice,
@@ -124,6 +146,7 @@ router.get("/:wallet", async (req: Request, res: Response) => {
     {
       type: "defi",
       name: "Hermetica stSTX vault",
+      symbol: "stSTX",
       logo: addressToToken.SP4SZE494VC2YC5JYG7AYFQ44F5Q4PYV7DVMDPBG.logo,
       balance: stStxHermetica,
       balance_usd: stStxHermetica * stxPerStStx * stxPrice,
@@ -131,6 +154,7 @@ router.get("/:wallet", async (req: Request, res: Response) => {
     {
       type: "defi",
       name: "Velar stSTX/aeUSDC LP",
+      symbol: "stSTX",
       logo: addressToToken.SP4SZE494VC2YC5JYG7AYFQ44F5Q4PYV7DVMDPBG.logo,
       balance: stStxVelar,
       balance_usd: stStxVelar * stxPerStStx * stxPrice,
@@ -138,6 +162,7 @@ router.get("/:wallet", async (req: Request, res: Response) => {
     {
       type: "defi",
       name: "Zest stSTX collateral",
+      symbol: "stSTX",
       logo: addressToToken.SP4SZE494VC2YC5JYG7AYFQ44F5Q4PYV7DVMDPBG.logo,
       balance: stStxZest,
       balance_usd: stStxZest * stxPerStStx * stxPrice,
