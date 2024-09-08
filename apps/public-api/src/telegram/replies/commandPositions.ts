@@ -2,7 +2,7 @@ import { sendMessageOptions } from "../api";
 import { RepliesHandler } from "../repliesHandler";
 import * as stacks from "@repo/stacks";
 import { fetchPrice } from "../../prices";
-import { poxAddressToPool } from "../../constants";
+import { delegationAddressToPool, poxAddressToPool } from "../../constants";
 import { currency } from "../../utils";
 import { getStacker } from "@repo/database";
 
@@ -42,30 +42,44 @@ export class CommandPositions extends RepliesHandler {
   }
 
   async getStackerInfo(wallet: string) {
-    const result = await getStacker(wallet);
-    if (result.length === 0) {
+    const [stackerInfoRaw, delegationInfoRaw, accountInfo] = await Promise.all([
+      stacks.getStackerInfo(wallet),
+      stacks.getDelegationInfo(wallet),
+      stacks.getBalances(wallet),
+    ]);
+
+    if (!stackerInfoRaw && !delegationInfoRaw) {
       return undefined;
     }
-    const stackerInfo = result[result.length - 1];
 
-    if (stackerInfo.stackerType === "solo") {
+    const lockedAmount = accountInfo.stx.locked / 1000000.0;
+
+    if (!stackerInfoRaw["delegated-to"]?.value) {
       return {
-        type: "solo",
-        name: "Unknown",
-        amount: stackerInfo.stackedAmount,
+        name: "Solo Stacking",
+        logo: "/logos/default.webp",
+        amount: lockedAmount,
       };
     }
 
-    const pool = poxAddressToPool[stackerInfo.poxAddress];
+    const delegatedAmount = delegationInfoRaw
+      ? delegationInfoRaw["amount-ustx"].value / 1000000.0
+      : 0.0;
+
+    const delegatedTo = stackerInfoRaw
+      ? stackerInfoRaw["delegated-to"].value.value
+      : delegationInfoRaw["delegated-to"].value.value;
+    const pool = delegationAddressToPool[delegatedTo];
+
     return {
-      type: "pooled",
-      name: pool ? pool.name : "Unknown",
-      amount: stackerInfo.stackedAmount,
+      name: pool ? pool.name : delegatedTo,
+      logo: pool ? pool.logo : "/logos/default.webp",
+      amount: lockedAmount,
+      delegated_amount: delegatedAmount,
     };
   }
-
   async handleMessage(message: any) {
-    const wallet = "SP4SZE494VC2YC5JYG7AYFQ44F5Q4PYV7DVMDPBG";
+    const wallet = "SP2TGEEMSCRX62W4PNCHM849QY1YGT3Z6M12QCPA0";
 
     const [
       stxPrice,
@@ -93,76 +107,90 @@ export class CommandPositions extends RepliesHandler {
       {
         type: "wallet",
         name: "STX",
-        token: "STX",
+        symbol: "STX",
         balance: balances.stx,
         balance_usd: balances.stx * stxPrice,
       },
       {
         type: "wallet",
         name: "stSTX",
-        token: "stSTX",
+        symbol: "stSTX",
         balance: balances.stStx,
         balance_usd: balances.stStx * stxPerStStx * stxPrice,
       },
       {
         type: "wallet",
-        token: "LiSTX",
         name: "LiSTX",
+        symbol: "LiSTX",
         balance: balances.liStx,
         balance_usd: balances.liStx * stxPrice,
       },
       {
         type: "direct_stacking",
         name: stackerInfo ? stackerInfo.name : "Direct Stacking",
-        token: "STX",
+        symbol: "STX",
         balance: stackerInfo ? stackerInfo.amount : 0.0,
         balance_usd: stackerInfo ? stackerInfo.amount * stxPrice : 0.0,
+        delegated: stackerInfo ? stackerInfo.delegated_amount : 0.0,
+        delegated_usd: stackerInfo
+          ? stackerInfo.delegated_amount * stxPrice
+          : 0.0,
       },
       {
         type: "defi",
         name: "Arkadiko stSTX vault",
-        token: "stSTX",
+        symbol: "stSTX",
         balance: stStxArkadiko,
         balance_usd: stStxArkadiko * stxPerStStx * stxPrice,
       },
       {
         type: "defi",
         name: "BitFlow stSTX/STX LP",
-        token: "stSTX",
+        symbol: "stSTX",
         balance: stStxBitflow,
         balance_usd: stStxBitflow * stxPerStStx * stxPrice,
       },
       {
         type: "defi",
         name: "Hermetica stSTX vault",
-        token: "stSTX",
+        symbol: "stSTX",
         balance: stStxHermetica,
         balance_usd: stStxHermetica * stxPerStStx * stxPrice,
       },
       {
         type: "defi",
         name: "Velar stSTX/aeUSDC LP",
-        token: "stSTX",
+        symbol: "stSTX",
         balance: stStxVelar,
         balance_usd: stStxVelar * stxPerStStx * stxPrice,
       },
       {
         type: "defi",
         name: "Zest stSTX collateral",
-        token: "stSTX",
+        symbol: "stSTX",
         balance: stStxZest,
         balance_usd: stStxZest * stxPerStStx * stxPrice,
       },
     ];
 
+    const filteredPositions = positions.filter(
+      (position: any) => position.balance > 0
+    );
+
     let replyMessage = `<b>${wallet}</b>%0A%0A`;
 
     var totalBalanceUsd = 0.0;
-    positions.forEach((position: any) => {
+    filteredPositions.forEach((position: any) => {
       replyMessage += `<b>${position.name}: </b> `;
-      replyMessage += `${currency.rounded.format(position.balance)} ${position.token} = `;
-      replyMessage += `$${currency.rounded.format(position.balance_usd)} %0A`;
+      replyMessage += `${currency.rounded.format(position.balance)} ${position.symbol} = `;
+      replyMessage += `$${currency.rounded.format(position.balance_usd)}`;
 
+      if (position.delegated) {
+        replyMessage += ` (Delegated: ${currency.rounded.format(position.delegated)} ${position.symbol} = `;
+        replyMessage += `$${currency.rounded.format(position.delegated_usd)})`;
+      }
+
+      replyMessage += `%0A`;
       totalBalanceUsd += position.balance_usd;
     });
 
