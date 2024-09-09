@@ -71,7 +71,7 @@ async function getTokensInfoForCycle(cycleNumber: number) {
   };
 }
 
-async function getEntities(currentCycle: number) {
+async function getEntities(cyclesInfo: any) {
   const tokenAddresses = Object.keys(addressToToken).map(
     (key: string) => addressToToken[key].tokenAddress
   );
@@ -79,18 +79,9 @@ async function getEntities(currentCycle: number) {
     stacks.getTotalSupply(address)
   );
 
-  const lastCyclesPromises = [
-    getTokensInfoForCycle(currentCycle),
-    getTokensInfoForCycle(currentCycle - 1),
-    getTokensInfoForCycle(currentCycle - 2),
-    getTokensInfoForCycle(currentCycle - 3),
-    getTokensInfoForCycle(currentCycle - 4),
-  ];
-
-  const [stxPrice, btcPrice, cyclesInfo, tokensSupply] = await Promise.all([
+  const [stxPrice, btcPrice, tokensSupply] = await Promise.all([
     fetchPrice("STX"),
     fetchPrice("BTC"),
-    Promise.all(lastCyclesPromises),
     Promise.all(tokenSupplyPromises),
   ]);
 
@@ -155,8 +146,8 @@ router.get("/", async (req: Request, res: Response) => {
   const results = await Promise.all(promises);
 
   res.send({
-    cycles: results.reverse(),
-    entities: await getEntities(currentCycle),
+    cycles: results.slice().reverse(),
+    entities: await getEntities(results.slice(0, 5)),
   });
 });
 

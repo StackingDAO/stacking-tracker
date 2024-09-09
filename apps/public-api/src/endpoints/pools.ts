@@ -5,16 +5,14 @@ import { fetchPrice } from "../prices";
 
 async function getPoolsInfoForCycle(cycleNumber: number) {
   const [stackers, rewards] = await Promise.all([
-    db.getStackersForCycle(cycleNumber, Object.keys(poxAddressToPool)),
-    db.getRewardsForCycle(cycleNumber),
+    db.getStackersForCycle(cycleNumber, {
+      poxAddresses: Object.keys(poxAddressToPool),
+    }),
+    db.getRewardsForCycle(cycleNumber, Object.keys(poxAddressToPool)),
   ]);
 
-  const poxAddresses = [
-    ...new Set(stackers.map((stacker: any) => stacker.poxAddress)),
-  ];
-
   const pools: any[] = [];
-  for (const poxAddress of poxAddresses) {
+  for (const poxAddress of Object.keys(poxAddressToPool)) {
     let stackedAmount = 0.0;
     let rewardAmount = 0.0;
     let stackersCount = 0;
@@ -58,23 +56,18 @@ async function getPoolsInfoForCycle(cycleNumber: number) {
   };
 }
 
-async function getEntities(currentCycle: number) {
-  const lastCyclesPromises = [
-    getPoolsInfoForCycle(currentCycle),
-    getPoolsInfoForCycle(currentCycle - 1),
-    getPoolsInfoForCycle(currentCycle - 2),
-    getPoolsInfoForCycle(currentCycle - 3),
-    getPoolsInfoForCycle(currentCycle - 4),
-  ];
-
-  const [stxPrice, btcPrice, cyclesInfo] = await Promise.all([
+async function getEntities(cyclesInfo: any) {
+  const [stxPrice, btcPrice] = await Promise.all([
     fetchPrice("STX"),
     fetchPrice("BTC"),
-    Promise.all(lastCyclesPromises),
   ]);
 
   const entities: any[] = [];
   for (const poxAddress of Object.keys(poxAddressToPool)) {
+    const lastCycleInfo = cyclesInfo[0].pools.filter(
+      (pool: any) => pool.pox_address === poxAddress
+    )[0];
+
     const cycleInfoAddress = [];
     cyclesInfo.forEach((info: any) => {
       const filteredInfo = info.pools.filter(
@@ -92,10 +85,6 @@ async function getEntities(currentCycle: number) {
       previousStacked += info.stacked_amount;
       previousRewards += info.rewards_amount;
     });
-
-    const lastCycleInfo = cyclesInfo[0].pools.filter(
-      (pool: any) => pool.pox_address === poxAddress
-    )[0];
 
     const previousStackedValue = (previousStacked / 4) * stxPrice;
     const previousRewardsValue = (previousRewards / 4) * btcPrice;
@@ -130,9 +119,10 @@ router.get("/", async (req: Request, res: Response) => {
   }
 
   const results = await Promise.all(promises);
+
   res.send({
-    cycles: results.reverse(),
-    entities: await getEntities(currentCycle),
+    cycles: results.slice().reverse(),
+    entities: await getEntities(results.slice(0, 5)),
   });
 });
 
