@@ -6,22 +6,21 @@ import ChartBarStacked from "../components/ChartBarStacked";
 export default async function Home() {
   const poolsInfo = await api.get("/pools");
 
-  const lastCycleInfo = poolsInfo[poolsInfo.length - 1];
-  const chartLabels = poolsInfo.map((info: any) => info.cycle_number);
-  const activePools = lastCycleInfo.pools.filter((pool: any) => pool.name);
-
+  const lastCycleInfo = poolsInfo.cycles[poolsInfo.cycles.length - 1];
+  const chartLabels = poolsInfo.cycles.map((info: any) => info.cycle_number);
+  const activePools = lastCycleInfo.pools;
   const datasets: any[] = [];
 
   datasets.push({
     label: "BTC Yield",
-    data: poolsInfo.map((info: any) => info.rewards_amount),
+    data: poolsInfo.cycles.map((info: any) => info.rewards_amount),
     type: "line",
     yAxisID: "yRight",
   });
 
   for (const activePool of activePools) {
     const data: any[] = [];
-    for (const cycleInfo of poolsInfo) {
+    for (const cycleInfo of poolsInfo.cycles) {
       const poolInfo = cycleInfo.pools.filter(
         (pool: any) => pool.name == activePool.name
       )[0];
@@ -80,17 +79,25 @@ export default async function Home() {
         className="mb-12 bg-white rounded-lg mt-3"
       >
         <Table
-          columnTitles={["Pool", "Stackers", "Stacked", "Rewards"]}
-          rows={lastCycleInfo.pools.map((pool: any) => [
-            <div key={pool.name} className="flex font-semibold">
-              <img className="w-5 mr-2" src={pool.logo} /> {pool.name}
+          columnTitles={["Pool", "Stackers", "Stacked", "Rewards", "APY"]}
+          rows={poolsInfo.entities.map((entity: any) => [
+            <div key={entity.name} className="flex font-semibold">
+              <img className="w-5 mr-2" src={entity.logo} /> {entity.name}
             </div>,
-            pool.stackers_count,
-            `${currency.rounded.format(pool.stacked_amount)} STX (${currency.rounded.format((pool.stacked_amount / lastCycleInfo.stacked_amount) * 100.0)}%)`,
-            `${currency.short.format(pool.rewards_amount)} BTC (${currency.rounded.format((pool.rewards_amount / lastCycleInfo.rewards_amount) * 100.0)}%)`,
+            entity.stackers_count,
+            <div key={entity.name + "-stacked"}>
+              <div>{`${currency.rounded.format(entity.stacked_amount)} STX (${currency.rounded.format((entity.stacked_amount / lastCycleInfo.stacked_amount) * 100.0)}%)`}</div>
+              <div>{`$${currency.rounded.format(entity.stacked_amount_usd)}`}</div>
+            </div>,
+            <div key={entity.name + "-rewards"}>
+              <div>{`${currency.short.format(entity.rewards_amount)} BTC (${currency.rounded.format((entity.rewards_amount / lastCycleInfo.rewards_amount) * 100.0)}%)`}</div>
+              <div>{`$${currency.rounded.format(entity.rewards_amount_usd)}`}</div>
+            </div>,
+            `${currency.short.format(entity.apy)}%`,
+
             <a
-              key={pool.slug}
-              href={`/pools/${pool.slug}`}
+              key={entity.slug}
+              href={`/pools/${entity.slug}`}
               className="underline hover:no-underline"
             >
               Pool Details
