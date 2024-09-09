@@ -94,7 +94,6 @@ export default async function Home() {
               <div>{`$${currency.rounded.format(entity.rewards_amount_usd)}`}</div>
             </div>,
             `${currency.short.format(entity.apy)}%`,
-
             <a
               key={entity.slug}
               href={`/pools/${entity.slug}`}
