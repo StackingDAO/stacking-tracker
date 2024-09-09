@@ -8,7 +8,7 @@ export default async function Home() {
 
   const lastCycleInfo = poolsInfo[poolsInfo.length - 1];
   const chartLabels = poolsInfo.map((info: any) => info.cycle_number);
-  const activePools = poolsInfo[0].pools.filter((pool: any) => pool.name);
+  const activePools = lastCycleInfo.pools.filter((pool: any) => pool.name);
 
   const datasets: any[] = [];
 
@@ -22,10 +22,13 @@ export default async function Home() {
   for (const activePool of activePools) {
     const data: any[] = [];
     for (const cycleInfo of poolsInfo) {
-      const stacked = cycleInfo.pools.filter(
+      const poolInfo = cycleInfo.pools.filter(
         (pool: any) => pool.name == activePool.name
-      )[0].stacked_amount;
-      data.push(stacked);
+      )[0];
+
+      if (poolInfo) {
+        data.push(poolInfo.stacked_amount);
+      }
     }
 
     datasets.push({

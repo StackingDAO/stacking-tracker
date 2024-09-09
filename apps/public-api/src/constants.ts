@@ -24,6 +24,12 @@ export const poxAddressToPool = {
     logo: "/logos/stackingdao.webp",
     website: "https://www.stackingdao.com",
   },
+  bc1qeagslq8gm4ylmgxf9ngx24mnwffsqnprrsjc0n: {
+    name: "StackingDAO Pool",
+    slug: "stackingdao-pool",
+    logo: "/logos/stackingdao.webp",
+    website: "https://www.stackingdao.com",
+  },
   bc1qmv2pxw5ahvwsu94kq5f520jgkmljs3af8ly6tr: {
     name: "Xverse Pool",
     slug: "xverse-pool",

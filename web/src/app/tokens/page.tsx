@@ -8,7 +8,7 @@ export default async function Home() {
 
   const lastCycleInfo = tokensInfo.cycles[tokensInfo.cycles.length - 1];
   const chartLabels = tokensInfo.cycles.map((info: any) => info.cycle_number);
-  const activePools = tokensInfo.cycles[0].tokens;
+  const activePools = lastCycleInfo.tokens;
   const datasets: any[] = [];
 
   datasets.push({
@@ -101,7 +101,7 @@ export default async function Home() {
               <div>{`$${currency.rounded.format(entity.stacked_amount_usd)}`}</div>
             </div>,
             <div key={entity.name + "-rewards"}>
-              <div>{`${currency.short.format(entity.rewards_amount)} STX (${currency.rounded.format((entity.rewards_amount / lastCycleInfo.rewards_amount) * 100.0)}%)`}</div>
+              <div>{`${currency.short.format(entity.rewards_amount)} BTC (${currency.rounded.format((entity.rewards_amount / lastCycleInfo.rewards_amount) * 100.0)}%)`}</div>
               <div>{`$${currency.rounded.format(entity.rewards_amount_usd)}`}</div>
             </div>,
             `${currency.short.format(entity.apy)}%`,
