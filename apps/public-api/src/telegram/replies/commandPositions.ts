@@ -1,6 +1,7 @@
 import { sendMessageOptions } from "../api";
 import { RepliesHandler } from "../repliesHandler";
 import * as stacks from "@repo/stacks";
+import * as db from "@repo/database";
 import { fetchPrice } from "../../prices";
 import { delegationAddressToPool } from "../../constants";
 import { currency } from "../../utils";
@@ -53,9 +54,10 @@ export class CommandPositions extends RepliesHandler {
 
     const lockedAmount = accountInfo.stx.locked / 1000000.0;
 
-    if (!stackerInfoRaw["delegated-to"]?.value) {
+    if (stackerInfoRaw && !stackerInfoRaw["delegated-to"]?.value) {
       return {
         name: "Solo Stacking",
+        logo: "/logos/default.webp",
         amount: lockedAmount,
       };
     }
@@ -66,17 +68,52 @@ export class CommandPositions extends RepliesHandler {
 
     const delegatedTo = stackerInfoRaw
       ? stackerInfoRaw["delegated-to"].value.value
-      : delegationInfoRaw["delegated-to"].value.value;
+      : delegationInfoRaw["delegated-to"].value;
     const pool = delegationAddressToPool[delegatedTo];
 
     return {
       name: pool ? pool.name : delegatedTo,
+      logo: pool ? pool.logo : "/logos/default.webp",
       amount: lockedAmount,
       delegated_amount: delegatedAmount,
     };
   }
+
+  async sendNoWallet(message: any) {
+    const replyMessage = `%0A<b>No wallet added yet..</b> `;
+
+    const options = [
+      [
+        {
+          text: "← Back",
+          callback_data: JSON.stringify({ command: "/start" }),
+        },
+      ],
+      [
+        {
+          text: "Add Wallet →",
+          callback_data: JSON.stringify({ action: "update-wallet" }),
+        },
+      ],
+    ];
+
+    sendMessageOptions(
+      message.message?.chat?.id ?? message.callback_query?.from?.id,
+      replyMessage,
+      options
+    );
+  }
+
   async handleMessage(message: any) {
-    const wallet = "SP2TGEEMSCRX62W4PNCHM849QY1YGT3Z6M12QCPA0";
+    const telegramChat = await db.getChat(
+      message.message?.chat?.id ?? message.callback_query?.from?.id
+    );
+    if (!telegramChat?.addresses) {
+      this.sendNoWallet(message);
+      return true;
+    }
+
+    const wallet = telegramChat.addresses;
 
     const [
       stxPrice,
@@ -171,7 +208,8 @@ export class CommandPositions extends RepliesHandler {
     ];
 
     const filteredPositions = positions.filter(
-      (position: any) => position.balance > 0
+      (position: any) =>
+        position.balance > 0 || (position.delegated && position.delegated > 0)
     );
 
     let replyMessage = `<b>${wallet}</b>%0A%0A`;

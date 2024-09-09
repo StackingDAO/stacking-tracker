@@ -1,5 +1,6 @@
 import { sendMessageOptions } from "../api";
 import { RepliesHandler } from "../repliesHandler";
+import * as db from "@repo/database";
 
 export class CommandWallet extends RepliesHandler {
   canHandleMessage(message: any) {
@@ -16,8 +17,8 @@ export class CommandWallet extends RepliesHandler {
     return false;
   }
 
-  async handleMessageWallet(message: any) {
-    const replyMessage = `<b>Saved Wallet</b>%0A` + `SP.... %0A`;
+  async handleMessageWallet(message: any, wallet: string) {
+    const replyMessage = `<b>Saved Wallet</b>%0A` + wallet;
 
     const options = [
       [
@@ -72,11 +73,12 @@ export class CommandWallet extends RepliesHandler {
   }
 
   async handleMessage(message: any) {
-    // TODO: get wallet info from DB
-    const hasWallet = false;
+    const telegramChat = await db.getChat(
+      message.message?.chat?.id ?? message.callback_query?.from?.id
+    );
 
-    if (hasWallet) {
-      await this.handleMessageWallet(message);
+    if (telegramChat?.addresses) {
+      await this.handleMessageWallet(message, telegramChat.addresses);
     } else {
       await this.handleMessageNoWallet(message);
     }

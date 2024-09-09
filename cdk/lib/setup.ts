@@ -10,8 +10,6 @@ import { Duration } from "aws-cdk-lib";
 import * as dotenv from "dotenv";
 dotenv.config({ path: "cdk/.env" });
 
-const domainName = process.env.DOMAIN ?? "stacking-tracker.com";
-
 export type StackSetup = {
   queue: sqs.Queue;
   vpc: ec2.Vpc;

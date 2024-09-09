@@ -1,5 +1,6 @@
-import { sendMessage, sendMessageReply } from "../api";
+import { sendMessageOptions, sendMessageReply } from "../api";
 import { RepliesHandler } from "../repliesHandler";
+import * as db from "@repo/database";
 import NodeCache from "node-cache";
 
 const replyRequestCache = new NodeCache({ stdTTL: 600 });
@@ -41,11 +42,25 @@ export class ActionUpdateWallet extends RepliesHandler {
     const userId =
       message.message?.chat?.id ?? message.callback_query?.from?.id;
 
-    // TODO: check input
-    // TODO: save address to DB
+    await db.saveChat(userId, message.message.text);
 
-    const replyMessage = `<b>The address has been saved: ${message.message.text}</b>%0A`;
-    await sendMessage(userId, replyMessage);
+    const options = [
+      [
+        {
+          text: "← Back",
+          callback_data: JSON.stringify({ command: "/start" }),
+        },
+      ],
+      [
+        {
+          text: "Stacking Positions →",
+          callback_data: JSON.stringify({ command: "/positions" }),
+        },
+      ],
+    ];
+
+    const replyMessage = `The address has been saved!%0A<b>${message.message.text}</b>%0A`;
+    await sendMessageOptions(userId, replyMessage, options);
   }
 
   async handleMessage(message: any) {

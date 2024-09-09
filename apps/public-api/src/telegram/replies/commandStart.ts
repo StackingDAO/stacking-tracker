@@ -4,7 +4,6 @@ import * as stacks from "@repo/stacks";
 import { fetchPrice } from "../../prices";
 import { poxAddressToPool } from "../../constants";
 import * as db from "@repo/database";
-import { currency } from "../../utils";
 import { getMessage } from "../templates/commandStart";
 
 export class CommandStart extends RepliesHandler {

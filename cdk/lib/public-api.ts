@@ -7,8 +7,6 @@ import * as dotenv from "dotenv";
 import { StackSetup } from "./setup";
 dotenv.config({ path: "cdk/.env" });
 
-const domainName = process.env.DOMAIN ?? "stacking-tracker.com";
-
 export class PublicApi extends cdk.Stack {
   constructor(
     scope: Construct,

@@ -36,7 +36,7 @@ async function getStackerInfo(wallet: string) {
 
   const lockedAmount = accountInfo.stx.locked / 1000000.0;
 
-  if (!stackerInfoRaw["delegated-to"]?.value) {
+  if (stackerInfoRaw && !stackerInfoRaw["delegated-to"]?.value) {
     return {
       name: "Solo Stacking",
       logo: "/logos/default.webp",
@@ -50,7 +50,7 @@ async function getStackerInfo(wallet: string) {
 
   const delegatedTo = stackerInfoRaw
     ? stackerInfoRaw["delegated-to"].value.value
-    : delegationInfoRaw["delegated-to"].value.value;
+    : delegationInfoRaw["delegated-to"].value;
   const pool = delegationAddressToPool[delegatedTo];
 
   return {
@@ -168,6 +168,11 @@ router.get("/:wallet", async (req: Request, res: Response) => {
       balance_usd: stStxZest * stxPerStStx * stxPrice,
     },
   ];
+
+  //  const filteredPositions = positions.filter(
+  //    (position: any) =>
+  //      position.balance > 0 || (position.delegated && position.delegated > 0)
+  //  );
 
   res.send({
     prices: {
