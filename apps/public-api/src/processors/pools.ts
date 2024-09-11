@@ -1,6 +1,6 @@
 import { poxAddressToPool } from "../constants";
 
-export async function getPoolsInfoForCycle(
+export function getPoolsInfoForCycle(
   cycleNumber: number,
   stackers: any,
   rewards: any
@@ -50,7 +50,7 @@ export async function getPoolsInfoForCycle(
   };
 }
 
-export async function getPoolEntities(
+export function getPoolEntities(
   cyclesInfo: any,
   stxPrice: number,
   btcPrice: number
@@ -79,8 +79,10 @@ export async function getPoolEntities(
       previousRewards += info.rewards_amount;
     });
 
-    const previousStackedValue = (previousStacked / 4) * stxPrice;
-    const previousRewardsValue = (previousRewards / 4) * btcPrice;
+    const previousStackedValue =
+      (previousStacked / (cyclesInfo.length - 1)) * stxPrice;
+    const previousRewardsValue =
+      (previousRewards / (cyclesInfo.length - 1)) * btcPrice;
     // 25 cycles per year
     const apy = (previousRewardsValue / previousStackedValue) * 25 * 100;
 
@@ -88,6 +90,7 @@ export async function getPoolEntities(
       name: poxAddressToPool[poxAddress].name,
       entity: poxAddressToPool[poxAddress].entity,
       logo: poxAddressToPool[poxAddress].logo,
+      website: poxAddressToPool[poxAddress].website,
       slug: poxAddressToPool[poxAddress].slug,
       stackers_count: lastCycleInfo.stackers_count,
       stacked_amount: cycleInfoAddress[0].stacked_amount,

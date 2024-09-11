@@ -1,43 +1,27 @@
 import { Router, Request, Response } from "express";
 import * as db from "@repo/database";
 import * as stacks from "@repo/stacks";
-import { poxAddressToPool } from "../constants";
 import { fetchPrice } from "../prices";
+import { getPoxInfoForCycle } from "../processors/pox";
 
-async function getInfoForCycle(cycleNumber: number) {
+async function getInfoForCycle(
+  cycleNumber: number,
+  stxPrice: number,
+  btcPrice: number
+) {
   const [signers, stackers, rewards] = await Promise.all([
     db.getSignersForCycle(cycleNumber),
     db.getStackersForCycle(cycleNumber),
     db.getRewardsForCycle(cycleNumber),
   ]);
 
-  const poxAddresses = [
-    ...new Set(stackers.map((stacker: any) => stacker.poxAddress)),
-  ];
-
-  let poolsCount = 0;
-  for (const poxAddress of poxAddresses) {
-    if (poxAddressToPool[poxAddress as string]) {
-      poolsCount++;
-    }
-  }
-
-  let stackedAmount = 0.0;
-  let rewardAmount = 0.0;
-  stackers.forEach((stacker: any) => {
-    stackedAmount += stacker.stackedAmount;
-  });
-  rewards.forEach((reward: any) => {
-    rewardAmount += reward.rewardAmount;
-  });
-
-  return {
-    cycle_number: cycleNumber,
-    stacked_amount: stackedAmount,
-    rewards_amount: rewardAmount,
-    signers_count: signers.length,
-    pools_count: poolsCount,
-  };
+  const info: any = getPoxInfoForCycle(cycleNumber, stackers, rewards);
+  info.signers_count = signers.length;
+  info.apy =
+    ((info.rewards_amount * btcPrice) / (info.stacked_amount * stxPrice)) *
+    25 *
+    100;
+  return info;
 }
 
 const router = Router();
@@ -52,21 +36,33 @@ router.get("/", async (req: Request, res: Response) => {
 
   const promises: any[] = [];
   for (let cycle = currentCycle; cycle > 83; cycle--) {
-    promises.push(getInfoForCycle(cycle));
+    promises.push(getInfoForCycle(cycle, stxPrice, btcPrice));
   }
-
   const results = await Promise.all(promises);
-  res.send({
-    prices: {
-      stx: stxPrice,
-      btc: btcPrice,
-    },
 
-    current_burn_block: pox.current_burnchain_block_height,
-    next_cycle_prepare_start_block:
-      pox.next_cycle.prepare_phase_start_block_height,
-    next_cycle_reward_start_block:
-      pox.next_cycle.reward_phase_start_block_height,
+  const nextCycleStartBlock = pox.next_cycle.reward_phase_start_block_height;
+  const currentBlock = pox.current_burnchain_block_height;
+  const cycleLength =
+    pox.prepare_phase_block_length + pox.reward_phase_block_length;
+
+  res.send({
+    current_cycle: {
+      cycle_number: results[0].cycle_number,
+      stacked_amount: results[0].stacked_amount,
+      rewards_amount: results[0].rewards_amount,
+      stacked_amount_usd: results[0].stacked_amount * stxPrice,
+      rewards_amount_usd: results[0].rewards_amount * btcPrice,
+      started_days_ago:
+        (currentBlock - (nextCycleStartBlock - cycleLength)) / 144,
+      ends_in_days: (nextCycleStartBlock - currentBlock) / 144,
+    },
+    next_cycle: {
+      cycle_number: results[0].cycle_number + 1,
+      prepare_phase_start_block:
+        pox.next_cycle.prepare_phase_start_block_height,
+      reward_phase_start_block: nextCycleStartBlock,
+      starts_in_days: (nextCycleStartBlock - currentBlock) / 144,
+    },
 
     details: {
       total_liquid_supply_stx: pox.total_liquid_supply_ustx / 1000000.0,

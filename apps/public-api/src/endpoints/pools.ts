@@ -33,7 +33,7 @@ router.get("/", async (req: Request, res: Response) => {
 
   res.send({
     cycles: results.slice().reverse(),
-    entities: await getPoolEntities(results.slice(0, 5), stxPrice, btcPrice),
+    entities: getPoolEntities(results.slice(0, 5), stxPrice, btcPrice),
   });
 });
 

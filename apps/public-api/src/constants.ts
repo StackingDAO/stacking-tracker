@@ -28,7 +28,7 @@ export const poxAddressToPool = {
     name: "StackingDAO Pool",
     slug: "stackingdao-pool",
     logo: "/logos/stackingdao.webp",
-    website: "https://www.stackingdao.com",
+    website: "https://www.stackingdao.com/pool",
   },
   bc1qmv2pxw5ahvwsu94kq5f520jgkmljs3af8ly6tr: {
     name: "Xverse Pool",
@@ -52,10 +52,10 @@ export const poxAddressToPool = {
 
 export const delegationAddressToPool = {
   SP4SZE494VC2YC5JYG7AYFQ44F5Q4PYV7DVMDPBG: {
-    name: "StackingDAO BTC Pool",
-    slug: "stackingdao",
+    name: "StackingDAO Pool",
+    slug: "stackingdao-pool",
     logo: "/logos/stackingdao.webp",
-    website: "https://www.stackingdao.com",
+    website: "https://www.stackingdao.com/pool",
   },
   SPXVRSEH2BKSXAEJ00F1BY562P45D5ERPSKR4Q33: {
     name: "Xverse Pool",
