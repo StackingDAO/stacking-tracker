@@ -55,7 +55,11 @@ const Home: FunctionComponent<Props> = async ({ params: { token } }: Props) => {
 
       <div className="mb-12 bg-white rounded-lg mt-3">
         <Table
-          columnTitles={["Cycle", "Stacked", "Rewards"]}
+          columnHeaders={[
+            { title: "Signer" },
+            { title: "Stacked" },
+            { title: "Rewards" },
+          ]}
           rows={tokenInfo.cycles
             .reverse()
             .map((info: any) => [

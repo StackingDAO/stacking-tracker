@@ -3,7 +3,6 @@ import { Table } from "./components/Table";
 import * as api from "./common/public-api";
 import { currency } from "@/app/common/utils";
 import ChartBarStacked from "@/app/components/ChartBarStacked";
-import { UserPositions } from "./components/UserPositions";
 
 type Props = {
   params: {
@@ -13,8 +12,6 @@ type Props = {
 
 const Home: FunctionComponent<Props> = async ({ params: { pool } }: Props) => {
   const poxInfo = await api.get(`/pox`);
-
-  const lastCycleInfo = poxInfo.cycles[poxInfo.cycles.length - 1];
   const chartLabels = poxInfo.cycles.map((info: any) => info.cycle_number);
   const dataStacked = poxInfo.cycles.map((info: any) => info.stacked_amount);
   const dataRewards = poxInfo.cycles.map((info: any) => info.rewards_amount);
@@ -38,23 +35,25 @@ const Home: FunctionComponent<Props> = async ({ params: { pool } }: Props) => {
 
   return (
     <main className="flex flex-col justify-between w-full max-w-5xl pt-12">
-      <UserPositions />
       <div className="flex gap-3 pt-3">
         <div className="w-4/12 rounded-lg border border-gray-200 bg-white p-4 flex flex-col gap-2">
           <div className="font-semibold">
             Current cycle:{" "}
-            <span className="font-semibold">{lastCycleInfo.cycle_number}</span>
+            <span className="font-semibold">
+              {poxInfo.current_cycle.cycle_number}
+            </span>
           </div>
           <div>
             Total stacked:{" "}
             <div>
               <span className="font-semibold">
-                {currency.rounded.format(lastCycleInfo.stacked_amount)} STX
+                {currency.rounded.format(poxInfo.current_cycle.stacked_amount)}{" "}
+                STX
               </span>{" "}
               <span className="text-sm">
                 $
                 {currency.rounded.format(
-                  lastCycleInfo.stacked_amount * poxInfo.prices.stx
+                  poxInfo.current_cycle.stacked_amount_usd
                 )}
               </span>
             </div>
@@ -63,12 +62,13 @@ const Home: FunctionComponent<Props> = async ({ params: { pool } }: Props) => {
             Total rewards:{" "}
             <div>
               <span className="font-semibold">
-                {currency.short.format(lastCycleInfo.rewards_amount)} BTC
+                {currency.short.format(poxInfo.current_cycle.rewards_amount)}{" "}
+                BTC
               </span>{" "}
               <span className="text-sm">
                 $
                 {currency.rounded.format(
-                  lastCycleInfo.rewards_amount * poxInfo.prices.btc
+                  poxInfo.current_cycle.rewards_amount_usd
                 )}
               </span>
             </div>
@@ -76,48 +76,30 @@ const Home: FunctionComponent<Props> = async ({ params: { pool } }: Props) => {
           <div>
             Started{" "}
             <span className="font-semibold">
-              ~
-              {currency.rounded.format(
-                (poxInfo.current_burn_block -
-                  (poxInfo.next_cycle_reward_start_block - 2100)) /
-                  144
-              )}{" "}
+              ~{currency.rounded.format(poxInfo.current_cycle.started_days_ago)}{" "}
               days ago
             </span>
           </div>
           <div>
             Ends in{" "}
             <span className="font-semibold">
-              ~
-              {currency.rounded.format(
-                (poxInfo.next_cycle_reward_start_block -
-                  poxInfo.current_burn_block) /
-                  144
-              )}{" "}
+              ~{currency.rounded.format(poxInfo.current_cycle.ends_in_days)}{" "}
               days
             </span>
           </div>
 
           <div className="pt-3 font-semibold">
-            Next cycle: <span>{lastCycleInfo.cycle_number + 1}</span>
+            Next cycle: <span>{poxInfo.next_cycle.cycle_number + 1}</span>
           </div>
           <div>
             Prepare phase in ~
-            {currency.rounded.format(
-              (poxInfo.next_cycle_prepare_start_block -
-                poxInfo.current_burn_block) /
-                144
-            )}{" "}
-            days at ₿ #{poxInfo.next_cycle_prepare_start_block}
+            {currency.rounded.format(poxInfo.next_cycle.starts_in_days - 1)}{" "}
+            days at ₿ #{poxInfo.next_cycle.prepare_phase_start_block}
           </div>
           <div>
             Reward phase in ~
-            {currency.rounded.format(
-              (poxInfo.next_cycle_reward_start_block -
-                poxInfo.current_burn_block) /
-                144
-            )}{" "}
-            days at ₿ #{poxInfo.next_cycle_reward_start_block}
+            {currency.rounded.format(poxInfo.next_cycle.starts_in_days)} days at
+            ₿ #{poxInfo.next_cycle.reward_phase_start_block}
           </div>
         </div>
         <div className="flex-1 rounded-lg border border-gray-200 bg-white p-4">
@@ -130,27 +112,24 @@ const Home: FunctionComponent<Props> = async ({ params: { pool } }: Props) => {
 
       <div className="mb-3 bg-white rounded-lg mt-3">
         <Table
-          columnTitles={[
-            "Cycle",
-            "Signers",
-            "Pools",
-            "Stacked",
-            "Rewards",
-            "APY",
+          columnHeaders={[
+            { title: "Cycle" },
+            { title: "Signers" },
+            { title: "Pools", info: "Amount of known pools" },
+            { title: "Stacked" },
+            { title: "Rewards" },
+            { title: "APY", info: "Based on current prices" },
           ]}
-          rows={poxInfo.cycles.reverse().map((info: any) => [
-            info.cycle_number,
-            info.signers_count,
-            info.pools_count,
-            `${currency.rounded.format(info.stacked_amount)} STX`,
-            `${currency.short.format(info.rewards_amount)} BTC`,
-            `${currency.short.format(
-              ((info.rewards_amount * poxInfo.prices.btc) /
-                (info.stacked_amount * poxInfo.prices.stx)) *
-                25 * // 25 cycles per year
-                100
-            )}%`,
-          ])}
+          rows={poxInfo.cycles
+            .reverse()
+            .map((info: any) => [
+              info.cycle_number,
+              info.signers_count,
+              info.pools_count,
+              `${currency.rounded.format(info.stacked_amount)} STX`,
+              `${currency.short.format(info.rewards_amount)} BTC`,
+              `${currency.short.format(info.apy)}%`,
+            ])}
         />
       </div>
 

@@ -1,11 +1,13 @@
 import { useAppContext } from "@/app/components/AppContext";
+import { TelegramBot } from "./TelegramBot";
 
 export function Footer() {
   const { stackingCycle } = useAppContext();
 
   return (
-    <main className="flex flex-col items-center justify-between p-24">
-      <div className="mb-32 grid text-center lg:mb-0 lg:w-full lg:max-w-5xl lg:grid-cols-5 lg:text-left">
+    <main className="flex flex-col items-center justify-between">
+      <TelegramBot />
+      <div className="mb-32 mt-12 grid text-center lg:mb-0 lg:w-full lg:max-w-5xl lg:grid-cols-5 lg:text-left">
         <a
           href="#"
           className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"

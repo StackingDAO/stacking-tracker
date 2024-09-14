@@ -79,7 +79,16 @@ export default async function Home() {
         className="mb-12 bg-white rounded-lg mt-3"
       >
         <Table
-          columnTitles={["Pool", "Stackers", "Stacked", "Rewards", "APY"]}
+          columnHeaders={[
+            { title: "Pool" },
+            { title: "Stackers" },
+            { title: "Stacked" },
+            { title: "Rewards" },
+            {
+              title: "APY",
+              info: "Based on the previous 4 cycles and current prices.",
+            },
+          ]}
           rows={poolsInfo.entities.map((entity: any) => [
             <div key={entity.name} className="flex font-semibold">
               <img className="w-5 mr-2" src={entity.logo} /> {entity.name}

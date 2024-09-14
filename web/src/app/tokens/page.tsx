@@ -77,13 +77,13 @@ export default async function Home() {
         className="mb-12 bg-white rounded-lg mt-3"
       >
         <Table
-          columnTitles={[
-            "LST",
-            "Entity",
-            "Token Supply / Mcap",
-            "Stacked",
-            "Rewards",
-            "APY",
+          columnHeaders={[
+            { title: "LST" },
+            { title: "Entity" },
+            { title: "StackToken Supply / Mcapd" },
+            { title: "Stacked" },
+            { title: "Rewards" },
+            { title: "APY", info: "Based on last 4 weeks and current prices." },
           ]}
           rows={tokensInfo.entities.map((entity: any) => [
             <div key={entity.name} className="flex font-semibold">

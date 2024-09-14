@@ -54,7 +54,12 @@ const Home: FunctionComponent<Props> = async ({ params: { pool } }: Props) => {
 
       <div className="mb-12 bg-white rounded-lg mt-3">
         <Table
-          columnTitles={["Cycle", "Stackers", "Stacked", "Rewards"]}
+          columnHeaders={[
+            { title: "Cycle" },
+            { title: "Stackers" },
+            { title: "Stacked" },
+            { title: "Rewards" },
+          ]}
           rows={poolInfo.cycles
             .reverse()
             .map((info: any) => [
