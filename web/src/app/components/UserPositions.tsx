@@ -44,19 +44,22 @@ export function UserPositions() {
                   </div>
                   {position.type === "direct_stacking" ? (
                     <>
-                      <div>
-                        Delegated:{" "}
-                        <span className="font-semibold">
-                          {currency.short.format(position.delegated)}{" "}
-                          {position.symbol}
-                        </span>
-                        {position.delegated_usd ? (
-                          <>
-                            {" "}
-                            (${currency.short.format(position.delegated_usd)})
-                          </>
-                        ) : null}
-                      </div>
+                      {position.delegated && (
+                        <div>
+                          Delegated:{" "}
+                          <span className="font-semibold">
+                            {currency.short.format(position.delegated)}{" "}
+                            {position.symbol}
+                          </span>
+                          {position.delegated_usd ? (
+                            <>
+                              {" "}
+                              (${currency.short.format(position.delegated_usd)})
+                            </>
+                          ) : null}
+                        </div>
+                      )}
+
                       <div>
                         Stacked:{" "}
                         <span className="font-semibold">

@@ -117,3 +117,15 @@ Create a `.env` file similar to `.env.example` in:
 **Drizzle**
 
 - `npx drizzle-kit studio`
+
+# Telegram Bot
+
+Create bot via BotFather chat.
+
+## Set Webhook
+
+Use ngrok to set up tunnel to local machine.
+
+`curl -X POST "https://api.telegram.org/bot{{botid}}/setWebhook" -d "url=https://5.ngrok-free.app/telegram"`
+`curl -X POST "https://api.telegram.org/bot{{botid}}/getWebhookInfo"`
+`curl -X POST "https://api.telegram.org/bot{{botid}}/deleteWebhook"`

@@ -139,3 +139,19 @@ export const minersBids = pgTable(
     };
   }
 );
+
+export const telegramChats = pgTable(
+  'telegram_chats',
+  {
+    chatId: integer('chat_id').notNull(),
+    addresses: varchar('addresses').notNull(),
+  },
+  table => {
+    return {
+      pk: primaryKey({
+        columns: [table.chatId],
+      }),
+      chatIdIndex: index('telegram_chats_idx_chat_id').on(table.chatId).asc(),
+    };
+  }
+);

@@ -7,8 +7,6 @@ import * as dotenv from "dotenv";
 import { StackSetup } from "./setup";
 dotenv.config({ path: "cdk/.env" });
 
-const domainName = process.env.DOMAIN ?? "stacking-tracker.com";
-
 export class Web extends cdk.Stack {
   constructor(
     scope: Construct,
@@ -29,7 +27,7 @@ export class Web extends cdk.Stack {
           image: ecs.ContainerImage.fromAsset("./web"),
           containerPort: 3000,
           environment: {
-            PUBLIC_API_URL: `https://api.${domainName}/`,
+            NEXT_PUBLIC_API_URL: process.env.NEXT_PUBLIC_API_URL ?? "",
           },
         },
         desiredCount: 1, // Number of instances to run

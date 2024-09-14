@@ -92,16 +92,15 @@ export default async function Home() {
             <div key={entity.entity} className="flex">
               <img className="w-5 mr-2" src={entity.logo} /> {entity.entity}
             </div>,
-
-            <div>
+            <div key={entity.name + "-token"}>
               <div>{`${currency.rounded.format(entity.token_supply)} ${entity.name}`}</div>
               <div>{`$${currency.short.format(entity.token_mcap)}`}</div>
             </div>,
-            <div>
+            <div key={entity.name + "-stacked"}>
               <div>{`${currency.rounded.format(entity.stacked_amount)} STX (${currency.rounded.format((entity.stacked_amount / lastCycleInfo.stacked_amount) * 100.0)}%)`}</div>
               <div>{`$${currency.rounded.format(entity.stacked_amount_usd)}`}</div>
             </div>,
-            <div>
+            <div key={entity.name + "-rewards"}>
               <div>{`${currency.short.format(entity.rewards_amount)} STX (${currency.rounded.format((entity.rewards_amount / lastCycleInfo.rewards_amount) * 100.0)}%)`}</div>
               <div>{`$${currency.rounded.format(entity.rewards_amount_usd)}`}</div>
             </div>,

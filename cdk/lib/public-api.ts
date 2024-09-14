@@ -7,8 +7,6 @@ import * as dotenv from "dotenv";
 import { StackSetup } from "./setup";
 dotenv.config({ path: "cdk/.env" });
 
-const domainName = process.env.DOMAIN ?? "stacking-tracker.com";
-
 export class PublicApi extends cdk.Stack {
   constructor(
     scope: Construct,
@@ -32,6 +30,8 @@ export class PublicApi extends cdk.Stack {
           containerPort: 3030,
           environment: {
             DATABASE_URL: setupStack.databaseUrl,
+            STACKS_API: process.env.STACKS_API ?? "",
+            TELEGRAM_TOKEN: process.env.TELEGRAM_TOKEN ?? "",
           },
         },
         desiredCount: 1, // Number of instances to run
