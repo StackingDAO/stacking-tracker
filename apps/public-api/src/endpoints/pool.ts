@@ -4,7 +4,9 @@ import { poxAddressToPool } from "../constants";
 
 async function getPoolsInfoForCycle(cycleNumber: number, poxAddress: string) {
   const [stackers, rewards] = await Promise.all([
-    db.getStackersForCycle(cycleNumber, [poxAddress]),
+    db.getStackersForCycle(cycleNumber, {
+      poxAddresses: [poxAddress],
+    }),
     db.getRewardsForCycle(cycleNumber),
   ]);
 

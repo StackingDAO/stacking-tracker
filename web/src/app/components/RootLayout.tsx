@@ -28,11 +28,11 @@ export function RootLayout({ signOut, children }) {
               <a className="underline hover:no-underline" href="/tokens">
                 LSTs
               </a>{" "}
-              <a className="underline hover:no-underline" href="/signers">
-                Signers
-              </a>{" "}
               <a className="underline hover:no-underline" href="/pools">
                 Pools
+              </a>{" "}
+              <a className="underline hover:no-underline" href="/signers">
+                Signers
               </a>
             </div>
             <div className="flex">
