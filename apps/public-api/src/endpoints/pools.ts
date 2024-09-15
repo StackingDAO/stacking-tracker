@@ -6,9 +6,7 @@ import { getPoolEntities, getPoolsInfoForCycle } from "../processors/pools";
 
 async function getInfoForCycle(cycleNumber: number) {
   const [stackers, rewards] = await Promise.all([
-    db.getStackersForCycle(cycleNumber, {
-      poxAddresses: Object.keys(poxAddressToPool),
-    }),
+    db.getStackersForCycle(cycleNumber, Object.keys(poxAddressToPool)),
     db.getRewardsForCycle(cycleNumber, Object.keys(poxAddressToPool)),
   ]);
 
