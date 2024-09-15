@@ -25,6 +25,9 @@ export function RootLayout({ signOut, children }) {
               <a className="underline hover:no-underline" href="/">
                 PoX
               </a>{" "}
+              <a className="underline hover:no-underline" href="/positions">
+                Positions
+              </a>{" "}
               <a className="underline hover:no-underline" href="/tokens">
                 LSTs
               </a>{" "}

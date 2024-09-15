@@ -78,7 +78,12 @@ export default async function Home() {
         className="mb-12 bg-white rounded-lg mt-3"
       >
         <Table
-          columnTitles={["Signer", "Stackers", "Stacked", "Rewards"]}
+          columnHeaders={[
+            { title: "Signer" },
+            { title: "Stackers" },
+            { title: "Stacked" },
+            { title: "Rewards" },
+          ]}
           rows={lastCycleInfo.signers.map((signer: any) => [
             signer.name ? (
               <div key={signer.name} className="flex font-semibold">

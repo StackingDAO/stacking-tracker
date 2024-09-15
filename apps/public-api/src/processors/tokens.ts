@@ -1,7 +1,7 @@
 import { addressToToken } from "../constants";
 import * as stacks from "@repo/stacks";
 
-export async function getTokensInfoForCycle(
+export function getTokensInfoForCycle(
   cycleNumber: number,
   stackers: any,
   rewards: any
@@ -67,26 +67,13 @@ export async function getTokensInfoForCycle(
   };
 }
 
-export async function getTokenEntities(
+export function getTokenEntities(
   cyclesInfo: any,
   stxPrice: number,
   btcPrice: number
 ) {
-  const tokenAddresses = Object.keys(addressToToken).map(
-    (key: string) => addressToToken[key].tokenAddress
-  );
-  const tokenSupplyPromises = tokenAddresses.map((address: string) =>
-    stacks.getTotalSupply(address)
-  );
-
-  // TODO: as param
-  const [tokensSupply] = await Promise.all([Promise.all(tokenSupplyPromises)]);
-
   const entities: any[] = [];
   for (const address of Object.keys(addressToToken)) {
-    const tokensSupplyIndex = Object.keys(addressToToken).indexOf(address);
-    const tokenSupply = tokensSupply[tokensSupplyIndex];
-
     const cycleInfoAddress = [];
     cyclesInfo.forEach((info: any) => {
       const filteredInfo = info.tokens.filter(
@@ -102,24 +89,19 @@ export async function getTokenEntities(
       previousRewards += info.rewards_amount;
     });
 
-    const previousStackedValue = (previousStacked / 4) * stxPrice;
-    const previousRewardsValue = (previousRewards / 4) * btcPrice;
+    const previousStackedValue =
+      (previousStacked / (cyclesInfo.length - 1)) * stxPrice;
+    const previousRewardsValue =
+      (previousRewards / (cyclesInfo.length - 1)) * btcPrice;
     // 25 cycles per year
     const apy = (previousRewardsValue / previousStackedValue) * 25 * 100;
-
-    // Price compared to STX
-    var tokenPrice = 1.0;
-    if (addressToToken[address].entity === "StackingDAO") {
-      tokenPrice = await stacks.getStxPerStStx();
-    }
 
     entities.push({
       name: addressToToken[address].name,
       entity: addressToToken[address].entity,
       logo: addressToToken[address].logo,
       slug: addressToToken[address].slug,
-      token_supply: tokenSupply,
-      token_mcap: tokenSupply * stxPrice * tokenPrice,
+      website: addressToToken[address].website,
       stacked_amount: cycleInfoAddress[0].stacked_amount,
       rewards_amount: cycleInfoAddress[0].rewards_amount,
       stacked_amount_usd: cycleInfoAddress[0].stacked_amount * stxPrice,

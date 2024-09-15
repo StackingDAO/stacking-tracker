@@ -5,6 +5,7 @@ import { fetchPrice } from "../../prices";
 import { poxAddressToPool } from "../../constants";
 import * as db from "@repo/database";
 import { getMessage } from "../templates/commandStart";
+import { getPoxInfoForCycle } from "../../processors/pox";
 
 export class CommandStart extends RepliesHandler {
   canHandleMessage(message: any) {
@@ -21,38 +22,22 @@ export class CommandStart extends RepliesHandler {
     return false;
   }
 
-  async getInfoForCycle(cycleNumber: number) {
+  async getInfoForCycle(
+    cycleNumber: number,
+    stxPrice: number,
+    btcPrice: number
+  ) {
     const [stackers, rewards] = await Promise.all([
       db.getStackersForCycle(cycleNumber),
       db.getRewardsForCycle(cycleNumber),
     ]);
 
-    const poxAddresses = [
-      ...new Set(stackers.map((stacker: any) => stacker.poxAddress)),
-    ];
-
-    let poolsCount = 0;
-    for (const poxAddress of poxAddresses) {
-      if (poxAddressToPool[poxAddress as string]) {
-        poolsCount++;
-      }
-    }
-
-    let stackedAmount = 0.0;
-    let rewardAmount = 0.0;
-    stackers.forEach((stacker: any) => {
-      stackedAmount += stacker.stackedAmount;
-    });
-    rewards.forEach((reward: any) => {
-      rewardAmount += reward.rewardAmount;
-    });
-
-    return {
-      cycle_number: cycleNumber,
-      stacked_amount: stackedAmount,
-      rewards_amount: rewardAmount,
-      pools_count: poolsCount,
-    };
+    const info: any = await getPoxInfoForCycle(cycleNumber, stackers, rewards);
+    info.apy =
+      ((info.rewards_amount * btcPrice) / (info.stacked_amount * stxPrice)) *
+      25 *
+      100;
+    return info;
   }
 
   async handleMessage(message: any) {
@@ -63,29 +48,11 @@ export class CommandStart extends RepliesHandler {
       db.getSignersLatestCycle(),
     ]);
 
-    const lastCyclesPromises = [
-      this.getInfoForCycle(currentCycle),
-      this.getInfoForCycle(currentCycle - 1),
-      this.getInfoForCycle(currentCycle - 2),
-      this.getInfoForCycle(currentCycle - 3),
-      this.getInfoForCycle(currentCycle - 4),
-    ];
-
-    const lastCyclesInfo = await Promise.all(lastCyclesPromises);
-
-    const currentCycleInfo = lastCyclesInfo[0];
-
-    var previousStacked = 0.0;
-    var previousRewards = 0.0;
-    lastCyclesInfo.slice(1).forEach((info: any) => {
-      previousStacked += info.stacked_amount;
-      previousRewards += info.rewards_amount;
-    });
-
-    const previousStackedValue = (previousStacked / 4) * stxPrice;
-    const previousRewardsValue = (previousRewards / 4) * btcPrice;
-    // 25 cycles per year
-    const apy = (previousRewardsValue / previousStackedValue) * 25 * 100;
+    const promises: any[] = [];
+    for (let cycle = currentCycle; cycle > currentCycle - 5; cycle--) {
+      promises.push(this.getInfoForCycle(cycle, stxPrice, btcPrice));
+    }
+    const results = await Promise.all(promises);
 
     const daysLeftRewardPhase = pox.next_cycle.blocks_until_reward_phase / 144;
     const blockHeightRewardPhase =
@@ -94,12 +61,14 @@ export class CommandStart extends RepliesHandler {
     const replyMessage = getMessage({
       stxPrice: stxPrice,
       btcPrice: btcPrice,
-      cycleNumber: currentCycleInfo.cycle_number,
+      cycleNumber: results[0].cycle_number,
       daysLeftRewardPhase: daysLeftRewardPhase,
       blockHeightRewardPhase: blockHeightRewardPhase,
-      stackedAmount: currentCycleInfo.stacked_amount,
-      rewardsAmount: currentCycleInfo.rewards_amount,
-      apy: apy,
+      stackedAmount: results[0].stacked_amount,
+      rewardsAmount: results[0].rewards_amount,
+      apy:
+        (results[1].apy + results[2].apy + results[3].apy + results[4].apy) /
+        4.0,
     });
 
     const options = [
@@ -111,14 +80,14 @@ export class CommandStart extends RepliesHandler {
       ],
       [
         {
-          text: "Manage Wallet →",
-          callback_data: JSON.stringify({ command: "/wallet" }),
+          text: "Stacking Positions →",
+          callback_data: JSON.stringify({ command: "/positions" }),
         },
       ],
       [
         {
-          text: "Stacking Positions →",
-          callback_data: JSON.stringify({ command: "/positions" }),
+          text: "Manage Wallet →",
+          callback_data: JSON.stringify({ command: "/wallet" }),
         },
       ],
     ];

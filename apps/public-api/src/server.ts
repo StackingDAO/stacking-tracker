@@ -5,6 +5,7 @@ import dotenv from "dotenv";
 
 import routerTelegram from "./endpoints/telegram";
 import routerUser from "./endpoints/user";
+import routerPositions from "./endpoints/positions";
 import routerPox from "./endpoints/pox";
 import routerSigners from "./endpoints/signers";
 import routerSigner from "./endpoints/signer";
@@ -29,6 +30,7 @@ app.get("/health", (_: Request, res: Response) => {
 
 app.use("/telegram", routerTelegram);
 app.use("/user", routerUser);
+app.use("/positions", routerPositions);
 app.use("/pox", routerPox);
 app.use("/signers", routerSigners);
 app.use("/signer", routerSigner);
