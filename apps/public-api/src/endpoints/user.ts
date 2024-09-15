@@ -169,6 +169,11 @@ router.get("/:wallet", async (req: Request, res: Response) => {
     },
   ];
 
+  //  const filteredPositions = positions.filter(
+  //    (position: any) =>
+  //      position.balance > 0 || (position.delegated && position.delegated > 0)
+  //  );
+
   res.send({
     prices: {
       stx: stxPrice,
