@@ -97,17 +97,17 @@ export default async function Home() {
         </div>
 
         <Table
-          columnTitles={[
-            "Address",
-            "Mined/Bids",
-            "Rewards",
-            "Fees",
-            "Avg fees",
-            "Total bids",
-            "Avg bid",
-            "Total bid fees",
-            "Avg bid fees",
-            "Profit",
+          columnHeaders={[
+            { title: "Address" },
+            { title: "Mined/Bids" },
+            { title: "Rewards" },
+            { title: "Fees" },
+            { title: "Avg Fees" },
+            { title: "Total Bids" },
+            { title: "Avg Bid" },
+            { title: "Total Bid Fees" },
+            { title: "Avg Bid Fees" },
+            { title: "Profit" },
           ]}
           rows={minersInfo.map((miner: any) => [
             shortAddress(miner.address),
