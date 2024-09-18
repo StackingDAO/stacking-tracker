@@ -4,7 +4,7 @@ import postgres from 'postgres';
 import * as schema from './schema';
 import { sql } from 'drizzle-orm';
 
-dotenv.config();
+dotenv.config({ path: '../.env' });
 
 const isTest = process.env.NODE_ENV === 'test';
 
