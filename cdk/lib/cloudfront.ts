@@ -25,6 +25,69 @@ export class CloudFront extends cdk.Stack {
       validation: acm.CertificateValidation.fromDns(hostedZone),
     });
 
+    const certificateRoot = new acm.Certificate(
+      this,
+      "WebsiteRootCertificate",
+      {
+        domainName: `${domainName}`,
+        validation: acm.CertificateValidation.fromDns(hostedZone),
+      }
+    );
+
+    // Redirect (non-www to www) function
+    const redirectFunction = new cloudfront.Function(this, "RedirectFunction", {
+      code: cloudfront.FunctionCode.fromInline(`
+        function handler(event) {
+          var request = event.request;
+          var headers = request.headers;
+
+          if (headers.host && headers.host.value === '${domainName}') {
+            return {
+              statusCode: 301,
+              statusDescription: 'Moved Permanently',
+              headers: { 
+                "location": { "value": "https://www.${domainName}" + request.uri }
+              }
+            };
+          }
+          return request;
+        }
+      `),
+    });
+
+    // Redirect distribution
+    const redirectDistribution = new cloudfront.Distribution(
+      this,
+      "RedirectDistribution",
+      {
+        defaultBehavior: {
+          origin: new origins.HttpOrigin(`www.${domainName}`, {
+            protocolPolicy: cloudfront.OriginProtocolPolicy.HTTP_ONLY,
+          }),
+          functionAssociations: [
+            {
+              function: redirectFunction,
+              eventType: cloudfront.FunctionEventType.VIEWER_REQUEST,
+            },
+          ],
+          viewerProtocolPolicy:
+            cloudfront.ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
+        },
+        domainNames: [`${domainName}`],
+        certificate: certificateRoot,
+        minimumProtocolVersion: cloudfront.SecurityPolicyProtocol.TLS_V1_2_2021,
+      }
+    );
+
+    // Redirect DNS record
+    new route53.ARecord(this, "RedirectRecord", {
+      zone: hostedZone,
+      recordName: `${domainName}`,
+      target: route53.RecordTarget.fromAlias(
+        new route53Targets.CloudFrontTarget(redirectDistribution)
+      ),
+    });
+
     // Cache Policy
     const websiteCachePolicy = new cloudfront.CachePolicy(
       this,
