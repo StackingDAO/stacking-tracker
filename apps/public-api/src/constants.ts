@@ -72,7 +72,7 @@ export const delegationAddressToPool = {
 };
 
 export const signerKeyToPool = {
-  "0x02879477ec9ed8a56c0b26ba4b452246608d6e1b02ae1fa405a2c97ee8af5da202": {
+  "0x025588e24e2bf387fe8cc7bccba1aac7fe599b96724892431e992a40d06e8fe220": {
     name: "StackingDAO",
     slug: "stackingdao",
     logo: "/logos/stackingdao.webp",
