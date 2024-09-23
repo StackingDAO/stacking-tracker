@@ -3,22 +3,11 @@ import { poxAddressToPool } from "../constants";
 export function getPoxInfoForCycle(
   cycleNumber: number,
   stackers: any,
-  rewards: any,
-  stackerType?: string | undefined
+  rewards: any
 ) {
   let poxAddresses = [
     ...new Set(stackers.map((stacker: any) => stacker.poxAddress)),
   ];
-
-  if (stackerType) {
-    poxAddresses = [
-      ...new Set(
-        stackers
-          .filter((stacker: any) => stacker.stackerType === stackerType)
-          .map((stacker: any) => stacker.poxAddress)
-      ),
-    ];
-  }
 
   let poolsCount = 0;
   for (const poxAddress of poxAddresses) {

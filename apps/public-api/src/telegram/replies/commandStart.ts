@@ -32,7 +32,7 @@ export class CommandStart extends RepliesHandler {
       db.getRewardsForCycle(cycleNumber),
     ]);
 
-    const info: any = await getPoxInfoForCycle(cycleNumber, stackers, rewards);
+    const info: any = getPoxInfoForCycle(cycleNumber, stackers, rewards);
     info.apy =
       ((info.rewards_amount * btcPrice) / (info.stacked_amount * stxPrice)) *
       25 *

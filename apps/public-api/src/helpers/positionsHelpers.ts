@@ -18,8 +18,18 @@ async function getInfoForCycle(cycleNumber: number) {
     db.getRewardsForCycle(cycleNumber),
   ]);
 
+  const soloStackers = stackers.filter(
+    (stacker: any) => stacker.stackerType === "solo"
+  );
+  const soloStackersPoxAddresses = soloStackers.map(
+    (stacker: any) => stacker.poxAddress
+  );
+  const soloStackersRewards = rewards.filter((reward: any) =>
+    soloStackersPoxAddresses.includes(reward.rewardrecipient)
+  );
+
   return {
-    solo: getPoxInfoForCycle(cycleNumber, stackers, rewards, "solo"),
+    solo: getPoxInfoForCycle(cycleNumber, soloStackers, soloStackersRewards),
     pools: getPoolsInfoForCycle(cycleNumber, stackers, rewards),
     tokens: getTokensInfoForCycle(cycleNumber, stackers, rewards),
   };
