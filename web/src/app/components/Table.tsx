@@ -1,7 +1,4 @@
-"use client";
-
-import { Tooltip } from "react-tooltip";
-import InfoIcon from "./InfoIcon";
+import { ToolTip } from "./Tooltip";
 
 type ColumnHeaders = {
   title: string;
@@ -16,20 +13,6 @@ type Props = {
 export function Table({ columnHeaders, rows }: Props) {
   return (
     <div className="overflow-x-auto rounded-lg bg-white border border-gray-200">
-      {columnHeaders.map((header: any) => (
-        <>
-          {header.info && (
-            <Tooltip
-              anchorSelect={`#${header.title.replace(" ", "-")}`}
-              place="top"
-              className="max-w-xs"
-            >
-              {header.info}
-            </Tooltip>
-          )}
-        </>
-      ))}
-
       <div className="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
         <table className="min-w-full divide-y divide-gray-300">
           <thead>
@@ -43,9 +26,9 @@ export function Table({ columnHeaders, rows }: Props) {
                   <div className="flex">
                     {header.title}
                     {header.info && (
-                      <InfoIcon
-                        className="text-black ml-1 mt-0.5"
-                        id={`${header.title.replace(" ", "-")}`}
+                      <ToolTip
+                        id={`table_${header.title.replace(" ", "-")}`}
+                        text={header.info}
                       />
                     )}
                   </div>

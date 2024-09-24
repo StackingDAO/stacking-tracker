@@ -5,7 +5,7 @@ export function Footer() {
   const { stackingCycle } = useAppContext();
 
   return (
-    <main className="flex flex-col items-center justify-between">
+    <main className="flex flex-col items-center justify-between mt-12">
       <TelegramBot />
       <div className="mb-32 mt-12 grid text-center lg:mb-0 lg:w-full lg:max-w-5xl lg:grid-cols-5 lg:text-left">
         <a
