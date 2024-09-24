@@ -151,13 +151,13 @@ const Home: FunctionComponent<Props> = async ({ params: { pool } }: Props) => {
           ]}
           rows={poxInfo.cycles
             .reverse()
-            .map((info: any) => [
+            .map((info: any, index: number) => [
               info.cycle_number,
               info.signers_count,
               info.pools_count,
               `${currency.rounded.format(info.stacked_amount)} STX`,
               `${currency.short.format(info.rewards_amount)} BTC`,
-              `${currency.short.format(info.apy)}%`,
+              `${index === 0 ? "in progress" : currency.short.format(info.apy) + "%"}`,
             ])}
         />
       </div>

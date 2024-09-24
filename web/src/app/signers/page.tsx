@@ -6,25 +6,28 @@ import ChartBarStacked from "../components/ChartBarStacked";
 export default async function Home() {
   const signersInfo = await api.get("/signers");
 
-  const lastCycleInfo = signersInfo[signersInfo.length - 1];
-  const chartLabels = signersInfo.map((info: any) => info.cycle_number);
-
+  const lastCycleInfo = signersInfo.cycles[signersInfo.cycles.length - 1];
+  const chartLabels = signersInfo.cycles.map((info: any) => info.cycle_number);
+  const activeSigners = lastCycleInfo.signers;
   const datasets: any[] = [];
 
   datasets.push({
     label: "BTC Yield",
-    data: signersInfo.map((info: any) => info.rewards_amount),
+    data: signersInfo.cycles.map((info: any) => info.rewards_amount),
     type: "line",
     yAxisID: "yRight",
   });
 
-  for (const activeSigner of signersInfo[0].signers_grouped) {
+  for (const activeSigner of activeSigners) {
     const data: any[] = [];
-    for (const cycleInfo of signersInfo) {
-      const stacked = cycleInfo.signers_grouped.filter(
+    for (const cycleInfo of signersInfo.cycles) {
+      const signerInfo = cycleInfo.signers.filter(
         (signer: any) => signer.name == activeSigner.name
-      )[0].stacked_amount;
-      data.push(stacked);
+      )[0];
+
+      if (signerInfo) {
+        data.push(signerInfo.stacked_amount);
+      }
     }
 
     datasets.push({
@@ -48,9 +51,7 @@ export default async function Home() {
           </div>
           <div>
             Total signers:{" "}
-            <span className="font-semibold">
-              {lastCycleInfo.signers.length}
-            </span>
+            <span className="font-semibold">{signersInfo.entities.length}</span>
           </div>
           <div>
             Total stacked:{" "}
@@ -84,17 +85,27 @@ export default async function Home() {
             { title: "Stacked" },
             { title: "Rewards" },
           ]}
-          rows={lastCycleInfo.signers.map((signer: any) => [
-            signer.name ? (
-              <div key={signer.name} className="flex font-semibold">
-                <img className="w-5 mr-2" src={signer.logo} /> {signer.name}
+          rows={signersInfo.entities.map((signer: any) => [
+            <>
+              <div key={signer.name} className="flex">
+                <img className="w-8 h-8 mr-3 mt-1" src={signer.logo} />
+                <div>
+                  <div className="font-semibold">{signer.name}</div>
+                  <div className="text-xs">
+                    {shortAddress(signer.signer_key)}
+                  </div>
+                </div>
               </div>
-            ) : (
-              shortAddress(signer.signer_key)
-            ),
+            </>,
             signer.stackers_count,
-            `${currency.rounded.format(signer.stacked_amount)} STX (${currency.rounded.format((signer.stacked_amount / lastCycleInfo.stacked_amount) * 100.0)}%)`,
-            `${currency.short.format(signer.rewards_amount)} BTC (${currency.rounded.format((signer.rewards_amount / lastCycleInfo.rewards_amount) * 100.0)}%)`,
+            <div key={signer.signer_key + "-stacked"}>
+              <div>{`${currency.rounded.format(signer.stacked_amount)} STX`}</div>
+              <div>{`$${currency.rounded.format(signer.stacked_amount_usd)}`}</div>
+            </div>,
+            <div key={signer.name + "-rewards"}>
+              <div>{`${currency.short.format(signer.rewards_amount)} BTC`}</div>
+              <div>{`$${currency.rounded.format(signer.rewards_amount_usd)}`}</div>
+            </div>,
             <a
               key={signer.slug}
               href={`/signers/${signer.slug ?? signer.signer_key}`}

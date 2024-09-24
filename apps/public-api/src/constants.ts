@@ -145,8 +145,8 @@ export const signerKeyToPool = {
   },
 
   "0x02877ce29ba35458b827a6ea18510b9058ae4c30e2c33d288f2982c13497caec6e": {
-    name: "Xverse Pool",
-    slug: "xverse-pool",
+    name: "Xverse",
+    slug: "xverse",
     logo: "/logos/xverse.webp",
     website: "https://xverse-pool.com",
   },
@@ -157,8 +157,8 @@ export const signerKeyToPool = {
     website: "https://fastpool.org",
   },
   "0x03ed732eab6b99b90315f9b58ce9c3e2d1991bc4e9cfa59841535c0ef7dbba38e0": {
-    name: "Planbetter Pool",
-    slug: "planbetter-pool",
+    name: "Planbetter",
+    slug: "planbetter",
     logo: "/logos/planbetter.webp",
     website: "https://www.planbetter.org",
   },
