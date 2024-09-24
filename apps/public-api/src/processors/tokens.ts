@@ -93,9 +93,9 @@ export function getTokenEntities(
       (previousStacked / (cyclesInfo.length - 1)) * stxPrice;
     const previousRewardsValue =
       (previousRewards / (cyclesInfo.length - 1)) * btcPrice;
-    // 25 cycles per year
-    const apr = (previousRewardsValue / previousStackedValue) * 25;
-    const apy = (Math.pow(1 + apr / 25, 25) - 1) * 100.0;
+    // 26 cycles per year
+    const apr = (previousRewardsValue / previousStackedValue) * 26;
+    const apy = (Math.pow(1 + apr / 26, 26) - 1) * 100.0;
 
     entities.push({
       name: addressToToken[address].name,

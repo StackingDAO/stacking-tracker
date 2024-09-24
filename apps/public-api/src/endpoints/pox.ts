@@ -17,14 +17,11 @@ async function getInfoForCycle(
 
   const info: any = getPoxInfoForCycle(cycleNumber, stackers, rewards);
   info.signers_count = signers.length;
-  info.apy =
-    ((info.rewards_amount * btcPrice) / (info.stacked_amount * stxPrice)) *
-    25 *
-    100;
 
+  // 26 cycles per year
   const apr =
-    ((info.rewards_amount * btcPrice) / (info.stacked_amount * stxPrice)) * 25;
-  info.apy = (Math.pow(1 + apr / 25, 25) - 1) * 100.0;
+    ((info.rewards_amount * btcPrice) / (info.stacked_amount * stxPrice)) * 26;
+  info.apy = (Math.pow(1 + apr / 26, 26) - 1) * 100.0;
 
   return info;
 }
