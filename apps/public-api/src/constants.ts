@@ -18,12 +18,6 @@ export const addressToToken = {
 };
 
 export const poxAddressToPool = {
-  bc1q9ll6ngymkla8mnk5fq6dwlhgr3yutuxvg3whz5: {
-    name: "StackingDAO",
-    slug: "stackingdao",
-    logo: "/logos/stackingdao.webp",
-    website: "https://www.stackingdao.com",
-  },
   bc1qeagslq8gm4ylmgxf9ngx24mnwffsqnprrsjc0n: {
     name: "StackingDAO Pool",
     slug: "stackingdao-pool",
