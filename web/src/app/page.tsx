@@ -118,7 +118,7 @@ const Home: FunctionComponent<Props> = async ({ params: { pool } }: Props) => {
             { title: "Pools", info: "Amount of known pools" },
             { title: "Stacked" },
             { title: "Rewards" },
-            { title: "APY", info: "Based on current prices" },
+            { title: "Gross APY", info: "Based on current prices" },
           ]}
           rows={poxInfo.cycles
             .reverse()

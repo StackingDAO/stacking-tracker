@@ -36,8 +36,8 @@ export function Positions({ positions }: { positions: any }) {
             { title: "Position" },
             { title: "TVL" },
             {
-              title: "APY",
-              info: "Based on last 4 cycles and current prices.",
+              title: "Gross APY",
+              info: "Based on last 4 cycles and current prices. Not taking into account fees.",
             },
             { title: "Balance" },
           ]}
@@ -87,8 +87,8 @@ export function Positions({ positions }: { positions: any }) {
               { title: "Position" },
               { title: "TVL" },
               {
-                title: "APY",
-                info: "Based on last 4 cycles and current prices.",
+                title: "Gross APY",
+                info: "Based on last 4 cycles and current prices. Not taking into account fees.",
               },
             ]}
             rows={positions.map((position: any) => [

@@ -84,8 +84,8 @@ export default async function Home() {
             { title: "Stacked" },
             { title: "Rewards" },
             {
-              title: "APY",
-              info: "Based on the previous 4 cycles and current prices.",
+              title: "Gross APY",
+              info: "Based on the previous 4 cycles and current prices. Not taking into account pool fees.",
             },
           ]}
           rows={poolsInfo.entities.map((entity: any) => [

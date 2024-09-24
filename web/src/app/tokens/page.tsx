@@ -84,8 +84,8 @@ export default async function Home() {
             { title: "Stacked" },
             { title: "Rewards" },
             {
-              title: "APY",
-              info: "Based on last 4 cycles and current prices.",
+              title: "Gross APY",
+              info: "Based on last 4 cycles and current prices. Not taking into account protocol fees.",
             },
           ]}
           rows={tokensInfo.entities.map((entity: any) => [
