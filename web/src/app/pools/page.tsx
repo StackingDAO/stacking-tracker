@@ -76,7 +76,7 @@ export default async function Home() {
 
       <div
         key={lastCycleInfo.cycle_number}
-        className="mb-12 bg-white rounded-lg mt-3"
+        className="bg-white rounded-lg mt-3"
       >
         <Table
           columnHeaders={[
@@ -110,6 +110,20 @@ export default async function Home() {
             </a>,
           ])}
         />
+      </div>
+
+      <div className="rounded-lg border border-gray-200 bg-white p-4 flex flex-col gap-2 max-w-5xl w-full mt-3">
+        <div className="font-semibold">Pool missing?</div>
+        <div className="text-sm">
+          Click{" "}
+          <a
+            className="text-blue-600 font-semibold hover:underline"
+            href="mailto:info@stacking-tracker.com"
+          >
+            here
+          </a>{" "}
+          to get in touch so we can add the missing data.
+        </div>
       </div>
     </main>
   );
