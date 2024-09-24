@@ -101,6 +101,7 @@ export function getTokenEntities(
       name: addressToToken[address].name,
       entity: addressToToken[address].entity,
       logo: addressToToken[address].logo,
+      logo_token: addressToToken[address].logo_token,
       slug: addressToToken[address].slug,
       website: addressToToken[address].website,
       stacked_amount: cycleInfoAddress[0].stacked_amount,

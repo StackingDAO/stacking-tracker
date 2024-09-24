@@ -90,7 +90,7 @@ export default async function Home() {
           ]}
           rows={tokensInfo.entities.map((entity: any) => [
             <div key={entity.name} className="flex font-semibold">
-              <img className="w-5 mr-2" src={entity.logo} /> {entity.name}
+              <img className="w-5 mr-2" src={entity.logo_token} /> {entity.name}
             </div>,
             <div key={entity.entity} className="flex">
               <img className="w-5 mr-2" src={entity.logo} /> {entity.entity}
