@@ -81,7 +81,6 @@ export default async function Home() {
         <Table
           columnHeaders={[
             { title: "Pool" },
-            { title: "Stackers" },
             { title: "Stacked" },
             { title: "Rewards" },
             {
@@ -93,7 +92,6 @@ export default async function Home() {
             <div key={entity.name} className="flex font-semibold">
               <img className="w-5 mr-2" src={entity.logo} /> {entity.name}
             </div>,
-            entity.stackers_count,
             <div key={entity.name + "-stacked"}>
               <div>{`${currency.rounded.format(entity.stacked_amount)} STX (${currency.rounded.format((entity.stacked_amount / lastCycleInfo.stacked_amount) * 100.0)}%)`}</div>
               <div>{`$${currency.rounded.format(entity.stacked_amount_usd)}`}</div>
