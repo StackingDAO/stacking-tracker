@@ -20,7 +20,7 @@ export function Table({ columnHeaders, rows }: Props) {
         <>
           {header.info && (
             <Tooltip
-              anchorSelect={`#${header.title}`}
+              anchorSelect={`#${header.title.replace(" ", "-")}`}
               place="top"
               className="max-w-xs"
             >
@@ -45,7 +45,7 @@ export function Table({ columnHeaders, rows }: Props) {
                     {header.info && (
                       <InfoIcon
                         className="text-black ml-1 mt-0.5"
-                        id={`${header.title}`}
+                        id={`${header.title.replace(" ", "-")}`}
                       />
                     )}
                   </div>
