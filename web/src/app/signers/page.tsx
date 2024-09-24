@@ -2,6 +2,7 @@ import { Table } from "../components/Table";
 import * as api from "../common/public-api";
 import { currency, shortAddress } from "@/app/common/utils";
 import ChartBarStacked from "../components/ChartBarStacked";
+import { ToolTip } from "../components/Tooltip";
 
 export default async function Home() {
   const signersInfo = await api.get("/signers");
@@ -59,11 +60,20 @@ export default async function Home() {
               {currency.rounded.format(lastCycleInfo.stacked_amount)} STX
             </span>
           </div>
-          <div>
-            Total rewards:{" "}
-            <span className="font-semibold">
-              {currency.short.format(lastCycleInfo.rewards_amount)} BTC
-            </span>
+          <div className="flex">
+            <div>
+              Total rewards:{" "}
+              <span className="font-semibold">
+                {currency.short.format(lastCycleInfo.rewards_amount)} BTC
+              </span>
+            </div>
+            <ToolTip
+              id="tooltip_rewards"
+              text={
+                "Total rewards so far in this cycle. The cycle is still in progress."
+              }
+              className="mt-1"
+            />
           </div>
         </div>
         <div className="flex-1 rounded-lg border border-gray-200 bg-white p-4">
@@ -83,7 +93,10 @@ export default async function Home() {
             { title: "Signer" },
             { title: "Stackers" },
             { title: "Stacked" },
-            { title: "Rewards" },
+            {
+              title: "Rewards",
+              info: "Total rewards so far in this cycle. The cycle is still in progress.",
+            },
           ]}
           rows={signersInfo.entities.map((signer: any) => [
             <>
