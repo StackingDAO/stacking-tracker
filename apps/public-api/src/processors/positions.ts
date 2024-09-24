@@ -56,9 +56,9 @@ export function getPositions(pools: any, tokens: any, defi: any, solo: any) {
     name: "Solo Stacking",
     symbol: "STX",
     logo: "/logos/default.webp",
-    tvl: solo.tvl, // TODO: get current solo stackers from DB
+    tvl: solo.tvl,
     tvl_usd: solo.tvl_usd,
-    apy: solo.apy, // TODO: should be for solo stackers
+    apy: solo.apy,
     link: "https://solo.stacking.tools/",
   });
 

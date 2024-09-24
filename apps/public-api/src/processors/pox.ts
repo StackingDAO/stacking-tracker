@@ -44,7 +44,7 @@ export function getPoxApy(cyclesInfo: any, stxPrice: number, btcPrice: number) {
   const previousStackedValue = (previousStacked / cyclesInfo.length) * stxPrice;
   const previousRewardsValue = (previousRewards / cyclesInfo.length) * btcPrice;
   // 25 cycles per year
-  const apy = (previousRewardsValue / previousStackedValue) * 25 * 100;
-
+  const apr = (previousRewardsValue / previousStackedValue) * 25;
+  const apy = (Math.pow(1 + apr / 25, 25) - 1) * 100.0;
   return apy;
 }

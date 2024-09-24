@@ -35,7 +35,10 @@ export function Positions({ positions }: { positions: any }) {
           columnHeaders={[
             { title: "Position" },
             { title: "TVL" },
-            { title: "APY", info: "Based on last 4 weeks and current prices." },
+            {
+              title: "APY",
+              info: "Based on last 4 cycles and current prices.",
+            },
             { title: "Balance" },
           ]}
           rows={userPositions.map((position: any) => [
@@ -85,7 +88,7 @@ export function Positions({ positions }: { positions: any }) {
               { title: "TVL" },
               {
                 title: "APY",
-                info: "Based on last 4 weeks and current prices.",
+                info: "Based on last 4 cycles and current prices.",
               },
             ]}
             rows={positions.map((position: any) => [

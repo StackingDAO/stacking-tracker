@@ -83,7 +83,10 @@ export default async function Home() {
             { title: "StackToken Supply / Mcapd" },
             { title: "Stacked" },
             { title: "Rewards" },
-            { title: "APY", info: "Based on last 4 weeks and current prices." },
+            {
+              title: "APY",
+              info: "Based on last 4 cycles and current prices.",
+            },
           ]}
           rows={tokensInfo.entities.map((entity: any) => [
             <div key={entity.name} className="flex font-semibold">

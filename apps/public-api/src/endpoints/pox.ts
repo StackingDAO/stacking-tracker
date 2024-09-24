@@ -21,6 +21,11 @@ async function getInfoForCycle(
     ((info.rewards_amount * btcPrice) / (info.stacked_amount * stxPrice)) *
     25 *
     100;
+
+  const apr =
+    ((info.rewards_amount * btcPrice) / (info.stacked_amount * stxPrice)) * 25;
+  info.apy = (Math.pow(1 + apr / 25, 25) - 1) * 100.0;
+
   return info;
 }
 
