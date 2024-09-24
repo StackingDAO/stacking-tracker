@@ -93,11 +93,11 @@ export default async function Home() {
               <img className="w-5 mr-2" src={entity.logo} /> {entity.name}
             </div>,
             <div key={entity.name + "-stacked"}>
-              <div>{`${currency.rounded.format(entity.stacked_amount)} STX (${currency.rounded.format((entity.stacked_amount / lastCycleInfo.stacked_amount) * 100.0)}%)`}</div>
+              <div>{`${currency.rounded.format(entity.stacked_amount)} STX`}</div>
               <div>{`$${currency.rounded.format(entity.stacked_amount_usd)}`}</div>
             </div>,
             <div key={entity.name + "-rewards"}>
-              <div>{`${currency.short.format(entity.rewards_amount)} BTC (${currency.rounded.format((entity.rewards_amount / lastCycleInfo.rewards_amount) * 100.0)}%)`}</div>
+              <div>{`${currency.short.format(entity.rewards_amount)} BTC`}</div>
               <div>{`$${currency.rounded.format(entity.rewards_amount_usd)}`}</div>
             </div>,
             `${currency.short.format(entity.apy)}%`,

@@ -56,7 +56,7 @@ const Home: FunctionComponent<Props> = async ({ params: { token } }: Props) => {
       <div className="mb-12 bg-white rounded-lg mt-3">
         <Table
           columnHeaders={[
-            { title: "Signer" },
+            { title: "Cycle" },
             { title: "Stacked" },
             { title: "Rewards" },
           ]}
