@@ -90,7 +90,7 @@ const Home: FunctionComponent<Props> = async ({ params: { pool } }: Props) => {
           </div>
 
           <div className="pt-3 font-semibold">
-            Next cycle: <span>{poxInfo.next_cycle.cycle_number + 1}</span>
+            Next cycle: <span>{poxInfo.next_cycle.cycle_number}</span>
           </div>
 
           <div>
