@@ -38,9 +38,15 @@ const Home: FunctionComponent<Props> = async ({ params: { token } }: Props) => {
     <main className="flex flex-col justify-between w-full max-w-5xl pt-12">
       <div className="flex gap-3">
         <div className="w-4/12 rounded-lg border border-gray-200 bg-white p-4 flex flex-col gap-2">
-          <img className="w-10 mr-2 pb-4" src={tokenInfo.logo} />
-          <div className="font-semibold">{tokenInfo.name}</div>
-          <div>{tokenInfo.entity}</div>
+          <div className="flex gap-2">
+            <img className="w-10 mr-2 pb-4" src={tokenInfo.logo_token} />
+            <img className="w-10 mr-2 pb-4" src={tokenInfo.logo} />
+          </div>
+          <div className="flex gap-2">
+            <div className="font-semibold">{tokenInfo.name}</div>
+            <div>{tokenInfo.entity}</div>
+          </div>
+
           <a className="underline hover:no-underline" href={tokenInfo.website}>
             {tokenInfo.website}
           </a>
@@ -56,7 +62,7 @@ const Home: FunctionComponent<Props> = async ({ params: { token } }: Props) => {
       <div className="mb-12 bg-white rounded-lg mt-3">
         <Table
           columnHeaders={[
-            { title: "Signer" },
+            { title: "Cycle" },
             { title: "Stacked" },
             { title: "Rewards" },
           ]}

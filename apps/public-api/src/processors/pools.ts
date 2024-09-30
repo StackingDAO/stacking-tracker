@@ -83,8 +83,9 @@ export function getPoolEntities(
       (previousStacked / (cyclesInfo.length - 1)) * stxPrice;
     const previousRewardsValue =
       (previousRewards / (cyclesInfo.length - 1)) * btcPrice;
-    // 25 cycles per year
-    const apy = (previousRewardsValue / previousStackedValue) * 25 * 100;
+    // 26 cycles per year
+    const apr = (previousRewardsValue / previousStackedValue) * 26;
+    const apy = (Math.pow(1 + apr / 26, 26) - 1) * 100.0;
 
     entities.push({
       name: poxAddressToPool[poxAddress].name,

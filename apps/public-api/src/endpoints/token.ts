@@ -69,6 +69,7 @@ router.get("/:slug", async (req: Request, res: Response) => {
     name: addressToToken[address].name,
     entity: addressToToken[address].entity,
     logo: addressToToken[address].logo,
+    logo_token: addressToToken[address].logo_token,
     website: addressToToken[address].website,
     cycles: results.reverse(),
   });
