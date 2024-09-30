@@ -3,6 +3,7 @@ import { Table } from "./components/Table";
 import * as api from "./common/public-api";
 import { currency } from "@/app/common/utils";
 import ChartBarStacked from "@/app/components/ChartBarStacked";
+import { ToolTip } from "./components/Tooltip";
 
 type Props = {
   params: {
@@ -89,17 +90,42 @@ const Home: FunctionComponent<Props> = async ({ params: { pool } }: Props) => {
           </div>
 
           <div className="pt-3 font-semibold">
-            Next cycle: <span>{poxInfo.next_cycle.cycle_number + 1}</span>
+            Next cycle: <span>{poxInfo.next_cycle.cycle_number}</span>
+          </div>
+
+          <div>
+            <div className="flex">
+              Prepare phase in ~
+              {currency.rounded.format(poxInfo.next_cycle.starts_in_days - 1)}{" "}
+              days
+              <ToolTip
+                id="tooltip_prepare_phase"
+                text={
+                  "During the prepare phase STX tokens are locked for stacking in the next cycle."
+                }
+                className="mt-1"
+              />
+            </div>
+
+            <div className="text-sm">
+              At ₿ #{poxInfo.next_cycle.prepare_phase_start_block}
+            </div>
           </div>
           <div>
-            Prepare phase in ~
-            {currency.rounded.format(poxInfo.next_cycle.starts_in_days - 1)}{" "}
-            days at ₿ #{poxInfo.next_cycle.prepare_phase_start_block}
-          </div>
-          <div>
-            Reward phase in ~
-            {currency.rounded.format(poxInfo.next_cycle.starts_in_days)} days at
-            ₿ #{poxInfo.next_cycle.reward_phase_start_block}
+            <div className="flex">
+              Reward phase in ~
+              {currency.rounded.format(poxInfo.next_cycle.starts_in_days)} days
+              <ToolTip
+                id="tooltip_reward_phase"
+                text={
+                  "During the reward phase Bitcoin rewards are distributed to stackers."
+                }
+                className="mt-1"
+              />
+            </div>
+            <div className="text-sm">
+              At ₿ #{poxInfo.next_cycle.reward_phase_start_block}
+            </div>
           </div>
         </div>
         <div className="flex-1 rounded-lg border border-gray-200 bg-white p-4">
@@ -118,17 +144,20 @@ const Home: FunctionComponent<Props> = async ({ params: { pool } }: Props) => {
             { title: "Pools", info: "Amount of known pools" },
             { title: "Stacked" },
             { title: "Rewards" },
-            { title: "APY", info: "Based on current prices" },
+            {
+              title: "Gross APY",
+              info: "Based on current prices. Not taking into account pool or protocol fees.",
+            },
           ]}
           rows={poxInfo.cycles
             .reverse()
-            .map((info: any) => [
+            .map((info: any, index: number) => [
               info.cycle_number,
               info.signers_count,
               info.pools_count,
               `${currency.rounded.format(info.stacked_amount)} STX`,
               `${currency.short.format(info.rewards_amount)} BTC`,
-              `${currency.short.format(info.apy)}%`,
+              `${index === 0 ? "in progress" : currency.short.format(info.apy) + "%"}`,
             ])}
         />
       </div>

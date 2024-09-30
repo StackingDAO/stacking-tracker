@@ -56,7 +56,6 @@ const Home: FunctionComponent<Props> = async ({ params: { pool } }: Props) => {
         <Table
           columnHeaders={[
             { title: "Cycle" },
-            { title: "Stackers" },
             { title: "Stacked" },
             { title: "Rewards" },
           ]}
@@ -64,7 +63,6 @@ const Home: FunctionComponent<Props> = async ({ params: { pool } }: Props) => {
             .reverse()
             .map((info: any) => [
               info.cycle_number,
-              info.stackers_count,
               `${currency.rounded.format(info.stacked_amount)} STX`,
               `${currency.short.format(info.rewards_amount)} BTC`,
             ])}

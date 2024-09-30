@@ -2,6 +2,7 @@ import { Table } from "../components/Table";
 import * as api from "../common/public-api";
 import { currency } from "@/app/common/utils";
 import ChartBarStacked from "../components/ChartBarStacked";
+import { ToolTip } from "../components/Tooltip";
 
 export default async function Home() {
   const poolsInfo = await api.get("/pools");
@@ -59,11 +60,20 @@ export default async function Home() {
               {currency.rounded.format(lastCycleInfo.stacked_amount)} STX
             </span>
           </div>
-          <div>
-            Total rewards:{" "}
-            <span className="font-semibold">
-              {currency.short.format(lastCycleInfo.rewards_amount)} BTC
-            </span>
+          <div className="flex">
+            <div>
+              Total rewards:{" "}
+              <span className="font-semibold">
+                {currency.short.format(lastCycleInfo.rewards_amount)} BTC
+              </span>
+            </div>
+            <ToolTip
+              id="tooltip_rewards"
+              text={
+                "Total rewards so far in this cycle. The cycle is still in progress."
+              }
+              className="mt-1"
+            />
           </div>
         </div>
         <div className="flex-1 rounded-lg border border-gray-200 bg-white p-4">
@@ -76,30 +86,31 @@ export default async function Home() {
 
       <div
         key={lastCycleInfo.cycle_number}
-        className="mb-12 bg-white rounded-lg mt-3"
+        className="bg-white rounded-lg mt-3"
       >
         <Table
           columnHeaders={[
             { title: "Pool" },
-            { title: "Stackers" },
             { title: "Stacked" },
-            { title: "Rewards" },
             {
-              title: "APY",
-              info: "Based on the previous 4 cycles and current prices.",
+              title: "Rewards",
+              info: "Total rewards so far in this cycle. The cycle is still in progress.",
+            },
+            {
+              title: "Gross APY",
+              info: "Based on the previous 4 cycles and current prices. Not taking into account pool fees.",
             },
           ]}
           rows={poolsInfo.entities.map((entity: any) => [
             <div key={entity.name} className="flex font-semibold">
               <img className="w-5 mr-2" src={entity.logo} /> {entity.name}
             </div>,
-            entity.stackers_count,
             <div key={entity.name + "-stacked"}>
-              <div>{`${currency.rounded.format(entity.stacked_amount)} STX (${currency.rounded.format((entity.stacked_amount / lastCycleInfo.stacked_amount) * 100.0)}%)`}</div>
+              <div>{`${currency.rounded.format(entity.stacked_amount)} STX`}</div>
               <div>{`$${currency.rounded.format(entity.stacked_amount_usd)}`}</div>
             </div>,
             <div key={entity.name + "-rewards"}>
-              <div>{`${currency.short.format(entity.rewards_amount)} BTC (${currency.rounded.format((entity.rewards_amount / lastCycleInfo.rewards_amount) * 100.0)}%)`}</div>
+              <div>{`${currency.short.format(entity.rewards_amount)} BTC`}</div>
               <div>{`$${currency.rounded.format(entity.rewards_amount_usd)}`}</div>
             </div>,
             `${currency.short.format(entity.apy)}%`,
@@ -112,6 +123,20 @@ export default async function Home() {
             </a>,
           ])}
         />
+      </div>
+
+      <div className="rounded-lg border border-gray-200 bg-white p-4 flex flex-col gap-2 max-w-5xl w-full mt-3">
+        <div className="font-semibold">Pool missing?</div>
+        <div className="text-sm">
+          Click{" "}
+          <a
+            className="text-blue-600 font-semibold hover:underline"
+            href="mailto:info@stacking-tracker.com"
+          >
+            here
+          </a>{" "}
+          to get in touch so we can add the missing data.
+        </div>
       </div>
     </main>
   );

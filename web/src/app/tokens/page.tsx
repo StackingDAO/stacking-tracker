@@ -2,6 +2,7 @@ import { Table } from "../components/Table";
 import * as api from "../common/public-api";
 import { currency } from "@/app/common/utils";
 import ChartBarStacked from "../components/ChartBarStacked";
+import { ToolTip } from "../components/Tooltip";
 
 export default async function Home() {
   const tokensInfo = await api.get("/tokens");
@@ -57,11 +58,20 @@ export default async function Home() {
               {currency.rounded.format(lastCycleInfo.stacked_amount)} STX
             </span>
           </div>
-          <div>
-            Total rewards:{" "}
-            <span className="font-semibold">
-              {currency.short.format(lastCycleInfo.rewards_amount)} BTC
-            </span>
+          <div className="flex">
+            <div>
+              Total rewards:{" "}
+              <span className="font-semibold">
+                {currency.short.format(lastCycleInfo.rewards_amount)} BTC
+              </span>
+            </div>
+            <ToolTip
+              id="tooltip_rewards"
+              text={
+                "Total rewards so far in this cycle. The cycle is still in progress."
+              }
+              className="mt-1"
+            />
           </div>
         </div>
         <div className="flex-1 rounded-lg border border-gray-200 bg-white p-4">
@@ -80,14 +90,20 @@ export default async function Home() {
           columnHeaders={[
             { title: "LST" },
             { title: "Entity" },
-            { title: "StackToken Supply / Mcapd" },
+            { title: "Token Supply / Mcap" },
             { title: "Stacked" },
-            { title: "Rewards" },
-            { title: "APY", info: "Based on last 4 weeks and current prices." },
+            {
+              title: "Rewards",
+              info: "Total rewards so far in this cycle. The cycle is still in progress.",
+            },
+            {
+              title: "Gross APY",
+              info: "Based on last 4 cycles and current prices. Not taking into account protocol fees.",
+            },
           ]}
           rows={tokensInfo.entities.map((entity: any) => [
             <div key={entity.name} className="flex font-semibold">
-              <img className="w-5 mr-2" src={entity.logo} /> {entity.name}
+              <img className="w-5 mr-2" src={entity.logo_token} /> {entity.name}
             </div>,
             <div key={entity.entity} className="flex">
               <img className="w-5 mr-2" src={entity.logo} /> {entity.entity}
@@ -97,11 +113,11 @@ export default async function Home() {
               <div>{`$${currency.short.format(entity.token_mcap)}`}</div>
             </div>,
             <div key={entity.name + "-stacked"}>
-              <div>{`${currency.rounded.format(entity.stacked_amount)} STX (${currency.rounded.format((entity.stacked_amount / lastCycleInfo.stacked_amount) * 100.0)}%)`}</div>
+              <div>{`${currency.rounded.format(entity.stacked_amount)} STX`}</div>
               <div>{`$${currency.rounded.format(entity.stacked_amount_usd)}`}</div>
             </div>,
             <div key={entity.name + "-rewards"}>
-              <div>{`${currency.short.format(entity.rewards_amount)} BTC (${currency.rounded.format((entity.rewards_amount / lastCycleInfo.rewards_amount) * 100.0)}%)`}</div>
+              <div>{`${currency.short.format(entity.rewards_amount)} BTC`}</div>
               <div>{`$${currency.rounded.format(entity.rewards_amount_usd)}`}</div>
             </div>,
             `${currency.short.format(entity.apy)}%`,

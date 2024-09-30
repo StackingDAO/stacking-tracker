@@ -25,7 +25,7 @@ async function getInfoForCycle(cycleNumber: number) {
     (stacker: any) => stacker.poxAddress
   );
   const soloStackersRewards = rewards.filter((reward: any) =>
-    soloStackersPoxAddresses.includes(reward.rewardrecipient)
+    soloStackersPoxAddresses.includes(reward.rewardRecipient)
   );
 
   return {
