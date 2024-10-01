@@ -10,7 +10,6 @@ import * as route53Targets from "aws-cdk-lib/aws-route53-targets";
 import { Duration } from "aws-cdk-lib";
 
 import * as dotenv from "dotenv";
-import { StackSetup } from "./setup";
 dotenv.config({ path: "cdk/.env" });
 
 const domainName = process.env.DOMAIN ?? "stacking-tracker.com";
@@ -19,7 +18,7 @@ export class PublicApi extends cdk.Stack {
   constructor(
     scope: Construct,
     id: string,
-    setupStack: StackSetup,
+    cluster: ecs.Cluster,
     props?: cdk.StackProps
   ) {
     super(scope, id, props);
@@ -29,7 +28,7 @@ export class PublicApi extends cdk.Stack {
       this,
       "Public-API",
       {
-        cluster: setupStack.cluster,
+        cluster: cluster,
         memoryReservationMiB: 512,
         taskImageOptions: {
           image: ecs.ContainerImage.fromAsset(".", {
@@ -37,7 +36,7 @@ export class PublicApi extends cdk.Stack {
           }),
           containerPort: 3030,
           environment: {
-            DATABASE_URL: setupStack.databaseUrl,
+            DATABASE_URL: process.env.DATABASE_URL ?? "",
             STACKS_API: process.env.STACKS_API ?? "",
             TELEGRAM_TOKEN: process.env.TELEGRAM_TOKEN ?? "",
           },

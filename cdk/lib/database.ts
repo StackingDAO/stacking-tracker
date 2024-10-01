@@ -1,55 +1,24 @@
 import * as cdk from "aws-cdk-lib";
 import { Construct } from "constructs";
-import * as sqs from "aws-cdk-lib/aws-sqs";
 import * as ec2 from "aws-cdk-lib/aws-ec2";
 import * as rds from "aws-cdk-lib/aws-rds";
-import * as ecs from "aws-cdk-lib/aws-ecs";
 import * as secretsmanager from "aws-cdk-lib/aws-secretsmanager";
 import { Duration } from "aws-cdk-lib";
 
 import * as dotenv from "dotenv";
 dotenv.config({ path: "cdk/.env" });
 
-export type StackSetup = {
-  queue: sqs.Queue;
-  vpc: ec2.Vpc;
-  databaseUrl: string;
-  cluster: ecs.Cluster;
-};
-
-export class Setup extends cdk.Stack {
-  public readonly setup: StackSetup;
-
-  constructor(scope: Construct, id: string, props?: cdk.StackProps) {
+export class Database extends cdk.Stack {
+  constructor(
+    scope: Construct,
+    id: string,
+    vpc: ec2.Vpc,
+    props?: cdk.StackProps
+  ) {
     super(scope, id, props);
 
-    // SQS Queues
-    const queue = new sqs.Queue(this, "BlocksQ", {
-      fifo: true,
-      visibilityTimeout: cdk.Duration.seconds(600), // How long a consumer has to process a message
-      retentionPeriod: cdk.Duration.days(14), // How long message are kept in memory
-      deadLetterQueue: {
-        maxReceiveCount: 3, // Maximum number of receives before moving the message to the DLQ
-        queue: new sqs.Queue(this, "BlocksDLQ", {
-          fifo: true,
-        }),
-      },
-    });
-
-    // VPC
-    const vpc = new ec2.Vpc(this, "VPC", {
-      subnetConfiguration: [
-        {
-          cidrMask: 24,
-          name: "Public",
-          subnetType: ec2.SubnetType.PUBLIC,
-        },
-      ],
-    });
-
-    // RDS Database
     const databaseSecret = new secretsmanager.Secret(this, "DBSecret", {
-      secretName: "DatabaseSecret",
+      secretName: `DBSecret`,
       generateSecretString: {
         secretStringTemplate: JSON.stringify({
           username: "dbadmin",
@@ -99,21 +68,5 @@ export class Setup extends cdk.Stack {
       publiclyAccessible: true,
       multiAz: false,
     });
-    const databaseUrl = `postgres://${databaseSecret.secretValueFromJson("username").unsafeUnwrap()}:${databaseSecret.secretValueFromJson("password").unsafeUnwrap()}@${databaseInstance.dbInstanceEndpointAddress}:${databaseInstance.dbInstanceEndpointPort}/${databaseName}`;
-
-    // ECS Cluster
-    const cluster = new ecs.Cluster(this, "Cluster", { vpc });
-    cluster.addCapacity("ASG", {
-      instanceType: new ec2.InstanceType("t2.small"),
-      desiredCapacity: 1,
-    });
-
-    // Setup
-    this.setup = {
-      queue,
-      vpc,
-      databaseUrl,
-      cluster,
-    };
   }
 }

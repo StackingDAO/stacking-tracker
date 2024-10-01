@@ -2,6 +2,7 @@ import * as cdk from "aws-cdk-lib";
 import { Construct } from "constructs";
 import * as iam from "aws-cdk-lib/aws-iam";
 import * as sns from "aws-cdk-lib/aws-sns";
+import * as sqs from "aws-cdk-lib/aws-sqs";
 import { TypeScriptLambda } from "./constructs/lambda";
 import {
   SnsEventSource,
@@ -9,14 +10,13 @@ import {
 } from "aws-cdk-lib/aws-lambda-event-sources";
 
 import * as dotenv from "dotenv";
-import { StackSetup } from "./setup";
 dotenv.config({ path: "cdk/.env" });
 
 export class Lambdas extends cdk.Stack {
   constructor(
     scope: Construct,
     id: string,
-    setupStack: StackSetup,
+    queue: sqs.Queue,
     props?: cdk.StackProps
   ) {
     super(scope, id, props);
@@ -36,14 +36,14 @@ export class Lambdas extends cdk.Stack {
       handlerFilePath: "apps/functions/src/block-processor.ts",
       handler: "processBlock",
       environment: {
-        DATABASE_URL: setupStack.databaseUrl,
+        DATABASE_URL: process.env.DATABASE_URL ?? "",
         TOPIC_SIGNERS: topicSignersProcessor.topicArn,
         TOPIC_REWARDS: topicRewardsProcessor.topicArn,
         TOPIC_STACKERS_REWARDS: topicStackersRewardsProcessor.topicArn,
         TOPIC_MINERS: topicMinersProcessor.topicArn,
       },
     });
-    blockProcessor.lambda.addEventSource(new SqsEventSource(setupStack.queue));
+    blockProcessor.lambda.addEventSource(new SqsEventSource(queue));
     blockProcessor.lambda.addToRolePolicy(
       new iam.PolicyStatement({
         actions: ["sns:publish"],
@@ -56,7 +56,7 @@ export class Lambdas extends cdk.Stack {
       handlerFilePath: "apps/functions/src/signers-processor.ts",
       handler: "processSigners",
       environment: {
-        DATABASE_URL: setupStack.databaseUrl,
+        DATABASE_URL: process.env.DATABASE_URL ?? "",
         STACKS_API: process.env.STACKS_API ?? "",
       },
     });
@@ -69,7 +69,7 @@ export class Lambdas extends cdk.Stack {
       handlerFilePath: "apps/functions/src/rewards-processor.ts",
       handler: "processRewards",
       environment: {
-        DATABASE_URL: setupStack.databaseUrl,
+        DATABASE_URL: process.env.DATABASE_URL ?? "",
         STACKS_API: process.env.STACKS_API ?? "",
       },
     });
@@ -85,7 +85,7 @@ export class Lambdas extends cdk.Stack {
         handlerFilePath: "apps/functions/src/stackers-rewards-processor.ts",
         handler: "processStackerRewards",
         environment: {
-          DATABASE_URL: setupStack.databaseUrl,
+          DATABASE_URL: process.env.DATABASE_URL ?? "",
           STACKS_API: process.env.STACKS_API ?? "",
         },
       }
@@ -99,7 +99,7 @@ export class Lambdas extends cdk.Stack {
       handlerFilePath: "apps/functions/src/miners-processor.ts",
       handler: "processMiners",
       environment: {
-        DATABASE_URL: setupStack.databaseUrl,
+        DATABASE_URL: process.env.DATABASE_URL ?? "",
         STACKS_API: process.env.STACKS_API ?? "",
         BLOCKCYPHER_TOKEN: process.env.BLOCKCYPHER_TOKEN ?? "",
       },

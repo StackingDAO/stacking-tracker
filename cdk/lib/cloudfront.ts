@@ -15,16 +15,18 @@ export class CloudFront extends cdk.Stack {
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
     super(scope, id, props);
 
+    // HostedZone for entire project
     const hostedZone = new route53.HostedZone(this, "WebsiteZone", {
       zoneName: domainName,
     });
 
+    // Certificate for all subdomains
     new acm.Certificate(this, "WebsiteCertificate", {
       domainName: `*.${domainName}`,
       validation: acm.CertificateValidation.fromDns(hostedZone),
     });
 
-    // Redirect certificate
+    // Redirect certificate for root domain to www subdomain
     const certificateRoot = new acm.Certificate(
       this,
       "WebsiteRootCertificate",
