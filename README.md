@@ -26,6 +26,9 @@ https://docs.aws.amazon.com/cdk/v2/guide/getting_started.html
 
 ## Setup
 
+**Domain**
+The domain should be set up in AWS manually.
+
 **Credentials**
 
 Create a `.env` file similar to `.env.example` in `/cdk`
@@ -44,20 +47,27 @@ Test docker build:
 
 - `docker build -t stacking-tracker .`
 
-Setup domain:
+Bootstrap CDK:
 
-- The domain and hosted zone should be set up in AWS manually.
+1. Run: `cdk bootstrap`
 
-Deploy setup:
+Setup CloudFront and Certificate:
 
-1.  Bootstrap: `cdk bootstrap`
-2.  Deploy setup: `cdk deploy Setup`
+1.  `cdk deploy CloudFront`
+2.  Update vars `CDK_AWS_CERTIFICATE_ARN` and `CDK_AWS_HOSTEDZONE_ID` in `/cdk/.env`
+
+Deploy Architecture:
+
+1.  `cdk deploy Queues`
+2.  `cdk deploy Vpc`
+3.  `cdk deploy Database`
+4.  `cdk deploy Cluster`
 
 Setup Database:
 
-1.  Get the database url from AWS, add to `.env` in `/packages/database`
-2.  In `/packages/database` run `npm db:generate`
-3.  In `/packages/database` run `npm db:push`
+1.  Get the database url from AWS Secrets Manager, update var `DATABASE_URL` in `/cdk/.env` and `/packages/database`
+2.  In `/packages/database` run `npm run db:generate`
+3.  In `/packages/database` run `npm run db:push`
 
 Deploy Services:
 
@@ -65,12 +75,6 @@ Deploy Services:
 2.  `cdk deploy PublicApi`
 3.  `cdk deploy Web`
 4.  `cdk deploy Lambdas`
-
-Setup CloudFront:
-
-1.  Deploy CloudFront: `cdk deploy CloudFront`
-2.  If a new hosted zone is created, we need to manually copy the NS servers from the created hosted zone to our registered domain while deploying.
-3.  Once deployed, edit the CloudFront distribution origin and link to the correct load balancer (services should be deployed)
 
 ## Local Setup
 
@@ -106,6 +110,10 @@ Create a `.env` file similar to `.env.example` in:
 
 ## Commands
 
+**Lambda Scripts**
+
+- `ts-node signer-processor.ts run`
+
 **CDK**
 
 - `cdk bootstrap`
@@ -124,7 +132,7 @@ Create bot via BotFather chat.
 
 ## Set Webhook
 
-Use ngrok to set up tunnel to local machine.
+Use ngrok to set up tunnel to local machine: `ngrok http 3030`
 
 `curl -X POST "https://api.telegram.org/bot{{botid}}/setWebhook" -d "url=https://5.ngrok-free.app/telegram"`
 `curl -X POST "https://api.telegram.org/bot{{botid}}/getWebhookInfo"`

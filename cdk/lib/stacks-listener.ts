@@ -2,16 +2,17 @@ import * as cdk from "aws-cdk-lib";
 import { Construct } from "constructs";
 import * as ecs from "aws-cdk-lib/aws-ecs";
 import * as ecsPatterns from "aws-cdk-lib/aws-ecs-patterns";
+import * as sqs from "aws-cdk-lib/aws-sqs";
 
 import * as dotenv from "dotenv";
-import { StackSetup } from "./setup";
 dotenv.config({ path: "cdk/.env" });
 
 export class StacksListener extends cdk.Stack {
   constructor(
     scope: Construct,
     id: string,
-    setupStack: StackSetup,
+    queue: sqs.Queue,
+    cluster: ecs.Cluster,
     props?: cdk.StackProps
   ) {
     super(scope, id, props);
@@ -21,13 +22,13 @@ export class StacksListener extends cdk.Stack {
       this,
       "Stacks-Listener",
       {
-        cluster: setupStack.cluster,
+        cluster: cluster,
         memoryReservationMiB: 512,
         taskImageOptions: {
           image: ecs.ContainerImage.fromAsset("./apps/stacks-listener"),
           containerPort: 3000,
           environment: {
-            QUEUE_URL: setupStack.queue.queueUrl,
+            QUEUE_URL: queue.queueUrl,
           },
         },
         desiredCount: 1, // Number of instances to run
@@ -36,7 +37,7 @@ export class StacksListener extends cdk.Stack {
       }
     );
 
-    setupStack.queue.grantSendMessages(stacksListener.taskDefinition.taskRole);
+    queue.grantSendMessages(stacksListener.taskDefinition.taskRole);
 
     stacksListener.targetGroup.configureHealthCheck({
       path: "/health", // Health check endpoint

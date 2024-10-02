@@ -33,16 +33,16 @@ export async function processSigners(
   const signers = await stacksPox.getCycleSigners(cycleNumber);
 
   for (const signer of signers) {
+    const stackers = await stacksPox.getSignerStackers(
+      cycleNumber,
+      signer.signing_key
+    );
+
     await saveSigner(
       cycleNumber,
       signer.signing_key,
       signer.solo_stacker_count + signer.pooled_stacker_count,
       signer.stacked_amount / 1000000.0
-    );
-
-    const stackers = await stacksPox.getSignerStackers(
-      cycleNumber,
-      signer.signing_key
     );
 
     for (const stacker of stackers) {
