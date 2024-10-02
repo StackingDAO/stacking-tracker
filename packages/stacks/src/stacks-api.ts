@@ -19,7 +19,7 @@ export class StacksExtended {
   async getStackersForSignerInCycle(
     signer: string,
     cycle: number,
-    limit: number = 250,
+    limit: number = 200,
     offset: number = 0
   ) {
     const path = `${apiUrl}/extended/v2/pox/cycles/${cycle}/signers/${signer}/stackers?limit=${limit}&offset=${offset}`;
