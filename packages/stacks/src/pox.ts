@@ -55,7 +55,7 @@ export async function getSignerStackers(cycleNumber: number, signerKey: string):
     const stackers = await stacksExtended.getStackersForSignerInCycle(
       signerKey,
       cycleNumber,
-      250,
+      200,
       result.length
     );
     result = result.concat(stackers.results);
