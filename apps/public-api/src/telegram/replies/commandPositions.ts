@@ -1,9 +1,6 @@
 import { sendMessageOptions } from "../api";
 import { RepliesHandler } from "../repliesHandler";
-import * as stacks from "@repo/stacks";
 import * as db from "@repo/database";
-import { fetchPrice } from "../../prices";
-import { delegationAddressToPool } from "../../constants";
 import { currency } from "../../utils";
 import {
   getPoxPositions,

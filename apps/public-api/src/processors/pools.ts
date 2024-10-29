@@ -50,6 +50,39 @@ export function getPoolsInfoForCycle(
   };
 }
 
+export function getAggregatedPoolsInfo(cyclesInfo: any[]) {
+  const aggregatedCyclesInfo: any[] = [];
+  for (const cycle of cyclesInfo) {
+    let otherStackersCount = 0;
+    let otherStackedAmount = 0.0;
+    let otherRewardsAmount = 0.0;
+    const aggregatedPools: any[] = [];
+    for (const pool of cycle.pools) {
+      if (pool.stacked_amount < 1_000_000) {
+        otherStackersCount += pool.stackers_count;
+        otherStackedAmount += pool.stacked_amount;
+        otherRewardsAmount += pool.rewards_amount;
+      } else {
+        aggregatedPools.push(pool);
+      }
+    }
+    aggregatedPools.push({
+      name: "Other",
+      stackers_count: otherStackersCount,
+      stacked_amount: otherStackedAmount,
+      rewards_amount: otherRewardsAmount,
+    });
+
+    aggregatedCyclesInfo.push({
+      cycle_number: cycle.cycle_number,
+      stacked_amount: cycle.stacked_amount,
+      rewards_amount: cycle.rewards_amount,
+      pools: aggregatedPools,
+    });
+  }
+  return aggregatedCyclesInfo;
+}
+
 export function getPoolEntities(
   cyclesInfo: any,
   stxPrice: number,
