@@ -19,10 +19,7 @@ export function ToolTip({ id, text, className }: Props) {
       >
         {text}
       </Tooltip>
-      <InfoIcon
-        className={classNames("text-black ml-1 mt-0.5", className)}
-        data-tooltip-id={id}
-      />
+      <InfoIcon className={className} data-tooltip-id={id} />
     </>
   );
 }

@@ -37,9 +37,9 @@ const Home: FunctionComponent<Props> = async ({
   };
 
   return (
-    <main className="flex flex-col justify-between w-full max-w-5xl pt-12">
+    <div className="flex flex-col justify-between w-full">
       <div className="flex gap-3">
-        <div className="w-4/12 rounded-lg border border-gray-200 bg-white p-4 flex flex-col gap-2">
+        <div className="w-4/12 rounded-lg border border-gray-200 bg-transparent p-4 flex flex-col gap-2">
           <img
             className="w-10 mr-2 pb-4"
             src={signerInfo.logo ?? "/logos/default.webp"}
@@ -52,7 +52,7 @@ const Home: FunctionComponent<Props> = async ({
             {signerInfo.website}
           </a>
         </div>
-        <div className="flex-1 rounded-lg border border-gray-200 bg-white p-4">
+        <div className="flex-1 rounded-lg border border-gray-200 bg-transparent p-4">
           <ChartBarStacked
             chartTitles={{ x: "Cycle", y: "STX Stacked", yRight: "BTC Yield" }}
             chartData={chartData}
@@ -60,7 +60,7 @@ const Home: FunctionComponent<Props> = async ({
         </div>
       </div>
 
-      <div className="mb-12 bg-white rounded-lg mt-3">
+      <div className="">
         <Table
           columnHeaders={[
             { title: "Cycle" },
@@ -78,7 +78,7 @@ const Home: FunctionComponent<Props> = async ({
             ])}
         />
       </div>
-    </main>
+    </div>
   );
 };
 

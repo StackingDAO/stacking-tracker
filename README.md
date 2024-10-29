@@ -2,7 +2,7 @@
 
 This web application and back-end builds a Stacking tracker for all PoX/Signer/Miner infrastructure needs on Stacks.
 
-The development of this application is supported by a critical bountry from the Stacks foundation, see https://github.com/stacksgov/critical-bounties/issues/28
+The development of this application is supported by a critical bounty from the Stacks foundation, see https://github.com/stacksgov/critical-bounties/issues/28
 
 # Website
 

@@ -15,8 +15,8 @@ export default async function Home() {
   const priceStx = await fetchPrice("STX");
 
   return (
-    <main className="flex flex-col justify-between w-full max-w-5xl pt-12">
-      <div className="mb-12 bg-white rounded-lg">
+    <div className="flex flex-col justify-between w-full">
+      <div className="mb-12 bg-transparent rounded-lg">
         <div className="mb-32 grid text-center rounded-lg lg:mb-0 lg:w-full lg:max-w-5xl lg:grid-cols-4 lg:text-left transition-colors border-gray-300 bg-gray-100 dark:border-neutral-700 dark:bg-neutral-800/30">
           <div className="group rounded-lg border border-transparent px-5 py-4 ">
             <h2 className="mb-3 text-xl font-semibold">${priceBtc}</h2>
@@ -29,7 +29,7 @@ export default async function Home() {
         </div>
       </div>
 
-      <div className="mb-12 bg-white rounded-lg">
+      <div className="mb-12 bg-transparent rounded-lg">
         <div className="mb-32 grid text-center rounded-lg lg:mb-0 lg:w-full lg:max-w-5xl lg:grid-cols-4 lg:text-left transition-colors border-gray-300 bg-gray-100 dark:border-neutral-700 dark:bg-neutral-800/30">
           <div className="group rounded-lg border border-transparent px-5 py-4 ">
             <h2 className="mb-3 text-xl font-semibold">Last 144 Blocks</h2>
@@ -187,6 +187,6 @@ export default async function Home() {
           ])}
         />
       </div>
-    </main>
+    </div>
   );
 }

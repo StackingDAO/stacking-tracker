@@ -12,23 +12,24 @@ type Props = {
 
 export function Table({ columnHeaders, rows }: Props) {
   return (
-    <div className="overflow-x-auto rounded-lg bg-white border border-gray-200">
-      <div className="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
-        <table className="min-w-full divide-y divide-gray-300">
+    <div className="overflow-x-auto">
+      <div className="inline-block min-w-full py-2 align-middle">
+        <table className="min-w-full">
           <thead>
-            <tr>
+            <tr className="[&>*:first-child]:rounded-l-md [&>*:first-child]:pl-4 [&>*:last-child]:rounded-r-md">
               {columnHeaders.map((header: any) => (
                 <th
                   key={header.title}
                   scope="col"
-                  className="whitespace-nowrap py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0"
+                  className="bg-gray whitespace-nowrap py-2 text-left text-sm font-normal text-white/[0.35]"
                 >
-                  <div className="flex">
+                  <div className="flex items-center">
                     {header.title}
                     {header.info && (
                       <ToolTip
                         id={`table_${header.title.replace(" ", "-")}`}
                         text={header.info}
+                        className="ml-1"
                       />
                     )}
                   </div>
@@ -36,9 +37,9 @@ export function Table({ columnHeaders, rows }: Props) {
               ))}
             </tr>
           </thead>
-          <tbody className="divide-y divide-gray-200">
+          <tbody>
             {rows.map((row, index) => (
-              <tr key={index}>
+              <tr key={index} className="[&>*:first-child]:pl-4">
                 {row.map((rowItem, index) => (
                   <td
                     key={index}

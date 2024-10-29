@@ -1,9 +1,9 @@
 // @ts-nocheck
 
-import React, { useEffect, useState, Fragment } from 'react';
-import { Dialog, Transition } from '@headlessui/react';
-import { StyledIcon } from './StyledIcon';
-import { ExternalLinkIcon } from '@heroicons/react/outline';
+import React, { useEffect, useState, Fragment } from "react";
+import { Dialog, Transition } from "@headlessui/react";
+import { StyledIcon } from "./StyledIcon";
+import { ExternalLinkIcon } from "@heroicons/react/outline";
 
 type Props = {
   open: boolean;
@@ -11,7 +11,11 @@ type Props = {
   onProviderChosen: (arg0: string) => void;
 };
 
-export function ChooseWalletModal({ open, closeModal, onProviderChosen }: Props) {
+export function ChooseWalletModal({
+  open,
+  closeModal,
+  onProviderChosen,
+}: Props) {
   const [xVerseInstalled, setXVerseInstalled] = useState(false);
 
   useEffect(() => {
@@ -49,7 +53,7 @@ export function ChooseWalletModal({ open, closeModal, onProviderChosen }: Props)
               leaveFrom="opacity-100 translate-y-0 sm:scale-100"
               leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
             >
-              <Dialog.Panel className="relative w-full px-4 pt-5 pb-4 overflow-hidden text-left transition-all transform bg-white shadow-xl rounded-2xl sm:my-8 sm:w-full sm:max-w-lg sm:p-12">
+              <Dialog.Panel className="relative w-full px-4 pt-5 pb-4 overflow-hidden text-left transition-all transform bg-transparent shadow-xl rounded-2xl sm:my-8 sm:w-full sm:max-w-lg sm:p-12">
                 <div>
                   <div>
                     <div className="flex items-center justify-between">
@@ -61,7 +65,7 @@ export function ChooseWalletModal({ open, closeModal, onProviderChosen }: Props)
                       </Dialog.Title>
                       <button
                         type="button"
-                        className="bg-white rounded-md text-dark-green-400 hover:text-dark-green-500 focus:outline-none focus:ring-2 focus:ring-offset-2"
+                        className="bg-transparent rounded-md text-dark-green-400 hover:text-dark-green-500 focus:outline-none focus:ring-2 focus:ring-offset-2"
                         onClick={closeModal}
                       >
                         <span className="sr-only">Close</span>
@@ -71,11 +75,13 @@ export function ChooseWalletModal({ open, closeModal, onProviderChosen }: Props)
                     <div className="mt-6 space-y-2">
                       <button
                         onClick={() => {
-                          onProviderChosen('leather');
+                          onProviderChosen("leather");
                         }}
                         type="button"
-                        disabled={!window.LeatherProvider && !window.HiroWalletProvider}
-                        className="flex items-center w-full p-4 text-gray-800 bg-white border border-gray-300 rounded-md gap-x-4 focus:outline-none focus:ring-2 focus:ring-offset-2 hover:border-dark-green-500 hover:bg-dark-green-500/10 disabled:cursor-not-allowed disabled:bg-gray-100 disabled:hover:border-gray-200"
+                        disabled={
+                          !window.LeatherProvider && !window.HiroWalletProvider
+                        }
+                        className="flex items-center w-full p-4 text-gray-800 bg-transparent border border-gray-300 rounded-md gap-x-4 focus:outline-none focus:ring-2 focus:ring-offset-2 hover:border-dark-green-500 hover:bg-dark-green-500/10 disabled:cursor-not-allowed disabled:bg-gray-100 disabled:hover:border-gray-200"
                       >
                         <span>
                           <svg
@@ -94,30 +100,31 @@ export function ChooseWalletModal({ open, closeModal, onProviderChosen }: Props)
                         </span>
                         <span className="flex flex-col text-left">
                           <span>Leather Wallet</span>
-                          {!window.LeatherProvider && !window.HiroWalletProvider && (
-                            <span className="text-sm text-gray-600">
-                              Not installed -{' '}
-                              <a
-                                href="https://leather.io/install-extension"
-                                rel="noopener noreferrer"
-                                target="_blank"
-                                className="inline-flex items-center font-semibold hover:underline text-dark-green-500"
-                              >
-                                Download
-                                <ExternalLinkIcon className="w-3 h-3 ml-1 text-dark-green-500 opacity-80" />
-                              </a>
-                            </span>
-                          )}
+                          {!window.LeatherProvider &&
+                            !window.HiroWalletProvider && (
+                              <span className="text-sm text-gray-600">
+                                Not installed -{" "}
+                                <a
+                                  href="https://leather.io/install-extension"
+                                  rel="noopener noreferrer"
+                                  target="_blank"
+                                  className="inline-flex items-center font-semibold hover:underline text-dark-green-500"
+                                >
+                                  Download
+                                  <ExternalLinkIcon className="w-3 h-3 ml-1 text-dark-green-500 opacity-80" />
+                                </a>
+                              </span>
+                            )}
                         </span>
                       </button>
 
                       <button
                         type="button"
                         onClick={() => {
-                          onProviderChosen('xverse');
+                          onProviderChosen("xverse");
                         }}
                         disabled={!xVerseInstalled}
-                        className="flex items-center w-full p-4 text-gray-800 bg-white border border-gray-300 rounded-md gap-x-4 focus:outline-none focus:ring-2 focus:ring-offset-2 hover:border-dark-green-500 hover:bg-dark-green-500/10 disabled:cursor-not-allowed disabled:bg-gray-100 disabled:hover:border-gray-200"
+                        className="flex items-center w-full p-4 text-gray-800 bg-transparent border border-gray-300 rounded-md gap-x-4 focus:outline-none focus:ring-2 focus:ring-offset-2 hover:border-dark-green-500 hover:bg-dark-green-500/10 disabled:cursor-not-allowed disabled:bg-gray-100 disabled:hover:border-gray-200"
                       >
                         <span>
                           <svg
@@ -127,7 +134,12 @@ export function ChooseWalletModal({ open, closeModal, onProviderChosen }: Props)
                             fill="none"
                             xmlns="http://www.w3.org/2000/svg"
                           >
-                            <rect width="48" height="48" rx="6" fill="#060606" />
+                            <rect
+                              width="48"
+                              height="48"
+                              rx="6"
+                              fill="#060606"
+                            />
                             <path
                               d="M42.4327 41.8387V35.2386C42.4327 34.9747 42.3008 34.7107 42.1687 34.5126L13.9862 6.264C13.7882 6.066 13.5242 6 13.2602 6H6.66001C6.33001 6 6.066 6.264 6.066 6.59403V12.7322C6.066 12.9962 6.198 13.2602 6.33001 13.4582L16.4282 23.5564C16.6922 23.8204 16.6922 24.1504 16.4282 24.4144L6.198 34.6447C6.066 34.7765 6 34.9086 6 35.0407V41.7729C6 42.1029 6.264 42.3669 6.59401 42.3669H17.6823C18.0123 42.3669 18.2763 42.1029 18.2763 41.7729V37.8126C18.2763 37.6808 18.3423 37.4826 18.4743 37.4168L23.9524 31.9386C24.2164 31.6747 24.5464 31.6747 24.8104 31.9386L34.9747 42.1029C35.1726 42.3008 35.4366 42.3669 35.7005 42.3669H41.8387C42.1687 42.4329 42.4327 42.1687 42.4327 41.8387Z"
                               fill="white"
@@ -142,7 +154,7 @@ export function ChooseWalletModal({ open, closeModal, onProviderChosen }: Props)
                           <span>Xverse Wallet</span>
                           {!xVerseInstalled && (
                             <span className="text-sm text-gray-600">
-                              Not installed -{' '}
+                              Not installed -{" "}
                               <a
                                 href="https://www.xverse.app/download"
                                 rel="noopener noreferrer"
@@ -160,10 +172,10 @@ export function ChooseWalletModal({ open, closeModal, onProviderChosen }: Props)
                       <button
                         type="button"
                         onClick={() => {
-                          onProviderChosen('asigna');
+                          onProviderChosen("asigna");
                         }}
                         disabled={!window.AsignaProvider}
-                        className="flex items-center w-full p-4 text-gray-800 bg-white border border-gray-300 rounded-md gap-x-4 focus:outline-none focus:ring-2 focus:ring-offset-2 hover:border-dark-green-500 hover:bg-dark-green-500/10 disabled:cursor-not-allowed disabled:bg-gray-100 disabled:hover:border-gray-200"
+                        className="flex items-center w-full p-4 text-gray-800 bg-transparent border border-gray-300 rounded-md gap-x-4 focus:outline-none focus:ring-2 focus:ring-offset-2 hover:border-dark-green-500 hover:bg-dark-green-500/10 disabled:cursor-not-allowed disabled:bg-gray-100 disabled:hover:border-gray-200"
                       >
                         <span>
                           <svg
@@ -217,7 +229,10 @@ export function ChooseWalletModal({ open, closeModal, onProviderChosen }: Props)
                                 filterUnits="userSpaceOnUse"
                                 colorInterpolationFilters="sRGB"
                               >
-                                <feFlood floodOpacity="0" result="BackgroundImageFix" />
+                                <feFlood
+                                  floodOpacity="0"
+                                  result="BackgroundImageFix"
+                                />
                                 <feBlend
                                   mode="normal"
                                   in="SourceGraphic"
@@ -238,7 +253,10 @@ export function ChooseWalletModal({ open, closeModal, onProviderChosen }: Props)
                                 filterUnits="userSpaceOnUse"
                                 colorInterpolationFilters="sRGB"
                               >
-                                <feFlood floodOpacity="0" result="BackgroundImageFix" />
+                                <feFlood
+                                  floodOpacity="0"
+                                  result="BackgroundImageFix"
+                                />
                                 <feBlend
                                   mode="normal"
                                   in="SourceGraphic"
@@ -260,7 +278,11 @@ export function ChooseWalletModal({ open, closeModal, onProviderChosen }: Props)
                               >
                                 <stop stopColor="#6A3300" stopOpacity="0" />
                                 <stop offset="0.520833" stopColor="#8A2FFF" />
-                                <stop offset="1" stopColor="#6A3300" stopOpacity="0" />
+                                <stop
+                                  offset="1"
+                                  stopColor="#6A3300"
+                                  stopOpacity="0"
+                                />
                               </linearGradient>
                               <radialGradient
                                 id="paint1_radial_2402_17"
@@ -272,7 +294,11 @@ export function ChooseWalletModal({ open, closeModal, onProviderChosen }: Props)
                               >
                                 <stop stopColor="#3974E8" stopOpacity="0" />
                                 <stop offset="0.520833" stopColor="#7B3DFF" />
-                                <stop offset="1" stopColor="#00316A" stopOpacity="0" />
+                                <stop
+                                  offset="1"
+                                  stopColor="#00316A"
+                                  stopOpacity="0"
+                                />
                               </radialGradient>
                               <linearGradient
                                 id="paint2_linear_2402_17"
@@ -308,7 +334,7 @@ export function ChooseWalletModal({ open, closeModal, onProviderChosen }: Props)
                           <span>Asigna Wallet</span>
                           {!window.AsignaProvider && (
                             <span className="text-sm text-gray-600">
-                              Not installed -{' '}
+                              Not installed -{" "}
                               <a
                                 href="https://asigna.io/"
                                 rel="noopener noreferrer"
@@ -326,10 +352,10 @@ export function ChooseWalletModal({ open, closeModal, onProviderChosen }: Props)
                       <button
                         type="button"
                         onClick={() => {
-                          onProviderChosen('okx');
+                          onProviderChosen("okx");
                         }}
                         disabled={!window.okxwallet}
-                        className="flex items-center w-full p-4 text-gray-800 bg-white border border-gray-300 rounded-md gap-x-4 focus:outline-none focus:ring-2 focus:ring-offset-2 hover:border-dark-green-500 hover:bg-dark-green-500/10 disabled:cursor-not-allowed disabled:bg-gray-100 disabled:hover:border-gray-200"
+                        className="flex items-center w-full p-4 text-gray-800 bg-transparent border border-gray-300 rounded-md gap-x-4 focus:outline-none focus:ring-2 focus:ring-offset-2 hover:border-dark-green-500 hover:bg-dark-green-500/10 disabled:cursor-not-allowed disabled:bg-gray-100 disabled:hover:border-gray-200"
                       >
                         <span>
                           <img src="/okx-logo.png" className="w-12 h-12" />
@@ -338,7 +364,7 @@ export function ChooseWalletModal({ open, closeModal, onProviderChosen }: Props)
                           <span>OKX Wallet</span>
                           {!window.okxwallet && (
                             <span className="text-sm text-gray-600">
-                              Not installed -{' '}
+                              Not installed -{" "}
                               <a
                                 href="https://www.okx.com/web3"
                                 rel="noopener noreferrer"
