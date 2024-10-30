@@ -164,7 +164,7 @@ export const signerKeyToPool = {
     group: "StackingDAO",
   },
 
-  "0x02877ce29ba35458b827a6ea18510b9058ae4c30e2c33d288f2982c13497caec6e": {
+  "0x0302328212d5e430a8a880f8e2365a8f976ee50490ff030c106866c0b789eae91a": {
     name: "Xverse",
     slug: "xverse",
     logo: "/logos/xverse.webp",
