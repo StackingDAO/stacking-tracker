@@ -59,12 +59,3 @@ export async function deleteMessage(userId: bigint, messageId: bigint) {
   const result = await response.json();
   return result;
 }
-
-// export async function sendPublicMessage(message: string) {
-//   const channel = process.env.TELEGRAM_PUBLIC_CHANNEL || '-1001803807666';
-//   const url = `https://api.telegram.org/bot${botToken}/sendMessage?chat_id=${channel}&text=${message}&parse_mode=HTML&disable_web_page_preview=true`;
-//   const response = await fetch(url);
-
-//   const result = await response.json();
-//   return result;
-// }
