@@ -23,6 +23,7 @@ export default async function Home() {
     borderColor: "rgba(247, 147, 26, 1)",
   });
 
+  const colors = ["rgba(46, 125, 89, 0.5)", "rgba(252, 100, 50, 0.5)"];
   for (const activePool of activePools) {
     const data: any[] = [];
 
@@ -33,12 +34,12 @@ export default async function Home() {
       data.push(stacked);
     }
 
-    // @TODO: Different color for each
-    // Lisa: background: rgba(46, 125, 89, 0.5);
-    // StackingDAO: rgba(252, 100, 50, 0.5);
+    const index = activePools.indexOf(activePool);
     datasets.push({
       label: activePool.name,
       data: data,
+      backgroundColor: colors[index],
+      borderRadius: 6,
     });
   }
 

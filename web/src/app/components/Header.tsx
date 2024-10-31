@@ -31,7 +31,7 @@ export function Header() {
         className="mx-auto flex max-w-6xl items-center justify-between p-6 lg:px-8"
       >
         <div className="flex items-center gap-x-6">
-          <a href="#" className="-m-1.5 p-1.5">
+          <a href="/" className="-m-1.5 p-1.5">
             <span className="sr-only">Stacking Tracker</span>
             <div className="w-10 h-10 bg-orange rounded-full" />
           </a>

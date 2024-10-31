@@ -31,6 +31,9 @@ const Home: FunctionComponent<Props> = async ({ params: { pool } }: Props) => {
   datasets.push({
     label: "Stacked STX",
     data: dataStacked,
+    backgroundColor: "rgba(252, 100, 50, 0.5)",
+    borderRadius: 6,
+    borderSkipped: false,
   });
 
   const chartData = {

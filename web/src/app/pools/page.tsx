@@ -35,10 +35,12 @@ export default async function Home() {
       }
     }
 
-    // @TODO: Different color for each pool
+    const index = activePools.indexOf(activePool);
     datasets.push({
       label: activePool.name,
       data: data,
+      backgroundColor: `rgba(252, 100, 50, ${1 - index * 0.2})`,
+      borderRadius: 6,
     });
   }
 

@@ -35,9 +35,12 @@ export default async function Home() {
       }
     }
 
+    const index = activeSigners.indexOf(activeSigner);
     datasets.push({
       label: activeSigner.name,
       data: data,
+      backgroundColor: `rgba(252, 100, 50, ${1 - index * 0.2})`,
+      borderRadius: 6,
     });
   }
 
