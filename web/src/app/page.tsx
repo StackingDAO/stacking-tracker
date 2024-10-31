@@ -41,6 +41,17 @@ const Home: FunctionComponent<Props> = async ({ params: { pool } }: Props) => {
     datasets: datasets,
   };
 
+  function getFormattedDate(days: number) {
+    const today = new Date();
+    const pastDate = new Date(today.setDate(today.getDate() + days));
+
+    return pastDate.toLocaleDateString("en-US", {
+      day: "numeric",
+      month: "long",
+      year: "numeric",
+    });
+  }
+
   return (
     <div className="flex flex-col justify-between w-full">
       <div className="flex gap-8">
@@ -105,8 +116,7 @@ const Home: FunctionComponent<Props> = async ({ params: { pool } }: Props) => {
                   )}{" "}
                   days ago
                   <p className="text-sm text-white/[0.35]">
-                    {/* @TODO: dates */}
-                    13 September, 2024
+                    {getFormattedDate(-poxInfo.current_cycle.started_days_ago)}
                   </p>
                 </dd>
               </div>
@@ -118,8 +128,7 @@ const Home: FunctionComponent<Props> = async ({ params: { pool } }: Props) => {
                   ~{currency.rounded.format(poxInfo.current_cycle.ends_in_days)}{" "}
                   days
                   <p className="text-sm text-white/[0.35]">
-                    {/* @TODO: dates */}
-                    13 September, 2024
+                    {getFormattedDate(poxInfo.current_cycle.ends_in_days)}
                   </p>
                 </dd>
               </div>
@@ -230,13 +239,12 @@ const Home: FunctionComponent<Props> = async ({ params: { pool } }: Props) => {
             </div>,
           ])}
         />
-        {/* @TODO: load more cycles */}
-        <button
+        {/* <button
           type="button"
           className="flex items-center justify-center w-full text-sm font-semibold leading-6 text-orange px-3 py-1.5 rounded-lg bg-orange/10"
         >
           Show more cycles
-        </button>
+        </button> */}
       </div>
     </div>
   );
