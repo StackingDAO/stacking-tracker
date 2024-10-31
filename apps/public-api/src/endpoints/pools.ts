@@ -2,7 +2,11 @@ import { Router, Request, Response } from "express";
 import * as db from "@repo/database";
 import { poxAddressToPool } from "../constants";
 import { fetchPrice } from "../prices";
-import { getPoolEntities, getPoolsInfoForCycle } from "../processors/pools";
+import {
+  getAggregatedPoolsInfo,
+  getPoolEntities,
+  getPoolsInfoForCycle,
+} from "../processors/pools";
 
 async function getInfoForCycle(cycleNumber: number) {
   const [stackers, rewards] = await Promise.all([
@@ -30,7 +34,7 @@ router.get("/", async (req: Request, res: Response) => {
   const results = await Promise.all(promises);
 
   res.send({
-    cycles: results.slice().reverse(),
+    cycles: getAggregatedPoolsInfo(results.slice().reverse()),
     entities: getPoolEntities(results.slice(0, 5), stxPrice, btcPrice),
   });
 });

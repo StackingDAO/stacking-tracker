@@ -44,6 +44,24 @@ export const poxAddressToPool = {
     logo: "/logos/planbetter.webp",
     website: "https://www.planbetter.org",
   },
+  "15uuC9CPwSuV3inJcuU5Uon111yosYbzAb": {
+    name: "Blockdaemon",
+    slug: "blockdaemon",
+    logo: "/logos/blockdaemon.webp",
+    website: "https://www.blockdaemon.com/stacks",
+  },
+  bc1qcc2pumtnrtcj4mk9w0y37xynhqarh40zsy5v77: {
+    name: "Luganodes",
+    slug: "luganodes",
+    logo: "/logos/luganodes.webp",
+    website: "https://www.luganodes.com/blog/StacksSG",
+  },
+  bc1qsfahfanetg4v75x6qj82mvs033le6sfflghpws: {
+    name: "Senseinode",
+    slug: "senseinode",
+    logo: "/logos/default.webp",
+    website: "https://www.senseinode.com/en-stake/stacks",
+  },
 };
 
 export const delegationAddressToPool = {
@@ -79,14 +97,14 @@ export const signerKeyToPool = {
     name: "Blockdaemon - StackingDAO",
     slug: "stackingdao-blockdaemon",
     logo: "/logos/blockdaemon.webp",
-    website: "https://www.blockdaemon.com",
+    website: "https://www.blockdaemon.com/stacks",
     group: "StackingDAO",
   },
   "0x029e1245f007bd8f76d5ce67e759acd21f8b0f2538a80713468f7524bf3fff6136": {
     name: "Luganodes - StackingDAO",
     slug: "stackingdao-luganodes",
     logo: "/logos/luganodes.webp",
-    website: "https://www.luganodes.com",
+    website: "https://www.luganodes.com/blog/StacksSG",
     group: "StackingDAO",
   },
   "0x03e0df37e83e43847625a0320456cb9758050a61ce76c2c130bf50242f27ba6d54": {
@@ -107,14 +125,14 @@ export const signerKeyToPool = {
     name: "Restake - StackingDAO",
     slug: "stackingdao-restake",
     logo: "/logos/restake.webp",
-    website: "https://www.restake.net",
+    website: "https://www.restake.net/protocols/stacks",
     group: "StackingDAO",
   },
   "0x034df3feda207a1cd4f31ae2b58f136a0d382d23419ef8d06569fa538202ba8aed": {
     name: "Chorus One - StackingDAO",
     slug: "stackingdao-chorus-one",
     logo: "/logos/chorusone.webp",
-    website: "https://chorus.one",
+    website: "https://chorus.one/crypto-staking-networks/stacks",
     group: "StackingDAO",
   },
   "0x03cc1da6f6235699284987f7d3a98a950b0c693cdbed87ab33c04f61e2dfb6a177": {
@@ -146,7 +164,7 @@ export const signerKeyToPool = {
     group: "StackingDAO",
   },
 
-  "0x02877ce29ba35458b827a6ea18510b9058ae4c30e2c33d288f2982c13497caec6e": {
+  "0x0302328212d5e430a8a880f8e2365a8f976ee50490ff030c106866c0b789eae91a": {
     name: "Xverse",
     slug: "xverse",
     logo: "/logos/xverse.webp",
@@ -168,42 +186,42 @@ export const signerKeyToPool = {
     name: "Chorus One",
     slug: "chorus-one",
     logo: "/logos/chorusone.webp",
-    website: "https://www.planbetter.org",
+    website: "https://chorus.one",
   },
   "0x0284df4505c6318a0017a7848aa0a95bf8cd3db697a89d2ec1978a027bece770ef": {
     name: "Degen Lab",
     slug: "degen-lab",
     logo: "/logos/degenlab.webp",
-    website: "https://www.planbetter.org",
+    website: "https://degenlab.io",
   },
   "0x02b20a0603a409270d4421d89a831e8f7b2fa7c5f2d8872d7aa94737334d10c194": {
     name: "Luxor",
     slug: "luxor",
     logo: "/logos/default.webp",
-    website: "https://www.planbetter.org",
+    website: "https://luxor.tech",
   },
   "0x03cef32afac202346ac76a28e81e77ed497c3f22ce20ac54b496950b4ef0b74b2e": {
     name: "Staking Defense League",
     slug: "staking-defense-league",
     logo: "/logos/default.webp",
-    website: "https://www.planbetter.org",
+    website: "https://stakingdefenseleague.com",
   },
   "0x039dc5297b92c1f6b48f4a68e180b853ff6e8188fb78422652a90b8fe14941adce": {
     name: "Kiln",
     slug: "kiln",
     logo: "/logos/kiln.webp",
-    website: "https://www.planbetter.org",
+    website: "https://www.kiln.fi/protocols/stacks",
   },
   "0x024f164c6e73df283d34d7d9cc86553a82dce76045ba7dfbf4de0004f89eabb8e0": {
     name: "Senseinode",
     slug: "senseinode",
     logo: "/logos/default.webp",
-    website: "https://www.planbetter.org",
+    website: "https://www.senseinode.com/en-stake/stacks",
   },
   "0x025f9fd3d308e7306e154d9a5466a5aee6918258cdb08924ade59bea04f472b339": {
     name: "Figment",
     slug: "figment",
     logo: "/logos/default.webp",
-    website: "https://www.planbetter.org",
+    website: "https://figment.io/staking-stacks",
   },
 };

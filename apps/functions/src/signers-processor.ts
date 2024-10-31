@@ -33,11 +33,6 @@ export async function processSigners(
   const signers = await stacksPox.getCycleSigners(cycleNumber);
 
   for (const signer of signers) {
-    const stackers = await stacksPox.getSignerStackers(
-      cycleNumber,
-      signer.signing_key
-    );
-
     await saveSigner(
       cycleNumber,
       signer.signing_key,
@@ -45,15 +40,24 @@ export async function processSigners(
       signer.stacked_amount / 1000000.0
     );
 
-    for (const stacker of stackers) {
-      await saveStacker(
+    // Bug in API?
+    // Error 500 for signer 0x02877ce29ba35458b827a6ea18510b9058ae4c30e2c33d288f2982c13497caec6e in cycle 94
+    try {
+      const stackers = await stacksPox.getSignerStackers(
         cycleNumber,
-        signer.signing_key,
-        stacker.stacker_address,
-        stacker.stacked_amount / 1000000.0,
-        stacker.pox_address,
-        stacker.stacker_type
+        signer.signing_key
       );
-    }
+
+      for (const stacker of stackers) {
+        await saveStacker(
+          cycleNumber,
+          signer.signing_key,
+          stacker.stacker_address,
+          stacker.stacked_amount / 1000000.0,
+          stacker.pox_address,
+          stacker.stacker_type
+        );
+      }
+    } catch (error) {}
   }
 }
