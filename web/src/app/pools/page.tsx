@@ -80,8 +80,7 @@ export default async function Home() {
                   {currency.rounded.format(lastCycleInfo.stacked_amount)}
                 </div>
                 <p className="text-sm text-white/[0.35] ">
-                  {/* @TODO */}
-                  $TODO
+                  ${currency.rounded.format(lastCycleInfo.stacked_amount_usd)}
                 </p>
               </dd>
             </div>
@@ -104,8 +103,7 @@ export default async function Home() {
                   {currency.short.format(lastCycleInfo.rewards_amount)}
                 </div>
                 <p className="text-sm text-white/[0.35] ">
-                  {/* @TODO */}
-                  $TODO
+                  ${currency.rounded.format(lastCycleInfo.rewards_amount_usd)}
                 </p>{" "}
               </dd>
             </div>

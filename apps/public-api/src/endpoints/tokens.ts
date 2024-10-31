@@ -6,12 +6,20 @@ import { getTokenEntities, getTokensInfoForCycle } from "../processors/tokens";
 import { addressToToken } from "../constants";
 
 async function getInfoForCycle(cycleNumber: number) {
-  const [stackers, rewards] = await Promise.all([
+  const [stackers, rewards, stxPrice, btcPrice] = await Promise.all([
     db.getStackersForCycle(cycleNumber),
     db.getRewardsForCycle(cycleNumber),
+    fetchPrice("STX"),
+    fetchPrice("BTC"),
   ]);
 
-  return getTokensInfoForCycle(cycleNumber, stackers, rewards);
+  return getTokensInfoForCycle(
+    cycleNumber,
+    stackers,
+    rewards,
+    stxPrice,
+    btcPrice
+  );
 }
 
 async function getTokensSupply(stxPrice: number) {
