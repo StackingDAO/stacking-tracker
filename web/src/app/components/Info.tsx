@@ -4,7 +4,7 @@ import StxLogo from "./Logos/Stx";
 export function Info() {
   return (
     <div className="p-4 border border-white/10 rounded-xl shrink-0">
-      <dl className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+      <dl className="grid grid-cols-1 gap-4 md:grid-cols-2">
         <div className="p-4 rounded-md bg-gray">
           <dt className="text-sm font-medium leading-6 text-white/50">
             Liquid STX Supply
@@ -44,10 +44,11 @@ export function Info() {
         href=""
         rel="noopener noreferrer"
         target="_blank"
-        className="inline-flex items-center justify-center gap-x-2 text-center w-full mt-4 p-3 rounded-md bg-gray hover:bg-gray/80 text-white"
+        className="inline-flex items-center justify-center gap-x-2 text-center w-full mt-4 p-3 rounded-md bg-gray hover:bg-gray/80 text-white text-sm md:text-base"
       >
-        Learn more about Stacks Proof-of-Transfer
-        <ArrowTopRightOnSquareIcon className="w-[14px] h-[14px] text-orange" />
+        Learn more about Stacks <br className="block md:hidden" />
+        Proof-of-Transfer
+        <ArrowTopRightOnSquareIcon className="shrink-0 w-[14px] h-[14px] text-orange" />
       </a>
     </div>
   );

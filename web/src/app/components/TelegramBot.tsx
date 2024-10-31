@@ -1,7 +1,11 @@
-export function TelegramBot({ extraCopy }) {
+type TelegramBotProps = {
+  extraCopy?: boolean;
+};
+
+export function TelegramBot({ extraCopy }: TelegramBotProps) {
   return (
-    <div className="border border-white/10 rounded-lg overflow-hidden w-full">
-      <div className="flex justify-between">
+    <div className="border border-white/10 rounded-lg overflow-hidden w-full mt-6 md:mt-0">
+      <div className="md:flex md:justify-between">
         <div className="p-6">
           <h4 className="font-semibold text-lg">Try out our Telegram Bot!</h4>
           <p className="text-sm text-white/70 mt-4">
@@ -14,7 +18,7 @@ export function TelegramBot({ extraCopy }) {
             </p>
           ) : null}
           <a
-            className="inline-block mt-6 text-sm font-semibold text-orange px-4 py-3 rounded-lg bg-orange/10"
+            className="block text-center md:text-left md:inline-block mt-6 text-sm font-semibold text-orange px-4 py-3 rounded-lg bg-orange/10"
             href="https://t.me/stackingtracker_bot/"
           >
             Open Bot

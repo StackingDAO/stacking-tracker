@@ -53,9 +53,12 @@ const Home: FunctionComponent<Props> = async ({ params: { pool } }: Props) => {
   }
 
   return (
-    <div className="flex flex-col justify-between w-full">
-      <div className="flex gap-8">
-        <div className="w-5/12 flex flex-col gap-6">
+    <div className="flex flex-col">
+      <h1 className="text-2xl mb-6 md:hidden font-semibold">
+        Stacking overview
+      </h1>
+      <div className="md:flex gap-8">
+        <div className="md:w-5/12 flex flex-col gap-6">
           <div className="p-4 border border-white/10 rounded-xl shrink-0">
             <div className="flex items-center justify-between mb-4">
               <h3 className="ml-4 font-semibold text-xl">
@@ -66,7 +69,7 @@ const Home: FunctionComponent<Props> = async ({ params: { pool } }: Props) => {
               </div>
             </div>
 
-            <dl className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+            <dl className="grid grid-cols-1 gap-4 md:grid-cols-2">
               <div className="p-4 rounded-md bg-gray">
                 <dt className="text-sm font-medium leading-6 text-white/50">
                   Total Stacked
@@ -88,7 +91,7 @@ const Home: FunctionComponent<Props> = async ({ params: { pool } }: Props) => {
               </div>
               <div className="p-4 rounded-md bg-gray">
                 <dt className="text-sm font-medium leading-6 text-white/50">
-                  BTC Rewards so far
+                  BTC rewards so far
                 </dt>
                 <dd>
                   <div className=" inline-flex items-center w-full text-lg font-medium leading-6 text-white gap-x-1">
@@ -144,7 +147,7 @@ const Home: FunctionComponent<Props> = async ({ params: { pool } }: Props) => {
               </div>
             </div>
 
-            <dl className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+            <dl className="grid grid-cols-1 gap-4 md:grid-cols-2">
               <div className="p-4 rounded-md bg-gray">
                 <dt className="text-sm font-medium leading-6 text-white/50">
                   <div className="flex items-center gap-1">
@@ -190,11 +193,17 @@ const Home: FunctionComponent<Props> = async ({ params: { pool } }: Props) => {
             </dl>
           </div>
         </div>
-        <div className="flex-1 p-4 border border-white/10 rounded-xl">
-          <ChartBarStacked
-            chartTitles={{ x: "Cycle", y: "STX Stacked", yRight: "BTC Yield" }}
-            chartData={chartData}
-          />
+        <div className="flex-1 p-4 border border-white/10 rounded-xl mt-4 md:mt-0">
+          <div className="h-[325px] md:min-h-[500px]">
+            <ChartBarStacked
+              chartTitles={{
+                x: "Cycle",
+                y: "STX Stacked",
+                yRight: "BTC Yield",
+              }}
+              chartData={chartData}
+            />
+          </div>
         </div>
       </div>
 

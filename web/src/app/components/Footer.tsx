@@ -6,12 +6,15 @@ export function Footer() {
     <footer className="relative">
       <SubFooter />
       <div className="relative mx-auto max-w-6xl px-6 py-12 md:flex md:items-center md:justify-between lg:px-8">
-        <div className="flex justify-center space-x-6 md:order-2">
-          <div className="flex items-center gap-2">
+        <div className="md:flex md:justify-center space-x-6 md:order-2">
+          <div className="md:flex md:items-center gap-2">
             <p className="text-center text-white text-sm">
               This website and data are powered by
             </p>
-            <a href="https://www.stackingdao.com/">
+            <a
+              className="inline-flex mt-2 md:mt-0 md:inline"
+              href="https://www.stackingdao.com/"
+            >
               <svg
                 width="159"
                 height="24"
@@ -84,7 +87,9 @@ export function Footer() {
           </div>
         </div>
         <div className="mt-8 md:order-1 md:mt-0">
-          <p className="text-white/50 text-sm">© Symmachia Inc. 2024</p>
+          <p className="text-white/50 text-sm text-center md:text-left">
+            © Symmachia Inc. 2024
+          </p>
         </div>
       </div>
 
