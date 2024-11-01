@@ -10,7 +10,6 @@ import { Connect } from "@stacks/connect-react";
 import { AuthOptions } from "@stacks/connect";
 import { UserSession, AppConfig } from "@stacks/auth";
 import { RootLayout } from "@/app/components/RootLayout";
-import { Bubble } from "@/app/components/Bubble";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -73,8 +72,6 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       <body
         className={`${inter.className} relative flex min-h-screen flex-col text-white bg-black`}
       >
-        <Bubble position="-top-[560px] -left-[144px]" />
-        <Bubble position="-top-[520px] -right-[270px]" />
         <Connect authOptions={authOptions}>
           {isClient && (
             <AppContextProvider userData={userData}>

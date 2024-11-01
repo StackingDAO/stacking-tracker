@@ -3,7 +3,7 @@ import { SubFooter } from "./SubFooter";
 
 export function Footer() {
   return (
-    <footer className="relative">
+    <footer className="relative overflow-hidden">
       <SubFooter />
       <div className="relative mx-auto max-w-6xl px-6 py-12 md:flex md:items-center md:justify-between lg:px-8">
         <div className="md:flex md:justify-center space-x-6 md:order-2">
@@ -12,7 +12,7 @@ export function Footer() {
               This website and data are powered by
             </p>
             <a
-              className="inline-flex mt-2 md:mt-0 md:inline"
+              className="flex items-center justify-center mt-2 md:mt-0 md:inline"
               href="https://www.stackingdao.com/"
             >
               <svg

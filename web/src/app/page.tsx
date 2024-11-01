@@ -194,7 +194,7 @@ const Home: FunctionComponent<Props> = async ({ params: { pool } }: Props) => {
           </div>
         </div>
         <div className="flex-1 p-4 border border-white/10 rounded-xl mt-4 md:mt-0">
-          <div className="h-[325px] md:min-h-[500px]">
+          <div className="h-[325px] md:min-h-[460px]">
             <ChartBarStacked
               chartTitles={{
                 x: "Cycle",

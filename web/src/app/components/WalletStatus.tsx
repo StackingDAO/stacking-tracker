@@ -1,11 +1,10 @@
 "use client";
 
-import { WalletConnectButton } from "./WalletConnectButton";
-
+// @TODO: Make this component dynamic
 export function WalletStatus() {
   return (
     <div className="p-4 border border-white/10 rounded-xl">
-      <div className="flex items-center justify-between">
+      <div className="md:flex md:items-center md:justify-between">
         <div className="flex items-center gap-x-4">
           <div className="w-10 h-10 bg-orange/10 relative flex items-center justify-center rounded-lg">
             <div className="w-2 h-2 bg-[#7BF178] rounded-full absolute right-0 top-0 -mt-0.5 -mr-0.5" />
@@ -33,10 +32,10 @@ export function WalletStatus() {
           </div>
           <p className="text-white">SP264D...B8458R</p>
         </div>
-        <div>
+        <div className="mt-4 md:mt-0">
           <button
             type="button"
-            className="text-sm font-semibold leading-6 text-black px-4 py-2 rounded-lg bg-orange"
+            className="w-full md:w-auto text-sm font-semibold leading-6 text-black px-4 py-2 rounded-lg bg-orange"
           >
             Disconnect
           </button>
