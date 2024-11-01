@@ -9,8 +9,8 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@headlessui/react": "^1.7.16",
-    "@heroicons/react": "^1.0.6",
+    "@headlessui/react": "^1.22.19",
+    "@heroicons/react": "^2.1.5",
     "@stacks/auth": "6.11.0",
     "@stacks/blockchain-api-client": "^7.10.0",
     "@stacks/common": "^6.13.0",

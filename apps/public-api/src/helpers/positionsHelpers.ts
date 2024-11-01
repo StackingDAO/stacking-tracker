@@ -13,9 +13,11 @@ import { delegationAddressToPool } from "../constants";
 //
 
 async function getInfoForCycle(cycleNumber: number) {
-  const [stackers, rewards] = await Promise.all([
+  const [stackers, rewards, stxPrice, btcPrice] = await Promise.all([
     db.getStackersForCycle(cycleNumber),
     db.getRewardsForCycle(cycleNumber),
+    fetchPrice("STX"),
+    fetchPrice("BTC"),
   ]);
 
   const soloStackers = stackers.filter(
@@ -31,7 +33,13 @@ async function getInfoForCycle(cycleNumber: number) {
   return {
     solo: getPoxInfoForCycle(cycleNumber, soloStackers, soloStackersRewards),
     pools: getPoolsInfoForCycle(cycleNumber, stackers, rewards),
-    tokens: getTokensInfoForCycle(cycleNumber, stackers, rewards),
+    tokens: getTokensInfoForCycle(
+      cycleNumber,
+      stackers,
+      rewards,
+      stxPrice,
+      btcPrice
+    ),
   };
 }
 

@@ -1,10 +1,11 @@
 import { addressToToken } from "../constants";
-import * as stacks from "@repo/stacks";
 
 export function getTokensInfoForCycle(
   cycleNumber: number,
   stackers: any,
-  rewards: any
+  rewards: any,
+  stxPrice: number,
+  btcPrice: number
 ) {
   const tokens: any[] = [];
   for (const address of Object.keys(addressToToken)) {
@@ -64,6 +65,8 @@ export function getTokensInfoForCycle(
     tokens: tokens,
     stacked_amount: stackedAmount,
     rewards_amount: rewardAmount,
+    stacked_amount_usd: stackedAmount * stxPrice,
+    rewards_amount_usd: rewardAmount * btcPrice,
   };
 }
 

@@ -34,7 +34,11 @@ router.get("/", async (req: Request, res: Response) => {
   const results = await Promise.all(promises);
 
   res.send({
-    cycles: getAggregatedPoolsInfo(results.slice().reverse()),
+    cycles: getAggregatedPoolsInfo(
+      results.slice().reverse(),
+      stxPrice,
+      btcPrice
+    ),
     entities: getPoolEntities(results.slice(0, 5), stxPrice, btcPrice),
   });
 });

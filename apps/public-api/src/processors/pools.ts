@@ -50,7 +50,11 @@ export function getPoolsInfoForCycle(
   };
 }
 
-export function getAggregatedPoolsInfo(cyclesInfo: any[]) {
+export function getAggregatedPoolsInfo(
+  cyclesInfo: any[],
+  stxPrice: number,
+  btcPrice: number
+) {
   const aggregatedCyclesInfo: any[] = [];
   for (const cycle of cyclesInfo) {
     let otherStackersCount = 0;
@@ -71,12 +75,16 @@ export function getAggregatedPoolsInfo(cyclesInfo: any[]) {
       stackers_count: otherStackersCount,
       stacked_amount: otherStackedAmount,
       rewards_amount: otherRewardsAmount,
+      stacked_amount_usd: otherStackedAmount * stxPrice,
+      rewards_amount_usd: otherRewardsAmount * btcPrice,
     });
 
     aggregatedCyclesInfo.push({
       cycle_number: cycle.cycle_number,
       stacked_amount: cycle.stacked_amount,
       rewards_amount: cycle.rewards_amount,
+      stacked_amount_usd: cycle.stacked_amount * stxPrice,
+      rewards_amount_usd: cycle.rewards_amount * btcPrice,
       pools: aggregatedPools,
     });
   }

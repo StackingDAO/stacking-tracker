@@ -25,6 +25,8 @@ export default function ChartBarStacked({
       width={10}
       height={5}
       options={{
+        responsive: true,
+        maintainAspectRatio: false, // This allows the chart to fill the container height
         scales: {
           x: {
             stacked: true,
