@@ -2,8 +2,7 @@
 
 import React, { useEffect, useState, Fragment } from "react";
 import { Dialog, Transition } from "@headlessui/react";
-import { StyledIcon } from "./StyledIcon";
-import { ExternalLinkIcon } from "@heroicons/react/outline";
+import { ArrowTopRightOnSquareIcon, PlusIcon } from "@heroicons/react/20/solid";
 
 type Props = {
   open: boolean;
@@ -39,7 +38,7 @@ export function ChooseWalletModal({
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
         >
-          <div className="fixed inset-0 transition-opacity bg-gray-500 bg-opacity-75" />
+          <div className="fixed inset-0 transition-opacity bg-black bg-opacity-75" />
         </Transition.Child>
 
         <div className="fixed inset-0 z-10 overflow-y-auto">
@@ -53,7 +52,7 @@ export function ChooseWalletModal({
               leaveFrom="opacity-100 translate-y-0 sm:scale-100"
               leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
             >
-              <Dialog.Panel className="relative w-full px-4 pt-5 pb-4 overflow-hidden text-left transition-all transform bg-transparent shadow-xl rounded-2xl sm:my-8 sm:w-full sm:max-w-lg sm:p-12">
+              <Dialog.Panel className="relative w-full px-4 pt-5 pb-4 overflow-hidden text-left transition-all transform bg-black shadow-xl rounded-2xl sm:my-8 sm:w-full sm:max-w-lg sm:p-12">
                 <div>
                   <div>
                     <div className="flex items-center justify-between">
@@ -69,7 +68,7 @@ export function ChooseWalletModal({
                         onClick={closeModal}
                       >
                         <span className="sr-only">Close</span>
-                        <StyledIcon as="XIcon" solid={false} size={8} />
+                        <PlusIcon className="text-white w-8 h-8 rotate-45" />
                       </button>
                     </div>
                     <div className="mt-6 space-y-2">
@@ -111,7 +110,7 @@ export function ChooseWalletModal({
                                   className="inline-flex items-center font-semibold hover:underline text-dark-green-500"
                                 >
                                   Download
-                                  <ExternalLinkIcon className="w-3 h-3 ml-1 text-dark-green-500 opacity-80" />
+                                  <ArrowTopRightOnSquareIcon className="w-3 h-3 ml-1 text-dark-green-500 opacity-80" />
                                 </a>
                               </span>
                             )}
@@ -162,7 +161,7 @@ export function ChooseWalletModal({
                                 className="inline-flex items-center font-semibold hover:underline text-dark-green-500"
                               >
                                 Download
-                                <ExternalLinkIcon className="w-3 h-3 ml-1 text-dark-green-500 opacity-80" />
+                                <ArrowTopRightOnSquareIcon className="w-3 h-3 ml-1 text-dark-green-500 opacity-80" />
                               </a>
                             </span>
                           )}
@@ -342,7 +341,7 @@ export function ChooseWalletModal({
                                 className="inline-flex items-center font-semibold hover:underline text-dark-green-500"
                               >
                                 Download
-                                <ExternalLinkIcon className="w-3 h-3 ml-1 text-dark-green-500 opacity-80" />
+                                <ArrowTopRightOnSquareIcon className="w-3 h-3 ml-1 text-dark-green-500 opacity-80" />
                               </a>
                             </span>
                           )}
@@ -358,7 +357,7 @@ export function ChooseWalletModal({
                         className="flex items-center w-full p-4 text-gray-800 bg-transparent border border-gray-300 rounded-md gap-x-4 focus:outline-none focus:ring-2 focus:ring-offset-2 hover:border-dark-green-500 hover:bg-dark-green-500/10 disabled:cursor-not-allowed disabled:bg-gray-100 disabled:hover:border-gray-200"
                       >
                         <span>
-                          <img src="/okx-logo.png" className="w-12 h-12" />
+                          <img src="/logos/okx.png" className="w-12 h-12" />
                         </span>
                         <span className="flex flex-col text-left">
                           <span>OKX Wallet</span>
@@ -372,7 +371,7 @@ export function ChooseWalletModal({
                                 className="inline-flex items-center font-semibold hover:underline text-dark-green-500"
                               >
                                 Download
-                                <ExternalLinkIcon className="w-3 h-3 ml-1 text-dark-green-500 opacity-80" />
+                                <ArrowTopRightOnSquareIcon className="w-3 h-3 ml-1 text-dark-green-500 opacity-80" />
                               </a>
                             </span>
                           )}
