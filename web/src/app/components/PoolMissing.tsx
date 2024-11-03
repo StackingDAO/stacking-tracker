@@ -39,8 +39,8 @@ export function PoolMissing() {
                 y2="171"
                 gradientUnits="userSpaceOnUse"
               >
-                <stop stop-color="#FC6432" />
-                <stop offset="1" stop-color="#FC6432" stop-opacity="0" />
+                <stop stopColor="#FC6432" />
+                <stop offset="1" stopColor="#FC6432" stopOpacity="0" />
               </linearGradient>
             </defs>
           </svg>
