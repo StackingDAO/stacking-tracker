@@ -96,7 +96,7 @@ const Home: FunctionComponent<Props> = async ({ params: { pool } }: Props) => {
       </div>
 
       <div className="p-4 border border-white/10 rounded-xl mt-8">
-        <div className="sm:min-h-[400px]">
+        <div className="min-h-[400px]">
           <ChartBarStacked
             chartTitles={{ x: "Cycle", y: "STX Stacked", yRight: "BTC Yield" }}
             chartData={chartData}
