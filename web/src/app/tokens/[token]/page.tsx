@@ -43,9 +43,11 @@ const Home: FunctionComponent<Props> = async ({ params: { token } }: Props) => {
 
   return (
     <div className="flex flex-col w-full">
+      <h1 className="text-2xl mb-6 lg:hidden font-semibold">LSTs</h1>
+
       <div className="p-4 border border-white/10 rounded-xl">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-x-3">
+        <div className="md:flex md:items-center md:justify-between">
+          <div className="flex items-center gap-x-3 justify-center md:justify-start">
             <div className="flex gap-x-3 items-center">
               <img className="w-10 h-10" src={tokenInfo.logo} />
               <h4 className="text-xl font-medium">{tokenInfo.entity}</h4>
@@ -57,7 +59,7 @@ const Home: FunctionComponent<Props> = async ({ params: { token } }: Props) => {
             </div>
           </div>
           <a
-            className="inline-flex items-center gap-x-1 rounded-md bg-orange/10 text-orange px-2 py-2 text-sm"
+            className="mt-4 md:mt-0 flex justify-center md:inline-flex items-center gap-x-1 rounded-md bg-orange/10 text-orange px-2 py-2 text-sm"
             href={tokenInfo.website}
           >
             <svg
@@ -103,7 +105,7 @@ const Home: FunctionComponent<Props> = async ({ params: { token } }: Props) => {
       </div>
 
       <div className="p-4 border border-white/10 rounded-xl mt-8">
-        <div className="sm:min-h-[400px]">
+        <div className="h-[325px] lg:min-h-[460px]">
           <ChartBarStacked
             chartTitles={{ x: "Cycle", y: "STX Stacked", yRight: "BTC Yield" }}
             chartData={chartData}

@@ -39,8 +39,8 @@ export default async function Home() {
     datasets.push({
       label: activePool.name,
       data: data,
-      backgroundColor: `rgba(252, 100, 50, ${1 - index * 0.2})`,
-      borderRadius: 6,
+      backgroundColor: `rgba(252, 100, 50, ${1 - index * 0.2})`, //@TODO: custom colors, follow Figma colors
+      borderRadius: 6, //@TODO check why this is not working
     });
   }
 
@@ -51,6 +51,8 @@ export default async function Home() {
 
   return (
     <div className="flex flex-col w-full">
+      <h1 className="text-2xl mb-6 lg:hidden font-semibold">Stacking Pools</h1>
+
       <div className="p-4 border border-white/10 rounded-xl">
         <div className="flex items-center gap-x-2">
           <h2 className="ml-4 font-semibold text-xl">
@@ -114,7 +116,7 @@ export default async function Home() {
       </div>
 
       <div className="p-4 border border-white/10 rounded-xl mt-8">
-        <div className="sm:min-h-[400px]">
+        <div className="h-[325px] lg:min-h-[460px]">
           <ChartBarStacked
             chartTitles={{ x: "Cycle", y: "STX Stacked" }}
             chartData={chartData}

@@ -40,7 +40,7 @@ export function Header() {
               <Link
                 key={item.name}
                 href={item.href}
-                className={`text-sm font-semibold leading-6 text-orange px-3 py-3 rounded-lg ${pathname === item.href ? "bg-orange/10" : ""}`}
+                className={`text-sm font-semibold leading-6 text-orange px-3 py-3 rounded-lg hover:bg-orange/[0.05] ${pathname === item.href ? "bg-orange/10" : ""}`}
               >
                 {item.name}
               </Link>
@@ -76,7 +76,7 @@ export function Header() {
         className="lg:hidden"
       >
         <div className="fixed inset-0 z-10" />
-        <DialogPanel className="fixed inset-y-0 right-0 z-10 w-full overflow-y-auto bg-black px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
+        <DialogPanel className="fixed inset-y-0 right-0 z-10 w-full overflow-y-auto bg-black px-6 py-6 sm:max-w-sm">
           <div className="flex items-center justify-between">
             <a href="#" className="-m-1.5 p-1.5">
               <span className="sr-only">Stacking Tracker</span>

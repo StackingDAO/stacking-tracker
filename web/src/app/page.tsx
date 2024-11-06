@@ -54,11 +54,11 @@ const Home: FunctionComponent<Props> = async ({ params: { pool } }: Props) => {
 
   return (
     <div className="flex flex-col">
-      <h1 className="text-2xl mb-6 md:hidden font-semibold">
+      <h1 className="text-2xl mb-6 lg:hidden font-semibold">
         Stacking overview
       </h1>
-      <div className="md:flex gap-8">
-        <div className="md:w-5/12 flex flex-col gap-6">
+      <div className="lg:flex gap-8">
+        <div className="lg:w-5/12 flex flex-col gap-6">
           <div className="p-4 border border-white/10 rounded-xl shrink-0">
             <div className="flex items-center justify-between mb-4">
               <h3 className="ml-4 font-semibold text-xl">
@@ -69,7 +69,7 @@ const Home: FunctionComponent<Props> = async ({ params: { pool } }: Props) => {
               </div>
             </div>
 
-            <dl className="grid grid-cols-1 gap-4 md:grid-cols-2">
+            <dl className="grid grid-cols-1 gap-4 lg:grid-cols-2">
               <div className="p-4 rounded-md bg-gray">
                 <dt className="text-sm font-medium leading-6 text-white/50">
                   Total Stacked
@@ -147,7 +147,7 @@ const Home: FunctionComponent<Props> = async ({ params: { pool } }: Props) => {
               </div>
             </div>
 
-            <dl className="grid grid-cols-1 gap-4 md:grid-cols-2">
+            <dl className="grid grid-cols-1 gap-4 lg:grid-cols-2">
               <div className="p-4 rounded-md bg-gray">
                 <dt className="text-sm font-medium leading-6 text-white/50">
                   <div className="flex items-center gap-1">
@@ -193,8 +193,8 @@ const Home: FunctionComponent<Props> = async ({ params: { pool } }: Props) => {
             </dl>
           </div>
         </div>
-        <div className="flex-1 p-4 border border-white/10 rounded-xl mt-4 md:mt-0">
-          <div className="h-[325px] md:min-h-[460px]">
+        <div className="lg:w-7/12 p-4 border border-white/10 rounded-xl mt-4 lg:mt-0">
+          <div className="h-[325px] lg:min-h-[460px]">
             <ChartBarStacked
               chartTitles={{
                 x: "Cycle",
@@ -208,52 +208,126 @@ const Home: FunctionComponent<Props> = async ({ params: { pool } }: Props) => {
       </div>
 
       <div className="p-4 border border-white/10 rounded-xl mt-8">
-        <Table
-          columnHeaders={[
-            { title: "Cycle" },
-            { title: "Signers" },
-            { title: "Pools", info: "Amount of known pools" },
-            { title: "Stacked" },
-            {
-              title: "Gross APY",
-              info: "Based on current prices. Not taking into account pool or protocol fees.",
-            },
-            { title: "Rewards" },
-          ]}
-          rows={poxInfo.cycles.reverse().map((info: any, index: number) => [
-            info.cycle_number,
-            info.signers_count,
-            info.pools_count,
-            <div className="flex items-center" key={`stacked-${index}`}>
-              {currency.rounded.format(info.stacked_amount)}
-              <StxLogo className="w-[12px] h-[12px] ml-1" />
-            </div>,
-            index === 0 ? (
-              <span className="bg-orange/[0.15] text-orange py-0.5 px-1.5 inline-flex items-center rounded-md">
-                Pending
-                <ToolTip
-                  id="tooltip_gross-apy"
-                  text={
-                    "The cycle is in progress and BTC rewards are streamed to stackers on a per block basis."
-                  }
-                  className="text-orange/50 ml-1"
-                ></ToolTip>
-              </span>
-            ) : (
-              `${currency.short.format(info.apy)}%`
-            ),
-            <div className="flex items-center" key={`rewards-${index}`}>
-              {currency.short.format(info.rewards_amount)}
-              <BtcLogo className="w-[12px] h-[12px] ml-1" />
-            </div>,
-          ])}
-        />
-        {/* <button
-          type="button"
-          className="flex items-center justify-center w-full text-sm font-semibold leading-6 text-orange px-3 py-1.5 rounded-lg bg-orange/10"
-        >
-          Show more cycles
-        </button> */}
+        <div className="lg:hidden">
+          <h2 className="text-xl mb-6 font-semibold">
+            Stacking cycles overview
+          </h2>
+          <div className="space-y-6 divide-y divide-white/10">
+            {poxInfo.cycles.reverse().map((info: any, index: number) => (
+              <dl
+                key={`cycle-${index}`}
+                className="grid gap-4 grid-cols-2 pt-6"
+              >
+                <div key={`cycle-number-${index}`}>
+                  <dt className="text-sm font-medium leading-6 text-white/50">
+                    Cycle
+                  </dt>
+                  <dd>{info.cycle_number}</dd>
+                </div>
+                <div key={`signers-${index}`}>
+                  <dt className="text-sm font-medium leading-6 text-white/50">
+                    Signers
+                  </dt>
+                  <dd>{info.signers_count}</dd>
+                </div>
+                <div key={`signers-${index}`}>
+                  <dt className="text-sm font-medium leading-6 text-white/50">
+                    Pools
+                  </dt>
+                  <dd>{info.pools_count}</dd>
+                </div>
+                <div key={`stacked-${index}`}>
+                  <dt className="text-sm font-medium leading-6 text-white/50">
+                    Stacked
+                  </dt>
+                  <dd className="flex items-center">
+                    {currency.rounded.format(info.stacked_amount)}
+                    <StxLogo className="w-[12px] h-[12px] ml-1" />
+                  </dd>
+                </div>
+                <div key={`cycle-number-${index}`}>
+                  <dt className="text-sm font-medium leading-6 text-white/50">
+                    Gross APY
+                  </dt>
+                  <dd>
+                    {index === 0 ? (
+                      <span className="bg-orange/[0.15] text-orange py-0.5 px-1.5 inline-flex items-center rounded-md">
+                        Pending
+                        <ToolTip
+                          id="tooltip_gross-apy"
+                          text={
+                            "The cycle is in progress and BTC rewards are streamed to stackers on a per block basis."
+                          }
+                          className="text-orange/50 ml-1"
+                        ></ToolTip>
+                      </span>
+                    ) : (
+                      `${currency.short.format(info.apy)}%`
+                    )}
+                  </dd>
+                </div>
+                <div key={`rewards-${index}`}>
+                  <dt className="text-sm font-medium leading-6 text-white/50">
+                    Rewards
+                  </dt>
+                  <dd className="flex items-center">
+                    {currency.short.format(info.rewards_amount)}
+                    <BtcLogo className="w-[12px] h-[12px] ml-1" />
+                  </dd>
+                </div>
+              </dl>
+            ))}
+          </div>
+        </div>
+
+        <div className="hidden lg:block">
+          <Table
+            columnHeaders={[
+              { title: "Cycle" },
+              { title: "Signers" },
+              { title: "Pools", info: "Amount of known pools" },
+              { title: "Stacked" },
+              {
+                title: "Gross APY",
+                info: "Based on current prices. Not taking into account pool or protocol fees.",
+              },
+              { title: "Rewards" },
+            ]}
+            rows={poxInfo.cycles.reverse().map((info: any, index: number) => [
+              info.cycle_number,
+              info.signers_count,
+              info.pools_count,
+              <div className="flex items-center" key={`stacked-${index}`}>
+                {currency.rounded.format(info.stacked_amount)}
+                <StxLogo className="w-[12px] h-[12px] ml-1" />
+              </div>,
+              index === 0 ? (
+                <span className="bg-orange/[0.15] text-orange py-0.5 px-1.5 inline-flex items-center rounded-md">
+                  Pending
+                  <ToolTip
+                    id="tooltip_gross-apy"
+                    text={
+                      "The cycle is in progress and BTC rewards are streamed to stackers on a per block basis."
+                    }
+                    className="text-orange/50 ml-1"
+                  ></ToolTip>
+                </span>
+              ) : (
+                `${currency.short.format(info.apy)}%`
+              ),
+              <div className="flex items-center" key={`rewards-${index}`}>
+                {currency.short.format(info.rewards_amount)}
+                <BtcLogo className="w-[12px] h-[12px] ml-1" />
+              </div>,
+            ])}
+          />
+          {/* <button
+            type="button"
+            className="flex items-center justify-center w-full text-sm font-semibold leading-6 text-orange px-3 py-1.5 rounded-lg bg-orange/10"
+          >
+            Show more cycles
+          </button> */}
+        </div>
       </div>
     </div>
   );

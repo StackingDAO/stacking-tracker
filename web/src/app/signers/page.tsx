@@ -114,7 +114,7 @@ export default async function Home() {
       </div>
 
       <div className="p-4 border border-white/10 rounded-xl mt-8">
-        <div className="sm:min-h-[400px]">
+        <div className="h-[325px] lg:min-h-[460px]">
           <ChartBarStacked
             chartTitles={{ x: "Cycle", y: "STX Stacked" }}
             chartData={chartData}
