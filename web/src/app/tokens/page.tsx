@@ -123,7 +123,93 @@ export default async function Home() {
       </div>
 
       <div className="p-4 border border-white/10 rounded-xl mt-8">
-        <div key={lastCycleInfo.cycle_number}>
+        <div className="lg:hidden">
+          <div className="space-y-4 divide-y divide-white/10 [&>*:first-child]:pt-0">
+            {tokensInfo.entities.map((entity: any) => (
+              <div key={entity.name} className="pt-4">
+                <dl className="grid gap-4 grid-cols-2">
+                  <div key={entity.name}>
+                    <dt className="text-sm font-medium leading-6 text-white/50">
+                      LST
+                    </dt>
+                    <dd>
+                      <div className="flex font-semibold">
+                        <img
+                          className="shrink-0 h-5 w-5 mr-2"
+                          src={entity.logo_token}
+                        />{" "}
+                        {entity.name}
+                      </div>
+                    </dd>
+                  </div>
+                  <div key={entity.entity}>
+                    <dt className="text-sm font-medium leading-6 text-white/50">
+                      Entity
+                    </dt>
+                    <dd>
+                      <div className="flex">
+                        <img
+                          className="shrink-0 h-5 w-5 mr-2"
+                          src={entity.logo}
+                        />{" "}
+                        {entity.entity}
+                      </div>
+                    </dd>
+                  </div>
+                  <div key={entity.name + "-token"}>
+                    <dt className="text-sm font-medium leading-6 text-white/50">
+                      Stack Token Supply
+                    </dt>
+                    <dd>
+                      <div>{`${currency.rounded.format(entity.token_supply)} ${entity.name}`}</div>
+                      <div className="text-xs text-white/[0.35]">{`$${currency.short.format(entity.token_mcap)}`}</div>
+                    </dd>
+                  </div>
+                  <div key={entity.name + "-stacked"}>
+                    <dt className="text-sm font-medium leading-6 text-white/50">
+                      Stacked
+                    </dt>
+                    <dd>
+                      <div className="flex items-center">
+                        {`${currency.rounded.format(entity.stacked_amount)}`}
+                        <StxLogo className="w-3 h-3 ml-1 inline" />
+                      </div>
+                      <div className="text-xs text-white/[0.35]">{`$${currency.rounded.format(entity.stacked_amount_usd)}`}</div>
+                    </dd>
+                  </div>
+                  <div key={entity.name + "-rewards"}>
+                    <dt className="text-sm font-medium leading-6 text-white/50">
+                      Rewards
+                    </dt>
+                    <dd>
+                      <div className="flex items-center">
+                        {`${currency.short.format(entity.rewards_amount)}`}
+                        <BtcLogo className="w-3 h-3 ml-1 inline" />
+                      </div>
+                      <div className="text-xs text-white/[0.35]">{`$${currency.rounded.format(entity.rewards_amount_usd)}`}</div>
+                    </dd>
+                  </div>
+                  <div key={entity.name + "-apy"}>
+                    <dt className="text-sm font-medium leading-6 text-white/50">
+                      Gross APY
+                    </dt>
+                    <dd>{currency.short.format(entity.apy)}%</dd>
+                  </div>
+                </dl>
+                <div key={entity.slug}>
+                  <a
+                    href={`/tokens/${entity.slug}`}
+                    className="mt-3 flex justify-center text-center text-sm font-semibold leading-6 text-orange px-4 py-2 rounded-lg bg-orange/10"
+                  >
+                    LST details
+                  </a>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div className="hidden lg:block" key={lastCycleInfo.cycle_number}>
           <Table
             columnHeaders={[
               { title: "LST" },
