@@ -24,7 +24,7 @@ export function TelegramBot({ extraCopy }: TelegramBotProps) {
             Open Bot
           </a>
         </div>
-        <div className="-mb-[150px] md:-mb-[40px] md:-mt-[40px] flex justify-center md:-mr-[75px]">
+        <div className="-mb-[150px] md:-mb-[40px] md:-mt-[40px] flex justify-center md:-mr-[100px]">
           <svg
             width={336}
             height={336}

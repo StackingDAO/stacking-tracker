@@ -43,14 +43,16 @@ const Home: FunctionComponent<Props> = async ({ params: { pool } }: Props) => {
 
   return (
     <div className="flex flex-col w-full">
+      <h1 className="text-2xl mb-6 lg:hidden font-semibold">Stacking Pools</h1>
+
       <div className="p-4 border border-white/10 rounded-xl">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-x-3">
+        <div className="md:flex md:items-center md:justify-between">
+          <div className="flex items-center gap-x-3 justify-center md:justify-start">
             <img className="w-10" src={poolInfo.logo} />
             <h4 className="font-semibold">{poolInfo.name}</h4>
           </div>
           <a
-            className="inline-flex items-center gap-x-1 rounded-md bg-orange/10 text-orange px-2 py-2 text-sm"
+            className="mt-4 md:mt-0 flex justify-center md:inline-flex items-center gap-x-1 rounded-md bg-orange/10 text-orange px-2 py-2 text-sm"
             href={poolInfo.website}
           >
             <svg
@@ -96,7 +98,7 @@ const Home: FunctionComponent<Props> = async ({ params: { pool } }: Props) => {
       </div>
 
       <div className="p-4 border border-white/10 rounded-xl mt-8">
-        <div className="min-h-[400px]">
+        <div className="h-[325px] lg:min-h-[400px]">
           <ChartBarStacked
             chartTitles={{ x: "Cycle", y: "STX Stacked", yRight: "BTC Yield" }}
             chartData={chartData}

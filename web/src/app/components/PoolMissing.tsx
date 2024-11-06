@@ -1,21 +1,21 @@
 export function PoolMissing() {
   return (
-    <div className="border border-white/10 rounded-lg overflow-hidden w-full">
-      <div className="flex justify-between relative">
-        <div className="p-6 sm:max-w-xs">
+    <div className="border border-white/10 rounded-lg overflow-hidden w-full mb-6 lg:mb-0">
+      <div className="md:flex md:justify-between relative">
+        <div className="p-6 md:max-w-xs">
           <h4 className="font-semibold text-lg">Don&apos;t see your pool?</h4>
           <p className="text-sm text-white/70 mt-4">
             If you don&apos;t see your pool, please contact us and we will add
             your pool to the overview.
           </p>
           <a
-            className="inline-block mt-6 text-sm font-semibold text-orange px-4 py-3 rounded-lg bg-orange/10"
+            className="block text-center md:text-left md:inline-block mt-6 text-sm font-semibold text-orange px-4 py-3 rounded-lg bg-orange/10"
             href="mailto:info@stacking-tracker.com"
           >
             Contact us
           </a>
         </div>
-        <div className="absolute top-1/2 right-4 -translate-y-1/2">
+        <div className="md:absolute md:top-1/2 md:right-4 md:-translate-y-1/2 flex justify-center mb-6 md:mb-0 md:block">
           <svg
             width="170"
             height="122"
