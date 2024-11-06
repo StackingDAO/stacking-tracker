@@ -209,9 +209,7 @@ const Home: FunctionComponent<Props> = async ({ params: { pool } }: Props) => {
 
       <div className="p-4 border border-white/10 rounded-xl mt-8">
         <div className="lg:hidden">
-          <h2 className="text-xl mb-6 font-semibold">
-            Stacking cycles overview
-          </h2>
+          <h2 className="text-xl font-semibold">Stacking cycles overview</h2>
           <div className="space-y-6 divide-y divide-white/10">
             {poxInfo.cycles.reverse().map((info: any, index: number) => (
               <dl
