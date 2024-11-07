@@ -125,10 +125,66 @@ export default async function Home() {
       </div>
 
       <div className="p-4 border border-white/10 rounded-xl mt-8">
-        <div
-          key={lastCycleInfo.cycle_number}
-          className="bg-transparent rounded-lg mt-3"
-        >
+        <div className="lg:hidden">
+          <div className="space-y-4 divide-y divide-white/10 [&>*:first-child]:pt-0">
+            {poolsInfo.entities.map((entity: any) => (
+              <div key={entity.name} className="pt-4">
+                <dl className="grid gap-4 grid-cols-2">
+                  <div key={entity.name}>
+                    <dt className="text-sm font-medium leading-6 text-white/50">
+                      Signer
+                    </dt>
+                    <dd>
+                      <div key={entity.name} className="flex font-semibold">
+                        <img className="w-5 mr-2" src={entity.logo} />
+                        {entity.name}
+                      </div>
+                    </dd>
+                  </div>
+                  <div key={entity.name + "-stacked"}>
+                    <dt className="text-sm font-medium leading-6 text-white/50">
+                      Stacked
+                    </dt>
+                    <dd>
+                      <div className="flex items-center gap-x-1">
+                        {currency.rounded.format(entity.stacked_amount)}
+                        <StxLogo className="w-[18px] h-[18px] shrink-0" />
+                      </div>
+                      <div className="text-xs text-white/[0.35]">{`$${currency.rounded.format(entity.stacked_amount_usd)}`}</div>
+                    </dd>
+                  </div>
+                  <div key={entity.name + "-rewards"}>
+                    <dt className="text-sm font-medium leading-6 text-white/50">
+                      BTC rewards so far
+                    </dt>
+                    <dd>
+                      <div className="flex items-center gap-x-1">
+                        {currency.short.format(entity.rewards_amount)}
+                        <BtcLogo className="w-[18px] h-[18px] shrink-0" />
+                      </div>
+                      <div className="text-xs text-white/[0.35]">{`$${currency.rounded.format(entity.rewards_amount_usd)}`}</div>
+                    </dd>
+                  </div>
+                  <div>
+                    <dt className="text-sm font-medium leading-6 text-white/50">
+                      Gross APY
+                    </dt>
+                    <dd>{currency.short.format(entity.apy)}%</dd>
+                  </div>
+                </dl>
+                <div key={entity.slug}>
+                  <a
+                    href={`/pools/${entity.slug}`}
+                    className="mt-3 flex justify-center text-center text-sm font-semibold leading-6 text-orange px-4 py-2 rounded-lg bg-orange/10"
+                  >
+                    View rewards history
+                  </a>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+        <div className="hidden lg:block">
           <Table
             columnHeaders={[
               { title: "Pool" },
