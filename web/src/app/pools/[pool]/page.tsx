@@ -107,6 +107,8 @@ const Home: FunctionComponent<Props> = async ({ params: { pool } }: Props) => {
       </div>
 
       <div className="p-4 border border-white/10 rounded-xl mt-8">
+        <h2 className="text-lg font-semibold mb-4">Cycles overview</h2>
+
         <div className="lg:hidden">
           <div className="space-y-4 divide-y divide-white/10 [&>*:first-child]:pt-0">
             {poolInfo.cycles.reverse().map((info: any) => (

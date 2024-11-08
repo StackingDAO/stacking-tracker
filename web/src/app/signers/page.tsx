@@ -125,7 +125,70 @@ export default async function Home() {
       </div>
 
       <div className="p-4 border border-white/10 rounded-xl mt-8">
-        <div key={lastCycleInfo.cycle_number}>
+        <div className="lg:hidden">
+          <div className="space-y-4 divide-y divide-white/10 [&>*:first-child]:pt-0">
+            {signersInfo.entities.map((signer: any) => (
+              <div key={signer.name} className="pt-4">
+                <dl className="grid gap-4 grid-cols-2">
+                  <div key={signer.name}>
+                    <dt className="text-sm font-medium leading-6 text-white/50">
+                      Signer
+                    </dt>
+                    <dd>
+                      <div className="flex">
+                        <img className="w-8 h-8 mr-3 mt-1" src={signer.logo} />
+                        <div>
+                          <div className="font-semibold">{signer.name}</div>
+                          <div className="text-xs text-white/[0.35]">
+                            {shortAddress(signer.signer_key)}
+                          </div>
+                        </div>
+                      </div>
+                    </dd>
+                  </div>
+                  <div key={signer.signer_key + "-count"}>
+                    <dt className="text-sm font-medium leading-6 text-white/50">
+                      Count
+                    </dt>
+                    <dd>{signer.stackers_count}</dd>
+                  </div>
+                  <div key={signer.signer_key + "-stacked"}>
+                    <dt className="text-sm font-medium leading-6 text-white/50">
+                      Stacked
+                    </dt>
+                    <div className="flex items-center">
+                      {currency.rounded.format(signer.stacked_amount)}
+                      <StxLogo className="w-3 h-3 ml-1 inline" />
+                    </div>
+                    <div className="text-xs text-white/[0.35]">{`$${currency.rounded.format(signer.stacked_amount_usd)}`}</div>
+                  </div>
+                  <div key={signer.name + "-rewards"}>
+                    <dt className="text-sm font-medium leading-6 text-white/50">
+                      Rewards so far
+                    </dt>
+                    <dd>
+                      <div className="flex items-center">
+                        {`${currency.short.format(signer.rewards_amount)}`}
+                        <BtcLogo className="w-3 h-3 ml-1 inline" />
+                      </div>
+                      <div className="text-xs text-white/[0.35]">{`$${currency.rounded.format(signer.rewards_amount_usd)}`}</div>
+                    </dd>
+                  </div>
+                </dl>
+                <div key={signer.slug}>
+                  <a
+                    key={signer.slug}
+                    href={`/signers/${signer.slug ?? signer.signer_key}`}
+                    className="mt-3 flex justify-center text-center text-sm font-semibold leading-6 text-orange px-4 py-2 rounded-lg bg-orange/10"
+                  >
+                    Signer Details
+                  </a>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+        <div className="hidden lg:block" key={lastCycleInfo.cycle_number}>
           <Table
             columnHeaders={[
               { title: "Signer" },

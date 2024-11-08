@@ -106,7 +106,7 @@ export default async function Home() {
                 </div>
                 <p className="text-sm text-white/[0.35] ">
                   ${currency.rounded.format(lastCycleInfo.rewards_amount_usd)}
-                </p>{" "}
+                </p>
               </dd>
             </div>
           </dl>
