@@ -27,6 +27,8 @@ const Home: FunctionComponent<Props> = async ({
     data: dataRewards,
     type: "line",
     yAxisID: "yRight",
+    backgroundColor: "rgba(247, 147, 26, 1)",
+    borderColor: "rgba(247, 147, 26, 1)",
   });
   datasets.push({
     label: "Stacked STX",
