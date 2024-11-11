@@ -116,7 +116,6 @@ const Home: FunctionComponent<Props> = async ({ params: { token } }: Props) => {
       <div className="p-4 border border-white/10 rounded-xl mt-8">
         <h2 className="text-lg font-semibold mb-4">Cycles overview</h2>
 
-        {/* @TODO: Question, are we missing the Gross APY column here, as per Figma's */}
         <Table
           columnHeaders={[
             { title: "Cycle" },
