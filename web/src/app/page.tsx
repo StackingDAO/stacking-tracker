@@ -291,7 +291,7 @@ const Home: FunctionComponent<Props> = async ({ params: { pool } }: Props) => {
               },
               { title: "Rewards" },
             ]}
-            rows={poxInfo.cycles.reverse().map((info: any, index: number) => [
+            rows={poxInfo.cycles.map((info: any, index: number) => [
               info.cycle_number,
               info.signers_count,
               info.pools_count,
