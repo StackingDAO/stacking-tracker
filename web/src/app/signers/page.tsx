@@ -23,6 +23,14 @@ export default async function Home() {
     borderColor: "rgba(247, 147, 26, 1)",
   });
 
+  const colors: { [key: string]: string } = {
+    "Fast Pool": "#9B4069",
+    Planbetter: "#357576",
+    StackingDAO: "#FC6432",
+    Xverse: "#9B4069",
+    Kiln: "#5E3A7A",
+  };
+
   for (const activeSigner of activeSigners) {
     const data: any[] = [];
     for (const cycleInfo of signersInfo.cycles) {
@@ -39,7 +47,7 @@ export default async function Home() {
     datasets.push({
       label: activeSigner.name,
       data: data,
-      backgroundColor: `rgba(252, 100, 50, ${1 - index * 0.2})`,
+      backgroundColor: colors[activeSigner.name] ?? "#2E7D59",
       borderRadius: 6,
     });
   }

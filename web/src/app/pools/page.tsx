@@ -23,6 +23,11 @@ export default async function Home() {
     borderColor: "rgba(247, 147, 26, 1)",
   });
 
+  const colors: { [key: string]: string } = {
+    "Fast Pool": "#9B4069",
+    "Planbetter Pool": "#357576",
+  };
+
   for (const activePool of activePools) {
     const data: any[] = [];
     for (const cycleInfo of poolsInfo.cycles) {
@@ -39,7 +44,7 @@ export default async function Home() {
     datasets.push({
       label: activePool.name,
       data: data,
-      backgroundColor: `rgba(252, 100, 50, ${1 - index * 0.2})`, //@TODO: custom colors, follow Figma colors
+      backgroundColor: colors[activePool.name] ?? "#2E7D59",
       borderRadius: 6, //@TODO check why this is not working
     });
   }
