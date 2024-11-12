@@ -155,7 +155,7 @@ const Home: FunctionComponent<Props> = async ({ params: { pool } }: Props) => {
               { title: "Stacked" },
               { title: "Rewards" },
             ]}
-            rows={poolInfo.cycles.reverse().map((info: any) => [
+            rows={poolInfo.cycles.map((info: any) => [
               info.cycle_number,
               <div
                 key={info.cycle_number + "-stacked"}

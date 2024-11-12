@@ -179,7 +179,7 @@ const Home: FunctionComponent<Props> = async ({
               { title: "Stacked" },
               { title: "Rewards" },
             ]}
-            rows={signerInfo.cycles.reverse().map((info: any) => [
+            rows={signerInfo.cycles.map((info: any) => [
               info.cycle_number,
               info.stackers_count,
               <div
