@@ -40,7 +40,6 @@ export default async function Home() {
       }
     }
 
-    const index = activePools.indexOf(activePool);
     datasets.push({
       label: activePool.name,
       data: data,

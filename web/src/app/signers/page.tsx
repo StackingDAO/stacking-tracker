@@ -43,7 +43,6 @@ export default async function Home() {
       }
     }
 
-    const index = activeSigners.indexOf(activeSigner);
     datasets.push({
       label: activeSigner.name,
       data: data,
