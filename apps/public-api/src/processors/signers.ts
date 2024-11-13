@@ -3,7 +3,9 @@ import { signerKeyToPool } from "../constants";
 export function getSignersInfoForCycle(
   cycleNumber: number,
   signers: any,
-  rewards: any
+  rewards: any,
+  stxPrice: number,
+  btcPrice: number
 ) {
   const resultSigners: any[] = [];
   for (const signer of signers) {
@@ -75,6 +77,8 @@ export function getSignersInfoForCycle(
     cycle_number: cycleNumber,
     stacked_amount: stackedAmount,
     rewards_amount: rewardAmount,
+    stacked_amount_usd: stackedAmount * stxPrice,
+    rewards_amount_usd: rewardAmount * btcPrice,
     signers: Object.keys(resultAggregatedSigners)
       .map((key: string) => {
         return {

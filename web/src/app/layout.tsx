@@ -70,7 +70,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
       <body
-        className={`${inter.className} relative flex min-h-screen flex-col text-black bg-gray-100`}
+        className={`${inter.className} relative flex min-h-screen flex-col text-white bg-black`}
       >
         <Connect authOptions={authOptions}>
           {isClient && (

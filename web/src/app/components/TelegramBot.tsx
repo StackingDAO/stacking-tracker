@@ -1,18 +1,58 @@
-export function TelegramBot() {
+type TelegramBotProps = {
+  extraCopy?: boolean;
+};
+
+export function TelegramBot({ extraCopy }: TelegramBotProps) {
   return (
-    <div className="rounded-lg border border-gray-200 bg-white p-4 flex flex-col gap-2 max-w-5xl w-full">
-      <div className="font-semibold text-xl">Try out our Telegram bot!</div>
-      <div className="text-sm">
-        Quickly follow up on your PoX positions (stacking pools, liquid stacking
-        protocols, liquid stacking DeFi, solo stacking).
+    <div className="border border-white/10 rounded-lg overflow-hidden w-full mt-6 md:mt-0">
+      <div className="md:flex md:justify-between">
+        <div className="p-6">
+          <h4 className="font-semibold text-lg">Try out our Telegram Bot!</h4>
+          <p className="text-sm text-white/70 mt-4">
+            Check up on your stacking positions and receive notifications when
+            rewards come in.
+          </p>
+          {extraCopy ? (
+            <p className="text-sm mt-3">
+              No matter how you are stacking, we&apos;ve got you covered.
+            </p>
+          ) : null}
+          <a
+            className="block text-center md:text-left md:inline-block mt-6 text-sm font-semibold text-orange px-4 py-3 rounded-lg bg-orange/10"
+            href="https://t.me/stackingtracker_bot/"
+          >
+            Open Bot
+          </a>
+        </div>
+        <div className="-mb-[150px] md:-mb-[40px] md:-mt-[40px] flex justify-center md:-mr-[100px]">
+          <svg
+            width={336}
+            height={336}
+            viewBox="0 0 336 336"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M335 168C335 260.232 260.232 335 168 335C75.7685 335 1 260.232 1 168C1 75.7685 75.7685 1 168 1C260.232 1 335 75.7685 335 168ZM173.636 123.102C157.288 129.901 124.628 143.97 75.6622 165.303C71.6571 166.897 68.5416 168.497 66.3611 170.116C64.2041 171.718 62.797 173.462 62.5561 175.384C62.3661 176.9 62.7022 178.229 63.4875 179.384C64.2534 180.51 65.4104 181.419 66.7841 182.2C69.4875 183.738 73.3494 184.953 77.6271 186.298L77.7286 186.33C78.9152 186.703 80.1395 187.088 81.394 187.496C85.6966 188.894 90.7488 190.414 95.4846 191.601C100.197 192.783 104.676 193.657 107.796 193.724C113.526 193.848 119.804 191.487 126.599 186.822C149.477 171.379 166.818 159.756 178.624 151.953C184.528 148.051 189.043 145.106 192.173 143.118C193.74 142.123 194.952 141.371 195.816 140.859C196.249 140.603 196.585 140.412 196.83 140.283C197.018 140.184 197.109 140.144 197.135 140.132C197.149 140.125 197.143 140.127 197.122 140.132C197.651 140.012 198.17 139.905 198.656 139.909C199.127 139.912 199.466 140.02 199.714 140.241C199.959 140.459 200.119 140.825 200.188 141.287C200.256 141.745 200.209 142.14 200.187 142.234C200.189 142.227 200.188 142.23 200.181 142.242C200.163 142.279 200.102 142.403 199.94 142.638C199.743 142.924 199.457 143.292 199.08 143.741C198.328 144.637 197.261 145.801 195.942 147.175C193.307 149.92 189.711 153.461 185.72 157.304C177.739 164.987 168.211 173.846 161.707 179.893L161.589 180.002C157.617 183.695 154.756 186.354 154.149 186.985C152.847 188.338 151.518 189.619 150.226 190.864L150.198 190.891C148.227 192.791 146.325 194.625 144.831 196.436C143.332 198.254 142.162 200.142 141.762 202.169C140.927 206.401 143.515 210.535 150.7 215.27C157.554 219.786 163.038 223.521 168.515 227.251C174.496 231.324 180.468 235.391 188.194 240.456C190.142 241.732 192.004 243.06 193.836 244.366L194 244.482C200.826 249.349 207.351 254.002 215.448 253.257C220.654 252.778 225.448 247.906 227.82 235.221C233.385 205.471 244.333 140.964 246.867 114.348C247.099 111.907 246.809 108.836 246.576 107.471C246.341 106.101 245.821 103.93 243.829 102.314C242.664 101.368 241.226 100.826 239.943 100.519C238.654 100.212 237.445 100.124 236.671 100.137C233.332 100.196 229.193 101.12 220.14 104.406C211.069 107.697 196.96 113.4 173.636 123.102Z"
+              stroke="url(#paint0_linear_290_622)"
+              strokeWidth="2"
+            />
+            <defs>
+              <linearGradient
+                id="paint0_linear_290_622"
+                x1="168"
+                y1="0"
+                x2="168"
+                y2="336"
+                gradientUnits="userSpaceOnUse"
+              >
+                <stop stopColor="#FC6432" />
+                <stop offset="1" stopColor="#FC6432" stopOpacity="0" />
+              </linearGradient>
+            </defs>
+          </svg>
+        </div>
       </div>
-      <div>No matter how you are stacking, we got you covered.</div>
-      <a
-        className="text-blue-600 font-semibold hover:underline"
-        href="https://t.me/stackingtracker_bot/"
-      >
-        @stackingtracker_bot
-      </a>
     </div>
   );
 }

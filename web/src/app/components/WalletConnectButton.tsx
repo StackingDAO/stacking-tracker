@@ -95,7 +95,7 @@ export const WalletConnectButton = ({ className, signOut }) => {
             leaveFrom="transform opacity-100 scale-100"
             leaveTo="transform opacity-0 scale-95"
           >
-            <Menu.Items className="absolute right-0 w-56 mt-2 origin-top-right bg-white divide-y divide-gray-100 rounded-md shadow-lg ring-1 ring-black/5 focus:outline-none">
+            <Menu.Items className="absolute right-0 w-56 mt-2 origin-top-right bg-transparent divide-y divide-gray-100 rounded-md shadow-lg ring-1 ring-black/5 focus:outline-none">
               <div className="px-1 py-1 ">
                 <Menu.Item>
                   <button

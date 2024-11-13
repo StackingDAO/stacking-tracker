@@ -7,12 +7,20 @@ import {
 } from "../processors/signers";
 
 async function getInfoForCycle(cycleNumber: number) {
-  const [signers, rewards] = await Promise.all([
+  const [signers, rewards, stxPrice, btcPrice] = await Promise.all([
     db.getSignersForCycle(cycleNumber),
     db.getStackersRewardsForCycle(cycleNumber),
+    fetchPrice("STX"),
+    fetchPrice("BTC"),
   ]);
 
-  return getSignersInfoForCycle(cycleNumber, signers, rewards);
+  return getSignersInfoForCycle(
+    cycleNumber,
+    signers,
+    rewards,
+    stxPrice,
+    btcPrice
+  );
 }
 
 const router = Router();
