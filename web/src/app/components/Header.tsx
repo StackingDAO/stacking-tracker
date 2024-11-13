@@ -61,11 +61,15 @@ export function Header() {
           <div className="flex gap-x-4">
             <div className="px-4 py-3 border border-white/10 rounded-lg flex items-center gap-1">
               <StxLogo className="w-[14px] h-[14px] shrink-0" />
-              <p className="text-sm">${currency.short.format(stxPrice)}</p>
+              <p className="text-sm">
+                ${currency.short.format(Number(stxPrice))}
+              </p>
             </div>
             <div className="px-4 py-3 border border-white/10 rounded-lg flex items-center gap-1">
               <BtcLogo className="w-[14px] h-[14px] shrink-0" />
-              <p className="text-sm">${currency.short.format(btcPrice)}</p>
+              <p className="text-sm">
+                ${currency.short.format(Number(btcPrice))}
+              </p>
             </div>
           </div>
         </div>
@@ -109,13 +113,13 @@ export function Header() {
                   <div className="px-4 py-3 border border-white/10 rounded-lg flex items-center gap-1">
                     <StxLogo className="w-[14px] h-[14px] shrink-0" />
                     <p className="text-sm">
-                      ${currency.short.format(stxPrice)}
+                      ${currency.short.format(Number(stxPrice))}
                     </p>
                   </div>
                   <div className="px-4 py-3 border border-white/10 rounded-lg flex items-center gap-1">
                     <BtcLogo className="w-[14px] h-[14px] shrink-0" />
                     <p className="text-sm">
-                      ${currency.short.format(btcPrice)}
+                      ${currency.short.format(Number(btcPrice))}
                     </p>
                   </div>
                 </div>
