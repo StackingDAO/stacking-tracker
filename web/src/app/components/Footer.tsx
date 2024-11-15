@@ -5,6 +5,8 @@ export function Footer() {
   return (
     <footer className="relative overflow-hidden">
       <SubFooter />
+      <Bubble position="-bottom-[520px] -right-[270px] " />
+
       <div className="relative mx-auto max-w-6xl px-6 py-12 md:flex md:items-center md:justify-between lg:px-8">
         <div className="md:flex md:justify-center space-x-6 md:order-2">
           <div className="md:flex md:items-center gap-2">
@@ -12,7 +14,7 @@ export function Footer() {
               This website and data are powered by
             </p>
             <a
-              className="flex items-center justify-center mt-2 md:mt-0 md:inline"
+              className="md:flex md:items-center md:justify-center mt-2 md:mt-0"
               href="https://www.stackingdao.com/"
             >
               <svg
@@ -21,6 +23,7 @@ export function Footer() {
                 viewBox="0 0 159 24"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
+                className="mx-auto mt-2 md:mt-0"
               >
                 <path
                   d="M41.9897 14.9302C41.9897 14.5196 41.8229 14.1925 41.4906 13.9502C41.157 13.7078 40.6089 13.5301 39.8439 13.4184L37.494 13.0642C35.6934 12.7783 34.3861 12.3112 33.572 11.6641C32.758 11.017 32.351 10.1216 32.351 8.97681C32.351 7.72023 32.9155 6.74368 34.0432 6.04597C35.1721 5.34945 36.729 5.00118 38.715 5.00118C40.5529 5.00118 41.9745 5.31179 42.9798 5.9342C43.9851 6.5566 44.6288 7.52022 44.9134 8.82738L41.8054 9.18153C41.571 8.55913 41.2072 8.11203 40.7139 7.83789C40.2206 7.56492 39.5232 7.42727 38.6229 7.42727C37.6479 7.42727 36.8957 7.55198 36.3663 7.80024C35.8356 8.04967 35.5709 8.4097 35.5709 8.88268C35.5709 9.30625 35.7284 9.62275 36.0432 9.83453C36.3581 10.0463 36.9284 10.2146 37.7541 10.3381L40.5296 10.7864C42.1821 11.0476 43.3845 11.5017 44.1367 12.1488C44.8889 12.796 45.2656 13.6984 45.2656 14.8549C45.2656 16.1986 44.7163 17.2257 43.6189 17.9352C42.5215 18.6447 40.9238 18.9988 38.827 18.9988C34.5843 18.9988 32.3079 17.4928 32 14.482H35.256C35.3913 15.1914 35.7528 15.7174 36.3383 16.0598C36.9237 16.4021 37.7599 16.5727 38.8456 16.5727C39.8695 16.5727 40.6497 16.4327 41.1862 16.1527C41.7226 15.8727 41.9909 15.4656 41.9909 14.9302H41.9897Z"
@@ -92,8 +95,6 @@ export function Footer() {
           </p>
         </div>
       </div>
-
-      <Bubble position="-bottom-[520px] -right-[270px] " />
     </footer>
   );
 }
