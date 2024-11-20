@@ -59,7 +59,7 @@ export async function getSignerStackers(cycleNumber: number, signerKey: string):
       result.length
     );
     result = result.concat(stackers.results);
-    hasReachedEndBlock = stackers.results.length < 250;
+    hasReachedEndBlock = stackers.results.length < 200;
   }
 
   return result;
