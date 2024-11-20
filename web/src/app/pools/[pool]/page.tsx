@@ -22,7 +22,7 @@ const Home: FunctionComponent<Props> = async ({ params: { pool } }: Props) => {
   const datasets: any[] = [];
   datasets.push({
     label: "Rewards BTC",
-    data: dataRewards,
+    data: dataRewards.slice(0, -1),
     type: "line",
     yAxisID: "yRight",
     backgroundColor: "rgba(247, 147, 26, 1)",

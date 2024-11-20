@@ -16,7 +16,9 @@ export default async function Home() {
 
   datasets.push({
     label: "BTC Yield",
-    data: signersInfo.cycles.map((info: any) => info.rewards_amount),
+    data: signersInfo.cycles
+      .map((info: any) => info.rewards_amount)
+      .slice(0, -1),
     type: "line",
     yAxisID: "yRight",
     backgroundColor: "rgba(247, 147, 26, 1)",
