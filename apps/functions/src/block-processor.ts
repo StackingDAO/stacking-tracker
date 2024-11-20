@@ -1,17 +1,19 @@
 import type { Context, SQSEvent } from "aws-lambda";
 import { PublishCommand, SNSClient } from "@aws-sdk/client-sns";
 import type { NakamotoBlock } from "@stacks/blockchain-api-client";
-import * as db from "@repo/database/src/actions";
 
 const sns = new SNSClient();
 
 export async function processBlock(event: SQSEvent, _: Context): Promise<void> {
   for (const record of event.Records) {
     const latest_block = (await JSON.parse(record.body)) as NakamotoBlock;
+
+    if (latest_block.height % 60 !== 0) {
+      return;
+    }
+
     console.log(`Processing block ${latest_block.height}`);
 
-    const latestBlock = await db.getLatestBlock();
-    const addResult = await db.saveBlock(latest_block.height);
     const responseSigners = await sns.send(
       new PublishCommand({
         TopicArn: process.env.TOPIC_SIGNERS,
