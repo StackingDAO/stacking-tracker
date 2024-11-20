@@ -58,6 +58,13 @@ export async function processSigners(
           stacker.stacker_type
         );
       }
-    } catch (error) {}
+    } catch (error) {
+      console.error(
+        `Error processing stackers for signer ${signer.signing_key} in cycle ${cycleNumber}:`,
+        error
+      );
+    }
   }
+
+  console.log("Processed signers for cycle", cycleNumber);
 }
