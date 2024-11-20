@@ -33,7 +33,7 @@ router.get("/", async (req: Request, res: Response) => {
   ]);
 
   const promises: any[] = [];
-  for (let cycle = currentCycle; cycle > currentCycle - 6; cycle--) {
+  for (let cycle = currentCycle; cycle > 83; cycle--) {
     promises.push(getInfoForCycle(cycle));
   }
 
