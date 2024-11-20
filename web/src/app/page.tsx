@@ -6,6 +6,7 @@ import ChartBarStacked from "@/app/components/ChartBarStacked";
 import { ToolTip } from "./components/Tooltip";
 import StxLogo from "./components/Logos/Stx";
 import BtcLogo from "./components/Logos/Btc";
+import { Pending } from "./components/Pending";
 
 type Props = {
   params: {
@@ -90,8 +91,14 @@ const Home: FunctionComponent<Props> = async ({ params: { pool } }: Props) => {
                 </dd>
               </div>
               <div className="p-4 rounded-md bg-gray">
-                <dt className="text-sm font-medium leading-6 text-white/50">
+                <dt className="text-sm font-medium leading-6 text-white/50 flex gap-1 items-center">
                   BTC rewards so far
+                  <ToolTip
+                    id="tooltip_btc_reward_so_far"
+                    text={
+                      "The cycle is in progress and BTC Rewards are streamed to stackers on a per block basis."
+                    }
+                  />
                 </dt>
                 <dd>
                   <div className=" inline-flex items-center w-full text-lg font-medium leading-6 text-white gap-x-1">
@@ -155,12 +162,13 @@ const Home: FunctionComponent<Props> = async ({ params: { pool } }: Props) => {
                     <ToolTip
                       id="tooltip_prepare_phase"
                       text={
-                        "During the prepare phase STX tokens are locked for stacking in the next cycle."
+                        "Prepare Phase is the start of a cycle where no rewards are earned for 100 Bitcoin blocks."
                       }
                     />
                   </div>
                 </dt>
                 <dd>
+                  ~
                   {currency.rounded.format(
                     poxInfo.next_cycle.starts_in_days - 1
                   )}{" "}
@@ -177,13 +185,13 @@ const Home: FunctionComponent<Props> = async ({ params: { pool } }: Props) => {
                     <ToolTip
                       id="tooltip_reward_phase"
                       text={
-                        "During the reward phase Bitcoin rewards are distributed to stackers."
+                        "Reward Phase is the part of the cycle where BTC rewards are earned by stackers."
                       }
                     />
                   </div>
                 </dt>
                 <dd>
-                  {currency.rounded.format(poxInfo.next_cycle.starts_in_days)}{" "}
+                  ~{currency.rounded.format(poxInfo.next_cycle.starts_in_days)}{" "}
                   days
                   <p className="text-sm text-white/[0.35] mt-0.5">
                     Block #{poxInfo.next_cycle.reward_phase_start_block}
@@ -249,15 +257,9 @@ const Home: FunctionComponent<Props> = async ({ params: { pool } }: Props) => {
                   </dt>
                   <dd>
                     {index === 0 ? (
-                      <span className="bg-orange/[0.15] text-orange py-0.5 px-1.5 inline-flex items-center rounded-md">
-                        Pending
-                        <ToolTip
-                          id="tooltip_gross-apy"
-                          text={
-                            "The cycle is in progress and BTC rewards are streamed to stackers on a per block basis."
-                          }
-                          className="text-orange/50 ml-1"
-                        ></ToolTip>
+                      <span className="flex flex-col gap-1 w-fit">
+                        ${currency.short.format(info.apy)}%
+                        <Pending />
                       </span>
                     ) : (
                       `${currency.short.format(info.apy)}%`
@@ -269,8 +271,23 @@ const Home: FunctionComponent<Props> = async ({ params: { pool } }: Props) => {
                     Rewards
                   </dt>
                   <dd className="flex items-center">
-                    {currency.short.format(info.rewards_amount)}
-                    <BtcLogo className="w-[12px] h-[12px] ml-1" />
+                    {index === 0 ? (
+                      <span className="flex flex-col gap-1 w-fit">
+                        <div className="flex items-center">
+                          {currency.short.format(info.rewards_amount)}
+                          <BtcLogo className="w-[12px] h-[12px] ml-1" />
+                        </div>
+                        <Pending />
+                      </span>
+                    ) : (
+                      <div
+                        className="flex items-center"
+                        key={`rewards-${index}`}
+                      >
+                        {currency.short.format(info.rewards_amount)}
+                        <BtcLogo className="w-[12px] h-[12px] ml-1" />
+                      </div>
+                    )}
                   </dd>
                 </div>
               </dl>
@@ -283,11 +300,10 @@ const Home: FunctionComponent<Props> = async ({ params: { pool } }: Props) => {
             columnHeaders={[
               { title: "Cycle" },
               { title: "Signers" },
-              { title: "Pools", info: "Amount of known pools" },
+              { title: "Pools" },
               { title: "Stacked" },
               {
-                title: "Gross APY",
-                info: "Based on current prices. Not taking into account pool or protocol fees.",
+                title: "APY",
               },
               { title: "Rewards" },
             ]}
@@ -300,23 +316,30 @@ const Home: FunctionComponent<Props> = async ({ params: { pool } }: Props) => {
                 <StxLogo className="w-[12px] h-[12px] ml-1" />
               </div>,
               index === 0 ? (
-                <span className="bg-orange/[0.15] text-orange py-0.5 px-1.5 inline-flex items-center rounded-md">
-                  Pending
-                  <ToolTip
-                    id="tooltip_gross-apy"
-                    text={
-                      "The cycle is in progress and BTC rewards are streamed to stackers on a per block basis."
-                    }
-                    className="text-orange/50 ml-1"
-                  ></ToolTip>
+                <span key={`apy-${index}`} className="flex gap-2 items-center">
+                  ${currency.short.format(info.apy)}%
+                  <Pending />
                 </span>
               ) : (
                 `${currency.short.format(info.apy)}%`
               ),
-              <div className="flex items-center" key={`rewards-${index}`}>
-                {currency.short.format(info.rewards_amount)}
-                <BtcLogo className="w-[12px] h-[12px] ml-1" />
-              </div>,
+              index === 0 ? (
+                <span
+                  key={`rewards-${index}`}
+                  className="flex gap-2 items-center"
+                >
+                  <div className="flex items-center" key={`rewards-${index}`}>
+                    {currency.short.format(info.rewards_amount)}
+                    <BtcLogo className="w-[12px] h-[12px] ml-1" />
+                  </div>
+                  <Pending />
+                </span>
+              ) : (
+                <div className="flex items-center" key={`rewards-${index}`}>
+                  {currency.short.format(info.rewards_amount)}
+                  <BtcLogo className="w-[12px] h-[12px] ml-1" />
+                </div>
+              ),
             ])}
           />
           {/* <button

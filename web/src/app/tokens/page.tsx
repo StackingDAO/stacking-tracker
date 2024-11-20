@@ -96,7 +96,7 @@ export default async function Home() {
                   <ToolTip
                     id="tooltip_rewards"
                     text={
-                      "Total rewards so far in this cycle. The cycle is still in progress."
+                      "The cycle is in progress and BTC Rewards are streamed to stackers on a per block basis"
                     }
                   />
                 </div>
@@ -192,8 +192,14 @@ export default async function Home() {
                     </dd>
                   </div>
                   <div key={entity.name + "-apy"}>
-                    <dt className="text-sm font-medium leading-6 text-white/50">
+                    <dt className="text-sm font-medium leading-6 text-white/50 flex gap-1 items-center">
                       Gross APY
+                      <ToolTip
+                        id="tooltip_apy"
+                        text={
+                          "Gross APY in BTC that the LST is generating from stacked STX. Net APY that LST holders are earning is likely different (net of fees and/or boosted rewards)"
+                        }
+                      />
                     </dt>
                     <dd>{currency.short.format(entity.apy)}%</dd>
                   </div>
@@ -220,11 +226,10 @@ export default async function Home() {
               { title: "Stacked" },
               {
                 title: "Rewards",
-                info: "Total rewards so far in this cycle. The cycle is still in progress.",
               },
               {
                 title: "Gross APY",
-                info: "Based on last 4 cycles and current prices. Not taking into account protocol fees.",
+                info: "Gross APY in BTC that the LST is generating from stacked STX. Net APY that LST holders are earning is likely different (net of fees and/or boosted rewards)",
               },
               {
                 title: "",

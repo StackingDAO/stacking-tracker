@@ -100,7 +100,7 @@ export default async function Home() {
                   <ToolTip
                     id="tooltip_rewards"
                     text={
-                      "Total rewards so far in this cycle. The cycle is still in progress."
+                      "The cycle is in progress and BTC Rewards are streamed to stackers on a per block basis"
                     }
                   />
                 </div>
@@ -145,6 +145,16 @@ export default async function Home() {
                       </div>
                     </dd>
                   </div>
+                  <div>
+                    <dt className="text-sm font-medium leading-6 text-white/50 flex gap-1 items-center">
+                      Gross APY
+                      <ToolTip
+                        id="tooltip_rewards"
+                        text="Gross APY in BTC that the Pools are generating from stacked STX. Most pools charge fees, so the next APY that stackers in these pools earn is likely different. Consult your pool operator for details about their fees."
+                      />
+                    </dt>
+                    <dd>{currency.short.format(entity.apy)}%</dd>
+                  </div>
                   <div key={entity.name + "-stacked"}>
                     <dt className="text-sm font-medium leading-6 text-white/50">
                       Stacked
@@ -158,8 +168,12 @@ export default async function Home() {
                     </dd>
                   </div>
                   <div key={entity.name + "-rewards"}>
-                    <dt className="text-sm font-medium leading-6 text-white/50">
-                      BTC rewards so far
+                    <dt className="text-sm font-medium leading-6 text-white/50 flex gap-1 items-center">
+                      BTC Rewards So Far
+                      <ToolTip
+                        id="tooltip_rewards"
+                        text="The cycle is in progress and BTC Rewards are streamed to stackers on a per block basis."
+                      />
                     </dt>
                     <dd>
                       <div className="flex items-center gap-x-1">
@@ -168,12 +182,6 @@ export default async function Home() {
                       </div>
                       <div className="text-xs text-white/[0.35]">{`$${currency.rounded.format(entity.rewards_amount_usd)}`}</div>
                     </dd>
-                  </div>
-                  <div>
-                    <dt className="text-sm font-medium leading-6 text-white/50">
-                      Gross APY
-                    </dt>
-                    <dd>{currency.short.format(entity.apy)}%</dd>
                   </div>
                 </dl>
                 <div key={entity.slug}>
@@ -194,12 +202,12 @@ export default async function Home() {
               { title: "Pool" },
               { title: "Stacked" },
               {
-                title: "BTC rewards so far",
-                info: "Total rewards so far in this cycle. The cycle is still in progress.",
+                title: "BTC Rewards So Far",
+                info: "The cycle is in progress and BTC Rewards are streamed to stackers on a per block basis.",
               },
               {
                 title: "Gross APY",
-                info: "Based on the previous 4 cycles and current prices. Not taking into account pool fees.",
+                info: "Gross APY in BTC that the Pools are generating from stacked STX. Most pools charge fees, so the next APY that stackers in these pools earn is likely different. Consult your pool operator for details about their fees.",
               },
               { title: "" },
             ]}
@@ -208,11 +216,17 @@ export default async function Home() {
                 <img className="w-5 mr-2" src={entity.logo} /> {entity.name}
               </div>,
               <div key={entity.name + "-stacked"}>
-                <div>{`${currency.rounded.format(entity.stacked_amount)} STX`}</div>
+                <div className="flex items-center">
+                  {`${currency.rounded.format(entity.stacked_amount)}`}{" "}
+                  <StxLogo className="w-3 h-3 ml-1 inline" />
+                </div>
                 <div className="text-xs text-white/[0.35]">{`$${currency.rounded.format(entity.stacked_amount_usd)}`}</div>
               </div>,
               <div key={entity.name + "-rewards"}>
-                <div>{`${currency.short.format(entity.rewards_amount)} BTC`}</div>
+                <div className="flex items-center">
+                  {`${currency.short.format(entity.rewards_amount)}`}
+                  <BtcLogo className="w-3 h-3 ml-1 inline" />
+                </div>
                 <div className="text-xs text-white/[0.35]">{`$${currency.rounded.format(entity.rewards_amount_usd)}`}</div>
               </div>,
               `${currency.short.format(entity.apy)}%`,

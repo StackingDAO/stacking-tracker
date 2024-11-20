@@ -10,7 +10,7 @@ export function PoolMissing() {
           </p>
           <a
             className="block text-center md:text-left md:inline-block mt-6 text-sm font-semibold text-orange px-4 py-3 rounded-lg bg-orange/10"
-            href="mailto:info@stacking-tracker.com"
+            href="https://discord.gg/bFU8JSnPP7"
           >
             Contact us
           </a>

@@ -1,5 +1,5 @@
 "use client";
-import StStxLogo from "./Logos/StStx";
+import StxLogo from "./Logos/Stx";
 
 import { useEffect, useState } from "react";
 import { useSTXAddress } from "../common/use-stx-address";
@@ -57,7 +57,7 @@ export function Positions({ positions }: { positions: any }) {
                       <dd>
                         <div>
                           {`${currency.rounded.format(position.tvl)}`}{" "}
-                          <StStxLogo className="w-3 h-3 ml-0.5 inline" />
+                          <StxLogo className="w-3 h-3 ml-0.5 inline" />
                         </div>
                         <div className="text-xs text-white/[0.35]">{`$${currency.rounded.format(position.tvl_usd)}`}</div>
                       </dd>
@@ -77,12 +77,12 @@ export function Positions({ positions }: { positions: any }) {
                           {position.balance > 0 ? (
                             <div className="font-semibold">
                               {`${currency.rounded.format(position.balance)}`}
-                              <StStxLogo className="w-3 h-3 ml-0.5 inline" />
+                              <StxLogo className="w-3 h-3 ml-0.5 inline" />
                             </div>
                           ) : (
                             <div>
                               {`${currency.rounded.format(position.balance)}`}
-                              <StStxLogo className="w-3 h-3 ml-0.5 inline" />
+                              <StxLogo className="w-3 h-3 ml-0.5 inline" />
                             </div>
                           )}
 
@@ -131,7 +131,7 @@ export function Positions({ positions }: { positions: any }) {
                 <div key={position.name + "-tvl"}>
                   <div>
                     {`${currency.rounded.format(position.tvl)}`}{" "}
-                    <StStxLogo className="w-3 h-3 ml-0.5 inline" />
+                    <StxLogo className="w-3 h-3 ml-0.5 inline" />
                   </div>
                   <div className="text-xs text-white/[0.35]">{`$${currency.rounded.format(position.tvl_usd)}`}</div>
                 </div>,
@@ -140,12 +140,12 @@ export function Positions({ positions }: { positions: any }) {
                   {position.balance > 0 ? (
                     <div className="font-semibold">
                       {`${currency.rounded.format(position.balance)}`}
-                      <StStxLogo className="w-3 h-3 ml-0.5 inline" />
+                      <StxLogo className="w-3 h-3 ml-0.5 inline" />
                     </div>
                   ) : (
                     <div>
                       {`${currency.rounded.format(position.balance)}`}
-                      <StStxLogo className="w-3 h-3 ml-0.5 inline" />
+                      <StxLogo className="w-3 h-3 ml-0.5 inline" />
                     </div>
                   )}
 
@@ -188,7 +188,7 @@ export function Positions({ positions }: { positions: any }) {
                       <dd>
                         <div>
                           {`${currency.rounded.format(position.tvl)}`}{" "}
-                          <StStxLogo className="w-3 h-3 ml-0.5 inline" />
+                          <StxLogo className="w-3 h-3 ml-0.5 inline" />
                         </div>
                         <div className="text-xs text-white/[0.35]">{`$${currency.rounded.format(position.tvl_usd)}`}</div>
                       </dd>
@@ -238,7 +238,7 @@ export function Positions({ positions }: { positions: any }) {
                 <div key={position.name + "-tvl"}>
                   <div>
                     {`${currency.rounded.format(position.tvl)}`}{" "}
-                    <StStxLogo className="w-3 h-3 ml-0.5 inline" />
+                    <StxLogo className="w-3 h-3 ml-0.5 inline" />
                   </div>
                   <div className="text-xs text-white/[0.35]">{`$${currency.rounded.format(position.tvl_usd)}`}</div>
                 </div>,

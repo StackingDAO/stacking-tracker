@@ -105,7 +105,7 @@ export default async function Home() {
                   <ToolTip
                     id="tooltip_rewards"
                     text={
-                      "Total rewards so far in this cycle. The cycle is still in progress."
+                      "The cycle is in progress and BTC Rewards are streamed to stackers on a per block basis"
                     }
                   />
                 </div>
@@ -155,12 +155,6 @@ export default async function Home() {
                       </div>
                     </dd>
                   </div>
-                  <div key={signer.signer_key + "-count"}>
-                    <dt className="text-sm font-medium leading-6 text-white/50">
-                      Count
-                    </dt>
-                    <dd>{signer.stackers_count}</dd>
-                  </div>
                   <div key={signer.signer_key + "-stacked"}>
                     <dt className="text-sm font-medium leading-6 text-white/50">
                       Stacked
@@ -173,7 +167,7 @@ export default async function Home() {
                   </div>
                   <div key={signer.name + "-rewards"}>
                     <dt className="text-sm font-medium leading-6 text-white/50">
-                      Rewards so far
+                      BTC Rewards So Far
                     </dt>
                     <dd>
                       <div className="flex items-center">
@@ -201,11 +195,10 @@ export default async function Home() {
           <Table
             columnHeaders={[
               { title: "Signer" },
-              { title: "Stackers" },
               { title: "Stacked" },
               {
-                title: "Rewards",
-                info: "Total rewards so far in this cycle. The cycle is still in progress.",
+                title: "BTC Rewards So Far",
+                info: "The cycle is in progress and BTC Rewards are streamed to stackers on a per block basis",
               },
               { title: "" },
             ]}
@@ -221,7 +214,6 @@ export default async function Home() {
                   </div>
                 </div>
               </>,
-              signer.stackers_count,
               <div key={signer.signer_key + "-stacked"}>
                 <div className="flex items-center">
                   {`${currency.rounded.format(signer.stacked_amount)}`}{" "}

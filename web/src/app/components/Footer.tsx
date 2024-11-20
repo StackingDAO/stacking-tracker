@@ -91,7 +91,7 @@ export function Footer() {
         </div>
         <div className="mt-8 md:order-1 md:mt-0">
           <p className="text-white/50 text-sm text-center md:text-left">
-            © Symmachia Inc. 2024
+            © Stacks Labs 2024
           </p>
         </div>
       </div>
