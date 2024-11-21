@@ -122,9 +122,9 @@ export function getSignerEntities(
       });
     } else {
       resultSigners.push({
-        name: "Unknown",
+        name: signer.signerKey,
         slug: signer.signerKey,
-        logo: "/logos/default.webp",
+        logo: "/logos/default_signer.webp",
         signer_key: signer.signerKey,
         stackers_count: signer.stackersCount,
         stacked_amount: signer.stackedAmount,

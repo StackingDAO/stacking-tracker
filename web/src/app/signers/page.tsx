@@ -144,17 +144,15 @@ export default async function Home() {
                       Signer
                     </dt>
                     <dd>
-                      <div className="flex">
-                        <img className="w-8 h-8 mr-3 mt-1" src={signer.logo} />
-                        <div>
-                          <div className="font-semibold">{signer.name}</div>
-                          <div className="text-xs text-white/[0.35]">
-                            {shortAddress(signer.signer_key)}
-                          </div>
+                      <div className="flex items-center">
+                        <img className="w-5 mr-2" src={signer.logo} />
+                        <div className="font-semibold">
+                          {shortAddress(signer.name)}
                         </div>
                       </div>
                     </dd>
                   </div>
+                  <div></div>
                   <div key={signer.name + "-stacked"}>
                     <dt className="text-sm font-medium leading-6 text-white/50">
                       Stacked
@@ -166,8 +164,12 @@ export default async function Home() {
                     <div className="text-xs text-white/[0.35]">{`$${currency.rounded.format(signer.stacked_amount_usd)}`}</div>
                   </div>
                   <div key={signer.name + "-rewards"}>
-                    <dt className="text-sm font-medium leading-6 text-white/50">
+                    <dt className="text-sm font-medium leading-6 text-white/50 flex gap-1 items-center">
                       BTC Rewards So Far
+                      <ToolTip
+                        id="tooltip_rewards"
+                        text="The cycle is in progress and BTC Rewards are streamed to stackers on a per block basis."
+                      />
                     </dt>
                     <dd>
                       <div className="flex items-center">
@@ -203,14 +205,9 @@ export default async function Home() {
               { title: "" },
             ]}
             rows={signersInfo.entities.map((signer: any) => [
-              <div key={signer.name} className="flex">
-                <img className="w-8 h-8 mr-3 mt-1" src={signer.logo} />
-                <div>
-                  <div className="font-semibold">{signer.name}</div>
-                  <div className="text-xs text-white/[0.35]">
-                    {shortAddress(signer.signer_key)}
-                  </div>
-                </div>
+              <div key={signer.name} className="flex items-center">
+                <img className="w-5 mr-2" src={signer.logo} />
+                <div className="font-semibold">{shortAddress(signer.name)}</div>
               </div>,
               <div key={signer.name + "-stacked"}>
                 <div className="flex items-center">

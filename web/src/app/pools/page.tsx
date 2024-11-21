@@ -136,7 +136,7 @@ export default async function Home() {
                 <dl className="grid gap-4 grid-cols-2">
                   <div key={entity.name}>
                     <dt className="text-sm font-medium leading-6 text-white/50">
-                      Signer
+                      Pool
                     </dt>
                     <dd>
                       <div key={entity.name} className="flex font-semibold">

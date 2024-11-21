@@ -139,7 +139,7 @@ export const currency = {
 } as const;
 
 export function shortAddress(address) {
-  if (address.length <= 10) {
+  if (!address.startsWith("0x") || address.length <= 10) {
     return address;
   }
 
