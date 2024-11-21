@@ -2,7 +2,7 @@ import { ToolTip } from "./Tooltip";
 
 export function Pending() {
   return (
-    <span className="bg-orange/[0.15] text-orange py-0.5 px-1.5 inline-flex items-center rounded-md">
+    <span className="bg-orange/[0.15] text-orange py-0.5 px-1.5 inline-flex items-center rounded-md text-sm lg:text-md">
       Pending
       <ToolTip
         id="tooltip_pending"

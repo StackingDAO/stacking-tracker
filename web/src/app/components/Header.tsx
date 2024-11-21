@@ -40,7 +40,7 @@ export function Header() {
               <Link
                 key={item.name}
                 href={item.href}
-                className={`text-sm font-semibold leading-6 text-orange px-3 py-3 rounded-lg hover:bg-orange/[0.05] ${pathname === item.href ? "bg-orange/10" : ""}`}
+                className={`text-sm font-semibold leading-6 text-orange px-3 py-3 rounded-lg hover:bg-orange/[0.05] ${pathname === item.href || pathname.includes(item.href + "/") ? "bg-orange/10" : ""}`}
               >
                 {item.name}
               </Link>

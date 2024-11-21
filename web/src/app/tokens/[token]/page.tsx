@@ -5,6 +5,7 @@ import { currency } from "@/app/common/utils";
 import ChartBarStacked from "@/app/components/ChartBarStacked";
 import StxLogo from "@/app/components/Logos/Stx";
 import BtcLogo from "@/app/components/Logos/Btc";
+import { Pending } from "@/app/components/Pending";
 
 type Props = {
   params: {
@@ -122,7 +123,7 @@ const Home: FunctionComponent<Props> = async ({ params: { token } }: Props) => {
             { title: "Stacked" },
             { title: "Rewards" },
           ]}
-          rows={tokenInfo.cycles.reverse().map((info: any) => [
+          rows={tokenInfo.cycles.reverse().map((info: any, index: number) => [
             info.cycle_number,
             <div
               key={info.cycle_number + "-stacked"}
@@ -131,13 +132,26 @@ const Home: FunctionComponent<Props> = async ({ params: { token } }: Props) => {
               {`${currency.rounded.format(info.stacked_amount)}`}
               <StxLogo className="w-3 h-3 ml-1 inline" />
             </div>,
-            <div
-              key={info.cycle_number + "-rewards"}
-              className="flex items-center"
-            >
-              {`${currency.short.format(info.rewards_amount)}`}
-              <BtcLogo className="w-3 h-3 ml-1 inline" />
-            </div>,
+            index === 0 ? (
+              <div
+                key={info.cycle_number + "-rewards"}
+                className="flex items-center gap-2"
+              >
+                <div className="flex items-center">
+                  {`${currency.short.format(info.rewards_amount)}`}
+                  <BtcLogo className="w-3 h-3 ml-1 inline" />
+                </div>
+                <Pending />
+              </div>
+            ) : (
+              <div
+                key={info.cycle_number + "-rewards"}
+                className="flex items-center"
+              >
+                {`${currency.short.format(info.rewards_amount)}`}
+                <BtcLogo className="w-3 h-3 ml-1 inline" />
+              </div>
+            ),
           ])}
         />
       </div>

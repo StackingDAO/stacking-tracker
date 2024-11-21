@@ -6,6 +6,7 @@ import ChartBarStacked from "@/app/components/ChartBarStacked";
 import StxLogo from "@/app/components/Logos/Stx";
 import BtcLogo from "@/app/components/Logos/Btc";
 import { CopyAddress } from "@/app/components/CopyAddress";
+import { Pending } from "@/app/components/Pending";
 
 type Props = {
   params: {
@@ -125,7 +126,7 @@ const Home: FunctionComponent<Props> = async ({
 
         <div className="lg:hidden">
           <div className="space-y-4 divide-y divide-white/10 [&>*:first-child]:pt-0">
-            {signerInfo.cycles.reverse().map((info: any) => (
+            {signerInfo.cycles.reverse().map((info: any, index: number) => (
               <div key={info.cycle_number} className="pt-4">
                 <dl className="grid gap-4 grid-cols-2">
                   <div key={info.cycle_number}>
@@ -159,10 +160,23 @@ const Home: FunctionComponent<Props> = async ({
                       Rewards to far
                     </dt>
                     <dd>
-                      <div className="flex items-center">
-                        {`${currency.short.format(info.rewards_amount)}`}
-                        <BtcLogo className="w-3 h-3 ml-1 inline" />
-                      </div>
+                      {index === 0 ? (
+                        <span className="flex flex-col gap-1 w-fit">
+                          <div className="flex items-center">
+                            {currency.short.format(info.rewards_amount)}
+                            <BtcLogo className="w-[12px] h-[12px] ml-1" />
+                          </div>
+                          <Pending />
+                        </span>
+                      ) : (
+                        <div
+                          className="flex items-center"
+                          key={`rewards-${index}`}
+                        >
+                          {currency.short.format(info.rewards_amount)}
+                          <BtcLogo className="w-[12px] h-[12px] ml-1" />
+                        </div>
+                      )}
                     </dd>
                   </div>
                 </dl>
@@ -179,7 +193,7 @@ const Home: FunctionComponent<Props> = async ({
               { title: "Stacked" },
               { title: "Rewards" },
             ]}
-            rows={signerInfo.cycles.map((info: any) => [
+            rows={signerInfo.cycles.map((info: any, index: number) => [
               info.cycle_number,
               info.stackers_count,
               <div
@@ -190,13 +204,26 @@ const Home: FunctionComponent<Props> = async ({
                 <StxLogo className="w-3 h-3 ml-1 inline" />
               </div>,
               ,
-              <div
-                key={info.cycle_number + "-rewards"}
-                className="flex items-center"
-              >
-                {`${currency.short.format(info.rewards_amount)}`}
-                <BtcLogo className="w-3 h-3 ml-1 inline" />
-              </div>,
+              index === 0 ? (
+                <div
+                  key={info.cycle_number + "-rewards"}
+                  className="flex items-center gap-2"
+                >
+                  <div className="flex items-center">
+                    {`${currency.short.format(info.rewards_amount)}`}
+                    <BtcLogo className="w-3 h-3 ml-1 inline" />
+                  </div>
+                  <Pending />
+                </div>
+              ) : (
+                <div
+                  key={info.cycle_number + "-rewards"}
+                  className="flex items-center"
+                >
+                  {`${currency.short.format(info.rewards_amount)}`}
+                  <BtcLogo className="w-3 h-3 ml-1 inline" />
+                </div>
+              ),
             ])}
           />
         </div>
