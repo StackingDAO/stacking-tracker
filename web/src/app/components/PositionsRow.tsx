@@ -1,4 +1,5 @@
 import { currency } from "../common/utils";
+import StStxLogo from "./Logos/StStx";
 import StxLogo from "./Logos/Stx";
 
 type Position = {
@@ -45,9 +46,9 @@ export function PositionsRow({ firstChild, position }: Props) {
               </td>
               <td className="whitespace-nowrap py-2 pl-4 pr-3 text-sm text-gray-500 sm:pl-0">
                 <div>
-                  <div>
+                  <div className="flex items-center gap-2">
                     {`${currency.rounded.format(position.tvl)}`}
-                    <StxLogo className="w-3 h-3 ml-0.5 inline" />
+                    <StxLogo className="w-3 h-3 inline" />
                   </div>
                   <div className="text-xs text-white/[0.35]">
                     ${`${currency.rounded.format(position.tvl_usd)}`}
@@ -60,9 +61,18 @@ export function PositionsRow({ firstChild, position }: Props) {
               {showBalance && (
                 <td className="whitespace-nowrap py-2 pl-4 pr-3 text-sm text-gray-500 sm:pl-0">
                   <div>
-                    <div className="font-semibold">
+                    <div className="font-semibold flex items-center gap-2">
                       {`${currency.rounded.format(position.balance)}`}
-                      <StxLogo className="w-3 h-3 ml-0.5 inline" />
+                      {position.symbol === "stSTX" ? (
+                        <StStxLogo className="w-3 h-3 inline" />
+                      ) : position.symbol === "LiSTX" ? (
+                        <img
+                          src="/logos/listx.webp"
+                          className="w-3 h-3 inline"
+                        />
+                      ) : (
+                        <StxLogo className="w-3 h-3 inline" />
+                      )}
                     </div>
                     <div className="text-xs text-white/[0.35]">
                       ${`${currency.rounded.format(position.balance_usd)}`}

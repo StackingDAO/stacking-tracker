@@ -5,10 +5,10 @@ import { useEffect, useState } from "react";
 import { useSTXAddress } from "../common/use-stx-address";
 import * as api from "../common/public-api";
 import { currency } from "../common/utils";
-import { Table } from "./Table";
 import { ChevronDownIcon } from "@heroicons/react/24/solid";
 import { classNames } from "../common/class-names";
 import { PositionsRow } from "./PositionsRow";
+import StStxLogo from "./Logos/StStx";
 
 export function Positions({ positions }: { positions: any }) {
   const stxAddress = useSTXAddress();
@@ -62,7 +62,7 @@ export function Positions({ positions }: { positions: any }) {
                     TVL
                   </dt>
                   <dd>
-                    <div>
+                    <div className="flex items-center gap-1">
                       {`${currency.rounded.format(position.tvl)}`}{" "}
                       <StxLogo className="w-3 h-3 ml-0.5 inline" />
                     </div>
@@ -82,17 +82,26 @@ export function Positions({ positions }: { positions: any }) {
                     </dt>
                     <dd>
                       <div>
-                        {position.balance > 0 ? (
-                          <div className="font-semibold">
-                            {`${currency.rounded.format(position.balance)}`}
-                            <StxLogo className="w-3 h-3 ml-0.5 inline" />
-                          </div>
-                        ) : (
-                          <div>
-                            {`${currency.rounded.format(position.balance)}`}
-                            <StxLogo className="w-3 h-3 ml-0.5 inline" />
-                          </div>
-                        )}
+                        <div
+                          className={classNames(
+                            "flex items-center gap-1",
+                            position.balance > 0
+                              ? "font-semibold"
+                              : "font-normal"
+                          )}
+                        >
+                          {`${currency.rounded.format(position.balance)}`}
+                          {position.symbol === "stSTX" ? (
+                            <StStxLogo className="w-3 h-3 inline" />
+                          ) : position.symbol === "LiSTX" ? (
+                            <img
+                              src="/logos/listx.webp"
+                              className="w-3 h-3 inline"
+                            />
+                          ) : (
+                            <StxLogo className="w-3 h-3 inline" />
+                          )}
+                        </div>
 
                         <div className="text-xs text-white/[0.35]">{`$${currency.rounded.format(position.balance_usd)}`}</div>
                       </div>
