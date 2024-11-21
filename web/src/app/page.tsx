@@ -236,7 +236,7 @@ const Home: FunctionComponent<Props> = async ({ params: { pool } }: Props) => {
                   </dt>
                   <dd>{info.signers_count}</dd>
                 </div>
-                <div key={`signers-${index}`}>
+                <div key={`pools-${index}`}>
                   <dt className="text-sm font-medium leading-6 text-white/50">
                     Pools
                   </dt>
@@ -251,7 +251,7 @@ const Home: FunctionComponent<Props> = async ({ params: { pool } }: Props) => {
                     <StxLogo className="w-[12px] h-[12px] ml-1" />
                   </dd>
                 </div>
-                <div key={`cycle-number-${index}`}>
+                <div key={`apy-${index}`}>
                   <dt className="text-sm font-medium leading-6 text-white/50">
                     Gross APY
                   </dt>

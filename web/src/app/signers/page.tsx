@@ -137,7 +137,7 @@ export default async function Home() {
         <div className="lg:hidden">
           <div className="space-y-4 divide-y divide-white/10 [&>*:first-child]:pt-0">
             {signersInfo.entities.map((signer: any) => (
-              <div key={signer.name} className="pt-4">
+              <div key={signer.slug} className="pt-4">
                 <dl className="grid gap-4 grid-cols-2">
                   <div key={signer.name}>
                     <dt className="text-sm font-medium leading-6 text-white/50">
@@ -155,7 +155,7 @@ export default async function Home() {
                       </div>
                     </dd>
                   </div>
-                  <div key={signer.signer_key + "-stacked"}>
+                  <div key={signer.name + "-stacked"}>
                     <dt className="text-sm font-medium leading-6 text-white/50">
                       Stacked
                     </dt>
@@ -203,18 +203,16 @@ export default async function Home() {
               { title: "" },
             ]}
             rows={signersInfo.entities.map((signer: any) => [
-              <>
-                <div key={signer.name} className="flex">
-                  <img className="w-8 h-8 mr-3 mt-1" src={signer.logo} />
-                  <div>
-                    <div className="font-semibold">{signer.name}</div>
-                    <div className="text-xs text-white/[0.35]">
-                      {shortAddress(signer.signer_key)}
-                    </div>
+              <div key={signer.name} className="flex">
+                <img className="w-8 h-8 mr-3 mt-1" src={signer.logo} />
+                <div>
+                  <div className="font-semibold">{signer.name}</div>
+                  <div className="text-xs text-white/[0.35]">
+                    {shortAddress(signer.signer_key)}
                   </div>
                 </div>
-              </>,
-              <div key={signer.signer_key + "-stacked"}>
+              </div>,
+              <div key={signer.name + "-stacked"}>
                 <div className="flex items-center">
                   {`${currency.rounded.format(signer.stacked_amount)}`}{" "}
                   <StxLogo className="w-3 h-3 ml-1 inline" />

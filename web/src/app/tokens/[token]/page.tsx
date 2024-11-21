@@ -70,7 +70,7 @@ const Home: FunctionComponent<Props> = async ({ params: { token } }: Props) => {
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
             >
-              <g clip-path="url(#clip0_89_2644)">
+              <g clipPath="url(#clip0_89_2644)">
                 <path
                   d="M7.00033 12.8332C10.222 12.8332 12.8337 10.2215 12.8337 6.99984C12.8337 3.77818 10.222 1.1665 7.00033 1.1665C3.77866 1.1665 1.16699 3.77818 1.16699 6.99984C1.16699 10.2215 3.77866 12.8332 7.00033 12.8332Z"
                   stroke="#FC6432"
