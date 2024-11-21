@@ -1,6 +1,7 @@
 import { Router, Request, Response } from "express";
 import * as db from "@repo/database";
 import { signerKeyToPool } from "../constants";
+import { fetchPrice } from "../prices";
 
 const router = Router();
 
@@ -12,18 +13,15 @@ router.get("/:signer", async (req: Request, res: Response) => {
   );
   const signerKey = signerInfo.length > 0 ? signerInfo[0] : signer;
 
-  const [signersInfo, stackersInfo, rewardsInfo] = await Promise.all([
+  const [signersInfo, rewardsInfo, stxPrice, btcPrice] = await Promise.all([
     db.getSigner(signerKey),
-    db.getStackersForSigner(signerKey),
     db.getStackersRewardsForSigner(signerKey),
+    fetchPrice("STX"),
+    fetchPrice("BTC"),
   ]);
 
   const results = [];
   for (const signerInfo of signersInfo) {
-    const cycleStackers = stackersInfo.filter(
-      (stackerInfo: { cycleNumber: number }) =>
-        stackerInfo.cycleNumber === signerInfo.cycleNumber
-    );
     const cycleRewards = rewardsInfo.filter(
       (rewardInfo: { cycleNumber: number }) =>
         rewardInfo.cycleNumber === signerInfo.cycleNumber
@@ -33,11 +31,18 @@ router.get("/:signer", async (req: Request, res: Response) => {
       .map((reward: any) => reward.rewardAmount)
       .reduce((acc: number, current: number) => acc + current, 0);
 
+    const previousStackedValue = signerInfo.stackedAmount * stxPrice;
+    const previousRewardsValue = totalCycleRewards * btcPrice;
+    // 26 cycles per year
+    const apr = (previousRewardsValue / previousStackedValue) * 26;
+    const apy = (Math.pow(1 + apr / 26, 26) - 1) * 100.0;
+
     results.push({
       cycle_number: signerInfo.cycleNumber,
       stacked_amount: signerInfo.stackedAmount,
       stackers_count: signerInfo.stackersCount,
       rewards_amount: totalCycleRewards,
+      apy: apy,
     });
   }
 

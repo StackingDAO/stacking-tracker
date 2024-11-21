@@ -132,6 +132,21 @@ const Home: FunctionComponent<Props> = async ({ params: { pool } }: Props) => {
                       </div>
                     </dd>
                   </div>
+                  <div key={info.cycle_number + "-apy"}>
+                    <dt className="text-sm font-medium leading-6 text-white/50">
+                      APY
+                    </dt>
+                    <dd>
+                      {index === 0 ? (
+                        <span className="flex flex-col gap-1 w-fit">
+                          {currency.short.format(info.apy)}%
+                          <Pending />
+                        </span>
+                      ) : (
+                        `${currency.short.format(info.apy)}%`
+                      )}
+                    </dd>
+                  </div>
                   <div key={info.cycle_number + "-rewards"}>
                     <dt className="text-sm font-medium leading-6 text-white/50">
                       BTC rewards so far
@@ -167,6 +182,7 @@ const Home: FunctionComponent<Props> = async ({ params: { pool } }: Props) => {
             columnHeaders={[
               { title: "Cycle" },
               { title: "Stacked" },
+              { title: "Gross APY" },
               { title: "Rewards" },
             ]}
             rows={poolInfo.cycles.map((info: any, index: number) => [
@@ -178,6 +194,17 @@ const Home: FunctionComponent<Props> = async ({ params: { pool } }: Props) => {
                 {`${currency.rounded.format(info.stacked_amount)}`}
                 <StxLogo className="w-3 h-3 ml-1 inline" />
               </div>,
+              index === 0 ? (
+                <span
+                  key={info.cycle_number + "-apy"}
+                  className="flex gap-2 items-center"
+                >
+                  {currency.short.format(info.apy)}%
+                  <Pending />
+                </span>
+              ) : (
+                `${currency.short.format(info.apy)}%`
+              ),
               index === 0 ? (
                 <div
                   key={info.cycle_number + "-rewards"}

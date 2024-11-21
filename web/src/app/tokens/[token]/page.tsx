@@ -117,43 +117,124 @@ const Home: FunctionComponent<Props> = async ({ params: { token } }: Props) => {
       <div className="p-4 border border-white/10 rounded-xl mt-8">
         <h2 className="text-lg font-semibold mb-4">Cycles overview</h2>
 
-        <Table
-          columnHeaders={[
-            { title: "Cycle" },
-            { title: "Stacked" },
-            { title: "Rewards" },
-          ]}
-          rows={tokenInfo.cycles.reverse().map((info: any, index: number) => [
-            info.cycle_number,
-            <div
-              key={info.cycle_number + "-stacked"}
-              className="flex items-center"
-            >
-              {`${currency.rounded.format(info.stacked_amount)}`}
-              <StxLogo className="w-3 h-3 ml-1 inline" />
-            </div>,
-            index === 0 ? (
+        <div className="lg:hidden">
+          <div className="space-y-4 divide-y divide-white/10 [&>*:first-child]:pt-0">
+            {tokenInfo.cycles.reverse().map((info: any, index: number) => (
+              <div key={info.cycle_number} className="pt-4">
+                <dl className="grid gap-4 grid-cols-2">
+                  <div key={info.cycle_number}>
+                    <dt className="text-sm font-medium leading-6 text-white/50">
+                      Cycle
+                    </dt>
+                    <dd>{info.cycle_number}</dd>
+                  </div>
+                  <div key={info.cycle_number + "-stacked"}>
+                    <dt className="text-sm font-medium leading-6 text-white/50">
+                      Stacked
+                    </dt>
+                    <dd>
+                      <div className="flex items-center">
+                        {`${currency.rounded.format(info.stacked_amount)}`}
+                        <StxLogo className="w-3 h-3 ml-1 inline" />
+                      </div>
+                    </dd>
+                  </div>
+                  <div key={info.cycle_number + "-apy"}>
+                    <dt className="text-sm font-medium leading-6 text-white/50">
+                      APY
+                    </dt>
+                    <dd>
+                      {index === 0 ? (
+                        <span className="flex flex-col gap-1 w-fit">
+                          {currency.short.format(info.apy)}%
+                          <Pending />
+                        </span>
+                      ) : (
+                        `${currency.short.format(info.apy)}%`
+                      )}
+                    </dd>
+                  </div>
+                  <div key={info.cycle_number + "-rewards"}>
+                    <dt className="text-sm font-medium leading-6 text-white/50">
+                      BTC rewards so far
+                    </dt>
+                    <dd>
+                      {index === 0 ? (
+                        <span className="flex flex-col gap-1 w-fit">
+                          <div className="flex items-center">
+                            {currency.short.format(info.rewards_amount)}
+                            <BtcLogo className="w-[12px] h-[12px] ml-1" />
+                          </div>
+                          <Pending />
+                        </span>
+                      ) : (
+                        <div
+                          className="flex items-center"
+                          key={`rewards-${index}`}
+                        >
+                          {currency.short.format(info.rewards_amount)}
+                          <BtcLogo className="w-[12px] h-[12px] ml-1" />
+                        </div>
+                      )}
+                    </dd>
+                  </div>
+                </dl>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div className="hidden lg:block">
+          <Table
+            columnHeaders={[
+              { title: "Cycle" },
+              { title: "Stacked" },
+              { title: "Gross APY" },
+              { title: "Rewards" },
+            ]}
+            rows={tokenInfo.cycles.reverse().map((info: any, index: number) => [
+              info.cycle_number,
               <div
-                key={info.cycle_number + "-rewards"}
-                className="flex items-center gap-2"
+                key={info.cycle_number + "-stacked"}
+                className="flex items-center"
               >
-                <div className="flex items-center">
+                {`${currency.rounded.format(info.stacked_amount)}`}
+                <StxLogo className="w-3 h-3 ml-1 inline" />
+              </div>,
+              index === 0 ? (
+                <span
+                  key={info.cycle_number + "-apy"}
+                  className="flex gap-2 items-center"
+                >
+                  {currency.short.format(info.apy)}%
+                  <Pending />
+                </span>
+              ) : (
+                `${currency.short.format(info.apy)}%`
+              ),
+              index === 0 ? (
+                <div
+                  key={info.cycle_number + "-rewards"}
+                  className="flex items-center gap-2"
+                >
+                  <div className="flex items-center">
+                    {`${currency.short.format(info.rewards_amount)}`}
+                    <BtcLogo className="w-3 h-3 ml-1 inline" />
+                  </div>
+                  <Pending />
+                </div>
+              ) : (
+                <div
+                  key={info.cycle_number + "-rewards"}
+                  className="flex items-center"
+                >
                   {`${currency.short.format(info.rewards_amount)}`}
                   <BtcLogo className="w-3 h-3 ml-1 inline" />
                 </div>
-                <Pending />
-              </div>
-            ) : (
-              <div
-                key={info.cycle_number + "-rewards"}
-                className="flex items-center"
-              >
-                {`${currency.short.format(info.rewards_amount)}`}
-                <BtcLogo className="w-3 h-3 ml-1 inline" />
-              </div>
-            ),
-          ])}
-        />
+              ),
+            ])}
+          />
+        </div>
       </div>
     </div>
   );

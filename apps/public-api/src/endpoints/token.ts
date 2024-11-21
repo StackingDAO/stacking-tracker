@@ -1,8 +1,14 @@
 import { Router, Request, Response } from "express";
 import * as db from "@repo/database";
 import { addressToToken } from "../constants";
+import { fetchPrice } from "../prices";
 
-async function getPoolsInfoForCycle(cycleNumber: number, address: string) {
+async function getPoolsInfoForCycle(
+  cycleNumber: number,
+  address: string,
+  stxPrice: number,
+  btcPrice: number
+) {
   const [stackers, rewards] = await Promise.all([
     db.getStackersForCycle(cycleNumber),
     db.getRewardsForCycle(cycleNumber),
@@ -42,10 +48,17 @@ async function getPoolsInfoForCycle(cycleNumber: number, address: string) {
   const tokenRewardAmount =
     rewardAmount * (tokenStackedAmount / rewardStackedAmount);
 
+  const previousStackedValue = tokenStackedAmount * stxPrice;
+  const previousRewardsValue = rewardAmount * btcPrice;
+  // 26 cycles per year
+  const apr = (previousRewardsValue / previousStackedValue) * 26;
+  const apy = (Math.pow(1 + apr / 26, 26) - 1) * 100.0;
+
   return {
     cycle_number: cycleNumber,
     stacked_amount: tokenStackedAmount,
     rewards_amount: tokenRewardAmount,
+    apy: apy,
   };
 }
 
@@ -57,11 +70,15 @@ router.get("/:slug", async (req: Request, res: Response) => {
     (key: string) => addressToToken[key].slug === slug
   )[0];
 
-  const currentCycle = await db.getSignersLatestCycle();
+  const [currentCycle, stxPrice, btcPrice] = await Promise.all([
+    db.getSignersLatestCycle(),
+    fetchPrice("STX"),
+    fetchPrice("BTC"),
+  ]);
 
   const promises: any[] = [];
   for (let cycle = currentCycle; cycle > 83; cycle--) {
-    promises.push(getPoolsInfoForCycle(cycle, address));
+    promises.push(getPoolsInfoForCycle(cycle, address, stxPrice, btcPrice));
   }
 
   const results = await Promise.all(promises);
