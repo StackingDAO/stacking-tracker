@@ -49,7 +49,6 @@ export default async function Home() {
       label: activeSigner.name,
       data: data,
       backgroundColor: colors[activeSigner.name] ?? "#2E7D59",
-      borderRadius: 6,
     });
   }
 
