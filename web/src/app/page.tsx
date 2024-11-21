@@ -317,7 +317,7 @@ const Home: FunctionComponent<Props> = async ({ params: { pool } }: Props) => {
               </div>,
               index === 0 ? (
                 <span key={`apy-${index}`} className="flex gap-2 items-center">
-                  ${currency.short.format(info.apy)}%
+                  {currency.short.format(info.apy)}%
                   <Pending />
                 </span>
               ) : (
