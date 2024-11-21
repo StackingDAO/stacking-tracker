@@ -41,7 +41,6 @@ export default async function Home() {
       label: activePool.name,
       data: data,
       backgroundColor: colors[index],
-      borderRadius: 6,
     });
   }
 
