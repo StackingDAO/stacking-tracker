@@ -296,6 +296,10 @@ const Home: FunctionComponent<Props> = async ({ params: { pool } }: Props) => {
         </div>
 
         <div className="hidden lg:block">
+          <h2 className="text-lg font-semibold mb-4">
+            Stacking cycles overview
+          </h2>
+
           <Table
             columnHeaders={[
               { title: "Cycle" },
