@@ -28,13 +28,16 @@ export function PositionsRow({ firstChild, position }: Props) {
       <td colSpan={showBalance ? 5 : 4}>
         <table className="w-full table-fixed">
           <tbody>
-            <tr className="[&>*:first-child]:pl-4">
-              <td className="whitespace-nowrap py-2 pl-4 pr-3 text-sm text-gray-500 sm:pl-0">
+            <tr>
+              <td className="py-2 pl-6 pr-3 text-sm text-gray-500 sm:pl-0 pr-6">
                 <div>
                   <div className="flex items-center">
                     {firstChild}
-
-                    <img className="w-8 h-8 mr-3 mt-1" src={position.logo} />
+                    <img
+                      className="w-8 h-8 mr-3 mt-1"
+                      alt=""
+                      src={position.logo}
+                    />
                     <div className="flex flex-col">
                       <div className="font-semibold">{position.name}</div>
                       <div className="text-xs text-white/[0.35]">
