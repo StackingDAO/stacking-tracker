@@ -29,7 +29,7 @@ export function PositionsRow({ firstChild, position }: Props) {
         <table className="w-full table-fixed">
           <tbody>
             <tr>
-              <td className="py-2 pl-6 pr-3 text-sm text-gray-500 sm:pl-0 pr-6">
+              <td className="py-2 pl-6 pr-3 text-sm text-gray-500 sm:pl-0 pr-12 w-[300px]">
                 <div>
                   <div className="flex items-center">
                     {firstChild}
