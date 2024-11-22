@@ -9,6 +9,7 @@ import { ChevronDownIcon } from "@heroicons/react/24/solid";
 import { classNames } from "../common/class-names";
 import { PositionsRow } from "./PositionsRow";
 import StStxLogo from "./Logos/StStx";
+import { ButtonLink } from "./ButtonLink";
 
 export function Positions({ positions }: { positions: any }) {
   const stxAddress = useSTXAddress();
@@ -110,12 +111,11 @@ export function Positions({ positions }: { positions: any }) {
                 )}
               </dl>
               <div key={position.name + "-link"} className="">
-                <a
-                  href={position.link}
-                  className="mt-3 flex justify-center text-center text-sm font-semibold leading-6 text-orange px-4 py-2 rounded-lg bg-orange/10"
-                >
-                  Start Stacking
-                </a>
+                <ButtonLink
+                  label="Start Stacking"
+                  link={position.link}
+                  target="_blank"
+                />
               </div>
             </div>
           ))}

@@ -46,7 +46,7 @@ const Home: FunctionComponent<Props> = async ({ params: { pool } }: Props) => {
 
     return pastDate.toLocaleDateString("en-US", {
       day: "numeric",
-      month: "long",
+      month: "short",
       year: "numeric",
     });
   }
@@ -305,7 +305,7 @@ const Home: FunctionComponent<Props> = async ({ params: { pool } }: Props) => {
               { title: "Pools" },
               { title: "Stacked" },
               {
-                title: "APY",
+                title: "Gross APY",
               },
               { title: "Rewards" },
             ]}

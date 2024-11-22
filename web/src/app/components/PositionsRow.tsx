@@ -1,4 +1,5 @@
 import { currency } from "../common/utils";
+import { ButtonLink } from "./ButtonLink";
 import StStxLogo from "./Logos/StStx";
 import StxLogo from "./Logos/Stx";
 
@@ -29,7 +30,7 @@ export function PositionsRow({ firstChild, position }: Props) {
         <table className="w-full table-fixed">
           <tbody>
             <tr>
-              <td className="py-2 pl-6 pr-3 text-sm text-gray-500 sm:pl-0 pr-12 w-[300px]">
+              <td className="py-2 pl-6 text-sm text-gray-500 sm:pl-0 pr-12 w-[300px]">
                 <div>
                   <div className="flex items-center">
                     {firstChild}
@@ -86,12 +87,11 @@ export function PositionsRow({ firstChild, position }: Props) {
 
               <td className="whitespace-nowrap py-2 pl-4 pr-3 text-sm text-gray-500 sm:pl-0">
                 <div className="text-right">
-                  <a
-                    href={position.link}
-                    className="text-sm font-semibold leading-6 text-orange px-4 py-2 rounded-lg bg-orange/10"
-                  >
-                    Start Stacking
-                  </a>
+                  <ButtonLink
+                    label="Start Stacking"
+                    link={position.link}
+                    target="_blank"
+                  />
                 </div>
               </td>
             </tr>

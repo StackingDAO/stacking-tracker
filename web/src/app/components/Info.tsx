@@ -44,7 +44,7 @@ export function Info() {
         href="https://www.stacks.co/learn/stacking"
         rel="noopener noreferrer"
         target="_blank"
-        className="inline-flex items-center justify-center gap-x-2 text-center w-full mt-4 p-3 rounded-md bg-gray hover:bg-gray/80 text-white text-sm md:text-base"
+        className="inline-flex items-center justify-center gap-x-2 text-center w-full mt-4 p-3 rounded-md bg-gray hover:bg-gray/70 focus:bg-gray-50 text-white text-sm md:text-base"
       >
         Learn more about Stacks <br className="block md:hidden" />
         Proof-of-Transfer

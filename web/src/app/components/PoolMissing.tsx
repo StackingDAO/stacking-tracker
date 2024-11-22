@@ -1,3 +1,5 @@
+import { ButtonLink } from "./ButtonLink";
+
 export function PoolMissing() {
   return (
     <div className="border border-white/10 rounded-lg overflow-hidden w-full mb-6 lg:mb-0">
@@ -8,12 +10,13 @@ export function PoolMissing() {
             If you don&apos;t see your pool, please contact us and we will add
             your pool to the overview.
           </p>
-          <a
-            className="block text-center md:text-left md:inline-block mt-6 text-sm font-semibold text-orange px-4 py-3 rounded-lg bg-orange/10"
-            href="https://discord.gg/bFU8JSnPP7"
-          >
-            Contact us
-          </a>
+
+          <div className="mt-6">
+            <ButtonLink
+              label="Contact us"
+              link="https://discord.gg/bFU8JSnPP7"
+            />
+          </div>
         </div>
         <div className="md:absolute md:top-1/2 md:right-4 md:-translate-y-1/2 flex justify-center mb-6 md:mb-0 md:block">
           <svg

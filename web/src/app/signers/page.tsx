@@ -5,6 +5,7 @@ import ChartBarStacked from "../components/ChartBarStacked";
 import { ToolTip } from "../components/Tooltip";
 import StxLogo from "../components/Logos/Stx";
 import BtcLogo from "../components/Logos/Btc";
+import { ButtonLink } from "../components/ButtonLink";
 
 export default async function Home() {
   const signersInfo = await api.get("/signers");
@@ -180,13 +181,10 @@ export default async function Home() {
                   </div>
                 </dl>
                 <div key={signer.slug}>
-                  <a
-                    key={signer.slug}
-                    href={`/signers/${signer.slug ?? signer.signer_key}`}
-                    className="mt-3 flex justify-center text-center text-sm font-semibold leading-6 text-orange px-4 py-2 rounded-lg bg-orange/10"
-                  >
-                    Signer Details
-                  </a>
+                  <ButtonLink
+                    label="Signer Details"
+                    link={`/signers/${signer.slug ?? signer.signer_key}`}
+                  />
                 </div>
               </div>
             ))}
@@ -223,13 +221,10 @@ export default async function Home() {
                 <div className="text-xs text-white/[0.35]">{`$${currency.rounded.format(signer.rewards_amount_usd)}`}</div>
               </div>,
               <div key={signer.slug} className="text-right">
-                <a
-                  key={signer.slug}
-                  href={`/signers/${signer.slug ?? signer.signer_key}`}
-                  className="text-sm font-semibold leading-6 text-orange px-4 py-2 rounded-lg bg-orange/10"
-                >
-                  Signer Details
-                </a>
+                <ButtonLink
+                  label="Signer Details"
+                  link={`/signers/${signer.slug ?? signer.signer_key}`}
+                />
               </div>,
             ])}
           />

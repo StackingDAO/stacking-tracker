@@ -5,6 +5,7 @@ import ChartBarStacked from "../components/ChartBarStacked";
 import { ToolTip } from "../components/Tooltip";
 import StxLogo from "../components/Logos/Stx";
 import BtcLogo from "../components/Logos/Btc";
+import { ButtonLink } from "../components/ButtonLink";
 
 export default async function Home() {
   const tokensInfo = await api.get("/tokens");
@@ -204,12 +205,10 @@ export default async function Home() {
                   </div>
                 </dl>
                 <div key={entity.slug}>
-                  <a
-                    href={`/tokens/${entity.slug}`}
-                    className="mt-3 flex justify-center text-center text-sm font-semibold leading-6 text-orange px-4 py-2 rounded-lg bg-orange/10"
-                  >
-                    LST details
-                  </a>
+                  <ButtonLink
+                    label="LST details"
+                    link={`/tokens/${entity.slug}`}
+                  />
                 </div>
               </div>
             ))}
@@ -262,12 +261,10 @@ export default async function Home() {
               </div>,
               `${currency.short.format(entity.apy)}%`,
               <div className="text-right" key={entity.slug}>
-                <a
-                  href={`/tokens/${entity.slug}`}
-                  className="text-sm font-semibold leading-6 text-orange px-4 py-2 rounded-lg bg-orange/10"
-                >
-                  LST details
-                </a>
+                <ButtonLink
+                  label="LST details"
+                  link={`/tokens/${entity.slug}`}
+                />
               </div>,
             ])}
           />

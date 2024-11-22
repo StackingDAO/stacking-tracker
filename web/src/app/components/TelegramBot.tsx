@@ -1,3 +1,5 @@
+import { ButtonLink } from "./ButtonLink";
+
 type TelegramBotProps = {
   extraCopy?: boolean;
 };
@@ -17,12 +19,13 @@ export function TelegramBot({ extraCopy }: TelegramBotProps) {
               No matter how you are stacking, we&apos;ve got you covered.
             </p>
           ) : null}
-          <a
-            className="block text-center md:text-left md:inline-block mt-6 text-sm font-semibold text-orange px-4 py-3 rounded-lg bg-orange/10"
-            href="https://t.me/stackingtracker_bot/"
-          >
-            Open Bot
-          </a>
+          <div className="mt-6">
+            <ButtonLink
+              label="Open Bot"
+              link="https://t.me/stackingtracker_bot/"
+              target="_blank"
+            />
+          </div>
         </div>
         <div className="-mb-[150px] md:-mb-[40px] md:-mt-[40px] flex justify-center md:-mr-[100px]">
           <svg
