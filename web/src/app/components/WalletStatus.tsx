@@ -132,7 +132,7 @@ export function WalletStatus() {
                   />
                 </svg>
               </div>
-              <p className="text-white">
+              <p className="text-white text-sm">
                 Connect your wallet to view your positions
               </p>
             </div>

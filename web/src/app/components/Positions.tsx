@@ -110,7 +110,7 @@ export function Positions({ positions }: { positions: any }) {
                   </div>
                 )}
               </dl>
-              <div key={position.name + "-link"} className="">
+              <div key={position.name + "-link"} className="mt-4">
                 <ButtonLink
                   label="Start Stacking"
                   link={position.link}
@@ -131,7 +131,7 @@ export function Positions({ positions }: { positions: any }) {
                 <tr className="[&>*:first-child]:rounded-l-md [&>*:first-child]:pl-4 [&>*:last-child]:rounded-r-md">
                   <th
                     scope="col"
-                    className="bg-gray whitespace-nowrap py-2 text-left text-sm font-normal text-white/[0.35] w-[300px]"
+                    className="bg-gray whitespace-nowrap py-2 text-left text-sm font-normal text-white/[0.35] w-[350px]"
                   >
                     Position
                   </th>
@@ -191,13 +191,13 @@ export function Positions({ positions }: { positions: any }) {
                   .filter(
                     (position: any) => !collapsed && position.type === "DeFi"
                   )
-                  .map((position: any) => (
+                  .map((position: any, index: number) => (
                     <PositionsRow
                       key={position.id}
                       position={position}
                       firstChild={
                         <div className="shrink-0 rounded-lg bg-transparent mr-3 w-10 h-10 flex items-center justify-center">
-                          <div className="w-1 h-[calc(100%+18px)] bg-orange/[0.25]" />
+                          <div className="w-1 h-[calc(100%+32px)] bg-orange/[0.25]" />
                         </div>
                       }
                     />

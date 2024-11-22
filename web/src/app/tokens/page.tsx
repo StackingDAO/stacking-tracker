@@ -163,7 +163,13 @@ export default async function Home() {
                       Stack Token Supply
                     </dt>
                     <dd>
-                      <div>{`${currency.rounded.format(entity.token_supply)} ${entity.name}`}</div>
+                      <div className="flex items-center gap-1">
+                        {`${currency.rounded.format(entity.token_supply)}`}
+                        <img
+                          src={entity.logo_token}
+                          className="w-3 h-3 inline"
+                        />
+                      </div>
                       <div className="text-xs text-white/[0.35]">{`$${currency.short.format(entity.token_mcap)}`}</div>
                     </dd>
                   </div>
@@ -204,7 +210,7 @@ export default async function Home() {
                     <dd>{currency.short.format(entity.apy)}%</dd>
                   </div>
                 </dl>
-                <div key={entity.slug}>
+                <div key={entity.slug} className="mt-4">
                   <ButtonLink
                     label="LST details"
                     link={`/tokens/${entity.slug}`}
@@ -242,7 +248,10 @@ export default async function Home() {
                 <img className="w-5 mr-2" src={entity.logo} /> {entity.entity}
               </div>,
               <div key={entity.name + "-token"}>
-                <div>{`${currency.rounded.format(entity.token_supply)} ${entity.name}`}</div>
+                <div className="flex items-center gap-1">
+                  {`${currency.rounded.format(entity.token_supply)}`}
+                  <img src={entity.logo_token} className="w-3 h-3 inline" />
+                </div>
                 <div className="text-xs text-white/[0.35]">{`$${currency.short.format(entity.token_mcap)}`}</div>
               </div>,
               <div key={entity.name + "-stacked"}>

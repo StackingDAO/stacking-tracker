@@ -30,16 +30,16 @@ export function PositionsRow({ firstChild, position }: Props) {
         <table className="w-full table-fixed">
           <tbody>
             <tr>
-              <td className="py-2 pl-6 text-sm text-gray-500 sm:pl-0 pr-12 w-[300px]">
+              <td className="my-2 pl-6 text-sm text-gray-500 sm:pl-0 pr-12 w-[350px]">
                 <div>
                   <div className="flex items-center">
                     {firstChild}
                     <img
-                      className="w-8 h-8 mr-3 mt-1"
+                      className="w-10 h-10 mr-3 mt-1"
                       alt=""
                       src={position.logo}
                     />
-                    <div className="flex flex-col">
+                    <div className="flex flex-col py-4">
                       <div className="font-semibold">{position.name}</div>
                       <div className="text-xs text-white/[0.35]">
                         {position.type}
@@ -48,7 +48,7 @@ export function PositionsRow({ firstChild, position }: Props) {
                   </div>
                 </div>
               </td>
-              <td className="whitespace-nowrap py-2 pl-4 pr-3 text-sm text-gray-500 sm:pl-0">
+              <td className="whitespace-nowrap my-2 pl-4 pr-3 text-sm text-gray-500 sm:pl-0">
                 <div>
                   <div className="flex items-center gap-2">
                     {`${currency.rounded.format(position.tvl)}`}

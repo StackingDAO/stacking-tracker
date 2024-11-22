@@ -180,7 +180,7 @@ export default async function Home() {
                     </dd>
                   </div>
                 </dl>
-                <div key={signer.slug}>
+                <div key={signer.slug} className="mt-4">
                   <ButtonLink
                     label="Signer Details"
                     link={`/signers/${signer.slug ?? signer.signer_key}`}

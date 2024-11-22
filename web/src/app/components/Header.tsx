@@ -54,7 +54,7 @@ export function Header() {
             className="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700"
           >
             <span className="sr-only">Open main menu</span>
-            <Bars3Icon aria-hidden="true" className="h-6 w-6" />
+            <Bars3Icon aria-hidden="true" className="h-6 w-6 text-orange" />
           </button>
         </div>
         <div className="hidden lg:flex">
@@ -92,7 +92,7 @@ export function Header() {
               className="-m-2.5 rounded-md p-2.5 text-gray-700"
             >
               <span className="sr-only">Close menu</span>
-              <XMarkIcon aria-hidden="true" className="h-6 w-6" />
+              <XMarkIcon aria-hidden="true" className="h-6 w-6 text-orange" />
             </button>
           </div>
           <div className="mt-6 flow-root">

@@ -184,7 +184,7 @@ export default async function Home() {
                     </dd>
                   </div>
                 </dl>
-                <div key={entity.slug}>
+                <div key={entity.slug} className="mt-4">
                   <ButtonLink
                     label="View rewards history"
                     link={`/pools/${entity.slug}`}

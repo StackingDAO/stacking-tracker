@@ -43,7 +43,7 @@ export function Table({ columnHeaders, rows }: Props) {
                 {row.map((rowItem, index) => (
                   <td
                     key={index}
-                    className="whitespace-nowrap py-2 pl-4 pr-3 text-sm text-gray-500 sm:pl-0"
+                    className="whitespace-nowrap py-3 pl-4 pr-3 text-sm text-gray-500 sm:pl-0"
                   >
                     {rowItem}
                   </td>
