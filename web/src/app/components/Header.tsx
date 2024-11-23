@@ -29,7 +29,7 @@ export function Header() {
     <header>
       <nav
         aria-label="Global"
-        className="mx-auto flex max-w-6xl items-center justify-between p-6 lg:px-8"
+        className="mx-auto top-0 z-50 flex max-w-6xl items-center justify-between p-6 lg:px-8"
       >
         <div className="flex items-center gap-x-6">
           <a href="/" className="-m-1.5 p-1.5">
@@ -53,30 +53,32 @@ export function Header() {
             ))}
           </div>
         </div>
-        <div className="flex lg:hidden">
-          <button
-            type="button"
-            onClick={() => setMobileMenuOpen(true)}
-            className="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700"
-          >
-            <span className="sr-only">Open main menu</span>
-            <Bars3Icon aria-hidden="true" className="h-6 w-6 text-orange" />
-          </button>
-        </div>
-        <div className="hidden lg:flex">
-          <div className="flex gap-x-4">
-            <div className="px-4 py-3 border border-white/10 rounded-lg flex items-center gap-1">
-              <StxLogo className="w-[14px] h-[14px] shrink-0" />
-              <p className="text-sm">
-                ${currency.short.format(Number(stxPrice))}
-              </p>
-            </div>
-            <div className="px-4 py-3 border border-white/10 rounded-lg flex items-center gap-1">
-              <BtcLogo className="w-[14px] h-[14px] shrink-0" />
-              <p className="text-sm">
-                ${currency.short.format(Number(btcPrice))}
-              </p>
-            </div>
+        <div className="flex gap-x-4">
+          <div className="px-4 py-3 border border-white/10 rounded-lg flex items-center gap-1">
+            <StxLogo className="w-[14px] h-[14px] shrink-0" />
+            <p className="text-sm">
+              ${currency.short.format(Number(stxPrice))}
+            </p>
+          </div>
+          <div className="px-4 py-3 border border-white/10 rounded-lg flex items-center gap-1">
+            <BtcLogo className="w-[14px] h-[14px] shrink-0" />
+            <p className="text-sm">
+              ${currency.short.format(Number(btcPrice))}
+            </p>
+          </div>
+          <div className="flex lg:hidden">
+            <button
+              type="button"
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              className="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700"
+            >
+              <span className="sr-only">Open main menu</span>
+              {mobileMenuOpen ? (
+                <XMarkIcon aria-hidden="true" className="h-6 w-6 text-orange" />
+              ) : (
+                <Bars3Icon aria-hidden="true" className="h-6 w-6 text-orange" />
+              )}
+            </button>
           </div>
         </div>
       </nav>
@@ -85,25 +87,10 @@ export function Header() {
         onClose={setMobileMenuOpen}
         className="lg:hidden"
       >
-        <div className="fixed inset-0 z-10" />
-        <DialogPanel className="fixed inset-y-0 right-0 z-10 w-full overflow-y-auto bg-black px-6 py-6 sm:max-w-sm">
-          <div className="flex items-center justify-between">
-            <a href="#" className="-m-1.5 p-1.5">
-              <span className="sr-only">Stacking Tracker</span>
-              <div className="w-10 h-10 bg-orange rounded-full" />
-            </a>
-            <button
-              type="button"
-              onClick={() => setMobileMenuOpen(false)}
-              className="-m-2.5 rounded-md p-2.5 text-gray-700"
-            >
-              <span className="sr-only">Close menu</span>
-              <XMarkIcon aria-hidden="true" className="h-6 w-6 text-orange" />
-            </button>
-          </div>
+        <DialogPanel className="fixed top-24 h-full right-0 z-10 w-full overflow-y-auto bg-black px-6 py-0">
           <div className="mt-8 flow-root">
             <div className="-my-6 divide-y divide-white/5">
-              <div className="space-y-2 py-6">
+              <div className="space-y-2">
                 {navigation.map((item) => (
                   <a
                     key={item.name}
@@ -119,22 +106,6 @@ export function Header() {
                     {item.name}
                   </a>
                 ))}
-              </div>
-              <div className="py-6">
-                <div className="flex gap-x-4">
-                  <div className="px-4 py-3 border border-white/10 rounded-lg flex items-center gap-1">
-                    <StxLogo className="w-[14px] h-[14px] shrink-0" />
-                    <p className="text-sm">
-                      ${currency.short.format(Number(stxPrice))}
-                    </p>
-                  </div>
-                  <div className="px-4 py-3 border border-white/10 rounded-lg flex items-center gap-1">
-                    <BtcLogo className="w-[14px] h-[14px] shrink-0" />
-                    <p className="text-sm">
-                      ${currency.short.format(Number(btcPrice))}
-                    </p>
-                  </div>
-                </div>
               </div>
             </div>
           </div>
