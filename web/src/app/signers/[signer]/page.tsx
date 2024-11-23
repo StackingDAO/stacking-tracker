@@ -111,7 +111,7 @@ const Home: FunctionComponent<Props> = async ({
 
                   <div key={info.cycle_number + "-apy"}>
                     <dt className="text-sm font-medium leading-6 text-white/50">
-                      APY
+                      Gross APY
                     </dt>
                     <dd>
                       {index === 0 ? (
@@ -161,7 +161,7 @@ const Home: FunctionComponent<Props> = async ({
               { title: "Cycle" },
               { title: "Stackers" },
               { title: "Stacked" },
-              { title: "APY" },
+              { title: "Gross APY" },
               { title: "Rewards" },
             ]}
             rows={signerInfo.cycles.map((info: any, index: number) => [

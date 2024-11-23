@@ -55,7 +55,7 @@ export function getPositions(pools: any, tokens: any, defi: any, solo: any) {
     id: "solo-stacking",
     name: "Solo Stacking",
     symbol: "STX",
-    logo: "/logos/default.webp",
+    logo: "/logos/stx.webp",
     tvl: solo.tvl,
     tvl_usd: solo.tvl_usd,
     apy: solo.apy,

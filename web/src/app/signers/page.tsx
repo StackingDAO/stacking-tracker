@@ -63,7 +63,7 @@ export default async function Home() {
       <h1 className="text-2xl mb-6 lg:hidden font-semibold">Stacks Signers</h1>
 
       <div className="p-4 border border-white/10 rounded-xl">
-        <div className="flex items-center gap-x-2">
+        <div className="flex items-center justify-between mb-4">
           <h2 className="ml-4 font-semibold text-xl">
             Cycle {lastCycleInfo.cycle_number}
           </h2>

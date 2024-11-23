@@ -6,7 +6,7 @@ export function PoolMissing() {
       <div className="md:flex md:justify-between relative">
         <div className="p-6 md:max-w-xs">
           <h4 className="font-semibold text-lg">Don&apos;t see your pool?</h4>
-          <p className="text-sm text-white/70 mt-4">
+          <p className="text-sm text-white/60 mt-4">
             If you don&apos;t see your pool, please contact us and we will add
             your pool to the overview.
           </p>

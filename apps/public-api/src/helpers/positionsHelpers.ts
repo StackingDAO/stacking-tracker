@@ -139,7 +139,7 @@ async function getStackerInfo(wallet: string) {
     return {
       id: "solo-stacking",
       name: "Solo Stacking",
-      logo: "/logos/default.webp",
+      logo: "/logos/stx.webp",
       amount: 0.0,
       delegated_amount: 0.0,
     };
@@ -151,7 +151,7 @@ async function getStackerInfo(wallet: string) {
     return {
       id: "solo-stacking",
       name: "Solo Stacking",
-      logo: "/logos/default.webp",
+      logo: "/logos/stx.webp",
       amount: lockedAmount,
       delegated_amount: 0.0,
     };

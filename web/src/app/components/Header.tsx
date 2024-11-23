@@ -10,6 +10,7 @@ import Link from "next/link";
 import { currency } from "@/app/common/utils";
 import StxLogo from "./Logos/Stx";
 import BtcLogo from "./Logos/Btc";
+import { classNames } from "../common/class-names";
 
 const navigation = [
   { name: "Stacking Overview", href: "/" },
@@ -40,7 +41,12 @@ export function Header() {
               <Link
                 key={item.name}
                 href={item.href}
-                className={`text-sm font-semibold leading-6 text-orange px-3 py-3 rounded-lg hover:bg-orange/[0.05] ${pathname === item.href || pathname.includes(item.href + "/") ? "bg-orange/10" : ""}`}
+                className={classNames(
+                  "text-sm font-semibold leading-6 px-3 py-3 rounded-lg hover:bg-orange/[0.05]",
+                  pathname === item.href || pathname.includes(item.href + "/")
+                    ? "bg-orange/10 text-orange"
+                    : "text-white/60"
+                )}
               >
                 {item.name}
               </Link>
@@ -95,14 +101,20 @@ export function Header() {
               <XMarkIcon aria-hidden="true" className="h-6 w-6 text-orange" />
             </button>
           </div>
-          <div className="mt-6 flow-root">
+          <div className="mt-8 flow-root">
             <div className="-my-6 divide-y divide-white/5">
               <div className="space-y-2 py-6">
                 {navigation.map((item) => (
                   <a
                     key={item.name}
                     href={item.href}
-                    className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                    className={classNames(
+                      "-mx-3 block rounded-lg px-3 py-2 text-xl font-semibold leading-7 text-gray-900 hover:bg-gray-50",
+                      pathname === item.href ||
+                        pathname.includes(item.href + "/")
+                        ? "text-orange"
+                        : "text-white/90"
+                    )}
                   >
                     {item.name}
                   </a>

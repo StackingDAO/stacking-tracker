@@ -52,7 +52,7 @@ export function ChooseWalletModal({
               leaveFrom="opacity-100 translate-y-0 sm:scale-100"
               leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
             >
-              <Dialog.Panel className="relative w-full px-4 pt-5 pb-4 overflow-hidden text-left transition-all transform bg-gray border border-white/10 shadow-xl rounded-2xl sm:my-8 sm:w-full sm:max-w-xl sm:p-12">
+              <Dialog.Panel className="relative w-full px-4 pt-5 pb-4 overflow-hidden text-left transition-all transform bg-gray border border-white/10 shadow-xl rounded-2xl sm:my-8 sm:w-full sm:max-w-xl sm:p-6">
                 <div>
                   <div>
                     <div className="flex items-center justify-between">

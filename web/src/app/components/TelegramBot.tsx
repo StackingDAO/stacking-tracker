@@ -10,12 +10,12 @@ export function TelegramBot({ extraCopy }: TelegramBotProps) {
       <div className="md:flex md:justify-between">
         <div className="p-6">
           <h4 className="font-semibold text-lg">Try out our Telegram Bot!</h4>
-          <p className="text-sm text-white/70 mt-4">
+          <p className="text-sm text-white/60 mt-4">
             Check up on your stacking positions and receive notifications when
             rewards come in.
           </p>
           {extraCopy ? (
-            <p className="text-sm mt-3">
+            <p className="text-sm mt-2">
               No matter how you are stacking, we&apos;ve got you covered.
             </p>
           ) : null}
