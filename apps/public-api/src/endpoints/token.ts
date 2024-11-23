@@ -49,7 +49,7 @@ async function getPoolsInfoForCycle(
     rewardAmount * (tokenStackedAmount / rewardStackedAmount);
 
   const previousStackedValue = tokenStackedAmount * stxPrice;
-  const previousRewardsValue = rewardAmount * btcPrice;
+  const previousRewardsValue = tokenRewardAmount * btcPrice;
   // 26 cycles per year
   const apr = (previousRewardsValue / previousStackedValue) * 26;
   const apy = (Math.pow(1 + apr / 26, 26) - 1) * 100.0;
