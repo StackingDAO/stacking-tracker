@@ -149,7 +149,7 @@ const Home: FunctionComponent<Props> = async ({ params: { token } }: Props) => {
               { title: "Gross APY" },
               { title: "Rewards" },
             ]}
-            rows={tokenInfo.cycles.reverse().map((info: any, index: number) => [
+            rows={tokenInfo.cycles.map((info: any, index: number) => [
               info.cycle_number,
               <div
                 key={info.cycle_number + "-stacked"}
