@@ -83,7 +83,7 @@ const Home: FunctionComponent<Props> = async ({
       </div>
 
       <div className="p-4 border border-white/10 rounded-xl mt-8">
-        <h2 className="text-lg font-semibold mb-4">Cycles overview</h2>
+        <h2 className="text-lg font-semibold mb-4">Cycles Overview</h2>
 
         <div className="lg:hidden">
           <div className="space-y-4 divide-y divide-white/10 [&>*:first-child]:pt-0">
@@ -127,7 +127,7 @@ const Home: FunctionComponent<Props> = async ({
 
                   <div key={info.cycle_number + "-rewards"}>
                     <dt className="text-sm font-medium leading-6 text-white/50">
-                      Rewards to far
+                      Rewards
                     </dt>
                     <dd>
                       {index === 0 ? (

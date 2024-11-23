@@ -27,9 +27,9 @@ export default async function Home() {
   });
 
   const colors: { [key: string]: string } = {
-    "Fast Pool": "#9B4069",
-    Planbetter: "#357576",
-    StackingDAO: "#FC6432",
+    "Fast Pool": "#367576",
+    Planbetter: "#6C8E22",
+    StackingDAO: "#80341B",
     Xverse: "#9B4069",
     Kiln: "#5E3A7A",
   };
@@ -76,7 +76,7 @@ export default async function Home() {
           <dl className="grid grid-cols-1 gap-4 sm:grid-cols-3">
             <div className="p-4 rounded-md bg-gray">
               <dt className="text-sm font-medium leading-6 text-white/50">
-                Total signers
+                Total Signers
               </dt>
               <dd className="text-lg text-white">
                 {signersInfo.entities.length}
@@ -85,7 +85,7 @@ export default async function Home() {
 
             <div className="p-4 rounded-md bg-gray">
               <dt className="text-sm font-medium leading-6 text-white/50">
-                Total stacked
+                Total Stacked
               </dt>
               <dd className="text-lg text-white">
                 <div className=" inline-flex items-center w-full text-lg font-medium leading-6 text-white gap-x-1">
@@ -101,7 +101,7 @@ export default async function Home() {
             <div className="p-4 rounded-md bg-gray">
               <dt className="text-sm font-medium leading-6 text-white/50">
                 <div className="flex items-center gap-1">
-                  Total rewards so far
+                  Total Rewards So Far
                   <ToolTip
                     id="tooltip_rewards"
                     text={
@@ -182,7 +182,7 @@ export default async function Home() {
                 </dl>
                 <div key={signer.slug} className="mt-4">
                   <ButtonLink
-                    label="Signer Details"
+                    label="View Signer History"
                     link={`/signers/${signer.slug ?? signer.signer_key}`}
                   />
                 </div>
@@ -222,7 +222,7 @@ export default async function Home() {
               </div>,
               <div key={signer.slug} className="text-right">
                 <ButtonLink
-                  label="Signer Details"
+                  label="View Signer History"
                   link={`/signers/${signer.slug ?? signer.signer_key}`}
                 />
               </div>,

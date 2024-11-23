@@ -39,7 +39,7 @@ async function getStackerInfo(wallet: string) {
   if (stackerInfoRaw && !stackerInfoRaw["delegated-to"]?.value) {
     return {
       name: "Solo Stacking",
-      logo: "/logos/default.webp",
+      logo: "/logos/stx.webp",
       amount: lockedAmount,
     };
   }

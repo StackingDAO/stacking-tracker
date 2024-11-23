@@ -155,3 +155,18 @@ export function shortAddress(address) {
   const lastPart = address.slice(-4);
   return `${firstPart}...${lastPart}`;
 }
+
+export function numberToDaysAndHours(number) {
+  const days = Math.floor(number);
+  const hours = Math.floor((number - days) * 24);
+
+  if (days === 0 && hours === 0) {
+    return "1 Hour";
+  }
+
+  const dayString = days > 0 ? `${days} ${days === 1 ? "Day" : "Days"}` : "";
+  const hourString =
+    hours > 0 ? `${hours} ${hours === 1 ? "Hour" : "Hours"}` : "";
+
+  return [dayString, hourString].filter(Boolean).join(", ");
+}

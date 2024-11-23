@@ -1,7 +1,7 @@
 import { FunctionComponent } from "react";
 import { Table } from "./components/Table";
 import * as api from "./common/public-api";
-import { currency } from "@/app/common/utils";
+import { currency, numberToDaysAndHours } from "@/app/common/utils";
 import ChartBarStacked from "@/app/components/ChartBarStacked";
 import { ToolTip } from "./components/Tooltip";
 import StxLogo from "./components/Logos/Stx";
@@ -54,7 +54,7 @@ const Home: FunctionComponent<Props> = async ({ params: { pool } }: Props) => {
   return (
     <div className="flex flex-col">
       <h1 className="text-2xl mb-6 lg:hidden font-semibold">
-        Stacking overview
+        Stacking Overview
       </h1>
       <div className="lg:flex gap-8">
         <div className="lg:w-5/12 flex flex-col gap-6">
@@ -90,7 +90,7 @@ const Home: FunctionComponent<Props> = async ({ params: { pool } }: Props) => {
               </div>
               <div className="p-4 rounded-md bg-gray">
                 <dt className="text-sm font-medium leading-6 text-white/50 flex gap-1 items-center">
-                  BTC rewards so far
+                  BTC Rewards So Far
                   <ToolTip
                     id="tooltip_btc_reward_so_far"
                     text={
@@ -118,11 +118,11 @@ const Home: FunctionComponent<Props> = async ({ params: { pool } }: Props) => {
                   Started
                 </dt>
                 <dd className="w-full text-lg font-medium leading-6 text-white">
-                  ~
+                  ~{" "}
                   {currency.rounded.format(
                     poxInfo.current_cycle.started_days_ago
                   )}{" "}
-                  days ago
+                  Days Ago
                   <p className="text-sm text-white/[0.35]">
                     {getFormattedDate(-poxInfo.current_cycle.started_days_ago)}
                   </p>
@@ -133,8 +133,9 @@ const Home: FunctionComponent<Props> = async ({ params: { pool } }: Props) => {
                   Ends in
                 </dt>
                 <dd className="w-full text-lg font-medium leading-6 text-white">
-                  ~{currency.rounded.format(poxInfo.current_cycle.ends_in_days)}{" "}
-                  days
+                  ~{" "}
+                  {currency.rounded.format(poxInfo.current_cycle.ends_in_days)}{" "}
+                  Days
                   <p className="text-sm text-white/[0.35]">
                     {getFormattedDate(poxInfo.current_cycle.ends_in_days)}
                   </p>
@@ -156,7 +157,7 @@ const Home: FunctionComponent<Props> = async ({ params: { pool } }: Props) => {
               <div className="p-4 rounded-md bg-gray">
                 <dt className="text-sm font-medium leading-6 text-white/50">
                   <div className="flex items-center gap-1">
-                    Prepare phase in
+                    Prepare Phase In
                     <ToolTip
                       id="tooltip_prepare_phase"
                       text={
@@ -166,11 +167,7 @@ const Home: FunctionComponent<Props> = async ({ params: { pool } }: Props) => {
                   </div>
                 </dt>
                 <dd>
-                  ~
-                  {currency.rounded.format(
-                    poxInfo.next_cycle.starts_in_days - 1
-                  )}{" "}
-                  days
+                  ~ {numberToDaysAndHours(poxInfo.next_cycle.starts_in_days)}
                   <p className="text-sm text-white/[0.35] mt-0.5">
                     Block #{poxInfo.next_cycle.prepare_phase_start_block}
                   </p>
@@ -179,7 +176,7 @@ const Home: FunctionComponent<Props> = async ({ params: { pool } }: Props) => {
               <div className="p-4 rounded-md bg-gray">
                 <dt className="text-sm font-medium leading-6 text-white/50">
                   <div className="flex items-center gap-1">
-                    Rewards phase in
+                    Rewards Phase In
                     <ToolTip
                       id="tooltip_reward_phase"
                       text={
@@ -189,8 +186,8 @@ const Home: FunctionComponent<Props> = async ({ params: { pool } }: Props) => {
                   </div>
                 </dt>
                 <dd>
-                  ~{currency.rounded.format(poxInfo.next_cycle.starts_in_days)}{" "}
-                  days
+                  ~ {currency.rounded.format(poxInfo.next_cycle.starts_in_days)}{" "}
+                  Days
                   <p className="text-sm text-white/[0.35] mt-0.5">
                     Block #{poxInfo.next_cycle.reward_phase_start_block}
                   </p>
@@ -215,7 +212,7 @@ const Home: FunctionComponent<Props> = async ({ params: { pool } }: Props) => {
 
       <div className="p-4 border border-white/10 rounded-xl mt-8">
         <div className="lg:hidden">
-          <h2 className="text-xl font-semibold">Stacking cycles overview</h2>
+          <h2 className="text-xl font-semibold">Stacking Cycles Overview</h2>
           <div className="space-y-6 divide-y divide-white/10">
             {poxInfo.cycles.reverse().map((info: any, index: number) => (
               <dl

@@ -44,7 +44,7 @@ export function ButtonWebsite({ label, link }: Props) {
         </defs>
       </svg>
 
-      {label}
+      {label.replaceAll("https://www.", "").replaceAll("https://", "")}
     </a>
   );
 }

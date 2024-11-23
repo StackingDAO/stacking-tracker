@@ -26,7 +26,7 @@ export default async function Home() {
     borderColor: "rgba(247, 147, 26, 1)",
   });
 
-  const colors = ["rgba(46, 125, 89, 0.5)", "rgba(252, 100, 50, 0.5)"];
+  const colors = ["rgba(252, 100, 50, 0.5)", "#2E7D59"];
   for (const activePool of activePools) {
     const data: any[] = [];
 
@@ -76,7 +76,7 @@ export default async function Home() {
 
             <div className="p-4 rounded-md bg-gray">
               <dt className="text-sm font-medium leading-6 text-white/50">
-                Total stacked in LSTs
+                Total Stacked in LSTs
               </dt>
               <dd className="text-lg text-white">
                 <div className=" inline-flex items-center w-full text-lg font-medium leading-6 text-white gap-x-1">
@@ -92,7 +92,7 @@ export default async function Home() {
             <div className="p-4 rounded-md bg-gray">
               <dt className="text-sm font-medium leading-6 text-white/50">
                 <div className="flex items-center gap-1">
-                  Total rewards so far
+                  Total Rewards So Far
                   <ToolTip
                     id="tooltip_rewards"
                     text={
@@ -135,7 +135,7 @@ export default async function Home() {
                       LST
                     </dt>
                     <dd>
-                      <div className="flex font-semibold">
+                      <div className="flex font-semibold items-center">
                         <img
                           className="shrink-0 h-5 w-5 mr-2"
                           src={entity.logo_token}
@@ -149,7 +149,7 @@ export default async function Home() {
                       Entity
                     </dt>
                     <dd>
-                      <div className="flex">
+                      <div className="flex items-center">
                         <img
                           className="shrink-0 h-5 w-5 mr-2"
                           src={entity.logo}
@@ -212,7 +212,7 @@ export default async function Home() {
                 </dl>
                 <div key={entity.slug} className="mt-4">
                   <ButtonLink
-                    label="LST details"
+                    label="View LST History"
                     link={`/tokens/${entity.slug}`}
                   />
                 </div>
@@ -226,7 +226,7 @@ export default async function Home() {
             columnHeaders={[
               { title: "LST" },
               { title: "Entity" },
-              { title: "Token Supply / Mcap" },
+              { title: "Stack Token Supply" },
               { title: "Stacked" },
               {
                 title: "Rewards",
@@ -271,7 +271,7 @@ export default async function Home() {
               `${currency.short.format(entity.apy)}%`,
               <div className="text-right" key={entity.slug}>
                 <ButtonLink
-                  label="LST details"
+                  label="View LST History"
                   link={`/tokens/${entity.slug}`}
                 />
               </div>,

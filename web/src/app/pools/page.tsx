@@ -25,6 +25,7 @@ export default async function Home() {
   });
 
   const colors: { [key: string]: string } = {
+    "Xverse Pool": "#2E7D59",
     "Fast Pool": "#9B4069",
     "Planbetter Pool": "#357576",
   };
@@ -44,7 +45,7 @@ export default async function Home() {
     datasets.push({
       label: activePool.name,
       data: data,
-      backgroundColor: colors[activePool.name] ?? "#2E7D59",
+      backgroundColor: colors[activePool.name] ?? "#80341B",
     });
   }
 
@@ -71,7 +72,7 @@ export default async function Home() {
           <dl className="grid grid-cols-1 gap-4 sm:grid-cols-3">
             <div className="p-4 rounded-md bg-gray">
               <dt className="text-sm font-medium leading-6 text-white/50">
-                Total public pools
+                Total Public Pools
               </dt>
               <dd className="text-lg text-white">
                 {lastCycleInfo.pools.length}
@@ -80,7 +81,7 @@ export default async function Home() {
 
             <div className="p-4 rounded-md bg-gray">
               <dt className="text-sm font-medium leading-6 text-white/50">
-                Total stacked in stacking pools
+                Total Stacked in Stacking Pools
               </dt>
               <dd className="text-lg text-white">
                 <div className=" inline-flex items-center w-full text-lg font-medium leading-6 text-white gap-x-1">
@@ -96,7 +97,7 @@ export default async function Home() {
             <div className="p-4 rounded-md bg-gray">
               <dt className="text-sm font-medium leading-6 text-white/50">
                 <div className="flex items-center gap-1">
-                  Total rewards so far
+                  Total Rewards So Far
                   <ToolTip
                     id="tooltip_rewards"
                     text={
@@ -139,8 +140,11 @@ export default async function Home() {
                       Pool
                     </dt>
                     <dd>
-                      <div key={entity.name} className="flex font-semibold">
-                        <img className="w-5 mr-2" src={entity.logo} />
+                      <div
+                        key={entity.name}
+                        className="flex font-semibold items-center"
+                      >
+                        <img className="w-5 h-5 mr-2" src={entity.logo} />
                         {entity.name}
                       </div>
                     </dd>
@@ -162,7 +166,7 @@ export default async function Home() {
                     <dd>
                       <div className="flex items-center gap-x-1">
                         {currency.rounded.format(entity.stacked_amount)}
-                        <StxLogo className="w-[18px] h-[18px] shrink-0" />
+                        <StxLogo className="w-3 h-3 shrink-0" />
                       </div>
                       <div className="text-xs text-white/[0.35]">{`$${currency.rounded.format(entity.stacked_amount_usd)}`}</div>
                     </dd>
@@ -178,7 +182,7 @@ export default async function Home() {
                     <dd>
                       <div className="flex items-center gap-x-1">
                         {currency.short.format(entity.rewards_amount)}
-                        <BtcLogo className="w-[18px] h-[18px] shrink-0" />
+                        <BtcLogo className="w-3 h-3 shrink-0" />
                       </div>
                       <div className="text-xs text-white/[0.35]">{`$${currency.rounded.format(entity.rewards_amount_usd)}`}</div>
                     </dd>
@@ -186,7 +190,7 @@ export default async function Home() {
                 </dl>
                 <div key={entity.slug} className="mt-4">
                   <ButtonLink
-                    label="View rewards history"
+                    label="View Rewards History"
                     link={`/pools/${entity.slug}`}
                   />
                 </div>
@@ -230,7 +234,7 @@ export default async function Home() {
               `${currency.short.format(entity.apy)}%`,
               <div key={entity.slug} className="text-right">
                 <ButtonLink
-                  label="View rewards history"
+                  label="View Rewards History"
                   link={`/pools/${entity.slug}`}
                 />
               </div>,
