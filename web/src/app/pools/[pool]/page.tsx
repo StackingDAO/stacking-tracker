@@ -106,7 +106,7 @@ const Home: FunctionComponent<Props> = async ({ params: { pool } }: Props) => {
                   </div>
                   <div key={info.cycle_number + "-rewards"}>
                     <dt className="text-sm font-medium leading-6 text-white/50">
-                      BTC Rewards So Far
+                      Rewards
                     </dt>
                     <dd>
                       {index === 0 ? (
