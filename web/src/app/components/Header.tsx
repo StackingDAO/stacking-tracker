@@ -53,7 +53,21 @@ export function Header() {
             ))}
           </div>
         </div>
-        <div className="flex lg:hidden">
+        <div className="flex items-center gap-x-4 lg:hidden">
+          <div className="flex gap-x-2">
+            <div className="px-4 py-3 border border-white/10 rounded-lg flex items-center gap-1">
+              <StxLogo className="w-[14px] h-[14px] shrink-0" />
+              <p className="text-sm">
+                ${currency.short.format(Number(stxPrice))}
+              </p>
+            </div>
+            <div className="px-4 py-3 border border-white/10 rounded-lg flex items-center gap-1">
+              <BtcLogo className="w-[14px] h-[14px] shrink-0" />
+              <p className="text-sm">
+                ${currency.short.format(Number(btcPrice))}
+              </p>
+            </div>
+          </div>
           <button
             type="button"
             onClick={() => setMobileMenuOpen(true)}
@@ -92,24 +106,40 @@ export function Header() {
               <span className="sr-only">Stacking Tracker</span>
               <div className="w-10 h-10 bg-orange rounded-full" />
             </a>
-            <button
-              type="button"
-              onClick={() => setMobileMenuOpen(false)}
-              className="-m-2.5 rounded-md p-2.5 text-gray-700"
-            >
-              <span className="sr-only">Close menu</span>
-              <XMarkIcon aria-hidden="true" className="h-6 w-6 text-orange" />
-            </button>
+            <div className="flex items-center gap-x-4">
+              <div className="flex gap-x-2">
+                <div className="px-4 py-2 border border-white/10 rounded-lg flex items-center gap-1">
+                  <StxLogo className="w-[14px] h-[14px] shrink-0" />
+                  <p className="text-sm">
+                    ${currency.short.format(Number(stxPrice))}
+                  </p>
+                </div>
+                <div className="px-4 py-2 border border-white/10 rounded-lg flex items-center gap-1">
+                  <BtcLogo className="w-[14px] h-[14px] shrink-0" />
+                  <p className="text-sm">
+                    ${currency.short.format(Number(btcPrice))}
+                  </p>
+                </div>
+              </div>
+              <button
+                type="button"
+                onClick={() => setMobileMenuOpen(false)}
+                className="-m-2.5 rounded-md p-2.5 text-gray-700"
+              >
+                <span className="sr-only">Close menu</span>
+                <XMarkIcon aria-hidden="true" className="h-6 w-6 text-orange" />
+              </button>
+            </div>
           </div>
           <div className="mt-8 flow-root">
-            <div className="-my-6 divide-y divide-white/5">
+            <div className="-my-6">
               <div className="space-y-2 py-6">
                 {navigation.map((item) => (
                   <a
                     key={item.name}
                     href={item.href}
                     className={classNames(
-                      "-mx-3 block rounded-lg px-3 py-2 text-xl font-semibold leading-7 text-gray-900 hover:bg-gray-50",
+                      "-mx-3 block rounded-lg px-3 py-2 text-2xl font-semibold leading-7 text-gray-900 hover:bg-gray-50",
                       pathname === item.href ||
                         pathname.includes(item.href + "/")
                         ? "text-orange"
@@ -119,22 +149,6 @@ export function Header() {
                     {item.name}
                   </a>
                 ))}
-              </div>
-              <div className="py-6">
-                <div className="flex gap-x-4">
-                  <div className="px-4 py-3 border border-white/10 rounded-lg flex items-center gap-1">
-                    <StxLogo className="w-[14px] h-[14px] shrink-0" />
-                    <p className="text-sm">
-                      ${currency.short.format(Number(stxPrice))}
-                    </p>
-                  </div>
-                  <div className="px-4 py-3 border border-white/10 rounded-lg flex items-center gap-1">
-                    <BtcLogo className="w-[14px] h-[14px] shrink-0" />
-                    <p className="text-sm">
-                      ${currency.short.format(Number(btcPrice))}
-                    </p>
-                  </div>
-                </div>
               </div>
             </div>
           </div>
