@@ -170,6 +170,19 @@ export const signerKeyToPool = {
     logo: "/logos/xverse.webp",
     website: "https://xverse-pool.com",
   },
+  "0x02877ce29ba35458b827a6ea18510b9058ae4c30e2c33d288f2982c13497caec6e": {
+    name: "Xverse",
+    slug: "xverse",
+    logo: "/logos/xverse.webp",
+    website: "https://xverse-pool.com",
+  },
+  "0x03b3b78738abbdc573cdcefd8200b1bca999e2f2fd8ecdf70c64ced1e4105437b7": {
+    name: "Xverse",
+    slug: "xverse",
+    logo: "/logos/xverse.webp",
+    website: "https://xverse-pool.com",
+  },
+
   "0x023d6ecdc36fa1e1c6a9f116c7f13ae843001ed9d617f66f6c68cabf751bf82555": {
     name: "Fast Pool",
     slug: "fast-pool",
