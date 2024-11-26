@@ -1,7 +1,7 @@
 import { Router, Request, Response } from "express";
 import * as db from "@repo/database";
 import { poxAddressToPool } from "../constants";
-import { fetchPrice } from "../prices";
+import { fetchCyclePrices } from "../prices";
 
 async function getPoolsInfoForCycle(
   cycleNumber: number,
@@ -52,15 +52,21 @@ router.get("/:slug", async (req: Request, res: Response) => {
     (key: string) => poxAddressToPool[key].slug === slug
   )[0];
 
-  const [currentCycle, stxPrice, btcPrice] = await Promise.all([
+  const [currentCycle, prices] = await Promise.all([
     db.getSignersLatestCycle(),
-    fetchPrice("STX"),
-    fetchPrice("BTC"),
+    fetchCyclePrices(84),
   ]);
 
   const promises: any[] = [];
-  for (let cycle = currentCycle; cycle > 83; cycle--) {
-    promises.push(getPoolsInfoForCycle(cycle, poxAddress, stxPrice, btcPrice));
+  for (let cycle = currentCycle; cycle >= 84; cycle--) {
+    promises.push(
+      getPoolsInfoForCycle(
+        cycle,
+        poxAddress,
+        prices[cycle].stx,
+        prices[cycle].btc
+      )
+    );
   }
 
   const results = await Promise.all(promises);
