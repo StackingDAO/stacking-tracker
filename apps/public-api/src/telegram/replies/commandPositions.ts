@@ -53,16 +53,42 @@ export class CommandPositions extends RepliesHandler {
     );
     const wallet = telegramChat?.addresses;
 
-    const positions = wallet
-      ? await getPoxUserPositions(wallet)
-      : await getPoxPositions();
+    if (!wallet) {
+      const replyMessage =
+        "<b>Add your wallet to view your balances.</b>%0A%0A";
 
-    let replyMessage = wallet
-      ? `<b>${wallet}</b>%0A%0A`
-      : `<b>Add your wallet to view your balances.</b>%0A%0A`;
+      const options = [
+        [
+          {
+            text: "← Back",
+            callback_data: JSON.stringify({ command: "/start" }),
+          },
+          {
+            text: "Add Wallet →",
+            callback_data: JSON.stringify({ action: "update-wallet" }),
+          },
+        ],
+      ];
+
+      sendMessageOptions(
+        message.message?.chat?.id ?? message.callback_query?.from?.id,
+        replyMessage,
+        options
+      );
+
+      return true;
+    }
+
+    const positions = await getPoxUserPositions(wallet);
+
+    const filteredPositions = positions.filter(
+      (position: any) => position.balance > 0
+    );
+
+    let replyMessage = `<b>${wallet}</b>%0A%0A`;
 
     var totalBalanceUsd = 0.0;
-    positions.forEach((position: any) => {
+    filteredPositions.forEach((position: any) => {
       replyMessage += `<a href='${position.link}'><b>${position.name} - APY: ${currency.short.format(position.apy)}% </b></a>%0A`;
 
       if (position.balance > 0) {
@@ -89,15 +115,6 @@ export class CommandPositions extends RepliesHandler {
         },
       ],
     ];
-
-    if (!wallet) {
-      options.push([
-        {
-          text: "Add Wallet →",
-          callback_data: JSON.stringify({ action: "update-wallet" }),
-        },
-      ]);
-    }
 
     sendMessageOptions(
       message.message?.chat?.id ?? message.callback_query?.from?.id,
