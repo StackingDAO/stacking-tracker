@@ -3,6 +3,7 @@ FROM --platform=linux/amd64 node:20.17.0 AS builder
 USER node
 
 RUN mkdir -p /home/node/app
+RUN mkdir -p /home/node/.npm
 
 WORKDIR /home/node/app
 
