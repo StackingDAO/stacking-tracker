@@ -6,6 +6,7 @@ import {
   getPoxPositions,
   getPoxUserPositions,
 } from "../../helpers/positionsHelpers";
+import { isValidStacksAddress } from "@repo/stacks";
 
 export class CommandPositions extends RepliesHandler {
   canHandleMessage(message: any) {
@@ -53,7 +54,7 @@ export class CommandPositions extends RepliesHandler {
     );
     const wallet = telegramChat?.addresses;
 
-    if (!wallet) {
+    if (!wallet || !isValidStacksAddress(wallet)) {
       const replyMessage =
         "<b>Add your wallet to view your balances.</b>%0A%0A";
 

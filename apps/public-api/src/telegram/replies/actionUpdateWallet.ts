@@ -1,3 +1,4 @@
+import { isValidStacksAddress } from "@repo/stacks";
 import { sendMessageOptions, sendMessageReply } from "../api";
 import { RepliesHandler } from "../repliesHandler";
 import * as db from "@repo/database";
@@ -41,6 +42,28 @@ export class ActionUpdateWallet extends RepliesHandler {
   async handleMessageValue(message: any) {
     const userId =
       message.message?.chat?.id ?? message.callback_query?.from?.id;
+
+    if (!isValidStacksAddress(message.message.text)) {
+      const options = [
+        [
+          {
+            text: "← Back",
+            callback_data: JSON.stringify({ command: "/start" }),
+          },
+        ],
+        [
+          {
+            text: "Update Wallet →",
+            callback_data: JSON.stringify({ action: "update-wallet" }),
+          },
+        ],
+      ];
+
+      const replyMessage = `The address you entered is invalid.%0A`;
+      await sendMessageOptions(userId, replyMessage, options);
+
+      return;
+    }
 
     await db.saveChat(userId, message.message.text);
 
