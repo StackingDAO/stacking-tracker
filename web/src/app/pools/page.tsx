@@ -37,9 +37,7 @@ export default async function Home() {
         (pool: any) => pool.name == activePool.name
       )[0];
 
-      if (poolInfo) {
-        data.push(poolInfo.stacked_amount);
-      }
+      data.push(poolInfo ? poolInfo.stacked_amount : 0);
     }
 
     datasets.push({

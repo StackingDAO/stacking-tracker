@@ -30,20 +30,21 @@ export default async function Home() {
     "Fast Pool": "#367576",
     Planbetter: "#6C8E22",
     StackingDAO: "#80341B",
-    Xverse: "#9B4069",
-    Kiln: "#5E3A7A",
+    "Xverse #1": "#9B4069",
+    "Xverse #2": "#9B4069",
+    "Xverse #3": "#9B4069",
+    "Kiln #1": "#5E3A7A",
+    "Kiln #2": "#5E3A7A",
   };
 
   for (const activeSigner of activeSigners) {
     const data: any[] = [];
     for (const cycleInfo of signersInfo.cycles) {
       const signerInfo = cycleInfo.signers.filter(
-        (signer: any) => signer.name == activeSigner.name
+        (signer: any) => signer.name === activeSigner.name
       )[0];
 
-      if (signerInfo) {
-        data.push(signerInfo.stacked_amount);
-      }
+      data.push(signerInfo ? signerInfo.stacked_amount : 0);
     }
 
     datasets.push({

@@ -51,10 +51,11 @@ export function getSignersInfoForCycle(
   });
 
   const resultAggregatedSigners: { [key: string]: any } = {};
+
   for (const signer of resultSigners) {
     const group = signer.group
       ? signer.group
-      : signer.name && signer.stacked_amount > 1000000
+      : signer.name && signer.stacked_amount > 10_000_000
         ? signer.name
         : "Other";
 
@@ -87,7 +88,10 @@ export function getSignersInfoForCycle(
           rewards_amount: resultAggregatedSigners[key].rewardsAmount,
         };
       })
-      .sort((a, b) => b.stacked_amount - a.stacked_amount),
+      .sort((a, b) =>
+        // Fast Pool on top to make sure chart is rounded
+        b.name === "Fast Pool" ? -1 : b.stacked_amount - a.stacked_amount
+      ),
   };
 }
 
