@@ -7,6 +7,15 @@ import StxLogo from "../components/Logos/Stx";
 import BtcLogo from "../components/Logos/Btc";
 import { ButtonLink } from "../components/ButtonLink";
 
+export async function generateMetadata() {
+  const tokensInfo = await api.get("/tokens");
+  const lastCycle = tokensInfo.cycles[tokensInfo.cycles.length - 1];
+  return {
+    title: `Stacking Tracker - LSTs`,
+    description: `All your data needs on LSTs on Stacks! In total ${currency.rounded.format(lastCycle.stacked_amount)} STX is stacked in cycle ${lastCycle.cycle_number} by ${tokensInfo.entities.length} LSTs.`,
+  };
+}
+
 export default async function Home() {
   const tokensInfo = await api.get("/tokens");
 

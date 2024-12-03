@@ -14,6 +14,14 @@ type Props = {
   };
 };
 
+export async function generateMetadata() {
+  const poxInfo = await api.get(`/pox`);
+  return {
+    title: `Stacking Tracker - Cycle ${poxInfo.current_cycle.cycle_number}`,
+    description: `All your data needs on PoX, LSTs, Pools and Signers on Stacks! In total ${currency.rounded.format(poxInfo.current_cycle.stacked_amount)} STX is stacked in cycle ${poxInfo.current_cycle.cycle_number}. The current cycle ends in ${currency.rounded.format(poxInfo.current_cycle.ends_in_days)} days.`,
+  };
+}
+
 const Home: FunctionComponent<Props> = async ({ params: { pool } }: Props) => {
   const poxInfo = await api.get(`/pox`);
   const chartLabels = poxInfo.cycles.map((info: any) => info.cycle_number);

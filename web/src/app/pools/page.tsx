@@ -7,6 +7,15 @@ import StxLogo from "../components/Logos/Stx";
 import BtcLogo from "../components/Logos/Btc";
 import { ButtonLink } from "../components/ButtonLink";
 
+export async function generateMetadata() {
+  const poolsInfo = await api.get("/pools");
+  const lastCycle = poolsInfo.cycles[poolsInfo.cycles.length - 1];
+  return {
+    title: `Stacking Tracker - Pools`,
+    description: `All your data needs on stacking pools on Stacks! In total ${currency.rounded.format(lastCycle.stacked_amount)} STX is stacked in cycle ${lastCycle.cycle_number} by ${poolsInfo.entities.length} stacking pools.`,
+  };
+}
+
 export default async function Home() {
   const poolsInfo = await api.get("/pools");
 

@@ -14,6 +14,15 @@ type Props = {
   };
 };
 
+export async function generateMetadata({ params: { pool } }: Props) {
+  const poolInfo = await api.get(`/pool/${pool}`);
+  const lastCycle = poolInfo.cycles[poolInfo.cycles.length - 1];
+  return {
+    title: `Stacking Tracker - Pool - ${poolInfo.name}`,
+    description: `${poolInfo.name} is stacking ${currency.rounded.format(lastCycle.stacked_amount)} STX in cycle ${lastCycle.cycle_number}.`,
+  };
+}
+
 const Home: FunctionComponent<Props> = async ({ params: { pool } }: Props) => {
   const poolInfo = await api.get(`/pool/${pool}`);
 

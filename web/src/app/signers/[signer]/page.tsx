@@ -15,6 +15,16 @@ type Props = {
   };
 };
 
+export async function generateMetadata({ params: { signer } }: Props) {
+  const signerInfo = await api.get(`/signer/${signer}`);
+  const lastCycle = signerInfo.cycles[signerInfo.cycles.length - 1];
+  const signerName = signerInfo.name ?? shortAddress(signerInfo.signer_key);
+  return {
+    title: `Stacking Tracker - Signer - ${signerName}`,
+    description: `Signer '${signerName}' is stacking ${currency.rounded.format(lastCycle.stacked_amount)} STX in cycle ${lastCycle.cycle_number}.`,
+  };
+}
+
 const Home: FunctionComponent<Props> = async ({
   params: { signer },
 }: Props) => {

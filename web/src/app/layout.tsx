@@ -60,10 +60,6 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   }, []);
 
   useEffect(() => {
-    document.title = "Stacking Tracker";
-    document.description =
-      "All your data needs on PoX, Signers and Miners on Stacks!";
-
     setIsClient(true);
   }, []);
 

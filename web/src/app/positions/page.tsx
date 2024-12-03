@@ -9,6 +9,14 @@ type Props = {
   };
 };
 
+export async function generateMetadata() {
+  return {
+    title: `Stacking Tracker - Positions`,
+    description:
+      "All your PoX positions on Stacks in one simple overview! Connect your wallet to view your balances.",
+  };
+}
+
 const Home: FunctionComponent<Props> = async ({ params: { pool } }: Props) => {
   const positionsInfo = await api.get(`/positions`);
 

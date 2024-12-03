@@ -7,6 +7,15 @@ import StxLogo from "../components/Logos/Stx";
 import BtcLogo from "../components/Logos/Btc";
 import { ButtonLink } from "../components/ButtonLink";
 
+export async function generateMetadata() {
+  const signersInfo = await api.get("/signers");
+  const lastCycle = signersInfo.cycles[signersInfo.cycles.length - 1];
+  return {
+    title: `Stacking Tracker - Signers`,
+    description: `All your data needs on signers on Stacks! There are ${signersInfo.entities.length} signers active in cycle ${lastCycle.cycle_number}.`,
+  };
+}
+
 export default async function Home() {
   const signersInfo = await api.get("/signers");
 
