@@ -10,6 +10,7 @@ import { classNames } from "../common/class-names";
 import { PositionsRow } from "./PositionsRow";
 import StStxLogo from "./Logos/StStx";
 import { ButtonLink } from "./ButtonLink";
+import { ToolTip } from "./Tooltip";
 
 export function Positions({ positions }: { positions: any }) {
   const stxAddress = useSTXAddress();
@@ -71,8 +72,14 @@ export function Positions({ positions }: { positions: any }) {
                   </dd>
                 </div>
                 <div>
-                  <dt className="text-sm font-medium leading-6 text-white/50">
+                  <dt className="text-sm font-medium leading-6 text-white/50 flex gap-1 items-center">
                     Gross APY
+                    <ToolTip
+                      id="tooltip_apy"
+                      text={
+                        "Based on last 4 completed cycles, using current STX and BTC prices."
+                      }
+                    />
                   </dt>
                   <dd>{currency.short.format(position.apy)}%</dd>
                 </div>
@@ -143,9 +150,15 @@ export function Positions({ positions }: { positions: any }) {
                   </th>
                   <th
                     scope="col"
-                    className="bg-gray whitespace-nowrap py-2 text-left text-sm font-normal text-white/[0.35] flex items-center"
+                    className="bg-gray whitespace-nowrap py-2 text-left text-sm font-normal text-white/[0.35] flex gap-1 items-center"
                   >
                     Gross APY
+                    <ToolTip
+                      id="tooltip_apy"
+                      text={
+                        "Based on last 4 completed cycles, using current STX and BTC prices."
+                      }
+                    />
                   </th>
                   {userPositions && (
                     <th

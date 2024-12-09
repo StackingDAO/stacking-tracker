@@ -7,6 +7,7 @@ import StxLogo from "@/app/components/Logos/Stx";
 import BtcLogo from "@/app/components/Logos/Btc";
 import { Pending } from "@/app/components/Pending";
 import { ButtonWebsite } from "@/app/components/ButtonWebsite";
+import { ToolTip } from "@/app/components/Tooltip";
 
 type Props = {
   params: {
@@ -99,8 +100,14 @@ const Home: FunctionComponent<Props> = async ({ params: { pool } }: Props) => {
                     </dd>
                   </div>
                   <div key={info.cycle_number + "-apy"}>
-                    <dt className="text-sm font-medium leading-6 text-white/50">
+                    <dt className="text-sm font-medium leading-6 text-white/50 flex gap-1 items-center">
                       Gross APY
+                      <ToolTip
+                        id="tooltip_apy"
+                        text={
+                          "Calculated using STX and BTC prices at the end of the cycle."
+                        }
+                      />
                     </dt>
                     <dd>
                       {index === 0 ? (
@@ -148,7 +155,10 @@ const Home: FunctionComponent<Props> = async ({ params: { pool } }: Props) => {
             columnHeaders={[
               { title: "Cycle" },
               { title: "Stacked" },
-              { title: "Gross APY" },
+              {
+                title: "Gross APY",
+                info: "Calculated using STX and BTC prices at the end of the cycle.",
+              },
               { title: "Rewards" },
             ]}
             rows={poolInfo.cycles.map((info: any, index: number) => [
