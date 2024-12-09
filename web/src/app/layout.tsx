@@ -3,6 +3,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
+import Script from "next/script";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { AppContextProvider } from "@/app/components/AppContext";
@@ -65,6 +66,18 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
   return (
     <html lang="en">
+      <head>
+        <Script
+          strategy="lazyOnload"
+          data-domain="stacking-tracker.com"
+          src="https://plausible.io/js/script.outbound-links.js"
+        />
+        <Script id="plausible-init" strategy="lazyOnload">
+          {`window.plausible = window.plausible || function() { 
+                        (window.plausible.q = window.plausible.q || []).push(arguments) 
+                    }`}
+        </Script>
+      </head>
       <body
         className={`${inter.className} relative flex min-h-screen flex-col text-white bg-black`}
       >
