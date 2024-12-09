@@ -1242,10 +1242,10 @@
   resolved "https://registry.npmjs.org/@kurkle/color/-/color-0.3.2.tgz"
   integrity sha512-fuscdXJ9G1qb7W8VdHi+IwRqij3lBkosAm4ydQtEmbY58OzHXqQhvlxqEkoz0yssNVn38bcpRWgA9PP+OGoisw==
 
-"@next/env@14.2.4":
-  version "14.2.4"
-  resolved "https://registry.npmjs.org/@next/env/-/env-14.2.4.tgz"
-  integrity sha512-3EtkY5VDkuV2+lNmKlbkibIJxcO4oIHEhBWne6PaAp+76J9KoSsGvNikp6ivzAT8dhhBMYrm6op2pS1ApG0Hzg==
+"@next/env@14.2.10":
+  version "14.2.10"
+  resolved "https://registry.npmjs.org/@next/env/-/env-14.2.10.tgz"
+  integrity sha512-dZIu93Bf5LUtluBXIv4woQw2cZVZ2DJTjax5/5DOs3lzEOeKLy7GxRSr4caK9/SCPdaW6bCgpye6+n4Dh9oJPw==
 
 "@next/eslint-plugin-next@14.2.2":
   version "14.2.2"
@@ -1261,10 +1261,10 @@
   dependencies:
     glob "10.3.10"
 
-"@next/swc-darwin-arm64@14.2.4":
-  version "14.2.4"
-  resolved "https://registry.npmjs.org/@next/swc-darwin-arm64/-/swc-darwin-arm64-14.2.4.tgz"
-  integrity sha512-AH3mO4JlFUqsYcwFUHb1wAKlebHU/Hv2u2kb1pAuRanDZ7pD/A/KPD98RHZmwsJpdHQwfEc/06mgpSzwrJYnNg==
+"@next/swc-darwin-arm64@14.2.10":
+  version "14.2.10"
+  resolved "https://registry.npmjs.org/@next/swc-darwin-arm64/-/swc-darwin-arm64-14.2.10.tgz"
+  integrity sha512-V3z10NV+cvMAfxQUMhKgfQnPbjw+Ew3cnr64b0lr8MDiBJs3eLnM6RpGC46nhfMZsiXgQngCJKWGTC/yDcgrDQ==
 
 "@noble/hashes@^1.1.2":
   version "1.4.0"
@@ -5725,12 +5725,12 @@ next-tick@^1.1.0:
   resolved "https://registry.npmjs.org/next-tick/-/next-tick-1.1.0.tgz"
   integrity sha512-CXdUiJembsNjuToQvxayPZF9Vqht7hewsvy2sOWafLvi2awflj9mOC6bHIg50orX8IJvWKY9wYQ/zB2kogPslQ==
 
-next@14.2.4:
-  version "14.2.4"
-  resolved "https://registry.npmjs.org/next/-/next-14.2.4.tgz"
-  integrity sha512-R8/V7vugY+822rsQGQCjoLhMuC9oFj9SOi4Cl4b2wjDrseD0LRZ10W7R6Czo4w9ZznVSshKjuIomsRjvm9EKJQ==
+next@14.2.10:
+  version "14.2.10"
+  resolved "https://registry.npmjs.org/next/-/next-14.2.10.tgz"
+  integrity sha512-sDDExXnh33cY3RkS9JuFEKaS4HmlWmDKP1VJioucCG6z5KuA008DPsDZOzi8UfqEk3Ii+2NCQSJrfbEWtZZfww==
   dependencies:
-    "@next/env" "14.2.4"
+    "@next/env" "14.2.10"
     "@swc/helpers" "0.5.5"
     busboy "1.6.0"
     caniuse-lite "^1.0.30001579"
@@ -5738,15 +5738,15 @@ next@14.2.4:
     postcss "8.4.31"
     styled-jsx "5.1.1"
   optionalDependencies:
-    "@next/swc-darwin-arm64" "14.2.4"
-    "@next/swc-darwin-x64" "14.2.4"
-    "@next/swc-linux-arm64-gnu" "14.2.4"
-    "@next/swc-linux-arm64-musl" "14.2.4"
-    "@next/swc-linux-x64-gnu" "14.2.4"
-    "@next/swc-linux-x64-musl" "14.2.4"
-    "@next/swc-win32-arm64-msvc" "14.2.4"
-    "@next/swc-win32-ia32-msvc" "14.2.4"
-    "@next/swc-win32-x64-msvc" "14.2.4"
+    "@next/swc-darwin-arm64" "14.2.10"
+    "@next/swc-darwin-x64" "14.2.10"
+    "@next/swc-linux-arm64-gnu" "14.2.10"
+    "@next/swc-linux-arm64-musl" "14.2.10"
+    "@next/swc-linux-x64-gnu" "14.2.10"
+    "@next/swc-linux-x64-musl" "14.2.10"
+    "@next/swc-win32-arm64-msvc" "14.2.10"
+    "@next/swc-win32-ia32-msvc" "14.2.10"
+    "@next/swc-win32-x64-msvc" "14.2.10"
 
 node-cache@^5.1.2:
   version "5.1.2"
@@ -6699,8 +6699,8 @@ stack-utils@^2.0.3:
   version "0.1.0"
   resolved "file:web"
   dependencies:
-    "@headlessui/react" "^1.7.16"
-    "@heroicons/react" "^1.0.6"
+    "@headlessui/react" "^2.2.0"
+    "@heroicons/react" "^2.1.5"
     "@stacks/auth" "6.11.0"
     "@stacks/blockchain-api-client" "^7.10.0"
     "@stacks/common" "^6.13.0"
