@@ -12,18 +12,9 @@ function formatDate(date: Date) {
 
 export const fetchPrice = async (symbol: string): Promise<number> => {
   try {
-    const bandUrl = `https://laozi1.bandchain.org/api/oracle/v1/request_prices?ask_count=16&min_count=10&symbols=${symbol}`;
-
-    const result = await fetch(bandUrl).then((res) => res.json());
-
-    if (result["price_results"]?.length > 0) {
-      return (
-        result["price_results"][0]["px"] /
-        Number(result["price_results"][0]["multiplier"])
-      );
-    }
-
-    return 0;
+    const url = `https://api.exchange.coinbase.com/products/${symbol}-USD/ticker`;
+    const result = await fetch(url).then((res) => res.json());
+    return result.bid;
   } catch (error) {
     console.log("error", error);
     return 0;
