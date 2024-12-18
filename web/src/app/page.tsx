@@ -76,6 +76,21 @@ const Home: FunctionComponent<Props> = async ({ params: { pool } }: Props) => {
               </div>
             </div>
 
+            <div className="mx-4">
+              <div className="flex items-center gap-2 text-sm text-white/[0.35] pb-1">
+                <div className="flex-1">Start</div>
+                <div>End</div>
+              </div>
+              <div className="bg-green/10 rounded-full mb-3">
+                <div
+                  className="bg-green rounded-full h-3 mb-3"
+                  style={{
+                    width: `${Math.round((poxInfo.current_cycle.started_days_ago / 15) * 100)}%`,
+                  }}
+                ></div>
+              </div>
+            </div>
+
             <dl className="grid grid-cols-1 gap-4 lg:grid-cols-2">
               <div className="p-4 rounded-md bg-gray">
                 <dt className="text-sm font-medium leading-6 text-white/50">
@@ -88,7 +103,7 @@ const Home: FunctionComponent<Props> = async ({ params: { pool } }: Props) => {
                       poxInfo.current_cycle.stacked_amount
                     )}
                   </div>
-                  <p className="text-sm text-white/[0.35] ">
+                  <p className="text-sm text-white/[0.35]">
                     $
                     {currency.rounded.format(
                       poxInfo.current_cycle.stacked_amount_usd
