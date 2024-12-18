@@ -1,6 +1,6 @@
 import { Table } from "../components/Table";
 import * as api from "../common/public-api";
-import { currency } from "@/app/common/utils";
+import { currency, generateMetaData } from "@/app/common/utils";
 import ChartBarStacked from "../components/ChartBarStacked";
 import { ToolTip } from "../components/Tooltip";
 import StxLogo from "../components/Logos/Stx";
@@ -10,10 +10,11 @@ import { ButtonLink } from "../components/ButtonLink";
 export async function generateMetadata() {
   const poolsInfo = await api.get("/pools");
   const lastCycle = poolsInfo.cycles[poolsInfo.cycles.length - 1];
-  return {
+  const info = {
     title: `Stacking Tracker - Pools`,
     description: `All your data needs on stacking pools on Stacks! In total ${currency.rounded.format(lastCycle.stacked_amount)} STX is stacked in cycle ${lastCycle.cycle_number} by ${poolsInfo.entities.length} stacking pools.`,
   };
+  return generateMetaData(info.title, info.description);
 }
 
 export default async function Home() {

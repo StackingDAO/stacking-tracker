@@ -2,6 +2,7 @@ import { FunctionComponent } from "react";
 import * as api from "../common/public-api";
 import { Positions } from "../components/Positions";
 import { WalletStatus } from "../components/WalletStatus";
+import { generateMetaData } from "../common/utils";
 
 type Props = {
   params: {
@@ -10,11 +11,12 @@ type Props = {
 };
 
 export async function generateMetadata() {
-  return {
+  const info = {
     title: `Stacking Tracker - Positions`,
     description:
       "All your PoX positions on Stacks in one simple overview! Connect your wallet to view your balances.",
   };
+  return generateMetaData(info.title, info.description);
 }
 
 const Home: FunctionComponent<Props> = async ({ params: { pool } }: Props) => {

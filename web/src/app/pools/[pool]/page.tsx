@@ -1,7 +1,7 @@
 import { FunctionComponent } from "react";
 import { Table } from "../../components/Table";
 import * as api from "../../common/public-api";
-import { currency } from "@/app/common/utils";
+import { currency, generateMetaData } from "@/app/common/utils";
 import ChartBarStacked from "@/app/components/ChartBarStacked";
 import StxLogo from "@/app/components/Logos/Stx";
 import BtcLogo from "@/app/components/Logos/Btc";
@@ -18,10 +18,11 @@ type Props = {
 export async function generateMetadata({ params: { pool } }: Props) {
   const poolInfo = await api.get(`/pool/${pool}`);
   const lastCycle = poolInfo.cycles[poolInfo.cycles.length - 1];
-  return {
+  const info = {
     title: `Stacking Tracker - Pool - ${poolInfo.name}`,
     description: `${poolInfo.name} is stacking ${currency.rounded.format(lastCycle.stacked_amount)} STX in cycle ${lastCycle.cycle_number}.`,
   };
+  return generateMetaData(info.title, info.description);
 }
 
 const Home: FunctionComponent<Props> = async ({ params: { pool } }: Props) => {

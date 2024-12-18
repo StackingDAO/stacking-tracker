@@ -1,6 +1,6 @@
 import { Table } from "../components/Table";
 import * as api from "../common/public-api";
-import { currency, shortAddress } from "@/app/common/utils";
+import { currency, generateMetaData, shortAddress } from "@/app/common/utils";
 import ChartBarStacked from "../components/ChartBarStacked";
 import { ToolTip } from "../components/Tooltip";
 import StxLogo from "../components/Logos/Stx";
@@ -10,10 +10,11 @@ import { ButtonLink } from "../components/ButtonLink";
 export async function generateMetadata() {
   const signersInfo = await api.get("/signers");
   const lastCycle = signersInfo.cycles[signersInfo.cycles.length - 1];
-  return {
+  const info = {
     title: `Stacking Tracker - Signers`,
     description: `All your data needs on signers on Stacks! There are ${signersInfo.entities.length} signers active in cycle ${lastCycle.cycle_number}.`,
   };
+  return generateMetaData(info.title, info.description);
 }
 
 export default async function Home() {

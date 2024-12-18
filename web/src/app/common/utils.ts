@@ -170,3 +170,41 @@ export function numberToDaysAndHours(number) {
 
   return [dayString, hourString].filter(Boolean).join(", ");
 }
+
+export function generateMetaData(title, description) {
+  return {
+    metadataBase: new URL("https://www.stacking-tracker.com/"),
+    title: title,
+    description: description,
+    applicationName: "Stacking Tracker",
+
+    openGraph: {
+      title: title,
+      description: description,
+      url: "https://www.stacking-tracker.com/",
+      siteName: "Stacking Tracker",
+      images: [
+        {
+          url: "https://www.stacking-tracker.com/share.png",
+          width: 500,
+          height: 500,
+        },
+      ],
+      locale: "en",
+      type: "website",
+    },
+
+    twitter: {
+      title: title,
+      description: description,
+      site: "https://www.stacking-tracker.com/",
+      card: "summary",
+      images: ["https://www.stacking-tracker.com/share.png"],
+    },
+
+    robots: {
+      index: true,
+      follow: true,
+    },
+  };
+}

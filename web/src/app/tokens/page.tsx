@@ -1,6 +1,6 @@
 import { Table } from "../components/Table";
 import * as api from "../common/public-api";
-import { currency } from "@/app/common/utils";
+import { currency, generateMetaData } from "@/app/common/utils";
 import ChartBarStacked from "../components/ChartBarStacked";
 import { ToolTip } from "../components/Tooltip";
 import StxLogo from "../components/Logos/Stx";
@@ -10,10 +10,11 @@ import { ButtonLink } from "../components/ButtonLink";
 export async function generateMetadata() {
   const tokensInfo = await api.get("/tokens");
   const lastCycle = tokensInfo.cycles[tokensInfo.cycles.length - 1];
-  return {
+  const info = {
     title: `Stacking Tracker - LSTs`,
     description: `All your data needs on LSTs on Stacks! In total ${currency.rounded.format(lastCycle.stacked_amount)} STX is stacked in cycle ${lastCycle.cycle_number} by ${tokensInfo.entities.length} LSTs.`,
   };
+  return generateMetaData(info.title, info.description);
 }
 
 export default async function Home() {

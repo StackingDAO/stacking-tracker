@@ -1,7 +1,7 @@
 import { FunctionComponent } from "react";
 import { Table } from "../../components/Table";
 import * as api from "../../common/public-api";
-import { currency, shortAddress } from "@/app/common/utils";
+import { currency, generateMetaData, shortAddress } from "@/app/common/utils";
 import ChartBarStacked from "@/app/components/ChartBarStacked";
 import StxLogo from "@/app/components/Logos/Stx";
 import BtcLogo from "@/app/components/Logos/Btc";
@@ -20,10 +20,11 @@ export async function generateMetadata({ params: { signer } }: Props) {
   const signerInfo = await api.get(`/signer/${signer}`);
   const lastCycle = signerInfo.cycles[signerInfo.cycles.length - 1];
   const signerName = signerInfo.name ?? shortAddress(signerInfo.signer_key);
-  return {
+  const info = {
     title: `Stacking Tracker - Signer - ${signerName}`,
     description: `Signer '${signerName}' is stacking ${currency.rounded.format(lastCycle.stacked_amount)} STX in cycle ${lastCycle.cycle_number}.`,
   };
+  return generateMetaData(info.title, info.description);
 }
 
 const Home: FunctionComponent<Props> = async ({

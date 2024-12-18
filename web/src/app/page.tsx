@@ -1,7 +1,11 @@
 import { FunctionComponent } from "react";
 import { Table } from "./components/Table";
 import * as api from "./common/public-api";
-import { currency, numberToDaysAndHours } from "@/app/common/utils";
+import {
+  currency,
+  generateMetaData,
+  numberToDaysAndHours,
+} from "@/app/common/utils";
 import ChartBarStacked from "@/app/components/ChartBarStacked";
 import { ToolTip } from "./components/Tooltip";
 import StxLogo from "./components/Logos/Stx";
@@ -16,10 +20,11 @@ type Props = {
 
 export async function generateMetadata() {
   const poxInfo = await api.get(`/pox`);
-  return {
+  const info = {
     title: `Stacking Tracker - Cycle ${poxInfo.current_cycle.cycle_number}`,
     description: `All your data needs on PoX, LSTs, Pools and Signers on Stacks! In total ${currency.rounded.format(poxInfo.current_cycle.stacked_amount)} STX is stacked in cycle ${poxInfo.current_cycle.cycle_number}. The current cycle ends in ${currency.rounded.format(poxInfo.current_cycle.ends_in_days)} days.`,
   };
+  return generateMetaData(info.title, info.description);
 }
 
 const Home: FunctionComponent<Props> = async ({ params: { pool } }: Props) => {
