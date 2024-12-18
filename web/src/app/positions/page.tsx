@@ -24,7 +24,7 @@ const Home: FunctionComponent<Props> = async ({ params: { pool } }: Props) => {
     <>
       <h1 className="text-2xl mb-6 lg:hidden font-semibold">Positions</h1>
 
-      <WalletStatus />
+      {/* <WalletStatus /> */}
       <Positions positions={positionsInfo} />
     </>
   );

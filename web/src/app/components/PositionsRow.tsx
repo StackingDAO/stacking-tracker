@@ -26,7 +26,7 @@ export function PositionsRow({ firstChild, position }: Props) {
   const showBalance = "balance" in position;
   return (
     <tr key={position.id}>
-      <td colSpan={showBalance ? 5 : 4}>
+      <td colSpan={showBalance ? 6 : 5}>
         <table className="w-full table-fixed">
           <tbody>
             <tr>
@@ -57,6 +57,42 @@ export function PositionsRow({ firstChild, position }: Props) {
                   <div className="text-xs text-white/[0.35]">
                     ${`${currency.rounded.format(position.tvl_usd)}`}
                   </div>
+                </div>
+              </td>
+              <td className="whitespace-nowrap py-2 pl-4 pr-3 text-sm text-gray-500 sm:pl-0">
+                <div>
+                  {position.symbol === "stSTX" ? (
+                    <>
+                      <div className="flex items-center gap-2">
+                        stSTX
+                        <StStxLogo className="w-3 h-3 inline" />
+                      </div>
+                      <div className="text-xs text-white/[0.35]">
+                        Compounding
+                      </div>
+                    </>
+                  ) : position.symbol === "LiSTX" ? (
+                    <>
+                      <div className="flex items-center gap-2">
+                        LiSTX
+                        <img
+                          src="/logos/listx.webp"
+                          className="w-3 h-3 inline"
+                        />
+                      </div>
+                      <div className="text-xs text-white/[0.35]">
+                        Compounding
+                      </div>
+                    </>
+                  ) : (
+                    <>
+                      <div className="flex items-center gap-2">
+                        STX
+                        <StxLogo className="w-3 h-3 inline" />
+                      </div>
+                      <div className="text-xs text-white/[0.35]">Manual</div>
+                    </>
+                  )}
                 </div>
               </td>
               <td className="whitespace-nowrap py-2 pl-4 pr-3 text-sm text-gray-500 sm:pl-0">

@@ -3,6 +3,7 @@ import {
   getPoxPositions,
   getPoxUserPositions,
 } from "../helpers/positionsHelpers";
+import { isValidStacksAddress } from "@repo/stacks";
 
 const router = Router();
 
@@ -14,6 +15,10 @@ router
 
   .get("/:wallet", async (req: Request, res: Response) => {
     const { wallet } = req.params;
+
+    if (!isValidStacksAddress(wallet)) {
+      return res.status(400).send("Invalid wallet address");
+    }
 
     const result = await getPoxUserPositions(wallet);
     res.send(result);
