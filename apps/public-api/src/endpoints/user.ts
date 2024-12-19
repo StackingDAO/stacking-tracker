@@ -87,7 +87,7 @@ router.get("/:wallet", async (req: Request, res: Response) => {
     stacks.getProtocolStStxBalance(wallet, "protocol-bitflow-v1"),
     stacks.getProtocolStStxBalance(wallet, "protocol-hermetica-v1"),
     stacks.getProtocolStStxBalance(wallet, "protocol-velar-v1"),
-    stacks.getProtocolStStxBalance(wallet, "protocol-zest-v1"),
+    stacks.getProtocolStStxBalance(wallet, "protocol-zest-v2"),
   ]);
 
   let positions = [
