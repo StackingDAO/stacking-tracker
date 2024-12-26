@@ -1,11 +1,10 @@
-import { sendMessageOptions } from "../api";
 import { RepliesHandler } from "../repliesHandler";
 import * as stacks from "@repo/stacks";
 import { fetchPrice } from "../../prices";
-import { poxAddressToPool } from "../../constants";
 import * as db from "@repo/database";
 import { getMessage } from "../templates/commandStart";
 import { getPoxInfoForCycle } from "../../processors/pox";
+import { sendMessageOptions } from "@repo/telegram";
 
 export class CommandStart extends RepliesHandler {
   canHandleMessage(message: any) {

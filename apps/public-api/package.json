@@ -5,12 +5,13 @@
   "scripts": {
     "dev": "nodemon",
     "build": "tsc",
-    "build:packages": "tsc -p ../../packages/database && tsc -p ../../packages/stacks",
+    "build:packages": "tsc -p ../../packages/database && tsc -p ../../packages/stacks && tsc -p ../../packages/telegram",
     "start": "node ./dist/src/server.js"
   },
   "dependencies": {
     "@repo/database": "0.1.0",
     "@repo/stacks": "0.1.0",
+    "@repo/telegram": "0.1.0",
     "cors": "^2.8.5",
     "dotenv": "^16.3.1",
     "esbuild": "^0.20.2",

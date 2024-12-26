@@ -1,12 +1,10 @@
-import dotenv from "dotenv";
+import dotenv from 'dotenv';
 dotenv.config();
 
 const botToken = process.env.TELEGRAM_TOKEN;
 
 export async function getChat(userId: bigint) {
-  const response = await fetch(
-    `https://api.telegram.org/bot${botToken}/getChat?chat_id=${userId}`
-  );
+  const response = await fetch(`https://api.telegram.org/bot${botToken}/getChat?chat_id=${userId}`);
 
   const result = await response.json();
   return result;
@@ -34,11 +32,7 @@ export async function sendMessageReply(userId: bigint, message: string) {
   return result;
 }
 
-export async function sendMessageOptions(
-  userId: bigint,
-  message: string,
-  options: any[]
-) {
+export async function sendMessageOptions(userId: bigint, message: string, options: any[]) {
   const markup = JSON.stringify({
     inline_keyboard: options,
   });
