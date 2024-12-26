@@ -1,6 +1,3 @@
-import dotenv from 'dotenv';
-dotenv.config();
-
 const botToken = process.env.TELEGRAM_TOKEN;
 
 export async function getChat(userId: bigint) {
