@@ -23,7 +23,7 @@
     "@stacks/transactions": "6.11.0",
     "chart.js": "^4.4.4",
     "dotenv": "^16.3.1",
-    "next": "14.2.10",
+    "next": "14.2.15",
     "react": "^18",
     "react-chartjs-2": "^5.2.0",
     "react-dom": "^18",
