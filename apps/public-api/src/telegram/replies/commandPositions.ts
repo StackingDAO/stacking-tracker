@@ -1,12 +1,9 @@
-import { sendMessageOptions } from "../api";
 import { RepliesHandler } from "../repliesHandler";
 import * as db from "@repo/database";
 import { currency } from "../../utils";
-import {
-  getPoxPositions,
-  getPoxUserPositions,
-} from "../../helpers/positionsHelpers";
+import { getPoxUserPositions } from "../../helpers/positionsHelpers";
 import { isValidStacksAddress } from "@repo/stacks";
+import { sendMessageOptions } from "@repo/telegram";
 
 export class CommandPositions extends RepliesHandler {
   canHandleMessage(message: any) {

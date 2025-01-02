@@ -1,7 +1,5 @@
 {
-  "id": "db83a94b-aa44-431f-bd0b-956c8151df4c",
-  "prevId": "21b2d69d-1584-4afc-9f17-9b2838347a0a",
-  "version": "6",
+  "version": "7",
   "dialect": "postgresql",
   "tables": {
     "public.blocks": {
@@ -17,11 +15,19 @@
       },
       "indexes": {
         "created_at_idx": {
-          "name": "created_at_idx",
           "columns": [
-            "block_height"
+            {
+              "expression": "block_height",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
           ],
-          "isUnique": false
+          "with": {},
+          "name": "created_at_idx",
+          "isUnique": false,
+          "method": "btree",
+          "concurrently": false
         }
       },
       "foreignKeys": {},
@@ -33,7 +39,10 @@
           ]
         }
       },
-      "uniqueConstraints": {}
+      "uniqueConstraints": {},
+      "policies": {},
+      "isRLSEnabled": false,
+      "checkConstraints": {}
     },
     "public.rewards": {
       "name": "rewards",
@@ -67,25 +76,49 @@
       },
       "indexes": {
         "rewards_idx_cycle_number": {
-          "name": "rewards_idx_cycle_number",
           "columns": [
-            "cycle_number"
+            {
+              "expression": "cycle_number",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
           ],
-          "isUnique": false
+          "with": {},
+          "name": "rewards_idx_cycle_number",
+          "isUnique": false,
+          "method": "btree",
+          "concurrently": false
         },
         "rewards_idx_reward_recipient": {
-          "name": "rewards_idx_reward_recipient",
           "columns": [
-            "reward_recipient"
+            {
+              "expression": "reward_recipient",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
           ],
-          "isUnique": false
+          "with": {},
+          "name": "rewards_idx_reward_recipient",
+          "isUnique": false,
+          "method": "btree",
+          "concurrently": false
         },
         "rewards_idx_burn_block_height": {
-          "name": "rewards_idx_burn_block_height",
           "columns": [
-            "burn_block_height"
+            {
+              "expression": "burn_block_height",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
           ],
-          "isUnique": false
+          "with": {},
+          "name": "rewards_idx_burn_block_height",
+          "isUnique": false,
+          "method": "btree",
+          "concurrently": false
         }
       },
       "foreignKeys": {},
@@ -99,7 +132,10 @@
           ]
         }
       },
-      "uniqueConstraints": {}
+      "uniqueConstraints": {},
+      "policies": {},
+      "isRLSEnabled": false,
+      "checkConstraints": {}
     },
     "public.signers": {
       "name": "signers",
@@ -134,18 +170,34 @@
       },
       "indexes": {
         "signers_idx_cycle_number": {
-          "name": "signers_idx_cycle_number",
           "columns": [
-            "cycle_number"
+            {
+              "expression": "cycle_number",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
           ],
-          "isUnique": false
+          "with": {},
+          "name": "signers_idx_cycle_number",
+          "isUnique": false,
+          "method": "btree",
+          "concurrently": false
         },
         "signers_idx_signer_key": {
-          "name": "signers_idx_signer_key",
           "columns": [
-            "signer_key"
+            {
+              "expression": "signer_key",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
           ],
-          "isUnique": false
+          "with": {},
+          "name": "signers_idx_signer_key",
+          "isUnique": false,
+          "method": "btree",
+          "concurrently": false
         }
       },
       "foreignKeys": {},
@@ -158,7 +210,10 @@
           ]
         }
       },
-      "uniqueConstraints": {}
+      "uniqueConstraints": {},
+      "policies": {},
+      "isRLSEnabled": false,
+      "checkConstraints": {}
     },
     "public.stackers": {
       "name": "stackers",
@@ -207,25 +262,49 @@
       },
       "indexes": {
         "stackers_idx_cycle_number": {
-          "name": "stackers_idx_cycle_number",
           "columns": [
-            "cycle_number"
+            {
+              "expression": "cycle_number",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
           ],
-          "isUnique": false
+          "with": {},
+          "name": "stackers_idx_cycle_number",
+          "isUnique": false,
+          "method": "btree",
+          "concurrently": false
         },
         "stackers_idx_signer_key": {
-          "name": "stackers_idx_signer_key",
           "columns": [
-            "signer_key"
+            {
+              "expression": "signer_key",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
           ],
-          "isUnique": false
+          "with": {},
+          "name": "stackers_idx_signer_key",
+          "isUnique": false,
+          "method": "btree",
+          "concurrently": false
         },
         "stackers_idx_pox_address": {
-          "name": "stackers_idx_pox_address",
           "columns": [
-            "pox_address"
+            {
+              "expression": "pox_address",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
           ],
-          "isUnique": false
+          "with": {},
+          "name": "stackers_idx_pox_address",
+          "isUnique": false,
+          "method": "btree",
+          "concurrently": false
         }
       },
       "foreignKeys": {},
@@ -239,14 +318,23 @@
           ]
         }
       },
-      "uniqueConstraints": {}
+      "uniqueConstraints": {},
+      "policies": {},
+      "isRLSEnabled": false,
+      "checkConstraints": {}
     }
   },
   "enums": {},
   "schemas": {},
   "_meta": {
-    "columns": {},
     "schemas": {},
-    "tables": {}
-  }
+    "tables": {},
+    "columns": {}
+  },
+  "id": "db83a94b-aa44-431f-bd0b-956c8151df4c",
+  "prevId": "21b2d69d-1584-4afc-9f17-9b2838347a0a",
+  "sequences": {},
+  "policies": {},
+  "views": {},
+  "roles": {}
 }

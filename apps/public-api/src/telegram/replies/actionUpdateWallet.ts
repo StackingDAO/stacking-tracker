@@ -1,8 +1,8 @@
 import { isValidStacksAddress } from "@repo/stacks";
-import { sendMessageOptions, sendMessageReply } from "../api";
 import { RepliesHandler } from "../repliesHandler";
 import * as db from "@repo/database";
 import NodeCache from "node-cache";
+import { sendMessageOptions, sendMessageReply } from "@repo/telegram";
 
 const replyRequestCache = new NodeCache({ stdTTL: 600 });
 

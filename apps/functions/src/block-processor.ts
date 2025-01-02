@@ -57,5 +57,16 @@ export async function processBlock(event: SQSEvent, _: Context): Promise<void> {
     console.log(
       `Published message ${responseMiners.MessageId} to topic ${process.env.TOPIC_MINERS}`
     );
+
+    const responseTelegram = await sns.send(
+      new PublishCommand({
+        TopicArn: process.env.TOPIC_TELEGRAM,
+        Message: JSON.stringify({ block_height: latest_block.height }),
+      })
+    );
+
+    console.log(
+      `Published message ${responseTelegram.MessageId} to topic ${process.env.TOPIC_TELEGRAM}`
+    );
   }
 }

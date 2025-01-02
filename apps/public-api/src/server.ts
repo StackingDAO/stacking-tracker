@@ -1,7 +1,8 @@
 import express, { Express, Request, Response } from "express";
 import cors from "cors";
 
-import dotenv from "dotenv";
+import * as dotenv from "dotenv";
+dotenv.config({ path: "./.env" });
 
 import routerTelegram from "./endpoints/telegram";
 import routerUser from "./endpoints/user";
@@ -14,8 +15,6 @@ import routerPools from "./endpoints/pools";
 import routerPoolDetails from "./endpoints/pool";
 import routerTokens from "./endpoints/tokens";
 import routerToken from "./endpoints/token";
-
-dotenv.config();
 
 const port = process.env.PORT || 3030;
 

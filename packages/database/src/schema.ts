@@ -17,7 +17,7 @@ export const blocks = pgTable(
   table => {
     return {
       pk: primaryKey({ columns: [table.blockHeight] }),
-      createdIdx: index('created_at_idx').on(table.blockHeight).asc(),
+      createdIdx: index('created_at_idx').on(table.blockHeight),
     };
   }
 );
@@ -33,8 +33,8 @@ export const signers = pgTable(
   table => {
     return {
       pk: primaryKey({ columns: [table.cycleNumber, table.signerKey] }),
-      cycleNumberIndex: index('signers_idx_cycle_number').on(table.cycleNumber).asc(),
-      signerKeyIndex: index('signers_idx_signer_key').on(table.signerKey).asc(),
+      cycleNumberIndex: index('signers_idx_cycle_number').on(table.cycleNumber),
+      signerKeyIndex: index('signers_idx_signer_key').on(table.signerKey),
     };
   }
 );
@@ -52,10 +52,10 @@ export const stackers = pgTable(
   table => {
     return {
       pk: primaryKey({ columns: [table.cycleNumber, table.signerKey, table.stackerAddress] }),
-      cycleNumberIndex: index('stackers_idx_cycle_number').on(table.cycleNumber).asc(),
-      signerKeyIndex: index('stackers_idx_signer_key').on(table.signerKey).asc(),
-      stackerAddressIndex: index('stackers_idx_stacker_address').on(table.stackerAddress).asc(),
-      poxAddressIndex: index('stackers_idx_pox_address').on(table.poxAddress).asc(),
+      cycleNumberIndex: index('stackers_idx_cycle_number').on(table.cycleNumber),
+      signerKeyIndex: index('stackers_idx_signer_key').on(table.signerKey),
+      stackerAddressIndex: index('stackers_idx_stacker_address').on(table.stackerAddress),
+      poxAddressIndex: index('stackers_idx_pox_address').on(table.poxAddress),
     };
   }
 );
@@ -73,9 +73,9 @@ export const rewards = pgTable(
       pk: primaryKey({
         columns: [table.cycleNumber, table.burnBlockHeight, table.rewardRecipient],
       }),
-      cycleNumberIndex: index('rewards_idx_cycle_number').on(table.cycleNumber).asc(),
-      rewardRecipientIndex: index('rewards_idx_reward_recipient').on(table.rewardRecipient).asc(),
-      burnBlockHeightIndex: index('rewards_idx_burn_block_height').on(table.burnBlockHeight).asc(),
+      cycleNumberIndex: index('rewards_idx_cycle_number').on(table.cycleNumber),
+      rewardRecipientIndex: index('rewards_idx_reward_recipient').on(table.rewardRecipient),
+      burnBlockHeightIndex: index('rewards_idx_burn_block_height').on(table.burnBlockHeight),
     };
   }
 );
@@ -93,11 +93,9 @@ export const stackersRewards = pgTable(
       pk: primaryKey({
         columns: [table.cycleNumber, table.signerKey, table.stackerAddress],
       }),
-      cycleNumberIndex: index('stackers_rewards_idx_cycle_number').on(table.cycleNumber).asc(),
-      signerKeyIndex: index('stackersrewards__idx_signer_key').on(table.signerKey).asc(),
-      stackerAddressIndex: index('stackers_rewards_idx_stacker_address')
-        .on(table.stackerAddress)
-        .asc(),
+      cycleNumberIndex: index('stackers_rewards_idx_cycle_number').on(table.cycleNumber),
+      signerKeyIndex: index('stackersrewards__idx_signer_key').on(table.signerKey),
+      stackerAddressIndex: index('stackers_rewards_idx_stacker_address').on(table.stackerAddress),
     };
   }
 );
@@ -115,8 +113,8 @@ export const miners = pgTable(
       pk: primaryKey({
         columns: [table.blockHeight, table.bitcoinAddress],
       }),
-      blockHeightIndex: index('miners_idx_block_height').on(table.blockHeight).asc(),
-      bitcoinAddressIndex: index('miners_idx_bitcoin_address').on(table.bitcoinAddress).asc(),
+      blockHeightIndex: index('miners_idx_block_height').on(table.blockHeight),
+      bitcoinAddressIndex: index('miners_idx_bitcoin_address').on(table.bitcoinAddress),
     };
   }
 );
@@ -134,8 +132,8 @@ export const minersBids = pgTable(
       pk: primaryKey({
         columns: [table.blockHeight, table.bitcoinAddress],
       }),
-      blockHeightIndex: index('miners_bids_idx_block_height').on(table.blockHeight).asc(),
-      bitcoinAddressIndex: index('miners_bids_idx_bitcoin_address').on(table.bitcoinAddress).asc(),
+      blockHeightIndex: index('miners_bids_idx_block_height').on(table.blockHeight),
+      bitcoinAddressIndex: index('miners_bids_idx_bitcoin_address').on(table.bitcoinAddress),
     };
   }
 );
@@ -144,14 +142,15 @@ export const telegramChats = pgTable(
   'telegram_chats',
   {
     chatId: integer('chat_id').notNull(),
-    addresses: varchar('addresses').notNull(),
+    addresses: varchar('addresses'),
+    notificationCycle: integer('notification_cycle'),
   },
   table => {
     return {
       pk: primaryKey({
         columns: [table.chatId],
       }),
-      chatIdIndex: index('telegram_chats_idx_chat_id').on(table.chatId).asc(),
+      chatIdIndex: index('telegram_chats_idx_chat_id').on(table.chatId),
     };
   }
 );

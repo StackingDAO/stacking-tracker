@@ -29,6 +29,10 @@ export class Lambdas extends cdk.Stack {
       "Topic-StackersRewardsProcessor"
     );
     const topicMinersProcessor = new sns.Topic(this, "Topic-MinersProcessor");
+    const topicTelegramProcessor = new sns.Topic(
+      this,
+      "Topic-TelegramProcessor"
+    );
 
     // Lambda Functions
     const blockProcessor = new TypeScriptLambda(this, "BlockProcessor", {
@@ -41,6 +45,7 @@ export class Lambdas extends cdk.Stack {
         TOPIC_REWARDS: topicRewardsProcessor.topicArn,
         TOPIC_STACKERS_REWARDS: topicStackersRewardsProcessor.topicArn,
         TOPIC_MINERS: topicMinersProcessor.topicArn,
+        TOPIC_TELEGRAM: topicTelegramProcessor.topicArn,
       },
     });
     blockProcessor.lambda.addEventSource(new SqsEventSource(queue));
@@ -106,6 +111,19 @@ export class Lambdas extends cdk.Stack {
     });
     minersProcessor.lambda.addEventSource(
       new SnsEventSource(topicMinersProcessor)
+    );
+
+    const telegramProcessor = new TypeScriptLambda(this, "TelegramProcessor", {
+      lambdaRootDir: ".",
+      handlerFilePath: "apps/functions/src/telegram-processor.ts",
+      handler: "processTelegram",
+      environment: {
+        DATABASE_URL: process.env.DATABASE_URL ?? "",
+        STACKS_API: process.env.STACKS_API ?? "",
+      },
+    });
+    telegramProcessor.lambda.addEventSource(
+      new SnsEventSource(topicTelegramProcessor)
     );
   }
 }

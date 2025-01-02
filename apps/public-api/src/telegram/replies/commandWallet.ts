@@ -1,4 +1,4 @@
-import { sendMessageOptions } from "../api";
+import { sendMessageOptions } from "@repo/telegram";
 import { RepliesHandler } from "../repliesHandler";
 import * as db from "@repo/database";
 
