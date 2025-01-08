@@ -125,6 +125,8 @@ Create a `.env` file similar to `.env.example` in:
 **Drizzle**
 
 - `npx drizzle-kit studio`
+- `npx drizzle-kit generate`
+- `npx drizzle-kit push`
 
 # Telegram Bot
 

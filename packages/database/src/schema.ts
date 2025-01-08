@@ -1,4 +1,12 @@
-import { index, integer, pgTable, primaryKey, varchar, customType } from 'drizzle-orm/pg-core';
+import {
+  index,
+  integer,
+  pgTable,
+  primaryKey,
+  varchar,
+  customType,
+  bigint,
+} from 'drizzle-orm/pg-core';
 
 const currency = customType<{ data: number }>({
   dataType() {
@@ -141,7 +149,7 @@ export const minersBids = pgTable(
 export const telegramChats = pgTable(
   'telegram_chats',
   {
-    chatId: integer('chat_id').notNull(),
+    chatId: bigint('chat_id', { mode: 'bigint' }).notNull(),
     addresses: varchar('addresses'),
     notificationCycle: integer('notification_cycle'),
   },

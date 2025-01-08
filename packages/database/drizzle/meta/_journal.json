@@ -43,6 +43,13 @@
       "when": 1725794073446,
       "tag": "0005_chief_blazing_skull",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1736332586218,
+      "tag": "0006_condemned_green_goblin",
+      "breakpoints": true
     }
   ]
 }

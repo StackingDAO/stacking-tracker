@@ -12,7 +12,7 @@ export async function getChatsNotificationCycle(cycle: number): Promise<any> {
   return result;
 }
 
-export async function getChat(chatId: number): Promise<any> {
+export async function getChat(chatId: bigint): Promise<any> {
   const result = await db
     .select()
     .from(telegramChats)
@@ -22,7 +22,7 @@ export async function getChat(chatId: number): Promise<any> {
 }
 
 export async function saveChat(
-  chatId: number,
+  chatId: bigint,
   addresses: string | undefined = undefined,
   notificationCycle: number | undefined = undefined
 ): Promise<any> {
