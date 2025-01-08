@@ -39,15 +39,20 @@ export async function saveChat(
     updateValues.notificationCycle = notificationCycle;
   }
 
-  const result = await db
-    .insert(telegramChats)
-    .values({
-      chatId: chatId,
-      ...updateValues,
-    })
-    .onConflictDoUpdate({
-      target: [telegramChats.chatId],
-      set: updateValues,
-    });
-  return result;
+  if (Object.keys(updateValues).length === 0) {
+    const result = await db.insert(telegramChats).values({ chatId }).onConflictDoNothing();
+    return result;
+  } else {
+    const result = await db
+      .insert(telegramChats)
+      .values({
+        chatId: chatId,
+        ...updateValues,
+      })
+      .onConflictDoUpdate({
+        target: [telegramChats.chatId],
+        set: updateValues,
+      });
+    return result;
+  }
 }
