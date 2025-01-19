@@ -123,8 +123,14 @@ export const signerKeyToPool = {
     website: "https://www.restake.net/protocols/stacks",
   },
   "0x034df3feda207a1cd4f31ae2b58f136a0d382d23419ef8d06569fa538202ba8aed": {
-    name: "Chorus One",
-    slug: "chorus-one",
+    name: "Chorus One #1",
+    slug: "chorus-one-1",
+    logo: "/logos/chorusone.webp",
+    website: "https://chorus.one/crypto-staking-networks/stacks",
+  },
+  "0x02254a34747123978819f2a90506f76cb057fe3fbff6d8721a0d9cf8e9412d0e60": {
+    name: "Chorus One #2",
+    slug: "chorus-one-2",
     logo: "/logos/chorusone.webp",
     website: "https://chorus.one/crypto-staking-networks/stacks",
   },
@@ -184,12 +190,6 @@ export const signerKeyToPool = {
     logo: "/logos/planbetter.webp",
     website: "https://www.planbetter.org",
   },
-  "0x02254a34747123978819f2a90506f76cb057fe3fbff6d8721a0d9cf8e9412d0e60": {
-    name: "Chorus One",
-    slug: "chorus-one",
-    logo: "/logos/chorusone.webp",
-    website: "https://chorus.one",
-  },
   "0x0284df4505c6318a0017a7848aa0a95bf8cd3db697a89d2ec1978a027bece770ef": {
     name: "Degen Lab",
     slug: "degen-lab",
@@ -225,5 +225,23 @@ export const signerKeyToPool = {
     slug: "figment",
     logo: "/logos/default.webp",
     website: "https://figment.io/staking-stacks",
+  },
+  "0x02844807121921880119fe05ae47fccb4945a4bb2f840fe7de66e6f32640bc8169": {
+    name: "L2-Labs #1",
+    slug: "l2-labs-1",
+    logo: "/logos/l2-labs.webp",
+    website: "https://bitcoinl2labs.com/",
+  },
+  "0x0268e6f499fca2912488e89fc8b6734cafbe24a4ecbcd3312e4eb27ed8e5cfb4f3": {
+    name: "L2-Labs #2",
+    slug: "l2-labs-2",
+    logo: "/logos/l2-labs.webp",
+    website: "https://bitcoinl2labs.com/",
+  },
+  "0x038cb1e945144ca7669b0f33656b8379bcb3c17795b4d8665e42dea76eb3f86d2f": {
+    name: "L2-Labs #3",
+    slug: "l2-labs-3",
+    logo: "/logos/l2-labs.webp",
+    website: "https://bitcoinl2labs.com/",
   },
 };
