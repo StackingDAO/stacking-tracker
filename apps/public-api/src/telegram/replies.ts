@@ -12,8 +12,12 @@ const handlers = [
 
 export async function handleMessage(message: any) {
   for (const handler of handlers) {
-    if (handler.canHandleMessage(message)) {
-      await handler.handleMessage(message);
+    try {
+      if (handler.canHandleMessage(message)) {
+        await handler.handleMessage(message);
+      }
+    } catch (error) {
+      console.log("TG Handler Error", error);
     }
   }
 }
