@@ -1,6 +1,5 @@
 "use client";
 import { Tooltip } from "react-tooltip";
-import { classNames } from "../common/class-names";
 import InfoIcon from "./InfoIcon";
 
 type Props = {

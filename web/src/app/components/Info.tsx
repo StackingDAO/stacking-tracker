@@ -1,7 +1,21 @@
 import { ArrowTopRightOnSquareIcon } from "@heroicons/react/24/outline";
 import StxLogo from "./Logos/Stx";
+import { currency } from "../common/utils";
+import { ToolTip } from "./Tooltip";
 
-export function Info() {
+type Props = {
+  liquidStxSupply: number;
+  nextCycleMinThreshold: number;
+  preparePhaseLength: number;
+  rewardPhaseLength: number;
+};
+
+export function Info({
+  liquidStxSupply,
+  nextCycleMinThreshold,
+  preparePhaseLength,
+  rewardPhaseLength,
+}: Props) {
   return (
     <div className="p-4 border border-white/10 rounded-xl shrink-0">
       <dl className="grid grid-cols-1 gap-4 md:grid-cols-2">
@@ -11,7 +25,7 @@ export function Info() {
           </dt>
           <dd className="inline-flex items-center w-full text-lg font-medium leading-6 text-white gap-x-1">
             <StxLogo className="w-[18px] h-[18px] shrink-0" />
-            1,489,715,837
+            {currency.rounded.format(liquidStxSupply)}
           </dd>
         </div>
         <div className="p-4 rounded-md bg-gray">
@@ -20,7 +34,13 @@ export function Info() {
           </dt>
           <dd className="inline-flex items-center w-full text-lg font-medium leading-6 text-white gap-x-1">
             <StxLogo className="w-[18px] h-[18px] shrink-0" />
-            100,000
+            {currency.rounded.format(nextCycleMinThreshold)}
+            <ToolTip
+              id="tooltip_min_threshold"
+              text={
+                "This is the minimum amount of STX required to participate in the next cycle and can change over time, mainly at the end of each cycle."
+              }
+            />
           </dd>
         </div>
         <div className="p-4 rounded-md bg-gray">
@@ -28,7 +48,7 @@ export function Info() {
             Prepare Phase Length
           </dt>
           <dd className="w-full text-lg font-medium leading-6 text-white">
-            100 Bitcoin Blocks
+            {currency.rounded.format(preparePhaseLength)} Bitcoin Blocks
           </dd>
         </div>
         <div className="p-4 rounded-md bg-gray">
@@ -36,7 +56,7 @@ export function Info() {
             Reward Phase Length
           </dt>
           <dd className="w-full text-lg font-medium leading-6 text-white">
-            2000 Bitcoin Blocks
+            {currency.rounded.format(rewardPhaseLength)} Bitcoin Blocks
           </dd>
         </div>
       </dl>
