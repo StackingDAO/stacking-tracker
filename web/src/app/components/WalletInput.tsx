@@ -3,10 +3,11 @@
 import { useState } from "react";
 
 type Props = {
+  state: string;
   onClick: (address: string) => void;
 };
 
-export function WalletInput({ onClick }: Props) {
+export function WalletInput({ state, onClick }: Props) {
   const [inputAddress, setInputAddress] = useState("");
 
   return (
@@ -47,13 +48,28 @@ export function WalletInput({ onClick }: Props) {
             onChange={(event) => setInputAddress(event.target.value)}
             className="w-full text-sm font-semibold text-white bg-black border border-white/10 px-4 py-2 rounded-lg"
           />
-          <button
-            onClick={() => onClick(inputAddress)}
-            type="button"
-            className="w-auto text-sm font-semibold leading-6 text-black px-4 py-2 rounded-lg bg-orange ml-2"
-          >
-            View
-          </button>
+
+          {state === "default" || state === "loading" ? (
+            <button
+              onClick={() => onClick(inputAddress)}
+              type="button"
+              className="w-auto text-sm font-semibold leading-6 text-black px-4 py-2 rounded-lg bg-orange ml-2 disabled:opacity-50"
+              disabled={state === "loading"}
+            >
+              View
+            </button>
+          ) : state === "user" ? (
+            <button
+              onClick={() => {
+                setInputAddress("");
+                onClick("");
+              }}
+              type="button"
+              className="w-auto text-sm font-semibold leading-6 text-black px-4 py-2 rounded-lg bg-orange ml-2"
+            >
+              Reset
+            </button>
+          ) : null}
         </div>
       </div>
     </div>

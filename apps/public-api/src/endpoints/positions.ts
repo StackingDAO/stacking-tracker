@@ -21,7 +21,7 @@ router
     }
 
     const result = await getPoxUserPositions(wallet);
-    res.send(result);
+    res.send(result.filter((result) => result.balance !== 0));
   });
 
 export default router;

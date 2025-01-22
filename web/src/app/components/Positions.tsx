@@ -2,7 +2,6 @@
 import StxLogo from "./Logos/Stx";
 
 import { useEffect, useState } from "react";
-import { useSTXAddress } from "../common/use-stx-address";
 import * as api from "../common/public-api";
 import { currency } from "../common/utils";
 import { ChevronDownIcon } from "@heroicons/react/24/solid";
@@ -12,7 +11,6 @@ import StStxLogo from "./Logos/StStx";
 import { ButtonLink } from "./ButtonLink";
 import { ToolTip } from "./Tooltip";
 import { WalletInput } from "./WalletInput";
-import { useAppContext } from "./AppContext";
 
 export function Positions({ positions }: { positions: any }) {
   const [inputAddress, setInputAddress] = useState("");
@@ -21,28 +19,35 @@ export function Positions({ positions }: { positions: any }) {
     undefined
   );
   const [collapsed, setCollapsed] = useState(false);
+  const [state, setState] = useState("default");
 
   function getPositions() {
     return userPositions ? userPositions : positions;
   }
 
   async function fetchUserInfo(stxAddress: string) {
+    setState("loading");
     const result = await api.get(`/positions/${stxAddress}`);
     setUserPositions(result);
+    setState("user");
   }
 
   useEffect(() => {
-    if (inputAddress) {
+    if (inputAddress !== "") {
       setUserPositions(undefined);
       fetchUserInfo(inputAddress);
     } else {
       setUserPositions(undefined);
+      setState("default");
     }
   }, [inputAddress]);
 
   return (
     <div className="mt-3">
-      <WalletInput onClick={(address: string) => setInputAddress(address)} />
+      <WalletInput
+        onClick={(address: string) => setInputAddress(address)}
+        state={state}
+      />
 
       <div className="p-4 border border-white/10 rounded-xl mt-6">
         {/* MOBILE */}
