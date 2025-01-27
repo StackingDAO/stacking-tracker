@@ -139,6 +139,7 @@ export function getPoolEntities(
       rewards_amount: cycleInfoAddress[0].rewards_amount,
       stacked_amount_usd: cycleInfoAddress[0].stacked_amount * stxPrice,
       rewards_amount_usd: cycleInfoAddress[0].rewards_amount * btcPrice,
+      apr: apr * 100.0,
       apy: apy,
     });
   }

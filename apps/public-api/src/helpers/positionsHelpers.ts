@@ -1,6 +1,6 @@
 import * as db from "@repo/database";
 import * as stacks from "@repo/stacks";
-import { fetchPrice } from "../prices";
+import { fetchCycleStStxBtcSupply, fetchPrice } from "../prices";
 import { getPoolEntities, getPoolsInfoForCycle } from "../processors/pools";
 import { getTokenEntities, getTokensInfoForCycle } from "../processors/tokens";
 import { getPositions } from "../processors/positions";
@@ -13,12 +13,14 @@ import { delegationAddressToPool } from "../constants";
 //
 
 async function getInfoForCycle(cycleNumber: number) {
-  const [stackers, rewards, stxPrice, btcPrice] = await Promise.all([
-    db.getStackersForCycle(cycleNumber),
-    db.getRewardsForCycle(cycleNumber),
-    fetchPrice("STX"),
-    fetchPrice("BTC"),
-  ]);
+  const [stackers, rewards, stxPrice, btcPrice, stStxBtcSupply] =
+    await Promise.all([
+      db.getStackersForCycle(cycleNumber),
+      db.getRewardsForCycle(cycleNumber),
+      fetchPrice("STX"),
+      fetchPrice("BTC"),
+      fetchCycleStStxBtcSupply(cycleNumber),
+    ]);
 
   const soloStackers = stackers.filter(
     (stacker: any) => stacker.stackerType === "solo"
@@ -38,7 +40,8 @@ async function getInfoForCycle(cycleNumber: number) {
       stackers,
       rewards,
       stxPrice,
-      btcPrice
+      btcPrice,
+      stStxBtcSupply
     ),
   };
 }
@@ -64,12 +67,25 @@ async function getDefi(stStxPrice: number) {
     )
   );
 
+  const stStxBtcBalances = results.map((item: any) =>
+    Number(
+      item.fungible_tokens[
+        "SP4SZE494VC2YC5JYG7AYFQ44F5Q4PYV7DVMDPBG.ststxbtc-token::ststxbtc"
+      ]?.balance / 1000000.0
+    )
+  );
+
   return getDefiEntities(stStxPrice, {
-    arkadiko: stStxBalances[0],
-    bitflow: stStxBalances[1],
-    hermetica: stStxBalances[2],
-    velar: stStxBalances[3],
-    zest: stStxBalances[4],
+    ststx: {
+      arkadiko: stStxBalances[0],
+      bitflow: stStxBalances[1],
+      hermetica: stStxBalances[2],
+      velar: stStxBalances[3],
+      zest: stStxBalances[4],
+    },
+    ststxbtc: {
+      zest: stStxBtcBalances[4],
+    },
   });
 }
 
@@ -98,7 +114,8 @@ async function getAllPositions(
   const positions = getPositions(poolEntities, tokenEntities, defiEntities, {
     tvl: resultSolo[0].stacked_amount,
     tvl_usd: resultSolo[0].stacked_amount * stxPrice,
-    apy: soloApy,
+    apr: soloApy.apr,
+    apy: soloApy.apy,
   });
 
   return positions;

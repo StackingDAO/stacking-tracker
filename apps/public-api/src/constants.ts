@@ -1,5 +1,6 @@
-export const addressToToken = {
-  SP4SZE494VC2YC5JYG7AYFQ44F5Q4PYV7DVMDPBG: {
+export const tokensList = [
+  {
+    address: "SP4SZE494VC2YC5JYG7AYFQ44F5Q4PYV7DVMDPBG",
     entity: "StackingDAO",
     name: "stSTX",
     slug: "stackingdao",
@@ -8,7 +9,18 @@ export const addressToToken = {
     website: "https://www.stackingdao.com",
     tokenAddress: "SP4SZE494VC2YC5JYG7AYFQ44F5Q4PYV7DVMDPBG.ststx-token",
   },
-  SM3KNVZS30WM7F89SXKVVFY4SN9RMPZZ9FX929N0V: {
+  {
+    address: "SP4SZE494VC2YC5JYG7AYFQ44F5Q4PYV7DVMDPBG",
+    entity: "StackingDAO",
+    name: "stSTXbtc",
+    slug: "stackingdao-btc",
+    logo: "/logos/stackingdao.webp",
+    logo_token: "/logos/ststxbtc.webp",
+    website: "https://www.stackingdao.com",
+    tokenAddress: "SP4SZE494VC2YC5JYG7AYFQ44F5Q4PYV7DVMDPBG.ststxbtc-token",
+  },
+  {
+    address: "SM3KNVZS30WM7F89SXKVVFY4SN9RMPZZ9FX929N0V",
     entity: "Lisa",
     name: "LiSTX",
     slug: "lisa",
@@ -17,7 +29,7 @@ export const addressToToken = {
     website: "https://app.lisalab.io",
     tokenAddress: "SM26NBC8SFHNW4P1Y4DFH27974P56WN86C92HPEHH.token-lqstx",
   },
-};
+];
 
 export const poxAddressToPool = {
   bc1qeagslq8gm4ylmgxf9ngx24mnwffsqnprrsjc0n: {

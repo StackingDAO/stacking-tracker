@@ -1,16 +1,17 @@
-import { addressToToken } from "../constants";
+import { tokensList } from "../constants";
 
 export function getTokensInfoForCycle(
   cycleNumber: number,
   stackers: any,
   rewards: any,
   stxPrice: number,
-  btcPrice: number
+  btcPrice: number,
+  stStxBtcSupply: number
 ) {
   const tokens: any[] = [];
-  for (const address of Object.keys(addressToToken)) {
+  for (const tokenInfo of tokensList) {
     const tokenStackers = stackers.filter((stacker: any) =>
-      stacker.stackerAddress.includes(address)
+      stacker.stackerAddress.includes(tokenInfo.address)
     );
 
     let tokenStackedAmount = 0.0;
@@ -45,11 +46,26 @@ export function getTokensInfoForCycle(
     const tokenRewardAmount =
       rewardAmount * (tokenStackedAmount / rewardStackedAmount);
 
+    let share = 1.0;
+    if (tokenInfo.name === "stSTX") {
+      share = (tokenStackedAmount - stStxBtcSupply) / tokenStackedAmount;
+    } else if (tokenInfo.name === "stSTXbtc") {
+      share = stStxBtcSupply / tokenStackedAmount;
+    }
+
+    const previousStackedValue = tokenStackedAmount * stxPrice;
+    const previousRewardsValue = tokenRewardAmount * btcPrice;
+    // 26 cycles per year
+    const apr = (previousRewardsValue / previousStackedValue) * 26;
+    const apy = (Math.pow(1 + apr / 26, 26) - 1) * 100.0;
+
     tokens.push({
-      address: address,
-      name: addressToToken[address].entity,
-      stacked_amount: tokenStackedAmount,
-      rewards_amount: tokenRewardAmount,
+      address: tokenInfo.address,
+      name: tokenInfo.name,
+      stacked_amount: tokenStackedAmount * share,
+      rewards_amount: tokenRewardAmount * share,
+      apr: apr * 100.0,
+      apy: apy,
     });
   }
 
@@ -76,11 +92,11 @@ export function getTokenEntities(
   btcPrice: number
 ) {
   const entities: any[] = [];
-  for (const address of Object.keys(addressToToken)) {
+  for (const tokenInfo of tokensList) {
     const cycleInfoAddress = [];
     cyclesInfo.forEach((info: any) => {
       const filteredInfo = info.tokens.filter(
-        (token: any) => token.name === addressToToken[address].entity
+        (token: any) => token.name === tokenInfo.name
       )[0];
       cycleInfoAddress.push(filteredInfo);
     });
@@ -101,16 +117,17 @@ export function getTokenEntities(
     const apy = (Math.pow(1 + apr / 26, 26) - 1) * 100.0;
 
     entities.push({
-      name: addressToToken[address].name,
-      entity: addressToToken[address].entity,
-      logo: addressToToken[address].logo,
-      logo_token: addressToToken[address].logo_token,
-      slug: addressToToken[address].slug,
-      website: addressToToken[address].website,
+      name: tokenInfo.name,
+      entity: tokenInfo.entity,
+      logo: tokenInfo.logo,
+      logo_token: tokenInfo.logo_token,
+      slug: tokenInfo.slug,
+      website: tokenInfo.website,
       stacked_amount: cycleInfoAddress[0].stacked_amount,
       rewards_amount: cycleInfoAddress[0].rewards_amount,
       stacked_amount_usd: cycleInfoAddress[0].stacked_amount * stxPrice,
       rewards_amount_usd: cycleInfoAddress[0].rewards_amount * btcPrice,
+      apr: apr * 100.0,
       apy: apy,
     });
   }

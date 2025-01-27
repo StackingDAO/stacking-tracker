@@ -1,30 +1,33 @@
 import { Router, Request, Response } from "express";
 import * as db from "@repo/database";
 import * as stacks from "@repo/stacks";
-import { fetchPrice } from "../prices";
+import { fetchCycleStStxBtcSupply, fetchPrice } from "../prices";
 import { getTokenEntities, getTokensInfoForCycle } from "../processors/tokens";
-import { addressToToken } from "../constants";
+import { tokensList } from "../constants";
 
 async function getInfoForCycle(cycleNumber: number) {
-  const [stackers, rewards, stxPrice, btcPrice] = await Promise.all([
-    db.getStackersForCycle(cycleNumber),
-    db.getRewardsForCycle(cycleNumber),
-    fetchPrice("STX"),
-    fetchPrice("BTC"),
-  ]);
+  const [stackers, rewards, stxPrice, btcPrice, stStxBtcSupply] =
+    await Promise.all([
+      db.getStackersForCycle(cycleNumber),
+      db.getRewardsForCycle(cycleNumber),
+      fetchPrice("STX"),
+      fetchPrice("BTC"),
+      fetchCycleStStxBtcSupply(cycleNumber),
+    ]);
 
   return getTokensInfoForCycle(
     cycleNumber,
     stackers,
     rewards,
     stxPrice,
-    btcPrice
+    btcPrice,
+    stStxBtcSupply
   );
 }
 
 async function getTokensSupply(stxPrice: number) {
-  const tokenSupplyPromises = Object.keys(addressToToken).map((key: string) =>
-    stacks.getTotalSupply(addressToToken[key].tokenAddress)
+  const tokenSupplyPromises = tokensList.map((elem: any) =>
+    stacks.getTotalSupply(elem.tokenAddress)
   );
   const [tokensSupplyResults] = await Promise.all([
     Promise.all(tokenSupplyPromises),
@@ -33,11 +36,11 @@ async function getTokensSupply(stxPrice: number) {
   const stxPerStStx = await stacks.getStxPerStStx();
 
   let tokens: any[] = [];
-  Object.keys(addressToToken).forEach((address: string, index: number) => {
+  tokensList.forEach((elem: any, index: number) => {
     const tokenSupply = tokensSupplyResults[index];
 
     var tokenPrice = 1.0;
-    if (addressToToken[address].name === "stSTX") {
+    if (elem.name === "stSTX") {
       tokenPrice = stxPerStStx;
     }
 

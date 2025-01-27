@@ -40,7 +40,14 @@ export function PositionsRow({ firstChild, position }: Props) {
                       src={position.logo}
                     />
                     <div className="flex flex-col py-4">
-                      <div className="font-semibold">{position.name}</div>
+                      {position.type === "LST" &&
+                      position.name === "StackingDAO" ? (
+                        <div className="font-semibold">
+                          {position.name} {position.symbol}
+                        </div>
+                      ) : (
+                        <div className="font-semibold">{position.name}</div>
+                      )}
                       <div className="text-xs text-white/[0.35]">
                         {position.type}
                       </div>
@@ -71,6 +78,25 @@ export function PositionsRow({ firstChild, position }: Props) {
                         Compounding
                       </div>
                     </>
+                  ) : position.symbol === "stSTXbtc" ? (
+                    <>
+                      <div className="flex items-center gap-2">
+                        sBTC
+                        <img
+                          src="/logos/sbtc.webp"
+                          className="w-3 h-3 inline"
+                        />
+                      </div>
+                      <div className="text-xs text-white/[0.35]">Manual</div>
+                    </>
+                  ) : position.symbol === "BTC" ? (
+                    <>
+                      <div className="flex items-center gap-2">
+                        BTC
+                        <img src="/logos/btc.webp" className="w-3 h-3 inline" />
+                      </div>
+                      <div className="text-xs text-white/[0.35]">Manual</div>
+                    </>
                   ) : position.symbol === "LiSTX" ? (
                     <>
                       <div className="flex items-center gap-2">
@@ -96,7 +122,7 @@ export function PositionsRow({ firstChild, position }: Props) {
                 </div>
               </td>
               <td className="whitespace-nowrap py-2 pl-4 pr-3 text-sm text-gray-500 sm:pl-0">
-                {`${currency.short.format(position.apy)}`}%
+                {`${position.apy ? currency.short.format(position.apy) + "%" : "TBD"}`}
               </td>
               {showBalance && (
                 <td className="whitespace-nowrap py-2 pl-4 pr-3 text-sm text-gray-500 sm:pl-0">

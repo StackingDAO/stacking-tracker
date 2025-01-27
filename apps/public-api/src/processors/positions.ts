@@ -10,6 +10,7 @@ export function getPositions(pools: any, tokens: any, defi: any, solo: any) {
       logo: token.logo,
       tvl: token.stacked_amount,
       tvl_usd: token.stacked_amount_usd,
+      apr: token.apr,
       apy: token.apy,
       link: token.website,
     });
@@ -26,14 +27,16 @@ export function getPositions(pools: any, tokens: any, defi: any, solo: any) {
         logo: pool.logo,
         tvl: pool.stacked_amount,
         tvl_usd: pool.stacked_amount_usd,
+        apr: pool.apr,
         apy: pool.apy,
         link: pool.website,
       });
     }
   });
 
-  const stackingDaoToken = tokens.filter(
-    (token: any) => token.name == "stSTX"
+  const stStxToken = tokens.filter((token: any) => token.name == "stSTX")[0];
+  const stStxBtcToken = tokens.filter(
+    (token: any) => token.name == "stSTXbtc"
   )[0];
 
   defi.forEach((protocol: any) => {
@@ -41,11 +44,12 @@ export function getPositions(pools: any, tokens: any, defi: any, solo: any) {
       type: "DeFi",
       id: protocol.id,
       name: protocol.name,
-      symbol: "stSTX",
+      symbol: protocol.token,
       logo: protocol.logo,
       tvl: protocol.stacked_amount,
       tvl_usd: protocol.stacked_amount_usd,
-      apy: stackingDaoToken.apy,
+      apr: protocol.token === "stSTX" ? stStxToken.apr : stStxBtcToken.apr,
+      apy: protocol.token === "stSTX" ? stStxToken.apy : stStxBtcToken.apy,
       link: protocol.website,
     });
   });
@@ -54,10 +58,11 @@ export function getPositions(pools: any, tokens: any, defi: any, solo: any) {
     type: "Stacking",
     id: "solo-stacking",
     name: "Solo Stacking",
-    symbol: "STX",
+    symbol: "BTC",
     logo: "/logos/stx.webp",
     tvl: solo.tvl,
     tvl_usd: solo.tvl_usd,
+    apr: solo.apr,
     apy: solo.apy,
     link: "https://solo.stacking.tools/",
   });

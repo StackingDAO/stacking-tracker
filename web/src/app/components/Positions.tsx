@@ -18,7 +18,8 @@ export function Positions({ positions }: { positions: any }) {
   const [userPositions, setUserPositions] = useState<any | undefined>(
     undefined
   );
-  const [collapsed, setCollapsed] = useState(false);
+  const [collapsedStStx, setCollapsedStStx] = useState(false);
+  const [collapsedStStxBtc, setCollapsedStStxBtc] = useState(false);
   const [state, setState] = useState("default");
 
   function getPositions() {
@@ -59,7 +60,14 @@ export function Positions({ positions }: { positions: any }) {
                   <div key={position.name} className="flex">
                     <img className="w-8 h-8 mr-3 mt-1" src={position.logo} />
                     <div className="flex flex-col">
-                      <div className="font-semibold">{position.name}</div>
+                      {position.type === "LST" &&
+                      position.name === "StackingDAO" ? (
+                        <div className="font-semibold">
+                          {position.name} {position.symbol}
+                        </div>
+                      ) : (
+                        <div className="font-semibold">{position.name}</div>
+                      )}
                       <div className="text-xs text-white/[0.35]">
                         {position.type}
                       </div>
@@ -92,6 +100,32 @@ export function Positions({ positions }: { positions: any }) {
                           </div>
                           <div className="text-xs text-white/[0.35]">
                             Compounding
+                          </div>
+                        </>
+                      ) : position.symbol === "stSTXbtc" ? (
+                        <>
+                          <div className="flex items-center gap-2">
+                            sBTC
+                            <img
+                              src="/logos/sbtc.webp"
+                              className="w-3 h-3 inline"
+                            />
+                          </div>
+                          <div className="text-xs text-white/[0.35]">
+                            Manual
+                          </div>
+                        </>
+                      ) : position.symbol === "BTC" ? (
+                        <>
+                          <div className="flex items-center gap-2">
+                            BTC
+                            <img
+                              src="/logos/btc.webp"
+                              className="w-3 h-3 inline"
+                            />
+                          </div>
+                          <div className="text-xs text-white/[0.35]">
+                            Manual
                           </div>
                         </>
                       ) : position.symbol === "LiSTX" ? (
@@ -130,7 +164,7 @@ export function Positions({ positions }: { positions: any }) {
                         }
                       />
                     </dt>
-                    <dd>{currency.short.format(position.apy)}%</dd>
+                    <dd>{`${position.apy ? currency.short.format(position.apy) + "%" : "TBD"}`}</dd>
                   </div>
                   {userPositions && (
                     <div key={position.name + "-balance"}>
@@ -230,7 +264,7 @@ export function Positions({ positions }: { positions: any }) {
                   </tr>
                 </thead>
                 <tbody>
-                  {/* StackingDAO group */}
+                  {/* StackingDAO stSTX group */}
                   {getPositions()
                     .filter((position: any) => position.id === "stackingdao")
                     .map((position: any) => (
@@ -241,12 +275,12 @@ export function Positions({ positions }: { positions: any }) {
                           <button
                             type="button"
                             className="shrink-0 rounded-lg bg-orange/10 mr-3 w-10 h-10 flex items-center justify-center"
-                            onClick={() => setCollapsed(!collapsed)}
+                            onClick={() => setCollapsedStStx(!collapsedStStx)}
                           >
                             <ChevronDownIcon
                               className={classNames(
                                 "w-5 h-5 text-orange",
-                                collapsed ? "" : "rotate-180"
+                                collapsedStStx ? "" : "rotate-180"
                               )}
                             />
                           </button>
@@ -254,10 +288,61 @@ export function Positions({ positions }: { positions: any }) {
                       />
                     ))}
 
-                  {/* StackingDAO group elements */}
+                  {/* StackingDAO stSTX group elements */}
                   {getPositions()
                     .filter(
-                      (position: any) => !collapsed && position.type === "DeFi"
+                      (position: any) =>
+                        !collapsedStStx &&
+                        position.type === "DeFi" &&
+                        position.symbol === "stSTX"
+                    )
+                    .map((position: any, index: number) => (
+                      <PositionsRow
+                        key={position.id}
+                        position={position}
+                        firstChild={
+                          <div className="shrink-0 rounded-lg bg-transparent mr-3 w-10 h-10 flex items-center justify-center">
+                            <div className="w-1 h-[calc(100%+32px)] bg-orange/[0.25]" />
+                          </div>
+                        }
+                      />
+                    ))}
+
+                  {/* StackingDAO stSTXbtc group */}
+                  {getPositions()
+                    .filter(
+                      (position: any) => position.id === "stackingdao-btc"
+                    )
+                    .map((position: any) => (
+                      <PositionsRow
+                        key={position.id}
+                        position={position}
+                        firstChild={
+                          <button
+                            type="button"
+                            className="shrink-0 rounded-lg bg-orange/10 mr-3 w-10 h-10 flex items-center justify-center"
+                            onClick={() =>
+                              setCollapsedStStxBtc(!collapsedStStxBtc)
+                            }
+                          >
+                            <ChevronDownIcon
+                              className={classNames(
+                                "w-5 h-5 text-orange",
+                                collapsedStStx ? "" : "rotate-180"
+                              )}
+                            />
+                          </button>
+                        }
+                      />
+                    ))}
+
+                  {/* StackingDAO stSTXBtc group elements */}
+                  {getPositions()
+                    .filter(
+                      (position: any) =>
+                        !collapsedStStxBtc &&
+                        position.type === "DeFi" &&
+                        position.symbol === "stSTXbtc"
                     )
                     .map((position: any, index: number) => (
                       <PositionsRow

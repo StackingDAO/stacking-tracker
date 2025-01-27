@@ -36,7 +36,11 @@ export default async function Home() {
     borderColor: "rgba(247, 147, 26, 1)",
   });
 
-  const colors = ["rgba(252, 100, 50, 0.5)", "#2E7D59"];
+  const colors = [
+    "rgba(252, 100, 50, 0.5)",
+    "rgba(252, 100, 50, 0.8)",
+    "#2E7D59",
+  ];
   for (const activePool of activePools) {
     const data: any[] = [];
 

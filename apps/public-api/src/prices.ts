@@ -60,7 +60,7 @@ const fetchPriceHistory = async (
 
     return price;
   } catch (error) {
-    console.log("error", error);
+    // console.log("error", error);
     return 0;
   }
 };
@@ -78,6 +78,7 @@ const fetchPriceHistoryBlock = async (
   }
 };
 
+// TODO: add cache
 export const fetchCyclePrices = async (firstCycle: number): Promise<any> => {
   try {
     const pox = await stacks.getPox();
@@ -115,6 +116,86 @@ export const fetchCyclePrices = async (firstCycle: number): Promise<any> => {
       result[cycle] = {
         stx: pricesStx[priceIndex],
         btc: pricesBtc[priceIndex],
+      };
+    }
+    return result;
+  } catch (error) {
+    console.log("error", error);
+    return 0;
+  }
+};
+
+// TODO: add cache
+export const fetchCycleStStxBtcSupply = async (
+  firstCycle: number
+): Promise<any> => {
+  try {
+    const pox = await stacks.getPox();
+
+    const currentCycle = pox.current_cycle.id;
+    const promises: any[] = [];
+
+    const cyclesAgo = currentCycle - firstCycle;
+    const cycleEnd =
+      pox.next_cycle.reward_phase_start_block_height - 2100 * cyclesAgo;
+    const cycleRewardEnd = cycleEnd - 200; // stackingdao withdraw window
+
+    let blockInfo = await stacks.getBlockByBurnHeight(
+      Math.min(cycleRewardEnd, pox.current_burnchain_block_height - 1)
+    );
+
+    if (!blockInfo || blockInfo.results.length === 0) {
+      blockInfo = await stacks.getBlockByBurnHeight(
+        Math.min(cycleRewardEnd, pox.current_burnchain_block_height - 1) - 1
+      );
+    }
+
+    const result = await stacks.getStStxBtcSupplyAtBlock(
+      blockInfo.results[0].height
+    );
+    return result;
+  } catch (error) {
+    console.log("error", error);
+    return 0;
+  }
+};
+
+// TODO: add cache
+export const fetchCyclesStStxBtcSupply = async (
+  firstCycle: number
+): Promise<any> => {
+  try {
+    const pox = await stacks.getPox();
+
+    const currentCycle = pox.current_cycle.id;
+    const promises: any[] = [];
+
+    for (let cycle = currentCycle; cycle >= firstCycle; cycle--) {
+      const cyclesAgo = currentCycle - cycle;
+      const cycleEnd =
+        pox.next_cycle.reward_phase_start_block_height - 2100 * cyclesAgo;
+      const cycleRewardEnd = cycleEnd - 200; // stackingdao withdraw window
+
+      let blockInfo = await stacks.getBlockByBurnHeight(
+        Math.min(cycleRewardEnd, pox.current_burnchain_block_height - 1)
+      );
+
+      if (!blockInfo || blockInfo.results.length === 0) {
+        blockInfo = await stacks.getBlockByBurnHeight(
+          Math.min(cycleRewardEnd, pox.current_burnchain_block_height - 1) - 1
+        );
+      }
+      promises.push(
+        stacks.getStStxBtcSupplyAtBlock(blockInfo.results[0].height)
+      );
+    }
+    const supplies = await Promise.all(promises);
+
+    let result = {};
+    for (let cycle = currentCycle; cycle > 83; cycle--) {
+      const supplyIndex = currentCycle - cycle;
+      result[cycle] = {
+        supply: supplies[supplyIndex] ?? 0,
       };
     }
     return result;
