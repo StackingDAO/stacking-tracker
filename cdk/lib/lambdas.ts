@@ -120,6 +120,7 @@ export class Lambdas extends cdk.Stack {
       environment: {
         DATABASE_URL: process.env.DATABASE_URL ?? "",
         STACKS_API: process.env.STACKS_API ?? "",
+        TELEGRAM_TOKEN: process.env.TELEGRAM_TOKEN ?? "",
       },
     });
     telegramProcessor.lambda.addEventSource(

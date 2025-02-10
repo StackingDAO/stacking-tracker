@@ -7,6 +7,7 @@ export function getDefiEntities(
       hermetica: number;
       velar: number;
       zest: number;
+      alex: number;
     };
     ststxbtc: {
       zest: number;
@@ -57,6 +58,17 @@ export function getDefiEntities(
     stacked_amount: balances.ststx.velar,
     stacked_amount_usd: balances.ststx.velar * stStxPrice,
     website: "https://www.velar.co/",
+  });
+
+  protocols.push({
+    type: "defi",
+    token: "stSTX",
+    id: "ststx-alex",
+    name: "Alex STX/stSTX LP",
+    logo: "/logos/alex.webp",
+    stacked_amount: balances.ststx.alex,
+    stacked_amount_usd: balances.ststx.alex * stStxPrice,
+    website: "https://app.alexlab.co/",
   });
 
   protocols.push({

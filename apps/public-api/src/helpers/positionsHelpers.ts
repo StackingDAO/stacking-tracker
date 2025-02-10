@@ -53,6 +53,7 @@ async function getDefi(stStxPrice: number) {
     "SPZA22A4D15RKH5G8XDGQ7BPC20Q5JNMH0VQKSR6.vault-ststx-earn-v1",
     "SP1Y5YSTAHZ88XYK1VPDH24GY0HPX5J4JECTMY4A1.univ2-core",
     "SP2VCQJGH7PHP2DJK7Z0V48AGBHQAW3R3ZW1QF4N.pool-vault",
+    "SP102V8P0F7JX67ARQ77WEA3D3CFB5XW39REDT0AM.amm-vault-v2-01",
   ];
 
   const results = await Promise.all(
@@ -82,6 +83,7 @@ async function getDefi(stStxPrice: number) {
       hermetica: stStxBalances[2],
       velar: stStxBalances[3],
       zest: stStxBalances[4],
+      alex: stStxBalances[5],
     },
     ststxbtc: {
       zest: stStxBtcBalances[4],
