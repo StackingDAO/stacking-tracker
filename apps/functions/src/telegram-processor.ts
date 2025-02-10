@@ -15,8 +15,14 @@ export async function processTelegram(
   const currentBlock = pox.current_burnchain_block_height;
   const nextCycleStartBlock = pox.next_cycle.reward_phase_start_block_height;
   const blocksLeft = nextCycleStartBlock - currentBlock;
+  console.log(
+    "[Telegram Processor] - Current block: ",
+    currentBlock,
+    "Next cycle start block:",
+    nextCycleStartBlock
+  );
 
-  if (currentBlock < nextCycleStartBlock - 288) {
+  if (currentBlock < nextCycleStartBlock - 432) {
     return;
   }
 
@@ -44,10 +50,9 @@ export async function processTelegram(
   for (const chat of telegramChats) {
     const [messageResult] = await Promise.all([
       sendMessageOptions(BigInt(chat.chatId), replyMessage, options),
-      db.saveChat(chat.chatId, undefined, nextCycle),
+      await db.saveChat(chat.chatId, undefined, nextCycle),
     ]);
 
-    await db.saveChat(chat.chatId, nextCycle);
-    console.log("Message result", messageResult);
+    console.log("Message results", messageResult);
   }
 }
