@@ -361,7 +361,8 @@ export function Positions({ positions }: { positions: any }) {
                     .filter(
                       (position: any) =>
                         position.type !== "DeFi" &&
-                        position.id !== "stackingdao"
+                        position.id !== "stackingdao" &&
+                        position.id !== "stackingdao-btc"
                     )
                     .map((position: any) => (
                       <PositionsRow key={position.id} position={position} />
