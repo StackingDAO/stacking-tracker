@@ -133,7 +133,6 @@ export const fetchCycleStStxBtcSupply = async (
     const pox = await stacks.getPox();
 
     const currentCycle = pox.current_cycle.id;
-    const promises: any[] = [];
 
     const cyclesAgo = currentCycle - firstCycle;
     const cycleEnd =
@@ -151,8 +150,9 @@ export const fetchCycleStStxBtcSupply = async (
     }
 
     const result = await stacks.getStStxBtcSupplyAtBlock(
-      blockInfo.results[0].height
+      blockInfo.results[0].height-1
     );
+
     return result;
   } catch (error) {
     console.log("error", error);
