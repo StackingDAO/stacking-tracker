@@ -3,7 +3,9 @@ import { poxAddressToPool } from "../constants";
 export function getPoxInfoForCycle(
   cycleNumber: number,
   stackers: any,
-  rewards: any
+  rewards: any,
+  stxPrice: number,
+  btcPrice: number
 ) {
   let poxAddresses = [
     ...new Set(stackers.map((stacker: any) => stacker.poxAddress)),
@@ -25,26 +27,33 @@ export function getPoxInfoForCycle(
     rewardAmount += reward.rewardAmount;
   });
 
+  const previousStackedValue = stackedAmount * stxPrice;
+  const previousRewardsValue = rewardAmount * btcPrice;
+  // 26 cycles per year
+  const apr = (previousRewardsValue / previousStackedValue) * 26;
+  const apy = (Math.pow(1 + apr / 26, 26) - 1) * 100.0;
+
   return {
     cycle_number: cycleNumber,
     stacked_amount: stackedAmount,
     rewards_amount: rewardAmount,
     pools_count: poolsCount,
+    apr: apr * 100.0,
+    apy: apy,
   };
 }
 
 export function getPoxApy(cyclesInfo: any, stxPrice: number, btcPrice: number) {
-  var previousStacked = 0.0;
-  var previousRewards = 0.0;
-  cyclesInfo.forEach((info: any) => {
-    previousStacked += info.stacked_amount;
-    previousRewards += info.rewards_amount;
+  var aprSum = 0.0;
+  var apySum = 0.0;
+
+  cyclesInfo.slice(1).forEach((info: any) => {
+    aprSum += info.apr;
+    apySum += info.apy;
   });
 
-  const previousStackedValue = (previousStacked / cyclesInfo.length) * stxPrice;
-  const previousRewardsValue = (previousRewards / cyclesInfo.length) * btcPrice;
-  // 26 cycles per year
-  const apr = (previousRewardsValue / previousStackedValue) * 26;
-  const apy = (Math.pow(1 + apr / 26, 26) - 1) * 100.0;
-  return { apr: apr * 100.0, apy: apy };
+  return {
+    apr: aprSum / cyclesInfo.slice(1).length,
+    apy: apySum / cyclesInfo.slice(1).length,
+  };
 }

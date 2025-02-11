@@ -1,7 +1,7 @@
 import { Router, Request, Response } from "express";
 import * as db from "@repo/database";
 import { signerKeyToPool } from "../constants";
-import { fetchCyclePrices } from "../prices";
+import { fetchCyclesPrices } from "../prices";
 
 const router = Router();
 
@@ -16,7 +16,7 @@ router.get("/:signer", async (req: Request, res: Response) => {
   const [signersInfo, rewardsInfo, prices] = await Promise.all([
     db.getSigner(signerKey),
     db.getStackersRewardsForSigner(signerKey),
-    fetchCyclePrices(84),
+    fetchCyclesPrices(84),
   ]);
 
   const results = [];

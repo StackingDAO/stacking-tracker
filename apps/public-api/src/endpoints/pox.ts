@@ -1,7 +1,7 @@
 import { Router, Request, Response } from "express";
 import * as db from "@repo/database";
 import * as stacks from "@repo/stacks";
-import { fetchCyclePrices } from "../prices";
+import { fetchCyclesPrices } from "../prices";
 import { getPoxInfoForCycle } from "../processors/pox";
 
 async function getInfoForCycle(
@@ -15,7 +15,13 @@ async function getInfoForCycle(
     db.getRewardsForCycle(cycleNumber),
   ]);
 
-  const info: any = getPoxInfoForCycle(cycleNumber, stackers, rewards);
+  const info: any = getPoxInfoForCycle(
+    cycleNumber,
+    stackers,
+    rewards,
+    stxPrice,
+    btcPrice
+  );
   info.signers_count = signers.length;
 
   // 26 cycles per year
@@ -30,7 +36,7 @@ const router = Router();
 
 router.get("/", async (req: Request, res: Response) => {
   const [prices, pox, currentCycle] = await Promise.all([
-    fetchCyclePrices(84),
+    fetchCyclesPrices(84),
     stacks.getPox(),
     db.getSignersLatestCycle(),
   ]);

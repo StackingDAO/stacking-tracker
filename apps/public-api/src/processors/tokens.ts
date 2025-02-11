@@ -101,20 +101,13 @@ export function getTokenEntities(
       cycleInfoAddress.push(filteredInfo);
     });
 
-    var previousStacked = 0.0;
-    var previousRewards = 0.0;
-    cycleInfoAddress.slice(1).forEach((info: any) => {
-      previousStacked += info.stacked_amount;
-      previousRewards += info.rewards_amount;
-    });
+    var aprSum = 0.0;
+    var apySum = 0.0;
 
-    const previousStackedValue =
-      (previousStacked / (cyclesInfo.length - 1)) * stxPrice;
-    const previousRewardsValue =
-      (previousRewards / (cyclesInfo.length - 1)) * btcPrice;
-    // 26 cycles per year
-    const apr = (previousRewardsValue / previousStackedValue) * 26;
-    const apy = (Math.pow(1 + apr / 26, 26) - 1) * 100.0;
+    cycleInfoAddress.slice(1).forEach((info: any) => {
+      aprSum += info.apr;
+      apySum += info.apy;
+    });
 
     entities.push({
       name: tokenInfo.name,
@@ -127,8 +120,8 @@ export function getTokenEntities(
       rewards_amount: cycleInfoAddress[0].rewards_amount,
       stacked_amount_usd: cycleInfoAddress[0].stacked_amount * stxPrice,
       rewards_amount_usd: cycleInfoAddress[0].rewards_amount * btcPrice,
-      apr: apr * 100.0,
-      apy: apy,
+      apr: aprSum / cycleInfoAddress.slice(1).length,
+      apy: apySum / cycleInfoAddress.slice(1).length,
     });
   }
 

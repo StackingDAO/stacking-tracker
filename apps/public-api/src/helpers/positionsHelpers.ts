@@ -1,6 +1,10 @@
 import * as db from "@repo/database";
 import * as stacks from "@repo/stacks";
-import { fetchCycleStStxBtcSupply, fetchPrice } from "../prices";
+import {
+  fetchCyclePrice,
+  fetchCycleStStxBtcSupply,
+  fetchPrice,
+} from "../prices";
 import { getPoolEntities, getPoolsInfoForCycle } from "../processors/pools";
 import { getTokenEntities, getTokensInfoForCycle } from "../processors/tokens";
 import { getPositions } from "../processors/positions";
@@ -17,8 +21,8 @@ async function getInfoForCycle(cycleNumber: number) {
     await Promise.all([
       db.getStackersForCycle(cycleNumber),
       db.getRewardsForCycle(cycleNumber),
-      fetchPrice("STX"),
-      fetchPrice("BTC"),
+      fetchCyclePrice("STX", cycleNumber),
+      fetchCyclePrice("BTC", cycleNumber),
       fetchCycleStStxBtcSupply(cycleNumber),
     ]);
 
@@ -33,8 +37,20 @@ async function getInfoForCycle(cycleNumber: number) {
   );
 
   return {
-    solo: getPoxInfoForCycle(cycleNumber, soloStackers, soloStackersRewards),
-    pools: getPoolsInfoForCycle(cycleNumber, stackers, rewards),
+    solo: getPoxInfoForCycle(
+      cycleNumber,
+      soloStackers,
+      soloStackersRewards,
+      stxPrice,
+      btcPrice
+    ),
+    pools: getPoolsInfoForCycle(
+      cycleNumber,
+      stackers,
+      rewards,
+      stxPrice,
+      btcPrice
+    ),
     tokens: getTokensInfoForCycle(
       cycleNumber,
       stackers,

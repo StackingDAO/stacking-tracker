@@ -78,8 +78,32 @@ const fetchPriceHistoryBlock = async (
   }
 };
 
+export const fetchCyclePrice = async (
+  symbol: string,
+  cycle: number
+): Promise<any> => {
+  try {
+    const pox = await stacks.getPox();
+
+    const currentCycle = pox.current_cycle.id;
+
+    const cyclesAgo = currentCycle - cycle;
+    const cycleEnd =
+      pox.next_cycle.reward_phase_start_block_height - 2100 * cyclesAgo;
+
+    const result = await fetchPriceHistoryBlock(
+      symbol === "BTC" ? "bitcoin" : "blockstack",
+      Math.min(pox.current_burnchain_block_height, cycleEnd)
+    );
+    return result;
+  } catch (error) {
+    console.log("error", error);
+    return 0;
+  }
+};
+
 // TODO: add cache
-export const fetchCyclePrices = async (firstCycle: number): Promise<any> => {
+export const fetchCyclesPrices = async (firstCycle: number): Promise<any> => {
   try {
     const pox = await stacks.getPox();
 
@@ -150,7 +174,7 @@ export const fetchCycleStStxBtcSupply = async (
     }
 
     const result = await stacks.getStStxBtcSupplyAtBlock(
-      blockInfo.results[0].height-1
+      blockInfo.results[0].height - 1
     );
 
     return result;

@@ -2,7 +2,7 @@ import { Router, Request, Response } from "express";
 import * as db from "@repo/database";
 import * as stacks from "@repo/stacks";
 import {
-  fetchCyclePrices,
+  fetchCyclesPrices,
   fetchCyclesStStxBtcSupply,
   fetchCycleStStxBtcSupply,
   fetchPrice,
@@ -84,7 +84,7 @@ router.get("/:slug", async (req: Request, res: Response) => {
 
   const [currentCycle, prices, stStxBtcSupply] = await Promise.all([
     db.getSignersLatestCycle(),
-    fetchCyclePrices(84),
+    fetchCyclesPrices(84),
     fetchCyclesStStxBtcSupply(84),
   ]);
 
@@ -102,7 +102,6 @@ router.get("/:slug", async (req: Request, res: Response) => {
   }
 
   const results = await Promise.all(promises);
-  console.log("RESULTS", results);
   res.send({
     name: tokenInfo.name,
     entity: tokenInfo.entity,
