@@ -50,6 +50,12 @@ export const poxAddressToPool = {
     logo: "/logos/fastpool.webp",
     website: "https://fastpool.org",
   },
+   bc1q7w0jpwwjyq48qhyecnuwazfqv56880q67pmtfc: {
+    name: "Fast Pool (v2)",
+    slug: "fast-pool-v2",
+    logo: "/logos/fastpool.webp",
+    website: "https://fastpool.org",
+  },
   bc1qs33quxgnwkrspgu82lmaczw7gtcfa88pll8fqm: {
     name: "Planbetter Pool",
     slug: "planbetter-pool",
