@@ -135,13 +135,14 @@ export const fetchCyclesPrices = async (firstCycle: number): Promise<any> => {
     ]);
 
     let result = {};
-    for (let cycle = currentCycle; cycle > 83; cycle--) {
+    for (let cycle = currentCycle; cycle >= firstCycle; cycle--) {
       const priceIndex = currentCycle - cycle;
       result[cycle] = {
         stx: pricesStx[priceIndex],
         btc: pricesBtc[priceIndex],
       };
     }
+
     return result;
   } catch (error) {
     console.log("error", error);

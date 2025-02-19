@@ -35,14 +35,19 @@ async function getInfoForCycle(
 const router = Router();
 
 router.get("/", async (req: Request, res: Response) => {
-  const [prices, pox, currentCycle] = await Promise.all([
-    fetchCyclesPrices(84),
+
+  const firstCycle = 84;
+
+  const [prices, pox, signersLatestCycle] = await Promise.all([
+    fetchCyclesPrices(firstCycle),
     stacks.getPox(),
     db.getSignersLatestCycle(),
   ]);
 
+  const currentCycle = Math.min(pox.current_cycle.id, signersLatestCycle)
+
   const promises: any[] = [];
-  for (let cycle = currentCycle; cycle > 83; cycle--) {
+  for (let cycle = currentCycle; cycle >= firstCycle; cycle--) {
     promises.push(getInfoForCycle(cycle, prices[cycle].stx, prices[cycle].btc));
   }
   const results = await Promise.all(promises);
