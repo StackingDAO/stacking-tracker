@@ -159,10 +159,10 @@ export default async function Home() {
                   </div>
                   <div>
                     <dt className="text-sm font-medium leading-6 text-white/50 flex gap-1 items-center">
-                      Gross APY
+                      APY
                       <ToolTip
-                        id="tooltip_rewards"
-                        text="Gross APY in BTC that the Pools are generating from stacked STX. Most pools charge fees, so the next APY that stackers in these pools earn is likely different. Consult your pool operator for details about their fees."
+                        id={entity.name + "-fee-tooltip"}
+                        text={`Pool fee: ${entity.fee * 100.0}%. APY in BTC that the Pools are generating from stacked STX`}
                       />
                     </dt>
                     <dd>{currency.short.format(entity.apy)}%</dd>
@@ -216,8 +216,8 @@ export default async function Home() {
                 info: "The cycle is in progress and BTC Rewards are streamed to stackers on a per block basis.",
               },
               {
-                title: "Gross APY",
-                info: "Gross APY in BTC that the Pools are generating from stacked STX. Most pools charge fees, so the next APY that stackers in these pools earn is likely different. Consult your pool operator for details about their fees.",
+                title: "APY",
+                info: "APY in BTC that the Pools are generating from stacked STX. Fees have been deducted.",
               },
               { title: "" },
             ]}
@@ -239,7 +239,16 @@ export default async function Home() {
                 </div>
                 <div className="text-xs text-white/[0.35]">{`$${currency.rounded.format(entity.rewards_amount_usd)}`}</div>
               </div>,
-              `${currency.short.format(entity.apy)}%`,
+              <div
+                className="flex gap-2 items-center"
+                key={entity.name + "-apy"}
+              >
+                ${currency.short.format(entity.apy)}%
+                <ToolTip
+                  id={entity.name + "-fee-tooltip"}
+                  text={`Pool fee: ${entity.fee * 100.0}%`}
+                />
+              </div>,
               <div key={entity.slug} className="text-right">
                 <ButtonLink
                   label="View Rewards History"

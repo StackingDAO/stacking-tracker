@@ -60,7 +60,12 @@ const Home: FunctionComponent<Props> = async ({ params: { pool } }: Props) => {
         <div className="md:flex md:items-center md:justify-between">
           <div className="flex items-center gap-x-3 justify-center md:justify-start">
             <img className="w-10" src={poolInfo.logo} />
-            <h4 className="font-semibold">{poolInfo.name}</h4>
+            <div className="flex flex-col gap-0">
+              <h4 className="font-semibold">{poolInfo.name}</h4>
+              <span className="text-xs text-white/60">
+                Fee: {poolInfo.fee * 100}%
+              </span>
+            </div>
           </div>
           <ButtonWebsite label={poolInfo.website} link={poolInfo.website} />
         </div>
@@ -102,11 +107,11 @@ const Home: FunctionComponent<Props> = async ({ params: { pool } }: Props) => {
                   </div>
                   <div key={info.cycle_number + "-apy"}>
                     <dt className="text-sm font-medium leading-6 text-white/50 flex gap-1 items-center">
-                      Gross APY
+                      APY
                       <ToolTip
                         id="tooltip_apy"
                         text={
-                          "Calculated using STX and BTC prices at the end of the cycle."
+                          "Calculated using STX and BTC prices at the end of the cycle. Fees have been deducted."
                         }
                       />
                     </dt>
@@ -157,8 +162,8 @@ const Home: FunctionComponent<Props> = async ({ params: { pool } }: Props) => {
               { title: "Cycle" },
               { title: "Stacked" },
               {
-                title: "Gross APY",
-                info: "Calculated using STX and BTC prices at the end of the cycle.",
+                title: "APY",
+                info: "Calculated using STX and BTC prices at the end of the cycle. Fees have been deducted.",
               },
               { title: "Rewards" },
             ]}

@@ -29,8 +29,10 @@ async function getPoolsInfoForCycle(
       rewardAmount += reward.rewardAmount;
     });
 
+  const rewardFeeMult = 1 - poxAddressToPool[poxAddress as string].fee;
+
   const previousStackedValue = stackedAmount * stxPrice;
-  const previousRewardsValue = rewardAmount * btcPrice;
+  const previousRewardsValue = rewardAmount * rewardFeeMult * btcPrice;
   // 26 cycles per year
   const apr = (previousRewardsValue / previousStackedValue) * 26;
   const apy = (Math.pow(1 + apr / 26, 26) - 1) * 100.0;
@@ -74,6 +76,7 @@ router.get("/:slug", async (req: Request, res: Response) => {
     name: poxAddressToPool[poxAddress].name,
     logo: poxAddressToPool[poxAddress].logo,
     website: poxAddressToPool[poxAddress].website,
+    fee: poxAddressToPool[poxAddress].fee,
     cycles: results.reverse(),
   });
 });

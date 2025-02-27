@@ -25,8 +25,10 @@ export function getPoolsInfoForCycle(
       });
 
     if (poxAddressToPool[poxAddress as string]) {
+      const rewardFeeMult = 1 - poxAddressToPool[poxAddress as string].fee;
+
       const previousStackedValue = stackedAmount * stxPrice;
-      const previousRewardsValue = rewardAmount * btcPrice;
+      const previousRewardsValue = rewardAmount * rewardFeeMult * btcPrice;
       // 26 cycles per year
       const apr = (previousRewardsValue / previousStackedValue) * 26;
       const apy = (Math.pow(1 + apr / 26, 26) - 1) * 100.0;
@@ -134,6 +136,7 @@ export function getPoolEntities(
     entities.push({
       name: poxAddressToPool[poxAddress].name,
       entity: poxAddressToPool[poxAddress].entity,
+      fee: poxAddressToPool[poxAddress].fee,
       logo: poxAddressToPool[poxAddress].logo,
       website: poxAddressToPool[poxAddress].website,
       slug: poxAddressToPool[poxAddress].slug,
@@ -147,5 +150,5 @@ export function getPoolEntities(
     });
   }
 
-  return entities.sort((a, b) => b.stacked_amount - a.stacked_amount);
+  return entities.sort((a, b) => b.apy - a.apy);
 }
