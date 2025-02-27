@@ -138,7 +138,7 @@ export function Positions({ positions }: { positions: any }) {
                             />
                           </div>
                           <div className="text-xs text-white/[0.35]">
-                            Compounding
+                            Manual
                           </div>
                         </>
                       ) : (

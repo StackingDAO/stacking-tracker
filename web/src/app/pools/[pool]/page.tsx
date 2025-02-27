@@ -63,7 +63,10 @@ const Home: FunctionComponent<Props> = async ({ params: { pool } }: Props) => {
             <div className="flex flex-col gap-0">
               <h4 className="font-semibold">{poolInfo.name}</h4>
               <span className="text-xs text-white/60">
-                Fee: {poolInfo.fee * 100}%
+                Fee:{" "}
+                {poolInfo.feeDisclosed
+                  ? `${poolInfo.fee * 100.0}%`
+                  : "undisclosed"}
               </span>
             </div>
           </div>

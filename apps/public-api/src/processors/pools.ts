@@ -137,6 +137,7 @@ export function getPoolEntities(
       name: poxAddressToPool[poxAddress].name,
       entity: poxAddressToPool[poxAddress].entity,
       fee: poxAddressToPool[poxAddress].fee,
+      feeDisclosed: poxAddressToPool[poxAddress].feeDisclosed,
       logo: poxAddressToPool[poxAddress].logo,
       website: poxAddressToPool[poxAddress].website,
       slug: poxAddressToPool[poxAddress].slug,

@@ -38,6 +38,7 @@ export const poxAddressToPool = {
     logo: "/logos/stackingdao.webp",
     website: "https://www.stackingdao.com/pool",
     fee: 0.0,
+    feeDisclosed: true,
   },
   bc1qmv2pxw5ahvwsu94kq5f520jgkmljs3af8ly6tr: {
     name: "Xverse Pool",
@@ -45,6 +46,7 @@ export const poxAddressToPool = {
     logo: "/logos/xverse.webp",
     website: "https://xverse-pool.com",
     fee: 0.05,
+    feeDisclosed: true,
   },
   bc1qs0kkdpsrzh3ngqgth7mkavlwlzr7lms2zv3wxe: {
     name: "Fast Pool",
@@ -52,6 +54,7 @@ export const poxAddressToPool = {
     logo: "/logos/fastpool.webp",
     website: "https://fastpool.org",
     fee: 0.05,
+    feeDisclosed: true,
   },
   bc1qs33quxgnwkrspgu82lmaczw7gtcfa88pll8fqm: {
     name: "Planbetter Pool",
@@ -59,6 +62,7 @@ export const poxAddressToPool = {
     logo: "/logos/planbetter.webp",
     website: "https://www.planbetter.org",
     fee: 0.05,
+    feeDisclosed: true,
   },
   "15uuC9CPwSuV3inJcuU5Uon111yosYbzAb": {
     name: "Blockdaemon",
@@ -66,6 +70,7 @@ export const poxAddressToPool = {
     logo: "/logos/blockdaemon.webp",
     website: "https://www.blockdaemon.com/stacks",
     fee: 0.0,
+    feeDisclosed: false,
   },
   bc1qcc2pumtnrtcj4mk9w0y37xynhqarh40zsy5v77: {
     name: "Luganodes",
@@ -73,6 +78,7 @@ export const poxAddressToPool = {
     logo: "/logos/luganodes.webp",
     website: "https://www.luganodes.com/blog/StacksSG",
     fee: 0.0,
+    feeDisclosed: false,
   },
   bc1qsfahfanetg4v75x6qj82mvs033le6sfflghpws: {
     name: "Senseinode",
@@ -80,6 +86,7 @@ export const poxAddressToPool = {
     logo: "/logos/default.webp",
     website: "https://www.senseinode.com/en-stake/stacks",
     fee: 0.0,
+    feeDisclosed: false,
   },
 };
 

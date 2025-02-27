@@ -162,7 +162,7 @@ export default async function Home() {
                       APY
                       <ToolTip
                         id={entity.name + "-fee-tooltip"}
-                        text={`Pool fee: ${entity.fee * 100.0}%. APY in BTC that the Pools are generating from stacked STX`}
+                        text={`Pool fee: ${entity.feeDisclosed ? `${entity.fee * 100.0}%` : "undisclosed"}. APY in BTC that the Pools are generating from stacked STX`}
                       />
                     </dt>
                     <dd>{currency.short.format(entity.apy)}%</dd>
@@ -246,7 +246,7 @@ export default async function Home() {
                 ${currency.short.format(entity.apy)}%
                 <ToolTip
                   id={entity.name + "-fee-tooltip"}
-                  text={`Pool fee: ${entity.fee * 100.0}%`}
+                  text={`Pool fee: ${entity.feeDisclosed ? `${entity.fee * 100.0}%` : "undisclosed"}`}
                 />
               </div>,
               <div key={entity.slug} className="text-right">

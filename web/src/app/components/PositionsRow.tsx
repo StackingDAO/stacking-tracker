@@ -106,9 +106,7 @@ export function PositionsRow({ firstChild, position }: Props) {
                           className="w-3 h-3 inline"
                         />
                       </div>
-                      <div className="text-xs text-white/[0.35]">
-                        Compounding
-                      </div>
+                      <div className="text-xs text-white/[0.35]">Manual</div>
                     </>
                   ) : (
                     <>

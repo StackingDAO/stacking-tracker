@@ -77,6 +77,7 @@ router.get("/:slug", async (req: Request, res: Response) => {
     logo: poxAddressToPool[poxAddress].logo,
     website: poxAddressToPool[poxAddress].website,
     fee: poxAddressToPool[poxAddress].fee,
+    feeDisclosed: poxAddressToPool[poxAddress].feeDisclosed,
     cycles: results.reverse(),
   });
 });
