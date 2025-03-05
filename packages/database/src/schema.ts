@@ -152,6 +152,7 @@ export const telegramChats = pgTable(
     chatId: bigint('chat_id', { mode: 'bigint' }).notNull(),
     addresses: varchar('addresses'),
     notificationCycle: integer('notification_cycle'),
+    blockStackingDaoRewards: integer('block_stackingdao_rewards').default(884163),
   },
   table => {
     return {

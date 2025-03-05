@@ -1,12 +1,8 @@
 import { BlocksApi, TransactionsApi } from '@stacks/blockchain-api-client';
 import { configuration } from './constants';
+import { cvToJSON, deserializeCV } from '@stacks/transactions';
 
 const transactionsApi = new TransactionsApi(configuration);
-
-export async function getTransactionsByBlockHeightTest(blockHeight: number): Promise<any> {
-  const transactions = await transactionsApi.getTransactionsByBlockHeight({ height: blockHeight });
-  return transactions;
-}
 
 export async function getTransactionsByBlockHeight(blockHeight: number): Promise<any> {
   let result: any[] = [];
@@ -24,4 +20,25 @@ export async function getTransactionsByBlockHeight(blockHeight: number): Promise
   }
 
   return result;
+}
+
+export async function getTransactionById(txId: string): Promise<any> {
+  return await transactionsApi.getTransactionById({
+    txId: txId,
+  });
+}
+
+export async function getAddressTransactions(address: string): Promise<any> {
+  return await transactionsApi.getAddressTransactions({
+    address: address,
+    limit: 50,
+    offset: 0,
+  });
+}
+
+export function reprHexToJson(reprHex: string) {
+  const buffer = Buffer.from(reprHex.substring(2), 'hex');
+  const clarityValue = deserializeCV(buffer);
+  const jsonValue = cvToJSON(clarityValue);
+  return jsonValue;
 }
