@@ -1,7 +1,7 @@
 import { Router, Request, Response } from "express";
 import * as db from "@repo/database";
 import { poxAddressToPool } from "../constants";
-import { fetchCyclePrice, fetchPrice } from "../prices";
+import { fetchPrice, getPrices } from "../prices";
 import {
   getAggregatedPoolsInfo,
   getPoolEntities,
@@ -9,19 +9,18 @@ import {
 } from "../processors/pools";
 
 async function getInfoForCycle(cycleNumber: number) {
-  const [stackers, rewards, stxPrice, btcPrice] = await Promise.all([
+  const [stackers, rewards, prices] = await Promise.all([
     db.getStackersForCycle(cycleNumber, Object.keys(poxAddressToPool)),
     db.getRewardsForCycle(cycleNumber, Object.keys(poxAddressToPool)),
-    fetchCyclePrice("STX", cycleNumber),
-    fetchCyclePrice("BTC", cycleNumber),
+    getPrices(cycleNumber),
   ]);
 
   return getPoolsInfoForCycle(
     cycleNumber,
     stackers,
     rewards,
-    stxPrice,
-    btcPrice
+    prices.stx,
+    prices.btc
   );
 }
 

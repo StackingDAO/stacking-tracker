@@ -163,3 +163,21 @@ export const telegramChats = pgTable(
     };
   }
 );
+
+export const cyclePrices = pgTable(
+  'cycle_prices',
+  {
+    cycle: integer('cycle').notNull(),
+    symbol: varchar('symbol'),
+    price: currency('price').notNull().default(0),
+  },
+  table => {
+    return {
+      pk: primaryKey({
+        columns: [table.cycle, table.symbol],
+      }),
+      cycleIndex: index('cycle_prices_idx_cycle').on(table.cycle),
+      symbolIndex: index('cycle_prices_idx_symbol').on(table.symbol),
+    };
+  }
+);

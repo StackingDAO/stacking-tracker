@@ -1,30 +1,24 @@
 import { Router, Request, Response } from "express";
 import * as db from "@repo/database";
 import * as stacks from "@repo/stacks";
-import {
-  fetchCyclePrice,
-  fetchCycleStStxBtcSupply,
-  fetchPrice,
-} from "../prices";
+import { fetchCycleStStxBtcSupply, fetchPrice, getPrices } from "../prices";
 import { getTokenEntities, getTokensInfoForCycle } from "../processors/tokens";
 import { tokensList } from "../constants";
 
 async function getInfoForCycle(cycleNumber: number) {
-  const [stackers, rewards, stxPrice, btcPrice, stStxBtcSupply] =
-    await Promise.all([
-      db.getStackersForCycle(cycleNumber),
-      db.getRewardsForCycle(cycleNumber),
-      fetchCyclePrice("STX", cycleNumber),
-      fetchCyclePrice("BTC", cycleNumber),
-      fetchCycleStStxBtcSupply(cycleNumber),
-    ]);
+  const [stackers, rewards, prices, stStxBtcSupply] = await Promise.all([
+    db.getStackersForCycle(cycleNumber),
+    db.getRewardsForCycle(cycleNumber),
+    getPrices(cycleNumber),
+    fetchCycleStStxBtcSupply(cycleNumber),
+  ]);
 
   return getTokensInfoForCycle(
     cycleNumber,
     stackers,
     rewards,
-    stxPrice,
-    btcPrice,
+    prices.stx,
+    prices.btc,
     stStxBtcSupply
   );
 }

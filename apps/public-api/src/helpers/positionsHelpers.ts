@@ -1,10 +1,6 @@
 import * as db from "@repo/database";
 import * as stacks from "@repo/stacks";
-import {
-  fetchCyclePrice,
-  fetchCycleStStxBtcSupply,
-  fetchPrice,
-} from "../prices";
+import { fetchCycleStStxBtcSupply, fetchPrice, getPrices } from "../prices";
 import { getPoolEntities, getPoolsInfoForCycle } from "../processors/pools";
 import { getTokenEntities, getTokensInfoForCycle } from "../processors/tokens";
 import { getPositions } from "../processors/positions";
@@ -17,14 +13,12 @@ import { delegationAddressToPool } from "../constants";
 //
 
 async function getInfoForCycle(cycleNumber: number) {
-  const [stackers, rewards, stxPrice, btcPrice, stStxBtcSupply] =
-    await Promise.all([
-      db.getStackersForCycle(cycleNumber),
-      db.getRewardsForCycle(cycleNumber),
-      fetchCyclePrice("STX", cycleNumber),
-      fetchCyclePrice("BTC", cycleNumber),
-      fetchCycleStStxBtcSupply(cycleNumber),
-    ]);
+  const [stackers, rewards, prices, stStxBtcSupply] = await Promise.all([
+    db.getStackersForCycle(cycleNumber),
+    db.getRewardsForCycle(cycleNumber),
+    getPrices(cycleNumber),
+    fetchCycleStStxBtcSupply(cycleNumber),
+  ]);
 
   const soloStackers = stackers.filter(
     (stacker: any) => stacker.stackerType === "solo"
@@ -41,22 +35,22 @@ async function getInfoForCycle(cycleNumber: number) {
       cycleNumber,
       soloStackers,
       soloStackersRewards,
-      stxPrice,
-      btcPrice
+      prices.stx,
+      prices.btc
     ),
     pools: getPoolsInfoForCycle(
       cycleNumber,
       stackers,
       rewards,
-      stxPrice,
-      btcPrice
+      prices.stx,
+      prices.btc
     ),
     tokens: getTokensInfoForCycle(
       cycleNumber,
       stackers,
       rewards,
-      stxPrice,
-      btcPrice,
+      prices.stx,
+      prices.btc,
       stStxBtcSupply
     ),
   };

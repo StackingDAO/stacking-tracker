@@ -1,17 +1,13 @@
 import { Router, Request, Response } from "express";
 import * as db from "@repo/database";
 import { poxAddressToPool } from "../constants";
-import { fetchCyclesPrices } from "../prices";
+import { getPrices } from "../prices";
 
-async function getPoolsInfoForCycle(
-  cycleNumber: number,
-  poxAddress: string,
-  stxPrice: number,
-  btcPrice: number
-) {
-  const [stackers, rewards] = await Promise.all([
+async function getPoolsInfoForCycle(cycleNumber: number, poxAddress: string) {
+  const [stackers, rewards, prices] = await Promise.all([
     db.getStackersForCycle(cycleNumber, [poxAddress]),
     db.getRewardsForCycle(cycleNumber),
+    getPrices(cycleNumber),
   ]);
 
   let stackedAmount = 0.0;
@@ -31,8 +27,8 @@ async function getPoolsInfoForCycle(
 
   const rewardFeeMult = 1 - poxAddressToPool[poxAddress as string].fee;
 
-  const previousStackedValue = stackedAmount * stxPrice;
-  const previousRewardsValue = rewardAmount * rewardFeeMult * btcPrice;
+  const previousStackedValue = stackedAmount * prices.stx;
+  const previousRewardsValue = rewardAmount * rewardFeeMult * prices.btc;
   // 26 cycles per year
   const apr = (previousRewardsValue / previousStackedValue) * 26;
   const apy = (Math.pow(1 + apr / 26, 26) - 1) * 100.0;
@@ -54,21 +50,11 @@ router.get("/:slug", async (req: Request, res: Response) => {
     (key: string) => poxAddressToPool[key].slug === slug
   )[0];
 
-  const [currentCycle, prices] = await Promise.all([
-    db.getSignersLatestCycle(),
-    fetchCyclesPrices(84),
-  ]);
+  const currentCycle = await db.getSignersLatestCycle();
 
   const promises: any[] = [];
   for (let cycle = currentCycle; cycle >= 84; cycle--) {
-    promises.push(
-      getPoolsInfoForCycle(
-        cycle,
-        poxAddress,
-        prices[cycle].stx,
-        prices[cycle].btc
-      )
-    );
+    promises.push(getPoolsInfoForCycle(cycle, poxAddress));
   }
 
   const results = await Promise.all(promises);

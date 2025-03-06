@@ -1,7 +1,36 @@
 import { Router, Request, Response } from "express";
 import * as db from "@repo/database";
+import * as stacks from "@repo/stacks";
 import { signerKeyToPool } from "../constants";
-import { fetchCyclesPrices } from "../prices";
+import { getPrices } from "../prices";
+
+export const fetchCyclesPrices = async (firstCycle: number): Promise<any> => {
+  try {
+    const pox = await stacks.getPox();
+
+    const currentCycle = pox.current_cycle.id;
+    const promises: any[] = [];
+
+    for (let cycle = currentCycle; cycle >= firstCycle; cycle--) {
+      promises.push(getPrices(cycle));
+    }
+    const results = await Promise.all(promises);
+
+    let result = {};
+    for (let cycle = currentCycle; cycle >= firstCycle; cycle--) {
+      const priceIndex = currentCycle - cycle;
+      result[cycle] = {
+        stx: results[priceIndex].stx,
+        btc: results[priceIndex].btc,
+      };
+    }
+
+    return result;
+  } catch (error) {
+    console.log("error", error);
+    return 0;
+  }
+};
 
 const router = Router();
 

@@ -1,0 +1,736 @@
+{
+  "id": "03b6e65d-0fa9-4fdf-87dc-1a1103799a97",
+  "prevId": "59bd8812-1d9f-4d52-bbc2-ff65cef1fe11",
+  "version": "7",
+  "dialect": "postgresql",
+  "tables": {
+    "public.blocks": {
+      "name": "blocks",
+      "schema": "",
+      "columns": {
+        "block_height": {
+          "name": "block_height",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {
+        "created_at_idx": {
+          "name": "created_at_idx",
+          "columns": [
+            {
+              "expression": "block_height",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {},
+      "compositePrimaryKeys": {
+        "blocks_block_height_pk": {
+          "name": "blocks_block_height_pk",
+          "columns": [
+            "block_height"
+          ]
+        }
+      },
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.cycle_prices": {
+      "name": "cycle_prices",
+      "schema": "",
+      "columns": {
+        "cycle": {
+          "name": "cycle",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "symbol": {
+          "name": "symbol",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "price": {
+          "name": "price",
+          "type": "numeric(16, 6)",
+          "primaryKey": false,
+          "notNull": true,
+          "default": 0
+        }
+      },
+      "indexes": {
+        "cycle_prices_idx_cycle": {
+          "name": "cycle_prices_idx_cycle",
+          "columns": [
+            {
+              "expression": "cycle",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "cycle_prices_idx_symbol": {
+          "name": "cycle_prices_idx_symbol",
+          "columns": [
+            {
+              "expression": "symbol",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {},
+      "compositePrimaryKeys": {
+        "cycle_prices_cycle_symbol_pk": {
+          "name": "cycle_prices_cycle_symbol_pk",
+          "columns": [
+            "cycle",
+            "symbol"
+          ]
+        }
+      },
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.miners": {
+      "name": "miners",
+      "schema": "",
+      "columns": {
+        "block_height": {
+          "name": "block_height",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "bitcoin_address": {
+          "name": "bitcoin_address",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "reward_amount": {
+          "name": "reward_amount",
+          "type": "numeric(16, 6)",
+          "primaryKey": false,
+          "notNull": true,
+          "default": 0
+        },
+        "fees_amount": {
+          "name": "fees_amount",
+          "type": "numeric(16, 6)",
+          "primaryKey": false,
+          "notNull": true,
+          "default": 0
+        }
+      },
+      "indexes": {
+        "miners_idx_block_height": {
+          "name": "miners_idx_block_height",
+          "columns": [
+            {
+              "expression": "block_height",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "miners_idx_bitcoin_address": {
+          "name": "miners_idx_bitcoin_address",
+          "columns": [
+            {
+              "expression": "bitcoin_address",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {},
+      "compositePrimaryKeys": {
+        "miners_block_height_bitcoin_address_pk": {
+          "name": "miners_block_height_bitcoin_address_pk",
+          "columns": [
+            "block_height",
+            "bitcoin_address"
+          ]
+        }
+      },
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.miners_bids": {
+      "name": "miners_bids",
+      "schema": "",
+      "columns": {
+        "block_height": {
+          "name": "block_height",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "bitcoin_address": {
+          "name": "bitcoin_address",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "bid_amount": {
+          "name": "bid_amount",
+          "type": "numeric(16, 6)",
+          "primaryKey": false,
+          "notNull": true,
+          "default": 0
+        },
+        "fee_amount": {
+          "name": "fee_amount",
+          "type": "numeric(16, 6)",
+          "primaryKey": false,
+          "notNull": true,
+          "default": 0
+        }
+      },
+      "indexes": {
+        "miners_bids_idx_block_height": {
+          "name": "miners_bids_idx_block_height",
+          "columns": [
+            {
+              "expression": "block_height",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "miners_bids_idx_bitcoin_address": {
+          "name": "miners_bids_idx_bitcoin_address",
+          "columns": [
+            {
+              "expression": "bitcoin_address",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {},
+      "compositePrimaryKeys": {
+        "miners_bids_block_height_bitcoin_address_pk": {
+          "name": "miners_bids_block_height_bitcoin_address_pk",
+          "columns": [
+            "block_height",
+            "bitcoin_address"
+          ]
+        }
+      },
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.rewards": {
+      "name": "rewards",
+      "schema": "",
+      "columns": {
+        "cycle_number": {
+          "name": "cycle_number",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "burn_block_height": {
+          "name": "burn_block_height",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "reward_recipient": {
+          "name": "reward_recipient",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "reward_amount": {
+          "name": "reward_amount",
+          "type": "numeric(16, 6)",
+          "primaryKey": false,
+          "notNull": true,
+          "default": 0
+        }
+      },
+      "indexes": {
+        "rewards_idx_cycle_number": {
+          "name": "rewards_idx_cycle_number",
+          "columns": [
+            {
+              "expression": "cycle_number",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "rewards_idx_reward_recipient": {
+          "name": "rewards_idx_reward_recipient",
+          "columns": [
+            {
+              "expression": "reward_recipient",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "rewards_idx_burn_block_height": {
+          "name": "rewards_idx_burn_block_height",
+          "columns": [
+            {
+              "expression": "burn_block_height",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {},
+      "compositePrimaryKeys": {
+        "rewards_cycle_number_burn_block_height_reward_recipient_pk": {
+          "name": "rewards_cycle_number_burn_block_height_reward_recipient_pk",
+          "columns": [
+            "cycle_number",
+            "burn_block_height",
+            "reward_recipient"
+          ]
+        }
+      },
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.signers": {
+      "name": "signers",
+      "schema": "",
+      "columns": {
+        "cycle_number": {
+          "name": "cycle_number",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "signer_key": {
+          "name": "signer_key",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "stackers_count": {
+          "name": "stackers_count",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "default": 0
+        },
+        "stacked_amount": {
+          "name": "stacked_amount",
+          "type": "numeric(16, 6)",
+          "primaryKey": false,
+          "notNull": true,
+          "default": 0
+        }
+      },
+      "indexes": {
+        "signers_idx_cycle_number": {
+          "name": "signers_idx_cycle_number",
+          "columns": [
+            {
+              "expression": "cycle_number",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "signers_idx_signer_key": {
+          "name": "signers_idx_signer_key",
+          "columns": [
+            {
+              "expression": "signer_key",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {},
+      "compositePrimaryKeys": {
+        "signers_cycle_number_signer_key_pk": {
+          "name": "signers_cycle_number_signer_key_pk",
+          "columns": [
+            "cycle_number",
+            "signer_key"
+          ]
+        }
+      },
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.stackers": {
+      "name": "stackers",
+      "schema": "",
+      "columns": {
+        "cycle_number": {
+          "name": "cycle_number",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "signer_key": {
+          "name": "signer_key",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "stacker_address": {
+          "name": "stacker_address",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "''"
+        },
+        "stacked_amount": {
+          "name": "stacked_amount",
+          "type": "numeric(16, 6)",
+          "primaryKey": false,
+          "notNull": true,
+          "default": 0
+        },
+        "pox_address": {
+          "name": "pox_address",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "''"
+        },
+        "stacker_type": {
+          "name": "stacker_type",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'pooled'"
+        }
+      },
+      "indexes": {
+        "stackers_idx_cycle_number": {
+          "name": "stackers_idx_cycle_number",
+          "columns": [
+            {
+              "expression": "cycle_number",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "stackers_idx_signer_key": {
+          "name": "stackers_idx_signer_key",
+          "columns": [
+            {
+              "expression": "signer_key",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "stackers_idx_stacker_address": {
+          "name": "stackers_idx_stacker_address",
+          "columns": [
+            {
+              "expression": "stacker_address",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "stackers_idx_pox_address": {
+          "name": "stackers_idx_pox_address",
+          "columns": [
+            {
+              "expression": "pox_address",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {},
+      "compositePrimaryKeys": {
+        "stackers_cycle_number_signer_key_stacker_address_pk": {
+          "name": "stackers_cycle_number_signer_key_stacker_address_pk",
+          "columns": [
+            "cycle_number",
+            "signer_key",
+            "stacker_address"
+          ]
+        }
+      },
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.stackers_rewards": {
+      "name": "stackers_rewards",
+      "schema": "",
+      "columns": {
+        "cycle_number": {
+          "name": "cycle_number",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "signer_key": {
+          "name": "signer_key",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "stacker_address": {
+          "name": "stacker_address",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "reward_amount": {
+          "name": "reward_amount",
+          "type": "numeric(16, 6)",
+          "primaryKey": false,
+          "notNull": true,
+          "default": 0
+        }
+      },
+      "indexes": {
+        "stackers_rewards_idx_cycle_number": {
+          "name": "stackers_rewards_idx_cycle_number",
+          "columns": [
+            {
+              "expression": "cycle_number",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "stackersrewards__idx_signer_key": {
+          "name": "stackersrewards__idx_signer_key",
+          "columns": [
+            {
+              "expression": "signer_key",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "stackers_rewards_idx_stacker_address": {
+          "name": "stackers_rewards_idx_stacker_address",
+          "columns": [
+            {
+              "expression": "stacker_address",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {},
+      "compositePrimaryKeys": {
+        "stackers_rewards_cycle_number_signer_key_stacker_address_pk": {
+          "name": "stackers_rewards_cycle_number_signer_key_stacker_address_pk",
+          "columns": [
+            "cycle_number",
+            "signer_key",
+            "stacker_address"
+          ]
+        }
+      },
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.telegram_chats": {
+      "name": "telegram_chats",
+      "schema": "",
+      "columns": {
+        "chat_id": {
+          "name": "chat_id",
+          "type": "bigint",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "addresses": {
+          "name": "addresses",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "notification_cycle": {
+          "name": "notification_cycle",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "block_stackingdao_rewards": {
+          "name": "block_stackingdao_rewards",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "default": 884163
+        }
+      },
+      "indexes": {
+        "telegram_chats_idx_chat_id": {
+          "name": "telegram_chats_idx_chat_id",
+          "columns": [
+            {
+              "expression": "chat_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {},
+      "compositePrimaryKeys": {
+        "telegram_chats_chat_id_pk": {
+          "name": "telegram_chats_chat_id_pk",
+          "columns": [
+            "chat_id"
+          ]
+        }
+      },
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    }
+  },
+  "enums": {},
+  "schemas": {},
+  "sequences": {},
+  "roles": {},
+  "policies": {},
+  "views": {},
+  "_meta": {
+    "columns": {},
+    "schemas": {},
+    "tables": {}
+  }
+}

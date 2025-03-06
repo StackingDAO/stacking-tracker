@@ -5,3 +5,4 @@ export * from './rewards';
 export * from './stackersRewards';
 export * from './miners';
 export * from './telegram';
+export * from './prices';

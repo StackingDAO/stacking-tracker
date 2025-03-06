@@ -36,10 +36,14 @@ export function getPoxInfoForCycle(
   return {
     cycle_number: cycleNumber,
     stacked_amount: stackedAmount,
+    stacked_amount_usd: stackedAmount * stxPrice,
     rewards_amount: rewardAmount,
+    rewards_amount_usd: rewardAmount * btcPrice,
     pools_count: poolsCount,
     apr: apr * 100.0,
     apy: apy,
+    stxPrice: stxPrice,
+    btcPrice: btcPrice,
   };
 }
 

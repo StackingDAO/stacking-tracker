@@ -8,7 +8,7 @@ export async function processBlock(event: SQSEvent, _: Context): Promise<void> {
   for (const record of event.Records) {
     const latest_block = (await JSON.parse(record.body)) as NakamotoBlock;
 
-    if (latest_block.height % 60 !== 0) {
+    if (latest_block.height % 20 !== 0) {
       return;
     }
 
@@ -67,6 +67,17 @@ export async function processBlock(event: SQSEvent, _: Context): Promise<void> {
 
     console.log(
       `Published message ${responseTelegram.MessageId} to topic ${process.env.TOPIC_TELEGRAM}`
+    );
+
+    const responsePrices = await sns.send(
+      new PublishCommand({
+        TopicArn: process.env.TOPIC_PRICES,
+        Message: JSON.stringify({ block_height: latest_block.height }),
+      })
+    );
+
+    console.log(
+      `Published message ${responsePrices.MessageId} to topic ${process.env.TOPIC_PRICES}`
     );
   }
 }

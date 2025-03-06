@@ -64,6 +64,13 @@
       "when": 1740669200420,
       "tag": "0008_amused_wilson_fisk",
       "breakpoints": true
+    },
+    {
+      "idx": 9,
+      "version": "7",
+      "when": 1741249589961,
+      "tag": "0009_powerful_squadron_supreme",
+      "breakpoints": true
     }
   ]
 }

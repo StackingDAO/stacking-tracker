@@ -1,33 +1,26 @@
 import { Router, Request, Response } from "express";
 import * as db from "@repo/database";
 import * as stacks from "@repo/stacks";
-import { fetchCyclesPrices } from "../prices";
+import { getPrices } from "../prices";
 import { getPoxInfoForCycle } from "../processors/pox";
 
-async function getInfoForCycle(
-  cycleNumber: number,
-  stxPrice: number,
-  btcPrice: number
-) {
-  const [signers, stackers, rewards] = await Promise.all([
+async function getInfoForCycle(cycleNumber: number) {
+  const [signers, stackers, rewards, prices] = await Promise.all([
     db.getSignersForCycle(cycleNumber),
     db.getStackersForCycle(cycleNumber),
     db.getRewardsForCycle(cycleNumber),
+    getPrices(cycleNumber),
   ]);
 
   const info: any = getPoxInfoForCycle(
     cycleNumber,
     stackers,
     rewards,
-    stxPrice,
-    btcPrice
+    prices.stx,
+    prices.btc
   );
-  info.signers_count = signers.length;
 
-  // 26 cycles per year
-  const apr =
-    ((info.rewards_amount * btcPrice) / (info.stacked_amount * stxPrice)) * 26;
-  info.apy = (Math.pow(1 + apr / 26, 26) - 1) * 100.0;
+  info.signers_count = signers.length;
 
   return info;
 }
@@ -35,20 +28,18 @@ async function getInfoForCycle(
 const router = Router();
 
 router.get("/", async (req: Request, res: Response) => {
-
   const firstCycle = 84;
 
-  const [prices, pox, signersLatestCycle] = await Promise.all([
-    fetchCyclesPrices(firstCycle),
+  const [pox, signersLatestCycle] = await Promise.all([
     stacks.getPox(),
     db.getSignersLatestCycle(),
   ]);
 
-  const currentCycle = Math.min(pox.current_cycle.id, signersLatestCycle)
+  const currentCycle = Math.min(pox.current_cycle.id, signersLatestCycle);
 
   const promises: any[] = [];
   for (let cycle = currentCycle; cycle >= firstCycle; cycle--) {
-    promises.push(getInfoForCycle(cycle, prices[cycle].stx, prices[cycle].btc));
+    promises.push(getInfoForCycle(cycle));
   }
   const results = await Promise.all(promises);
 
@@ -62,8 +53,8 @@ router.get("/", async (req: Request, res: Response) => {
       cycle_number: results[0].cycle_number,
       stacked_amount: results[0].stacked_amount,
       rewards_amount: results[0].rewards_amount,
-      stacked_amount_usd: results[0].stacked_amount * prices[currentCycle].stx,
-      rewards_amount_usd: results[0].rewards_amount * prices[currentCycle].btc,
+      stacked_amount_usd: results[0].stacked_amount_usd,
+      rewards_amount_usd: results[0].rewards_amount_usd,
       started_days_ago:
         (currentBlock - (nextCycleStartBlock - cycleLength)) / 144,
       ends_in_days: (nextCycleStartBlock - currentBlock) / 144,

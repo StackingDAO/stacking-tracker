@@ -1,24 +1,17 @@
 import { Router, Request, Response } from "express";
 import * as db from "@repo/database";
-import * as stacks from "@repo/stacks";
-import {
-  fetchCyclesPrices,
-  fetchCyclesStStxBtcSupply,
-  fetchCycleStStxBtcSupply,
-  fetchPrice,
-} from "../prices";
+import { fetchCyclesStStxBtcSupply, getPrices } from "../prices";
 import { tokensList } from "../constants";
 
 async function getTokenInfoForCycle(
   cycleNumber: number,
   tokenInfo: any,
-  stxPrice: number,
-  btcPrice: number,
   stStxBtcSupply: number
 ) {
-  const [stackers, rewards] = await Promise.all([
+  const [stackers, rewards, prices] = await Promise.all([
     db.getStackersForCycle(cycleNumber),
     db.getRewardsForCycle(cycleNumber),
+    getPrices(cycleNumber),
   ]);
 
   const tokenStackers = stackers.filter((stacker: any) =>
@@ -55,8 +48,8 @@ async function getTokenInfoForCycle(
   const tokenRewardAmount =
     rewardAmount * (tokenStackedAmount / rewardStackedAmount);
 
-  const previousStackedValue = tokenStackedAmount * stxPrice;
-  const previousRewardsValue = tokenRewardAmount * btcPrice;
+  const previousStackedValue = tokenStackedAmount * prices.stx;
+  const previousRewardsValue = tokenRewardAmount * prices.btc;
   // 26 cycles per year
   const apr = (previousRewardsValue / previousStackedValue) * 26;
   const apy = (Math.pow(1 + apr / 26, 26) - 1) * 100.0;
@@ -82,22 +75,15 @@ router.get("/:slug", async (req: Request, res: Response) => {
   const { slug } = req.params;
   const tokenInfo = tokensList.filter((elem: any) => elem.slug === slug)[0];
 
-  const [currentCycle, prices, stStxBtcSupply] = await Promise.all([
+  const [currentCycle, stStxBtcSupply] = await Promise.all([
     db.getSignersLatestCycle(),
-    fetchCyclesPrices(84),
     fetchCyclesStStxBtcSupply(84),
   ]);
 
   const promises: any[] = [];
   for (let cycle = currentCycle; cycle >= 84; cycle--) {
     promises.push(
-      getTokenInfoForCycle(
-        cycle,
-        tokenInfo,
-        prices[cycle].stx,
-        prices[cycle].btc,
-        stStxBtcSupply[cycle].supply
-      )
+      getTokenInfoForCycle(cycle, tokenInfo, stStxBtcSupply[cycle].supply)
     );
   }
 
