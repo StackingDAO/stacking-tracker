@@ -124,7 +124,7 @@ export default async function Home() {
               <dd className="text-lg text-white">
                 <div className=" inline-flex items-center w-full text-lg font-medium leading-6 text-white gap-x-1">
                   <BtcLogo className="w-[18px] h-[18px] shrink-0" />
-                  {currency.short.format(lastCycleInfo.rewards_amount)}
+                  {lastCycleInfo.rewards_amount.toFixed(6)}
                 </div>
                 <p className="text-sm text-white/[0.35] ">
                   ${currency.rounded.format(lastCycleInfo.rewards_amount_usd)}
@@ -184,7 +184,7 @@ export default async function Home() {
                     </dt>
                     <dd>
                       <div className="flex items-center">
-                        {`${currency.short.format(signer.rewards_amount)}`}
+                        {`${signer.rewards_amount.toFixed(6)}`}
                         <BtcLogo className="w-3 h-3 ml-1 inline" />
                       </div>
                       <div className="text-xs text-white/[0.35]">{`$${currency.rounded.format(signer.rewards_amount_usd)}`}</div>
@@ -226,7 +226,7 @@ export default async function Home() {
               </div>,
               <div key={signer.name + "-rewards"}>
                 <div className="flex items-center">
-                  {`${currency.short.format(signer.rewards_amount)}`}
+                  {`${signer.rewards_amount.toFixed(6)}`}
                   <BtcLogo className="w-3 h-3 ml-1 inline" />
                 </div>
                 <div className="text-xs text-white/[0.35]">{`$${currency.rounded.format(signer.rewards_amount_usd)}`}</div>

@@ -136,7 +136,7 @@ const Home: FunctionComponent<Props> = async ({ params: { token } }: Props) => {
                       {index === 0 ? (
                         <span className="flex flex-col gap-1 w-fit">
                           <div className="flex items-center">
-                            {currency.short.format(info.rewards_amount)}
+                            {info.rewards_amount.toFixed(6)}
                             <BtcLogo className="w-[12px] h-[12px] ml-1" />
                           </div>
                           <Pending />
@@ -146,7 +146,7 @@ const Home: FunctionComponent<Props> = async ({ params: { token } }: Props) => {
                           className="flex items-center"
                           key={`rewards-${index}`}
                         >
-                          {currency.short.format(info.rewards_amount)}
+                          {info.rewards_amount.toFixed(6)}
                           <BtcLogo className="w-[12px] h-[12px] ml-1" />
                         </div>
                       )}
@@ -195,7 +195,7 @@ const Home: FunctionComponent<Props> = async ({ params: { token } }: Props) => {
                   className="flex items-center gap-2"
                 >
                   <div className="flex items-center">
-                    {`${currency.short.format(info.rewards_amount)}`}
+                    {`${info.rewards_amount.toFixed(6)}`}
                     <BtcLogo className="w-3 h-3 ml-1 inline" />
                   </div>
                   <Pending />
@@ -205,7 +205,7 @@ const Home: FunctionComponent<Props> = async ({ params: { token } }: Props) => {
                   key={info.cycle_number + "-rewards"}
                   className="flex items-center"
                 >
-                  {`${currency.short.format(info.rewards_amount)}`}
+                  {`${info.rewards_amount.toFixed(6)}`}
                   <BtcLogo className="w-3 h-3 ml-1 inline" />
                 </div>
               ),
