@@ -1,3 +1,6 @@
+import dotenv from "dotenv";
+dotenv.config({ path: "../.env" });
+
 import type { Context, SNSEvent } from "aws-lambda";
 import {
   getFirstRewardBurnBlock,
@@ -7,7 +10,7 @@ import {
   getSignersLatestCycle,
   getStackersForRewards,
   saveStackerReward,
-} from "@repo/database/src/actions";
+} from "@repo/database";
 import { getCurrentCycle } from "@repo/stacks/src/pox";
 
 async function processStackerRewardsHelper(cycleNumber: number) {

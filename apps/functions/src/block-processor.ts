@@ -8,7 +8,7 @@ export async function processBlock(event: SQSEvent, _: Context): Promise<void> {
   for (const record of event.Records) {
     const latest_block = (await JSON.parse(record.body)) as NakamotoBlock;
 
-    if (latest_block.height % 20 !== 0) {
+    if (latest_block.height % 60 !== 0) {
       return;
     }
 

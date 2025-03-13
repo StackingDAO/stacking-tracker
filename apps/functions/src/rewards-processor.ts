@@ -1,3 +1,6 @@
+import dotenv from "dotenv";
+dotenv.config({ path: "../.env" });
+
 import type { Context, ScheduledEvent } from "aws-lambda";
 import * as stacksPox from "@repo/stacks/src/pox";
 import * as stacksBlocks from "@repo/stacks/src/blocks";
@@ -5,7 +8,7 @@ import {
   getLatestRewardBurnBlock,
   getRewards,
   saveRewards,
-} from "@repo/database/src/actions";
+} from "@repo/database";
 
 async function processRewardsHelper(burnBlockEnd: number, offset: number) {
   const [rewards, cycles] = await Promise.all([
