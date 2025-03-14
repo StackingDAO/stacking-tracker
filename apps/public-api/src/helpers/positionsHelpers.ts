@@ -144,6 +144,10 @@ async function getTokenBalances(wallet: string) {
     balances.fungible_tokens[
       "SP4SZE494VC2YC5JYG7AYFQ44F5Q4PYV7DVMDPBG.ststx-token::ststx"
     ];
+  const stStxBtcInfo =
+    balances.fungible_tokens[
+      "SP4SZE494VC2YC5JYG7AYFQ44F5Q4PYV7DVMDPBG.ststxbtc-token::ststxbtc"
+    ];
   const liStxInfo =
     balances.fungible_tokens[
       "SM26NBC8SFHNW4P1Y4DFH27974P56WN86C92HPEHH.token-lqstx::lqstx"
@@ -153,6 +157,7 @@ async function getTokenBalances(wallet: string) {
     stx: balances.stx.balance / 1000000.0,
     stxLocked: balances.stx.locked / 1000000.0,
     stStx: stStxInfo ? stStxInfo.balance / 1000000.0 : 0.0,
+    stStxBtc: stStxBtcInfo ? stStxBtcInfo.balance / 1000000.0 : 0.0,
     liStx: liStxInfo ? liStxInfo.balance / 1000000.0 : 0.0,
   };
 }
@@ -267,6 +272,7 @@ export async function getPoxUserPositions(wallet: string) {
     stStxHermetica,
     stStxVelar,
     stStxZest,
+    stStxBtcZest,
   ] = await Promise.all([
     getAllPositions(currentCycle, stxPrice, btcPrice, stStxPrice),
     getTokenBalances(wallet),
@@ -276,6 +282,7 @@ export async function getPoxUserPositions(wallet: string) {
     stacks.getProtocolStStxBalance(wallet, "protocol-hermetica-v1"),
     stacks.getProtocolStStxBalance(wallet, "protocol-velar-v1"),
     stacks.getProtocolStStxBalance(wallet, "protocol-zest-v2"),
+    stacks.getProtocolStStxBtcBalance(wallet, "position-zest-v1"),
   ]);
 
   const userInfo = [
@@ -289,6 +296,11 @@ export async function getPoxUserPositions(wallet: string) {
       id: "stackingdao",
       balance: balances.stStx,
       balance_usd: balances.stStx * stStxPrice,
+    },
+    {
+      id: "stackingdao-btc",
+      balance: balances.stStxBtc,
+      balance_usd: balances.stStxBtc * stxPrice,
     },
     {
       id: "lisa",
@@ -320,6 +332,11 @@ export async function getPoxUserPositions(wallet: string) {
       id: "ststx-zest",
       balance: stStxZest,
       balance_usd: stStxZest * stStxPrice,
+    },
+    {
+      id: "ststxbtc-zest",
+      balance: stStxBtcZest,
+      balance_usd: stStxBtcZest,
     },
   ];
 

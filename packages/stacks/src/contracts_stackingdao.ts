@@ -69,3 +69,24 @@ export async function getProtocolStStxBalance(
     return 0;
   }
 }
+
+export async function getProtocolStStxBtcBalance(
+  address: string,
+  protocolContract: string
+): Promise<any> {
+  try {
+    const readResult = await callReadOnlyFunction({
+      contractAddress: 'SP4SZE494VC2YC5JYG7AYFQ44F5Q4PYV7DVMDPBG',
+      contractName: protocolContract,
+      functionName: 'get-holder-balance',
+      functionArgs: [standardPrincipalCV(address)],
+      senderAddress: 'SP4SZE494VC2YC5JYG7AYFQ44F5Q4PYV7DVMDPBG',
+      network: network,
+    });
+
+    const result = cvToJSON(readResult);
+    return result.value.value / 1000000.0;
+  } catch (error) {
+    return 0;
+  }
+}
