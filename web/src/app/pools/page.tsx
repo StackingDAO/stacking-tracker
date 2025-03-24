@@ -243,7 +243,7 @@ export default async function Home() {
                 className="flex gap-2 items-center"
                 key={entity.name + "-apy"}
               >
-                ${currency.short.format(entity.apy)}%
+                {currency.short.format(entity.apy)}%
                 <ToolTip
                   id={entity.name + "-fee-tooltip"}
                   text={`Pool fee: ${entity.feeDisclosed ? `${entity.fee * 100.0}%` : "undisclosed"}`}

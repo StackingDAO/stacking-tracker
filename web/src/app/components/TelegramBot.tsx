@@ -29,8 +29,8 @@ export function TelegramBot({ extraCopy }: TelegramBotProps) {
         </div>
         <div className="-mb-[150px] md:-mb-[40px] md:-mt-[40px] flex justify-center md:-mr-[100px]">
           <svg
-            width={336}
-            height={336}
+            width={300}
+            height={300}
             viewBox="0 0 336 336"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"

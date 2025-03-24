@@ -18,7 +18,7 @@ export function Info({
 }: Props) {
   return (
     <div className="p-4 border border-white/10 rounded-xl shrink-0">
-      <dl className="grid grid-cols-1 gap-4 md:grid-cols-2">
+      <dl className="grid grid-cols-2 gap-4 md:grid-cols-4">
         <div className="p-4 rounded-md bg-gray">
           <dt className="text-sm font-medium leading-6 text-white/50">
             Liquid STX Supply
@@ -64,11 +64,11 @@ export function Info({
         href="https://www.stacks.co/learn/stacking"
         rel="noopener noreferrer"
         target="_blank"
-        className="inline-flex items-center justify-center gap-x-2 text-center w-full mt-4 p-3 rounded-md bg-gray hover:bg-gray/70 focus:bg-gray-50 text-white text-sm md:text-base"
+        className="flex items-center justify-center gap-x-2 w-full text-sm font-semibold leading-6 text-orange px-3 py-1.5 rounded-lg bg-orange/10 hover:text-black hover:bg-orange focus:bg-orange/70"
       >
         Learn more about Stacks <br className="block md:hidden" />
         Proof-of-Transfer
-        <ArrowTopRightOnSquareIcon className="shrink-0 w-[14px] h-[14px] text-orange" />
+        <ArrowTopRightOnSquareIcon className="shrink-0 w-[14px] h-[14px]" />
       </a>
     </div>
   );

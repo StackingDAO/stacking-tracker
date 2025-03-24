@@ -396,14 +396,13 @@ const Home: FunctionComponent<Props> = async ({ params: { pool } }: Props) => {
           </div>
         </div>
       </div>
-      <section className="mx-auto max-w-6xl lg:flex lg:justify-between gap-8 py-8">
+      <section className="py-8">
         <Info
           liquidStxSupply={poxInfo.details.total_liquid_supply_stx}
           nextCycleMinThreshold={poxInfo.details.next_cycle_min_threshold_stx}
           preparePhaseLength={poxInfo.details.prepare_phase_block_length}
           rewardPhaseLength={poxInfo.details.reward_phase_block_length}
         />
-        <TelegramBot extraCopy={true} />
       </section>
     </>
   );
