@@ -23,7 +23,7 @@ export function getPositions(pools: any, tokens: any, defi: any, solo: any) {
         type: "Pool",
         id: pool.slug,
         name: pool.name,
-        symbol: "STX",
+        symbol: pool.symbol,
         logo: pool.logo,
         tvl: pool.stacked_amount,
         tvl_usd: pool.stacked_amount_usd,

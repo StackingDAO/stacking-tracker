@@ -140,6 +140,7 @@ export function getPoolEntities(
       feeDisclosed: poxAddressToPool[poxAddress].feeDisclosed,
       logo: poxAddressToPool[poxAddress].logo,
       website: poxAddressToPool[poxAddress].website,
+      symbol: poxAddressToPool[poxAddress].symbol,
       slug: poxAddressToPool[poxAddress].slug,
       stackers_count: lastCycleInfo.stackers_count,
       stacked_amount: cycleInfoAddress[0].stacked_amount,
