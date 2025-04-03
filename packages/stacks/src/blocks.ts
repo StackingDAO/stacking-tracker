@@ -34,6 +34,6 @@ export async function getBlockByBurnHeight(burnBlockHeight: number): Promise<any
     const data = (await axios.get(path)).data;
     return data;
   } catch (error) {
-    return undefined;
+    return await getBlockByBurnHeight(burnBlockHeight + 1);
   }
 }

@@ -41,41 +41,61 @@ async function priceAtDate(symbol: string, date: Date): Promise<number> {
   return price;
 }
 
+async function savePrices(cycle: number) {
+  const endBlock = await cycleEndBlock(cycle);
+  const endDate = await blockToDate(endBlock);
+
+  for (const symbol of ["btc", "stx"]) {
+    const price = await priceAtDate(symbol, endDate);
+    await savePrice(cycle, symbol, price);
+    console.log("Saved price", price, "for", symbol, "in cycle", cycle);
+  }
+}
+
+async function saveSupply(cycle: number) {
+  const endBlock = await cycleEndBlock(cycle);
+  const stacksBlock = await stacks.getBlockByBurnHeight(endBlock - 2100);
+  const stStxBtcSupply = await stacks.getStStxBtcSupplyAtBlock(
+    stacksBlock.results[0].height - 1
+  );
+  await savePrice(cycle, "ststxbtc_supply", stStxBtcSupply);
+  console.log("Saved supply", stStxBtcSupply, "for stSTXbtc in cycle", cycle);
+}
+
 export async function processCyclePrices(
   _: ScheduledEvent,
   __: Context
 ): Promise<void> {
-  const [currentCycle, latestCycleBtc, latestCycleStx] = await Promise.all([
+  const [
+    currentCycle,
+    latestCycleBtc,
+    latestCycleStx,
+    latestCycleStStxBtcSupply,
+  ] = await Promise.all([
     getCurrentCycle(),
     getPriceLatestCycle("btc"),
     getPriceLatestCycle("stx"),
+    getPriceLatestCycle("ststxbtc_supply"),
   ]);
-  const latestCycle = Math.min(latestCycleBtc, latestCycleStx);
+
+  const latestCycle = Math.min(
+    latestCycleBtc,
+    latestCycleStx,
+    latestCycleStStxBtcSupply
+  );
 
   const cycleToProcess = Math.max(latestCycle, 83) + 1;
-  if (currentCycle <= cycleToProcess) {
-    return;
-  }
-
   console.log(
     "Processing cycle",
     cycleToProcess,
     ", current cycle",
     currentCycle
   );
-  const endBlock = await cycleEndBlock(cycleToProcess);
-  const endDate = await blockToDate(endBlock);
 
-  for (const symbol of ["btc", "stx"]) {
-    const price = await priceAtDate(symbol, endDate);
-    await savePrice(cycleToProcess, symbol, price);
-    console.log(
-      "Saved price",
-      price,
-      "for",
-      symbol,
-      "in cycle",
-      cycleToProcess
-    );
+  if (currentCycle > cycleToProcess) {
+    await savePrices(cycleToProcess);
+  }
+  if (currentCycle >= cycleToProcess) {
+    await saveSupply(cycleToProcess);
   }
 }

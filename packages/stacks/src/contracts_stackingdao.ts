@@ -36,17 +36,21 @@ export async function getStStxBtcSupply(): Promise<any> {
 }
 
 export async function getStStxBtcSupplyAtBlock(block: number): Promise<any> {
-  const readResult = await callReadOnlyFunction({
-    contractAddress: 'SP4SZE494VC2YC5JYG7AYFQ44F5Q4PYV7DVMDPBG',
-    contractName: 'ststxbtc-helper-v1',
-    functionName: 'get-ststxbtc-total-supply',
-    functionArgs: [uintCV(block)],
-    senderAddress: 'SP4SZE494VC2YC5JYG7AYFQ44F5Q4PYV7DVMDPBG',
-    network: network,
-  });
+  try {
+    const readResult = await callReadOnlyFunction({
+      contractAddress: 'SP4SZE494VC2YC5JYG7AYFQ44F5Q4PYV7DVMDPBG',
+      contractName: 'ststxbtc-helper-v1',
+      functionName: 'get-ststxbtc-total-supply',
+      functionArgs: [uintCV(block)],
+      senderAddress: 'SP4SZE494VC2YC5JYG7AYFQ44F5Q4PYV7DVMDPBG',
+      network: network,
+    });
 
-  const result = cvToJSON(readResult);
-  return result.value.value / 1000000.0;
+    const result = cvToJSON(readResult);
+    return result.value.value / 1000000.0;
+  } catch (error) {
+    return 0.0;
+  }
 }
 
 export async function getProtocolStStxBalance(

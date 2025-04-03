@@ -1,6 +1,6 @@
 import * as db from "@repo/database";
 import * as stacks from "@repo/stacks";
-import { fetchCycleStStxBtcSupply, fetchPrice, getPrices } from "../prices";
+import { fetchPrice, getPrices } from "../prices";
 import { getPoolEntities, getPoolsInfoForCycle } from "../processors/pools";
 import { getTokenEntities, getTokensInfoForCycle } from "../processors/tokens";
 import { getPositions } from "../processors/positions";
@@ -13,11 +13,10 @@ import { delegationAddressToPool } from "../constants";
 //
 
 async function getInfoForCycle(cycleNumber: number) {
-  const [stackers, rewards, prices, stStxBtcSupply] = await Promise.all([
+  const [stackers, rewards, prices] = await Promise.all([
     db.getStackersForCycle(cycleNumber),
     db.getRewardsForCycle(cycleNumber),
     getPrices(cycleNumber),
-    fetchCycleStStxBtcSupply(cycleNumber),
   ]);
 
   const soloStackers = stackers.filter(
@@ -51,7 +50,7 @@ async function getInfoForCycle(cycleNumber: number) {
       rewards,
       prices.stx,
       prices.btc,
-      stStxBtcSupply
+      prices.stStxBtcSupply
     ),
   };
 }
