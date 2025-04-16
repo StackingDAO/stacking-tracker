@@ -1,11 +1,10 @@
+import dotenv from "dotenv";
+dotenv.config({ path: "../.env" });
+
 import type { Context, ScheduledEvent } from "aws-lambda";
-import * as stacksPox from "@repo/stacks/src/pox";
-import { getCurrentCycle } from "@repo/stacks/src/pox";
-import {
-  getSignersLatestCycle,
-  saveSigner,
-  saveStacker,
-} from "@repo/database/src/actions";
+import * as stacksPox from "@repo/stacks";
+import { getCurrentCycle } from "@repo/stacks";
+import { getSignersLatestCycle, saveSigner, saveStacker } from "@repo/database";
 
 export async function processSigners(
   _: ScheduledEvent,
