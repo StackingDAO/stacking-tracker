@@ -59,6 +59,15 @@ export const poxAddressToPool = {
     fee: 0.05,
     feeDisclosed: true,
   },
+  bc1q7w0jpwwjyq48qhyecnuwazfqv56880q67pmtfc: {
+    name: "Fast Pool v2",
+    slug: "fast-pool-v2",
+    logo: "/logos/fastpool.webp",
+    website: "https://fastpool.org",
+    symbol: "STX",
+    fee: 0.05,
+    feeDisclosed: true,
+  },
   bc1qs33quxgnwkrspgu82lmaczw7gtcfa88pll8fqm: {
     name: "Planbetter Pool",
     slug: "planbetter-pool",
@@ -113,6 +122,12 @@ export const delegationAddressToPool = {
   "SP21YTSM60CAY6D011EZVEVNKXVW8FVZE198XEFFP.pox4-fast-pool-v3": {
     name: "Fast Pool",
     slug: "fast-pool",
+    logo: "/logos/fastpool.webp",
+    website: "https://fastpool.org",
+  },
+   "SPMPMA1V6P430M8C91QS1G9XJ95S59JS1TZFZ4Q4.pox4-multi-pool-v1": {
+    name: "Fast Pool v2",
+    slug: "fast-pool-v2",
     logo: "/logos/fastpool.webp",
     website: "https://fastpool.org",
   },
@@ -214,6 +229,12 @@ export const signerKeyToPool = {
   "0x023d6ecdc36fa1e1c6a9f116c7f13ae843001ed9d617f66f6c68cabf751bf82555": {
     name: "Fast Pool",
     slug: "fast-pool",
+    logo: "/logos/fastpool.webp",
+    website: "https://fastpool.org",
+  },
+  "0x023d6e4adbd5e7bedd5a1e1b85940e1e8c6c34924fd0d584e5e15d84c8572083d9": {
+    name: "Fast Pool v2",
+    slug: "fast-pool-v2",
     logo: "/logos/fastpool.webp",
     website: "https://fastpool.org",
   },
