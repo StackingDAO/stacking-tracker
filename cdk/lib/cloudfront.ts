@@ -89,5 +89,23 @@ export class CloudFront extends cdk.Stack {
         new route53Targets.CloudFrontTarget(redirectDistribution)
       ),
     });
+
+    // SPF record to specify authorized email servers
+    new route53.TxtRecord(this, "SpfRecord", {
+      zone: hostedZone,
+      recordName: `${domainName}`,
+      values: [
+        "v=spf1 -all", 
+      ],
+    });
+
+    // DMARC record to specify email authentication policy
+    new route53.TxtRecord(this, "DmarcRecord", {
+      zone: hostedZone,
+      recordName: `_dmarc.${domainName}`,
+      values: [
+        "v=DMARC1; p=reject; rua=mailto:dmarc-reports@${domainName}; ruf=mailto:dmarc-reports@${domainName}; fo=1; adkim=s; aspf=s; pct=100; rf=afrf; ri=86400",
+      ],
+    });
   }
 }
