@@ -191,13 +191,13 @@ export const signerKeyToPool = {
   "0x0309126df3691918f25f8872819bc8268e9e1e0d92d0494fa4fb9783589a1392fa": {
     name: "Foundry",
     slug: "foundry",
-    logo: "/logos/default.webp",
+    logo: "/logos/foundry.webp",
     website: "https://foundrydigital.com",
   },
   "0x027af6b78b484b2c129dab7e490e8438f9a6eb4890071335a5781d483073866b9a": {
     name: "Hashkey",
     slug: "hashkey",
-    logo: "/logos/default.webp",
+    logo: "/logos/hashkey.webp",
     website: "https://www.hashkey.com",
   },
   "0x02c54d8b1ba4b7207f78f861c60f8a67433c264a11ac9b6b7773476e9f6c008e49": {
