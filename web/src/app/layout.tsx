@@ -37,22 +37,45 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   };
 
   useEffect(() => {
-    if (userSession.isUserSignedIn()) {
-      const userData = userSession.loadUserData();
-      setUserData(userData);
+    try {
+      if (userSession.isUserSignedIn()) {
+        const userData = userSession.loadUserData();
+        setUserData(userData);
+      }
+    } catch (error) {
+      // If there's an error with the session data, clear it
+      console.warn('Invalid session data detected, clearing...');
+      userSession.signUserOut();
+      localStorage.removeItem('stacking-tracker-sign-provider');
+      setUserData({});
     }
   }, []);
 
   const signOut = () => {
-    userSession.signUserOut();
-    localStorage.removeItem("stacking-tracker-sign-provider");
-    window.location = "/";
+    try {
+      userSession.signUserOut();
+      localStorage.removeItem("stacking-tracker-sign-provider");
+      window.location = "/";
+    } catch (error) {
+      console.error('Error signing out:', error);
+      // Force clear everything
+      localStorage.removeItem("stacking-tracker-sign-provider");
+      window.location = "/";
+    }
   };
 
   const handleRedirectAuth = async () => {
-    if (userSession.isSignInPending()) {
-      const userData = await userSession.handlePendingSignIn();
-      setUserData(userData);
+    try {
+      if (userSession.isSignInPending()) {
+        const userData = await userSession.handlePendingSignIn();
+        setUserData(userData);
+      }
+    } catch (error) {
+      console.error('Error handling redirect auth:', error);
+      // Clear invalid session data
+      userSession.signUserOut();
+      localStorage.removeItem("stacking-tracker-sign-provider");
+      setUserData({});
     }
   };
 
