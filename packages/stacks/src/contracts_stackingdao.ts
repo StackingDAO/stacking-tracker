@@ -24,8 +24,8 @@ export async function getStxPerStStx(): Promise<any> {
 export async function getStStxBtcSupply(): Promise<any> {
   const readResult = await callReadOnlyFunction({
     contractAddress: 'SP4SZE494VC2YC5JYG7AYFQ44F5Q4PYV7DVMDPBG',
-    contractName: 'ststxbtc-token',
-    functionName: 'get-total-supply',
+    contractName: 'ststxbtc-helper-v2',
+    functionName: 'get-current-total-supply',
     functionArgs: [],
     senderAddress: 'SP4SZE494VC2YC5JYG7AYFQ44F5Q4PYV7DVMDPBG',
     network: network,
@@ -39,7 +39,7 @@ export async function getStStxBtcSupplyAtBlock(block: number): Promise<any> {
   try {
     const readResult = await callReadOnlyFunction({
       contractAddress: 'SP4SZE494VC2YC5JYG7AYFQ44F5Q4PYV7DVMDPBG',
-      contractName: 'ststxbtc-helper-v1',
+      contractName: 'ststxbtc-helper-v2',
       functionName: 'get-ststxbtc-total-supply',
       functionArgs: [uintCV(block)],
       senderAddress: 'SP4SZE494VC2YC5JYG7AYFQ44F5Q4PYV7DVMDPBG',
