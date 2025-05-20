@@ -7,7 +7,7 @@ export const tokensList = [
     logo: "/logos/stackingdao.webp",
     logo_token: "/logos/ststx.webp",
     website: "https://www.stackingdao.com",
-    tokenAddress: "SP4SZE494VC2YC5JYG7AYFQ44F5Q4PYV7DVMDPBG.ststx-token",
+    tokenAddresses: ["SP4SZE494VC2YC5JYG7AYFQ44F5Q4PYV7DVMDPBG.ststx-token"],
   },
   {
     address: "SP4SZE494VC2YC5JYG7AYFQ44F5Q4PYV7DVMDPBG",
@@ -17,7 +17,11 @@ export const tokensList = [
     logo: "/logos/stackingdao.webp",
     logo_token: "/logos/ststxbtc.webp",
     website: "https://www.stackingdao.com",
-    tokenAddress: "SP4SZE494VC2YC5JYG7AYFQ44F5Q4PYV7DVMDPBG.ststxbtc-token",
+    tokenAddresses: [
+      "SP4SZE494VC2YC5JYG7AYFQ44F5Q4PYV7DVMDPBG.ststxbtc-token", 
+      // TODO: enable this once the new token is deployed
+      // "SP4SZE494VC2YC5JYG7AYFQ44F5Q4PYV7DVMDPBG.ststxbtc-token-v2"
+    ],
   },
   {
     address: "SM3KNVZS30WM7F89SXKVVFY4SN9RMPZZ9FX929N0V",
@@ -27,7 +31,7 @@ export const tokensList = [
     logo: "/logos/lisa.webp",
     logo_token: "/logos/listx.webp",
     website: "https://app.lisalab.io",
-    tokenAddress: "SM26NBC8SFHNW4P1Y4DFH27974P56WN86C92HPEHH.token-lqstx",
+    tokenAddresses: ["SM26NBC8SFHNW4P1Y4DFH27974P56WN86C92HPEHH.token-lqstx"],
   },
 ];
 

@@ -24,7 +24,9 @@ async function getInfoForCycle(cycleNumber: number) {
 
 async function getTokensSupply(stxPrice: number) {
   const tokenSupplyPromises = tokensList.map((elem: any) =>
-    stacks.getTotalSupply(elem.tokenAddress)
+    Promise.all(elem.tokenAddresses.map((tokenAddress: string) =>
+      stacks.getTotalSupply(tokenAddress)
+    ))
   );
   const [tokensSupplyResults] = await Promise.all([
     Promise.all(tokenSupplyPromises),
@@ -34,7 +36,8 @@ async function getTokensSupply(stxPrice: number) {
 
   let tokens: any[] = [];
   tokensList.forEach((elem: any, index: number) => {
-    const tokenSupply = tokensSupplyResults[index];
+    const tokenSupplies = tokensSupplyResults[index];
+    const totalSupply = tokenSupplies.reduce((sum: number, supply: number) => sum + supply, 0);
 
     var tokenPrice = 1.0;
     if (elem.name === "stSTX") {
@@ -42,8 +45,8 @@ async function getTokensSupply(stxPrice: number) {
     }
 
     tokens.push({
-      token_supply: tokenSupply,
-      token_mcap: tokenSupply * stxPrice * tokenPrice,
+      token_supply: totalSupply,
+      token_mcap: totalSupply * stxPrice * tokenPrice,
     });
   });
 
