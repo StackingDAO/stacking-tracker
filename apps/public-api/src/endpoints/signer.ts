@@ -42,11 +42,18 @@ router.get("/:signer", async (req: Request, res: Response) => {
   );
   const signerKey = signerInfo.length > 0 ? signerInfo[0] : signer;
 
-  const [signersInfo, rewardsInfo, prices] = await Promise.all([
+  const [pox, signersInfo, rewardsInfo, prices] = await Promise.all([
+    stacks.getPox(),
     db.getSigner(signerKey),
     db.getStackersRewardsForSigner(signerKey),
     fetchCyclesPrices(84),
   ]);
+
+  const currentCycle = pox.current_cycle.id;
+  const currentCycleProgress =
+    1.0 -
+    pox.next_cycle.blocks_until_prepare_phase / pox.reward_phase_block_length;
+  const currentCycleExtrapolationMult = 1.0 / currentCycleProgress;
 
   const results = [];
   for (const signerInfo of signersInfo) {
@@ -82,12 +89,32 @@ router.get("/:signer", async (req: Request, res: Response) => {
       name: signerKeyToPool[signerKey].name,
       logo: signerKeyToPool[signerKey].logo,
       website: signerKeyToPool[signerKey].website,
-      cycles: results,
+      cycles: results.map((result) => {
+        if (result.cycle_number === currentCycle) {
+          return {
+            ...result,
+            extrapolated_rewards_amount:
+              result.rewards_amount * currentCycleExtrapolationMult,
+            extrapolated_apy: result.apy * currentCycleExtrapolationMult,
+          };
+        }
+        return result;
+      }),
     });
   } else {
     res.send({
       signer_key: signerKey,
-      cycles: results,
+      cycles: results.map((result) => {
+        if (result.cycle_number === currentCycle) {
+          return {
+            ...result,
+            extrapolated_rewards_amount:
+              result.rewards_amount * currentCycleExtrapolationMult,
+            extrapolated_apy: result.apy * currentCycleExtrapolationMult,
+          };
+        }
+        return result;
+      }),
     });
   }
 });

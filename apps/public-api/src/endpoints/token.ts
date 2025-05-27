@@ -1,5 +1,6 @@
 import { Router, Request, Response } from "express";
 import * as db from "@repo/database";
+import * as stacks from "@repo/stacks";
 import { getPrices } from "../prices";
 import { tokensList } from "../constants";
 
@@ -70,10 +71,20 @@ const router = Router();
 router.get("/:slug", async (req: Request, res: Response) => {
   const { slug } = req.params;
   const tokenInfo = tokensList.filter((elem: any) => elem.slug === slug)[0];
-  const currentCycle = await db.getSignersLatestCycle();
+
+  const [pox, lastCycle] = await Promise.all([
+    stacks.getPox(),
+    db.getSignersLatestCycle(),
+  ]);
+
+  const currentCycle = pox.current_cycle.id;
+  const currentCycleProgress =
+    1.0 -
+    pox.next_cycle.blocks_until_prepare_phase / pox.reward_phase_block_length;
+  const currentCycleExtrapolationMult = 1.0 / currentCycleProgress;
 
   const promises: any[] = [];
-  for (let cycle = currentCycle; cycle >= 84; cycle--) {
+  for (let cycle = lastCycle; cycle >= 84; cycle--) {
     promises.push(getTokenInfoForCycle(cycle, tokenInfo));
   }
 
@@ -84,7 +95,20 @@ router.get("/:slug", async (req: Request, res: Response) => {
     logo: tokenInfo.logo,
     logo_token: tokenInfo.logo_token,
     website: tokenInfo.website,
-    cycles: results.filter((result) => result.stacked_amount > 0).reverse(),
+    cycles: results
+      .filter((result) => result.stacked_amount > 0)
+      .reverse()
+      .map((result) => {
+        if (result.cycle_number === currentCycle) {
+          return {
+            ...result,
+            extrapolated_rewards_amount:
+              result.rewards_amount * currentCycleExtrapolationMult,
+            extrapolated_apy: result.apy * currentCycleExtrapolationMult,
+          };
+        }
+        return result;
+      }),
   });
 });
 

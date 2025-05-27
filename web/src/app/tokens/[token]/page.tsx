@@ -30,16 +30,19 @@ const Home: FunctionComponent<Props> = async ({ params: { token } }: Props) => {
 
   const chartLabels = tokenInfo.cycles.map((info: any) => info.cycle_number);
   const dataStacked = tokenInfo.cycles.map((info: any) => info.stacked_amount);
-  const dataRewards = tokenInfo.cycles.map((info: any) => info.rewards_amount);
+  const dataRewards = tokenInfo.cycles.map(
+    (info: any) => info.extrapolated_rewards_amount || info.rewards_amount
+  );
 
   const datasets: any[] = [];
   datasets.push({
     label: "Rewards BTC",
-    data: dataRewards.slice(0, -1),
+    data: dataRewards,
     type: "line",
     yAxisID: "yRight",
     backgroundColor: "rgba(247, 147, 26, 1)",
     borderColor: "rgba(247, 147, 26, 1)",
+    highlightLastSegment: true,
   });
   datasets.push({
     label: "Stacked STX",
@@ -120,8 +123,15 @@ const Home: FunctionComponent<Props> = async ({ params: { token } }: Props) => {
                     <dd>
                       {index === 0 ? (
                         <span className="flex flex-col gap-1 w-fit">
-                          {currency.short.format(info.apy)}%
-                          <Pending />
+                          <div className="flex items-center">
+                            {currency.short.format(info.apy)}%
+                            <div className="text-xs opacity-70 mx-1">
+                              → {currency.short.format(info.extrapolated_apy)}%
+                            </div>
+                          </div>
+                          <div>
+                            <Pending />
+                          </div>
                         </span>
                       ) : (
                         `${currency.short.format(info.apy)}%`
@@ -136,10 +146,18 @@ const Home: FunctionComponent<Props> = async ({ params: { token } }: Props) => {
                       {index === 0 ? (
                         <span className="flex flex-col gap-1 w-fit">
                           <div className="flex items-center">
-                            {info.rewards_amount.toFixed(6)}
-                            <BtcLogo className="w-[12px] h-[12px] ml-1" />
+                            {`${info.rewards_amount.toFixed(6)}`}
+                            <div className="text-xs opacity-70 mx-1">
+                              →{" "}
+                              {currency.short.format(
+                                info.extrapolated_rewards_amount
+                              )}
+                            </div>
+                            <BtcLogo className="w-3 h-3 ml-1 inline" />
                           </div>
-                          <Pending />
+                          <div>
+                            <Pending />
+                          </div>
                         </span>
                       ) : (
                         <div
@@ -183,8 +201,13 @@ const Home: FunctionComponent<Props> = async ({ params: { token } }: Props) => {
                   key={info.cycle_number + "-apy"}
                   className="flex gap-2 items-center"
                 >
-                  {currency.short.format(info.apy)}%
-                  <Pending />
+                  <div className="flex items-center">
+                    {currency.short.format(info.apy)}%
+                    <div className="text-xs opacity-70 mx-1">
+                      → {currency.short.format(info.extrapolated_apy)}%
+                    </div>
+                    <Pending />
+                  </div>
                 </span>
               ) : (
                 `${currency.short.format(info.apy)}%`
@@ -196,9 +219,13 @@ const Home: FunctionComponent<Props> = async ({ params: { token } }: Props) => {
                 >
                   <div className="flex items-center">
                     {`${info.rewards_amount.toFixed(6)}`}
+                    <div className="text-xs opacity-70 mx-1">
+                      →{" "}
+                      {currency.short.format(info.extrapolated_rewards_amount)}
+                    </div>
                     <BtcLogo className="w-3 h-3 ml-1 inline" />
+                    <Pending />
                   </div>
-                  <Pending />
                 </div>
               ) : (
                 <div

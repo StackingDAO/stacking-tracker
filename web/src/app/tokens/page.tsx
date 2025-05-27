@@ -27,13 +27,14 @@ export default async function Home() {
 
   datasets.push({
     label: "BTC Yield",
-    data: tokensInfo.cycles
-      .map((info: any) => info.rewards_amount)
-      .slice(0, -1),
+    data: tokensInfo.cycles.map(
+      (info: any) => info.extrapolated_rewards_amount || info.rewards_amount
+    ),
     type: "line",
     yAxisID: "yRight",
     backgroundColor: "rgba(247, 147, 26, 1)",
     borderColor: "rgba(247, 147, 26, 1)",
+    highlightLastSegment: true,
   });
 
   const colors = [

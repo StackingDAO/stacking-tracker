@@ -1,5 +1,6 @@
 import { Router, Request, Response } from "express";
 import * as db from "@repo/database";
+import * as stacks from "@repo/stacks";
 import { poxAddressToPool } from "../constants";
 import { getPrices } from "../prices";
 
@@ -50,10 +51,19 @@ router.get("/:slug", async (req: Request, res: Response) => {
     (key: string) => poxAddressToPool[key].slug === slug
   )[0];
 
-  const currentCycle = await db.getSignersLatestCycle();
+  const [pox, lastCycle] = await Promise.all([
+    stacks.getPox(),
+    db.getSignersLatestCycle(),
+  ]);
+
+  const currentCycle = pox.current_cycle.id;
+  const currentCycleProgress =
+    1.0 -
+    pox.next_cycle.blocks_until_prepare_phase / pox.reward_phase_block_length;
+  const currentCycleExtrapolationMult = 1.0 / currentCycleProgress;
 
   const promises: any[] = [];
-  for (let cycle = currentCycle; cycle >= 84; cycle--) {
+  for (let cycle = lastCycle; cycle >= 84; cycle--) {
     promises.push(getPoolsInfoForCycle(cycle, poxAddress));
   }
 
@@ -64,7 +74,17 @@ router.get("/:slug", async (req: Request, res: Response) => {
     website: poxAddressToPool[poxAddress].website,
     fee: poxAddressToPool[poxAddress].fee,
     feeDisclosed: poxAddressToPool[poxAddress].feeDisclosed,
-    cycles: results.reverse(),
+    cycles: results.reverse().map((result) => {
+      if (result.cycle_number === currentCycle) {
+        return {
+          ...result,
+          extrapolated_rewards_amount:
+            result.rewards_amount * currentCycleExtrapolationMult,
+          extrapolated_apy: result.apy * currentCycleExtrapolationMult,
+        };
+      }
+      return result;
+    }),
   });
 });
 

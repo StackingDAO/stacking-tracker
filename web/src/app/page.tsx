@@ -12,7 +12,6 @@ import StxLogo from "./components/Logos/Stx";
 import BtcLogo from "./components/Logos/Btc";
 import { Pending } from "./components/Pending";
 import { Info } from "./components/Info";
-import { TelegramBot } from "./components/TelegramBot";
 
 type Props = {
   params: {
@@ -33,17 +32,22 @@ const Home: FunctionComponent<Props> = async ({ params: { pool } }: Props) => {
   const poxInfo = await api.get(`/pox`);
   const chartLabels = poxInfo.cycles.map((info: any) => info.cycle_number);
   const dataStacked = poxInfo.cycles.map((info: any) => info.stacked_amount);
-  const dataRewards = poxInfo.cycles.map((info: any) => info.rewards_amount);
+  const dataRewards = poxInfo.cycles.map(
+    (info: any) => info.extrapolated_rewards_amount || info.rewards_amount
+  );
+  const lastCycle = poxInfo.cycles[poxInfo.cycles.length - 1];
 
   const datasets: any[] = [];
   datasets.push({
     label: "Rewards BTC",
-    data: dataRewards.slice(0, -1),
+    data: dataRewards,
     type: "line",
     yAxisID: "yRight",
-    backgroundColor: "rgba(247, 147, 26, 1)",
     borderColor: "rgba(247, 147, 26, 1)",
+    backgroundColor: "rgba(247, 147, 26, 1)",
+    highlightLastSegment: true,
   });
+
   datasets.push({
     label: "Stacked STX",
     data: dataStacked,
@@ -295,8 +299,15 @@ const Home: FunctionComponent<Props> = async ({ params: { pool } }: Props) => {
                     <dd>
                       {index === 0 ? (
                         <span className="flex flex-col gap-1 w-fit">
-                          {currency.short.format(info.apy)}%
-                          <Pending />
+                          <div className="flex items-center">
+                            {currency.short.format(info.apy)}%
+                            <span className="text-xs opacity-70 ml-1">
+                              → {currency.short.format(info.extrapolated_apy)}%
+                            </span>
+                          </div>
+                          <div>
+                            <Pending />
+                          </div>
                         </span>
                       ) : (
                         `${currency.short.format(info.apy)}%`
@@ -312,9 +323,17 @@ const Home: FunctionComponent<Props> = async ({ params: { pool } }: Props) => {
                         <span className="flex flex-col gap-1 w-fit">
                           <div className="flex items-center">
                             {currency.short.format(info.rewards_amount)}
+                            <span className="text-xs opacity-70 ml-1">
+                              →{" "}
+                              {currency.short.format(
+                                info.extrapolated_rewards_amount
+                              )}
+                            </span>
                             <BtcLogo className="w-[12px] h-[12px] ml-1" />
                           </div>
-                          <Pending />
+                          <div>
+                            <Pending />
+                          </div>
                         </span>
                       ) : (
                         <div
@@ -358,12 +377,16 @@ const Home: FunctionComponent<Props> = async ({ params: { pool } }: Props) => {
                   <StxLogo className="w-[12px] h-[12px] ml-1" />
                 </div>,
                 index === 0 ? (
-                  <span
-                    key={`apy-${index}`}
-                    className="flex gap-2 items-center"
-                  >
-                    {currency.short.format(info.apy)}%
-                    <Pending />
+                  <span key={`apy-${index}`} className="flex flex-col gap-2">
+                    <div className="flex items-center">
+                      {currency.short.format(info.apy)}%
+                      <div className="text-xs opacity-70 ml-1">
+                        → {currency.short.format(info.extrapolated_apy)}%
+                      </div>
+                    </div>
+                    <div>
+                      <Pending />
+                    </div>
                   </span>
                 ) : (
                   `${currency.short.format(info.apy)}%`
@@ -371,13 +394,23 @@ const Home: FunctionComponent<Props> = async ({ params: { pool } }: Props) => {
                 index === 0 ? (
                   <span
                     key={`rewards-${index}`}
-                    className="flex gap-2 items-center"
+                    className="flex flex-col gap-2"
                   >
-                    <div className="flex items-center" key={`rewards-${index}`}>
-                      {currency.short.format(info.rewards_amount)}
-                      <BtcLogo className="w-[12px] h-[12px] ml-1" />
+                    <div key={`rewards-${index}`}>
+                      <div className="flex items-center">
+                        {currency.short.format(info.rewards_amount)}{" "}
+                        <div className="text-xs opacity-70 ml-1">
+                          →{" "}
+                          {currency.short.format(
+                            info.extrapolated_rewards_amount
+                          )}
+                        </div>
+                        <BtcLogo className="w-[12px] h-[12px] ml-1" />
+                      </div>
                     </div>
-                    <Pending />
+                    <div>
+                      <Pending />
+                    </div>
                   </span>
                 ) : (
                   <div className="flex items-center" key={`rewards-${index}`}>

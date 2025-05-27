@@ -35,10 +35,14 @@ router.get("/", async (req: Request, res: Response) => {
     db.getSignersLatestCycle(),
   ]);
 
-  const currentCycle = Math.min(pox.current_cycle.id, signersLatestCycle);
+  const currentCycle = pox.current_cycle.id;
+  const currentCycleProgress = 1.0 - pox.next_cycle.blocks_until_prepare_phase / pox.reward_phase_block_length;
+  const currentCycleExtrapolationMult = (1.0 / currentCycleProgress)
+
+  const lastCycle = Math.min(pox.current_cycle.id, signersLatestCycle);
 
   const promises: any[] = [];
-  for (let cycle = currentCycle; cycle >= firstCycle; cycle--) {
+  for (let cycle = lastCycle; cycle >= firstCycle; cycle--) {
     promises.push(getInfoForCycle(cycle));
   }
   const results = await Promise.all(promises);
@@ -75,7 +79,18 @@ router.get("/", async (req: Request, res: Response) => {
       reward_phase_block_length: pox.reward_phase_block_length,
     },
 
-    cycles: results.reverse(),
+    cycles: results.reverse().map((result) => {
+      if (result.cycle_number === currentCycle) {
+        return {
+          ...result,
+          extrapolated_rewards_amount: result.rewards_amount * currentCycleExtrapolationMult,
+          extrapolated_rewards_amount_usd: result.rewards_amount_usd * currentCycleExtrapolationMult,
+          extrapolated_apr: result.apr * currentCycleExtrapolationMult,
+          extrapolated_apy: result.apy * currentCycleExtrapolationMult,
+        }
+      }
+      return result;
+    }),
   });
 });
 

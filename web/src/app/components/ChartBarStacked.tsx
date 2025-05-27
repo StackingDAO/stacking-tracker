@@ -48,6 +48,34 @@ export default function ChartBarStacked({
     }
     data.borderRadius = [radius];
     data.borderSkipped = false;
+
+    // Add segment handling for line charts
+    if (data.type === "line" && data.highlightLastSegment) {
+      const highlightColor = "rgba(247, 147, 26, 0.4)";
+      // Create arrays of colors with the last value being green
+      const originalBorderColor = data.borderColor;
+      const originalBackgroundColor = data.backgroundColor;
+
+      data.borderColor = Array(chartData.labels.length).fill(
+        originalBorderColor
+      );
+      data.borderColor[chartData.labels.length - 1] = highlightColor;
+
+      data.backgroundColor = Array(chartData.labels.length).fill(
+        originalBackgroundColor
+      );
+      data.backgroundColor[chartData.labels.length - 1] = highlightColor;
+
+      // Add segment styling for the line
+      data.segment = {
+        borderColor: (ctx: any) => {
+          if (ctx.p1DataIndex === chartData.labels.length - 1) {
+            return highlightColor;
+          }
+          return originalBorderColor;
+        },
+      };
+    }
   });
 
   return (
