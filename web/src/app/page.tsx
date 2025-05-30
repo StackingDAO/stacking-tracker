@@ -361,6 +361,7 @@ const Home: FunctionComponent<Props> = async ({ params: { pool } }: Props) => {
                 { title: "Cycle" },
                 { title: "Signers" },
                 { title: "Pools" },
+                { title: "Stackers" },
                 { title: "Stacked" },
                 {
                   title: "Gross APY",
@@ -372,6 +373,7 @@ const Home: FunctionComponent<Props> = async ({ params: { pool } }: Props) => {
                 info.cycle_number,
                 info.signers_count,
                 info.pools_count,
+                info.stackers_count,
                 <div className="flex items-center" key={`stacked-${index}`}>
                   {currency.rounded.format(info.stacked_amount)}
                   <StxLogo className="w-[12px] h-[12px] ml-1" />

@@ -35,6 +35,7 @@ export function getPoxInfoForCycle(
 
   return {
     cycle_number: cycleNumber,
+    stackers_count: stackers.length,
     stacked_amount: stackedAmount,
     stacked_amount_usd: stackedAmount * stxPrice,
     rewards_amount: rewardAmount,
