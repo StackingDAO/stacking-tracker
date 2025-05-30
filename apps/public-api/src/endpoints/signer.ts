@@ -58,8 +58,6 @@ router.get("/:signer", async (req: Request, res: Response) => {
     1.0
   );
 
-  console.log("SIGNERS INFO", signersInfo);
-
   const results = [];
   const filteredSignersInfo = signersInfo.filter(
     (info: any) => info.cycleNumber <= currentCycle
