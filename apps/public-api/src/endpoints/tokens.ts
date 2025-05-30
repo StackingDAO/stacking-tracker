@@ -53,9 +53,8 @@ async function getTokensSupply(stxPrice: number) {
 const router = Router();
 
 router.get("/", async (req: Request, res: Response) => {
-  const [pox, lastCycle, stxPrice, btcPrice] = await Promise.all([
+  const [pox, stxPrice, btcPrice] = await Promise.all([
     stacks.getPox(),
-    db.getSignersLatestCycle(),
     fetchPrice("STX"),
     fetchPrice("BTC"),
   ]);
@@ -64,10 +63,13 @@ router.get("/", async (req: Request, res: Response) => {
   const currentCycleProgress =
     1.0 -
     pox.next_cycle.blocks_until_prepare_phase / pox.reward_phase_block_length;
-  const currentCycleExtrapolationMult = 1.0 / currentCycleProgress;
+  const currentCycleExtrapolationMult = Math.max(
+    1.0 / currentCycleProgress,
+    1.0
+  );
 
   const promises: any[] = [];
-  for (let cycle = lastCycle; cycle > 83; cycle--) {
+  for (let cycle = currentCycle; cycle > 83; cycle--) {
     promises.push(getInfoForCycle(cycle));
   }
   const results = await Promise.all(promises);

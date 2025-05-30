@@ -53,10 +53,18 @@ router.get("/:signer", async (req: Request, res: Response) => {
   const currentCycleProgress =
     1.0 -
     pox.next_cycle.blocks_until_prepare_phase / pox.reward_phase_block_length;
-  const currentCycleExtrapolationMult = 1.0 / currentCycleProgress;
+  const currentCycleExtrapolationMult = Math.max(
+    1.0 / currentCycleProgress,
+    1.0
+  );
+
+  console.log("SIGNERS INFO", signersInfo);
 
   const results = [];
-  for (const signerInfo of signersInfo) {
+  const filteredSignersInfo = signersInfo.filter(
+    (info: any) => info.cycleNumber <= currentCycle
+  );
+  for (const signerInfo of filteredSignersInfo) {
     const cycleRewards = rewardsInfo.filter(
       (rewardInfo: { cycleNumber: number }) =>
         rewardInfo.cycleNumber === signerInfo.cycleNumber

@@ -36,8 +36,13 @@ router.get("/", async (req: Request, res: Response) => {
   ]);
 
   const currentCycle = pox.current_cycle.id;
-  const currentCycleProgress = 1.0 - pox.next_cycle.blocks_until_prepare_phase / pox.reward_phase_block_length;
-  const currentCycleExtrapolationMult = (1.0 / currentCycleProgress)
+  const currentCycleProgress =
+    1.0 -
+    pox.next_cycle.blocks_until_prepare_phase / pox.reward_phase_block_length;
+  const currentCycleExtrapolationMult = Math.max(
+    1.0 / currentCycleProgress,
+    1.0
+  );
 
   const lastCycle = Math.min(pox.current_cycle.id, signersLatestCycle);
 
@@ -83,11 +88,13 @@ router.get("/", async (req: Request, res: Response) => {
       if (result.cycle_number === currentCycle) {
         return {
           ...result,
-          extrapolated_rewards_amount: result.rewards_amount * currentCycleExtrapolationMult,
-          extrapolated_rewards_amount_usd: result.rewards_amount_usd * currentCycleExtrapolationMult,
+          extrapolated_rewards_amount:
+            result.rewards_amount * currentCycleExtrapolationMult,
+          extrapolated_rewards_amount_usd:
+            result.rewards_amount_usd * currentCycleExtrapolationMult,
           extrapolated_apr: result.apr * currentCycleExtrapolationMult,
           extrapolated_apy: result.apy * currentCycleExtrapolationMult,
-        }
+        };
       }
       return result;
     }),

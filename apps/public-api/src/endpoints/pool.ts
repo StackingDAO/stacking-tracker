@@ -51,19 +51,19 @@ router.get("/:slug", async (req: Request, res: Response) => {
     (key: string) => poxAddressToPool[key].slug === slug
   )[0];
 
-  const [pox, lastCycle] = await Promise.all([
-    stacks.getPox(),
-    db.getSignersLatestCycle(),
-  ]);
+  const pox = await stacks.getPox();
 
   const currentCycle = pox.current_cycle.id;
   const currentCycleProgress =
     1.0 -
     pox.next_cycle.blocks_until_prepare_phase / pox.reward_phase_block_length;
-  const currentCycleExtrapolationMult = 1.0 / currentCycleProgress;
+  const currentCycleExtrapolationMult = Math.max(
+    1.0 / currentCycleProgress,
+    1.0
+  );
 
   const promises: any[] = [];
-  for (let cycle = lastCycle; cycle >= 84; cycle--) {
+  for (let cycle = currentCycle; cycle >= 84; cycle--) {
     promises.push(getPoolsInfoForCycle(cycle, poxAddress));
   }
 
