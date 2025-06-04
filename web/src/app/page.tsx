@@ -385,7 +385,7 @@ const Home: FunctionComponent<Props> = async ({ params: { pool } }: Props) => {
                     <div className="flex items-center gap-x-1">
                       {currency.short.format(info.apy)}%
                       <ArrowRightIcon className="w-4 h-4 text-white/30" />
-                      <div className="opacity-70 ml-1">
+                      <div className="opacity-70">
                         {currency.short.format(info.extrapolated_apy)}%
                       </div>
                       <Pending iconOnly highlightTooltip={false} />
