@@ -12,6 +12,7 @@ import StxLogo from "./components/Logos/Stx";
 import BtcLogo from "./components/Logos/Btc";
 import { Pending } from "./components/Pending";
 import { Info } from "./components/Info";
+import { ArrowRightIcon } from "@heroicons/react/24/solid";
 
 type Props = {
   params: {
@@ -301,8 +302,9 @@ const Home: FunctionComponent<Props> = async ({ params: { pool } }: Props) => {
                         <span className="flex flex-col gap-1 w-fit">
                           <div className="flex items-center">
                             {currency.short.format(info.apy)}%
-                            <span className="text-xs opacity-70 ml-1">
-                              → {currency.short.format(info.extrapolated_apy)}%
+                            <ArrowRightIcon className="w-4 h-4 mx-1 text-white/30" />
+                            <span className="opacity-70">
+                              {currency.short.format(info.extrapolated_apy)}%
                             </span>
                           </div>
                           <div>
@@ -323,8 +325,8 @@ const Home: FunctionComponent<Props> = async ({ params: { pool } }: Props) => {
                         <span className="flex flex-col gap-1 w-fit">
                           <div className="flex items-center">
                             {currency.short.format(info.rewards_amount)}
-                            <span className="text-xs opacity-70 ml-1">
-                              →{" "}
+                            <ArrowRightIcon className="w-4 h-4 mx-1 text-white/30" />
+                            <span className="opacity-70">
                               {currency.short.format(
                                 info.extrapolated_rewards_amount
                               )}
@@ -379,41 +381,33 @@ const Home: FunctionComponent<Props> = async ({ params: { pool } }: Props) => {
                   <StxLogo className="w-[12px] h-[12px] ml-1" />
                 </div>,
                 index === 0 ? (
-                  <span key={`apy-${index}`} className="flex flex-col gap-2">
-                    <div className="flex items-center">
+                  <div key={`apy-${index}`} className="flex items-center">
+                    <div className="flex items-center gap-x-1">
                       {currency.short.format(info.apy)}%
-                      <div className="text-xs opacity-70 ml-1">
-                        → {currency.short.format(info.extrapolated_apy)}%
+                      <ArrowRightIcon className="w-4 h-4 text-white/30" />
+                      <div className="opacity-70 ml-1">
+                        {currency.short.format(info.extrapolated_apy)}%
                       </div>
+                      <Pending iconOnly highlightTooltip={false} />
                     </div>
-                    <div>
-                      <Pending />
-                    </div>
-                  </span>
+                  </div>
                 ) : (
                   `${currency.short.format(info.apy)}%`
                 ),
                 index === 0 ? (
-                  <span
-                    key={`rewards-${index}`}
-                    className="flex flex-col gap-2"
-                  >
-                    <div key={`rewards-${index}`}>
-                      <div className="flex items-center">
-                        {currency.short.format(info.rewards_amount)}{" "}
-                        <div className="text-xs opacity-70 ml-1">
-                          →{" "}
-                          {currency.short.format(
-                            info.extrapolated_rewards_amount
-                          )}
-                        </div>
-                        <BtcLogo className="w-[12px] h-[12px] ml-1" />
+                  <div key={`rewards-${index}`} className="flex items-center">
+                    <div className="flex items-center gap-x-1">
+                      {currency.short.format(info.rewards_amount)}
+                      <ArrowRightIcon className="w-4 h-4 text-white/30" />
+                      <div className="opacity-70">
+                        {currency.short.format(
+                          info.extrapolated_rewards_amount
+                        )}
                       </div>
+                      <BtcLogo className="w-[12px] h-[12px] ml-1" />
+                      <Pending iconOnly highlightTooltip={false} />
                     </div>
-                    <div>
-                      <Pending />
-                    </div>
-                  </span>
+                  </div>
                 ) : (
                   <div className="flex items-center" key={`rewards-${index}`}>
                     {currency.short.format(info.rewards_amount)}

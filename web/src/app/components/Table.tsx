@@ -14,7 +14,7 @@ export function Table({ columnHeaders, rows }: Props) {
   return (
     <div className="overflow-x-auto">
       <div className="inline-block min-w-full py-2 align-middle">
-        <table className="w-full table-fixed">
+        <table className="w-full">
           <thead>
             <tr className="[&>*:first-child]:rounded-l-md [&>*:first-child]:pl-4 [&>*:last-child]:rounded-r-md">
               {columnHeaders.map((header: any) => (
