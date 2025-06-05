@@ -9,6 +9,7 @@ import { CopyAddress } from "@/app/components/CopyAddress";
 import { Pending } from "@/app/components/Pending";
 import { ButtonWebsite } from "@/app/components/ButtonWebsite";
 import { ToolTip } from "@/app/components/Tooltip";
+import { ArrowRightIcon } from "@heroicons/react/24/solid";
 
 type Props = {
   params: {
@@ -139,8 +140,9 @@ const Home: FunctionComponent<Props> = async ({
                         <span className="flex flex-col gap-1 w-fit">
                           <div className="flex items-center">
                             {currency.short.format(info.apy)}%
-                            <div className="text-xs opacity-70 mx-1">
-                              → {currency.short.format(info.extrapolated_apy)}%
+                            <ArrowRightIcon className="w-4 h-4 mx-1 text-white/30" />
+                            <div className="opacity-70">
+                              {currency.short.format(info.extrapolated_apy)}%
                             </div>
                           </div>
                           <div>
@@ -162,8 +164,8 @@ const Home: FunctionComponent<Props> = async ({
                         <span className="flex flex-col gap-1 w-fit">
                           <div className="flex items-center">
                             {`${info.rewards_amount.toFixed(6)}`}
-                            <div className="text-xs opacity-70 mx-1">
-                              →{" "}
+                            <ArrowRightIcon className="w-4 h-4 mx-1 text-white/30" />
+                            <div className="opacity-70">
                               {currency.short.format(
                                 info.extrapolated_rewards_amount
                               )}
@@ -217,14 +219,15 @@ const Home: FunctionComponent<Props> = async ({
               index === 0 ? (
                 <span
                   key={info.cycle_number + "-apy"}
-                  className="flex gap-2 items-center"
+                  className="flex items-center"
                 >
-                  <div className="flex items-center">
+                  <div className="flex items-center gap-x-1">
                     {currency.short.format(info.apy)}%
-                    <div className="text-xs opacity-70 mx-1">
-                      → {currency.short.format(info.extrapolated_apy)}%
+                    <ArrowRightIcon className="w-4 h-4 text-white/30" />
+                    <div className="opacity-70">
+                      {currency.short.format(info.extrapolated_apy)}%
                     </div>
-                    <Pending />
+                    <Pending iconOnly highlightTooltip={false} />
                   </div>
                 </span>
               ) : (
@@ -233,16 +236,16 @@ const Home: FunctionComponent<Props> = async ({
               index === 0 ? (
                 <div
                   key={info.cycle_number + "-rewards"}
-                  className="flex items-center gap-2"
+                  className="flex items-center"
                 >
-                  <div className="flex items-center">
+                  <div className="flex items-center gap-x-1">
                     {`${info.rewards_amount.toFixed(6)}`}
-                    <div className="text-xs opacity-70 mx-1">
-                      →{" "}
+                    <ArrowRightIcon className="w-4 h-4 text-white/30" />
+                    <div className="opacity-70">
                       {currency.short.format(info.extrapolated_rewards_amount)}
                     </div>
                     <BtcLogo className="w-3 h-3 ml-1 inline" />
-                    <Pending />
+                    <Pending iconOnly highlightTooltip={false} />
                   </div>
                 </div>
               ) : (
