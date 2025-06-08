@@ -18,9 +18,8 @@ export const tokensList = [
     logo_token: "/logos/ststxbtc.webp",
     website: "https://www.stackingdao.com",
     tokenAddresses: [
-      "SP4SZE494VC2YC5JYG7AYFQ44F5Q4PYV7DVMDPBG.ststxbtc-token", 
-      // TODO: enable this once the new token is deployed
-      // "SP4SZE494VC2YC5JYG7AYFQ44F5Q4PYV7DVMDPBG.ststxbtc-token-v2"
+      "SP4SZE494VC2YC5JYG7AYFQ44F5Q4PYV7DVMDPBG.ststxbtc-token",
+      "SP4SZE494VC2YC5JYG7AYFQ44F5Q4PYV7DVMDPBG.ststxbtc-token-v2",
     ],
   },
   {
@@ -129,7 +128,7 @@ export const delegationAddressToPool = {
     logo: "/logos/fastpool.webp",
     website: "https://fastpool.org",
   },
-   "SPMPMA1V6P430M8C91QS1G9XJ95S59JS1TZFZ4Q4.pox4-multi-pool-v1": {
+  "SPMPMA1V6P430M8C91QS1G9XJ95S59JS1TZFZ4Q4.pox4-multi-pool-v1": {
     name: "Fast Pool v2",
     slug: "fast-pool-v2",
     logo: "/logos/fastpool.webp",
