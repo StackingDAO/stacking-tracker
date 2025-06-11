@@ -40,7 +40,9 @@ export default async function Home() {
   const colors: { [key: string]: string } = {
     "Xverse Pool": "#2E7D59",
     "Fast Pool": "#9B4069",
+    "Fast Pool v2": "#9B4069",
     "Planbetter Pool": "#357576",
+    "StackingDAO Pool": "#2E7D59",
   };
 
   for (const activePool of activePools) {
