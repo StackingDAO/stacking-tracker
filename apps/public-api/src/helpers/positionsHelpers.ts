@@ -87,9 +87,9 @@ async function getDefi(stStxPrice: number) {
 
   const stStxBtcBalancesV2 = results.map((item: any) =>
     Number(
-      item.fungible_tokens[
+      (item.fungible_tokens[
         "SP4SZE494VC2YC5JYG7AYFQ44F5Q4PYV7DVMDPBG.ststxbtc-token-v2::ststxbtc"
-      ]?.balance / 1000000.0
+      ]?.balance ?? 0) / 1000000.0
     )
   );
 
@@ -168,7 +168,9 @@ async function getTokenBalances(wallet: string) {
     stx: balances.stx.balance / 1000000.0,
     stxLocked: balances.stx.locked / 1000000.0,
     stStx: stStxInfo ? stStxInfo.balance / 1000000.0 : 0.0,
-    stStxBtc: (stStxBtcInfo ? stStxBtcInfo.balance / 1000000.0 : 0.0) + (stStxBtcInfoV2 ? stStxBtcInfoV2.balance / 1000000.0 : 0.0),
+    stStxBtc:
+      (stStxBtcInfo ? stStxBtcInfo.balance / 1000000.0 : 0.0) +
+      (stStxBtcInfoV2 ? stStxBtcInfoV2.balance / 1000000.0 : 0.0),
     liStx: liStxInfo ? liStxInfo.balance / 1000000.0 : 0.0,
   };
 }
