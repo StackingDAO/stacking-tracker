@@ -75,7 +75,7 @@ export const poxAddressToPool = {
     name: "Planbetter Pool",
     slug: "planbetter-pool",
     logo: "/logos/planbetter.webp",
-    website: "https://www.planbetter.org",
+    website: "https://www.planbetter.com",
     symbol: "BTC",
     fee: 0.05,
     feeDisclosed: true,
@@ -245,7 +245,7 @@ export const signerKeyToPool = {
     name: "Planbetter",
     slug: "planbetter",
     logo: "/logos/planbetter.webp",
-    website: "https://www.planbetter.org",
+    website: "https://www.planbetter.com",
   },
   "0x0284df4505c6318a0017a7848aa0a95bf8cd3db697a89d2ec1978a027bece770ef": {
     name: "Degen Lab",
