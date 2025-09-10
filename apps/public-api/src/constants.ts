@@ -59,7 +59,7 @@ export const poxAddressToPool = {
     logo: "/logos/fastpool.webp",
     website: "https://fastpool.org",
     symbol: "STX",
-    fee: 0.05,
+    fee: 0.047,
     feeDisclosed: true,
   },
   bc1q7w0jpwwjyq48qhyecnuwazfqv56880q67pmtfc: {
@@ -68,7 +68,7 @@ export const poxAddressToPool = {
     logo: "/logos/fastpool.webp",
     website: "https://fastpool.org",
     symbol: "STX",
-    fee: 0.05,
+    fee: 0.047,
     feeDisclosed: true,
   },
   bc1qs33quxgnwkrspgu82lmaczw7gtcfa88pll8fqm: {
