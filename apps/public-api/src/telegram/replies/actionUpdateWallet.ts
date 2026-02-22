@@ -13,6 +13,10 @@ export class ActionUpdateWallet extends RepliesHandler {
     const messageId =
       message.message?.message_id ?? message.callback_query?.message?.id;
 
+    if (!userId) {
+      return false;
+    }
+
     const lastMessage = replyRequestCache.get(userId) as any | undefined;
 
     if (lastMessage && lastMessage.result.message_id + 1 === messageId) {
