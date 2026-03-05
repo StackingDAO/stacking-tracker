@@ -5,7 +5,7 @@ export function getPoolsInfoForCycle(
   stackers: any,
   rewards: any,
   stxPrice: number,
-  btcPrice: number
+  btcPrice: number,
 ) {
   const pools: any[] = [];
   for (const poxAddress of Object.keys(poxAddressToPool)) {
@@ -29,9 +29,13 @@ export function getPoolsInfoForCycle(
 
       const previousStackedValue = stackedAmount * stxPrice;
       const previousRewardsValue = rewardAmount * rewardFeeMult * btcPrice;
-      // 26 cycles per year
-      const apr = (previousRewardsValue / previousStackedValue) * 26;
-      const apy = (Math.pow(1 + apr / 26, 26) - 1) * 100.0;
+      // 26 cycles per year (use 0 when denominator is 0 to avoid NaN)
+      const apr =
+        previousStackedValue > 0 && Number.isFinite(previousStackedValue)
+          ? (previousRewardsValue / previousStackedValue) * 26
+          : 0;
+      const rawApy = (Math.pow(1 + apr / 26, 26) - 1) * 100.0;
+      const apy = Number.isFinite(rawApy) ? rawApy : 0;
 
       pools.push({
         name: poxAddressToPool[poxAddress as string].name,
@@ -65,7 +69,7 @@ export function getPoolsInfoForCycle(
 export function getAggregatedPoolsInfo(
   cyclesInfo: any[],
   stxPrice: number,
-  btcPrice: number
+  btcPrice: number,
 ) {
   const aggregatedCyclesInfo: any[] = [];
   for (const cycle of cyclesInfo) {
@@ -106,18 +110,18 @@ export function getAggregatedPoolsInfo(
 export function getPoolEntities(
   cyclesInfo: any,
   stxPrice: number,
-  btcPrice: number
+  btcPrice: number,
 ) {
   const entities: any[] = [];
   for (const poxAddress of Object.keys(poxAddressToPool)) {
     const lastCycleInfo = cyclesInfo[0].pools.filter(
-      (pool: any) => pool.pox_address === poxAddress
+      (pool: any) => pool.pox_address === poxAddress,
     )[0];
 
     const cycleInfoAddress = [];
     cyclesInfo.forEach((info: any) => {
       const filteredInfo = info.pools.filter(
-        (pool: any) => pool.pox_address === poxAddress
+        (pool: any) => pool.pox_address === poxAddress,
       )[0];
 
       if (filteredInfo) {
