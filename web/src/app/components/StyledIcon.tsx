@@ -31,7 +31,7 @@ export const StyledIcon = ({
   return (
     <Icon
       aria-hidden="true"
-      className={classNames("flex-shrink-0", className, sizeMap[size])}
+      className={classNames("shrink-0", className, sizeMap[size])}
     />
   );
 };

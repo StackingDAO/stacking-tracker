@@ -12,8 +12,8 @@ type Props = {
 };
 
 const colorMap: Record<Color, string> = {
-  [Color.GRAY]: 'bg-zinc-400',
-  [Color.GREEN]: 'bg-dark-green-500/60',
+  [Color.GRAY]: 'bg-white/40',
+  [Color.GREEN]: 'bg-green/60',
 };
 
 export function PlaceholderBar({ className, color = Color.GREEN }: Props) {

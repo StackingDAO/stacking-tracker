@@ -17,7 +17,7 @@ export default async function Home() {
   return (
     <div className="flex flex-col justify-between w-full">
       <div className="mb-12 bg-transparent rounded-lg">
-        <div className="mb-32 grid text-center rounded-lg lg:mb-0 lg:w-full lg:max-w-5xl lg:grid-cols-4 lg:text-left transition-colors border-gray-300 bg-gray-100 dark:border-neutral-700 dark:bg-neutral-800/30">
+        <div className="mb-32 grid text-center rounded-lg lg:mb-0 lg:w-full lg:max-w-5xl lg:grid-cols-4 lg:text-left transition-colors border-white/10 bg-white/5">
           <div className="group rounded-lg border border-transparent px-5 py-4 ">
             <h2 className="mb-3 text-xl font-semibold">${priceBtc}</h2>
             <p className="m-0 max-w-[30ch] text-sm opacity-50">BTC Price</p>
@@ -30,7 +30,7 @@ export default async function Home() {
       </div>
 
       <div className="mb-12 bg-transparent rounded-lg">
-        <div className="mb-32 grid text-center rounded-lg lg:mb-0 lg:w-full lg:max-w-5xl lg:grid-cols-4 lg:text-left transition-colors border-gray-300 bg-gray-100 dark:border-neutral-700 dark:bg-neutral-800/30">
+        <div className="mb-32 grid text-center rounded-lg lg:mb-0 lg:w-full lg:max-w-5xl lg:grid-cols-4 lg:text-left transition-colors border-white/10 bg-white/5">
           <div className="group rounded-lg border border-transparent px-5 py-4 ">
             <h2 className="mb-3 text-xl font-semibold">Last 144 Blocks</h2>
             <p className="m-0 max-w-[30ch] text-sm opacity-50">
@@ -115,7 +115,7 @@ export default async function Home() {
               <p>
                 {miner.blocks_mined}/{miner.blocks_participated}
               </p>
-              <p className="text-xs text-gray-400">
+              <p className="text-xs text-white/50">
                 {currency.short.format(
                   (miner.blocks_mined / miner.blocks_participated) * 100
                 )}
@@ -124,13 +124,13 @@ export default async function Home() {
             </div>,
             <div key={miner.address + "-rewards"} className="flex flex-col">
               <p>{miner.rewards} STX</p>
-              <p className="text-xs text-gray-400">
+              <p className="text-xs text-white/50">
                 ${currency.short.format(miner.rewards * priceStx)}
               </p>
             </div>,
             <div key={miner.address + "-fees"} className="flex flex-col">
               <p>{currency.short.format(miner.fees)} STX</p>
-              <p className="text-xs text-gray-400">
+              <p className="text-xs text-white/50">
                 ${currency.short.format(miner.fees * priceStx)}
               </p>
             </div>,
@@ -138,7 +138,7 @@ export default async function Home() {
               <p>
                 {currency.short.format(miner.fees / miner.blocks_mined)} STX
               </p>
-              <p className="text-xs text-gray-400">
+              <p className="text-xs text-white/50">
                 $
                 {currency.short.format(
                   (miner.fees / miner.blocks_mined) * priceStx
@@ -147,7 +147,7 @@ export default async function Home() {
             </div>,
             <div key={miner.address + "-bids"} className="flex flex-col">
               <p>{currency.long.format(miner.bids)} BTC</p>
-              <p className="text-xs text-gray-400">
+              <p className="text-xs text-white/50">
                 ${currency.short.format(miner.bids * priceBtc)}
               </p>
             </div>,
@@ -156,7 +156,7 @@ export default async function Home() {
                 {currency.long.format(miner.bids / miner.blocks_participated)}{" "}
                 BTC
               </p>
-              <p className="text-xs text-gray-400">
+              <p className="text-xs text-white/50">
                 $
                 {currency.short.format(
                   (miner.bids / miner.blocks_participated) * priceBtc
@@ -165,7 +165,7 @@ export default async function Home() {
             </div>,
             <div key={miner.address + "-bidfees"} className="flex flex-col">
               <p>{currency.long.format(miner.bids_fees)} BTC</p>
-              <p className="text-xs text-gray-400">
+              <p className="text-xs text-white/50">
                 ${currency.short.format(miner.bids_fees * priceBtc)}
               </p>
             </div>,
@@ -176,7 +176,7 @@ export default async function Home() {
                 )}{" "}
                 BTC
               </p>
-              <p className="text-xs text-gray-400">
+              <p className="text-xs text-white/50">
                 $
                 {currency.short.format(
                   (miner.bids_fees / miner.blocks_participated) * priceBtc

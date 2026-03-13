@@ -38,7 +38,7 @@ export function ChooseWalletModal({
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
         >
-          <div className="fixed inset-0 transition-opacity bg-black bg-opacity-75" />
+          <div className="fixed inset-0 transition-opacity bg-black/75" />
         </Transition.Child>
 
         <div className="fixed inset-0 z-10 overflow-y-auto">
@@ -64,7 +64,7 @@ export function ChooseWalletModal({
                       </Dialog.Title>
                       <button
                         type="button"
-                        className="bg-transparent rounded-md text-dark-green-400 hover:text-dark-green-500 focus:outline-none focus:ring-2 focus:ring-offset-2"
+                        className="bg-transparent rounded-md text-white/50 hover:text-white/70 focus:outline-hidden focus:ring-2 focus:ring-offset-2"
                         onClick={closeModal}
                       >
                         <span className="sr-only">Close</span>
@@ -80,7 +80,7 @@ export function ChooseWalletModal({
                         disabled={
                           !window.LeatherProvider && !window.HiroWalletProvider
                         }
-                        className="flex items-center w-full -ml-2.5 bg-transparent rounded-md gap-x-4 focus:outline-none focus:ring-2 focus:ring-offset-2 hover:bg-white/[0.05] disabled:hover:bg-white/[0.02] disabled:cursor-not-allowed"
+                        className="flex items-center w-full -ml-2.5 bg-transparent rounded-md gap-x-4 focus:outline-hidden focus:ring-2 focus:ring-offset-2 hover:bg-white/[0.05] disabled:hover:bg-white/[0.02] disabled:cursor-not-allowed"
                       >
                         <span>
                           <svg
@@ -171,7 +171,7 @@ export function ChooseWalletModal({
                           onProviderChosen("xverse");
                         }}
                         disabled={!xVerseInstalled}
-                        className="flex items-center w-full -ml-2.5 bg-transparent rounded-md gap-x-4 focus:outline-none focus:ring-2 focus:ring-offset-2 hover:bg-white/[0.05] disabled:hover:bg-white/[0.02] disabled:cursor-not-allowed"
+                        className="flex items-center w-full -ml-2.5 bg-transparent rounded-md gap-x-4 focus:outline-hidden focus:ring-2 focus:ring-offset-2 hover:bg-white/[0.05] disabled:hover:bg-white/[0.02] disabled:cursor-not-allowed"
                       >
                         <span>
                           <svg
@@ -265,7 +265,7 @@ export function ChooseWalletModal({
                           onProviderChosen("asigna");
                         }}
                         disabled={!window.AsignaProvider}
-                        className="flex items-center w-full -ml-2.5 bg-transparent rounded-md gap-x-4 focus:outline-none focus:ring-2 focus:ring-offset-2 hover:bg-white/[0.05] disabled:hover:bg-white/[0.02] disabled:cursor-not-allowed"
+                        className="flex items-center w-full -ml-2.5 bg-transparent rounded-md gap-x-4 focus:outline-hidden focus:ring-2 focus:ring-offset-2 hover:bg-white/[0.05] disabled:hover:bg-white/[0.02] disabled:cursor-not-allowed"
                       >
                         <span>
                           <svg
@@ -391,7 +391,7 @@ export function ChooseWalletModal({
                           onProviderChosen("okx");
                         }}
                         disabled={!window.okxwallet}
-                        className="flex items-center w-full -ml-2.5 bg-transparent rounded-md gap-x-4 focus:outline-none focus:ring-2 focus:ring-offset-2 hover:bg-white/[0.05] disabled:hover:bg-white/[0.02] disabled:cursor-not-allowed"
+                        className="flex items-center w-full -ml-2.5 bg-transparent rounded-md gap-x-4 focus:outline-hidden focus:ring-2 focus:ring-offset-2 hover:bg-white/[0.05] disabled:hover:bg-white/[0.02] disabled:cursor-not-allowed"
                       >
                         <span>
                           <svg
