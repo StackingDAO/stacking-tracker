@@ -112,10 +112,10 @@ export function ChooseWalletModal({
                                 width="56.6667"
                                 height="56.6667"
                                 filterUnits="userSpaceOnUse"
-                                color-interpolation-filters="sRGB"
+                                colorInterpolationFilters="sRGB"
                               >
                                 <feFlood
-                                  flood-opacity="0"
+                                  floodOpacity="0"
                                   result="BackgroundImageFix"
                                 />
                                 <feColorMatrix
@@ -207,10 +207,10 @@ export function ChooseWalletModal({
                                 width="56.6667"
                                 height="56.6667"
                                 filterUnits="userSpaceOnUse"
-                                color-interpolation-filters="sRGB"
+                                colorInterpolationFilters="sRGB"
                               >
                                 <feFlood
-                                  flood-opacity="0"
+                                  floodOpacity="0"
                                   result="BackgroundImageFix"
                                 />
                                 <feColorMatrix
@@ -309,10 +309,10 @@ export function ChooseWalletModal({
                                 width="56.6667"
                                 height="56.6667"
                                 filterUnits="userSpaceOnUse"
-                                color-interpolation-filters="sRGB"
+                                colorInterpolationFilters="sRGB"
                               >
                                 <feFlood
-                                  flood-opacity="0"
+                                  floodOpacity="0"
                                   result="BackgroundImageFix"
                                 />
                                 <feColorMatrix
@@ -347,9 +347,9 @@ export function ChooseWalletModal({
                                 y2="18.6849"
                                 gradientUnits="userSpaceOnUse"
                               >
-                                <stop stop-color="#6522F4" />
-                                <stop offset="0.5538" stop-color="#9B6BFF" />
-                                <stop offset="1" stop-color="#A585FF" />
+                                <stop stopColor="#6522F4" />
+                                <stop offset="0.5538" stopColor="#9B6BFF" />
+                                <stop offset="1" stopColor="#A585FF" />
                               </linearGradient>
                               <linearGradient
                                 id="paint1_linear_324_1502"
@@ -359,9 +359,9 @@ export function ChooseWalletModal({
                                 y2="27.9408"
                                 gradientUnits="userSpaceOnUse"
                               >
-                                <stop stop-color="#421F8B" />
-                                <stop offset="0.5538" stop-color="#7230FF" />
-                                <stop offset="1" stop-color="#9773FF" />
+                                <stop stopColor="#421F8B" />
+                                <stop offset="0.5538" stopColor="#7230FF" />
+                                <stop offset="1" stopColor="#9773FF" />
                               </linearGradient>
                             </defs>
                           </svg>
@@ -439,10 +439,10 @@ export function ChooseWalletModal({
                                 width="56.6667"
                                 height="56.6667"
                                 filterUnits="userSpaceOnUse"
-                                color-interpolation-filters="sRGB"
+                                colorInterpolationFilters="sRGB"
                               >
                                 <feFlood
-                                  flood-opacity="0"
+                                  floodOpacity="0"
                                   result="BackgroundImageFix"
                                 />
                                 <feColorMatrix

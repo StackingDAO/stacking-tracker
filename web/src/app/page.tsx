@@ -1,4 +1,3 @@
-import { FunctionComponent } from "react";
 import { Table } from "./components/Table";
 import * as api from "./common/public-api";
 import {
@@ -14,12 +13,6 @@ import { Pending } from "./components/Pending";
 import { Info } from "./components/Info";
 import { ArrowRightIcon } from "@heroicons/react/24/solid";
 
-type Props = {
-  params: {
-    pool: string;
-  };
-};
-
 export async function generateMetadata() {
   const poxInfo = await api.get(`/pox`);
   const info = {
@@ -29,7 +22,7 @@ export async function generateMetadata() {
   return generateMetaData(info.title, info.description);
 }
 
-const Home: FunctionComponent<Props> = async ({ params: { pool } }: Props) => {
+const Home = async () => {
   const poxInfo = await api.get(`/pox`);
   const chartLabels = poxInfo.cycles.map((info: any) => info.cycle_number);
   const dataStacked = poxInfo.cycles.map((info: any) => info.stacked_amount);
