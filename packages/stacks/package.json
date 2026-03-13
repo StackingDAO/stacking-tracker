@@ -6,7 +6,6 @@
     "build": "tsc"
   },
   "dependencies": {
-    "@stacks/blockchain-api-client": "7.13.0",
     "@stacks/network": "6.10.0",
     "@stacks/transactions": "6.11.0",
     "axios": "^1.7.4",
