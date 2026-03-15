@@ -1,48 +1,46 @@
-import type { Block } from "@stacks/stacks-blockchain-api-types";
 import { SendMessageCommand, SQSClient } from "@aws-sdk/client-sqs";
-import * as stacks from "@stacks/blockchain-api-client";
-import { io, Socket } from "socket.io-client";
+import {
+  connectWebSocketClient,
+  StacksApiWebSocketClient,
+} from "@stacks/blockchain-api-client";
+
+const HIRO_WS_URL = "wss://api.mainnet.hiro.so/";
+
+export interface BlockMessage {
+  height: number;
+  hash: string;
+  [key: string]: unknown;
+}
 
 export class StacksListener {
   sqs: SQSClient;
   queueUrl: string;
-  _socket: Socket;
-  listener: stacks.StacksApiSocketClient;
-  private readonly unsubscribeBlocks: () => void;
+  client: StacksApiWebSocketClient;
 
-  constructor(queueUrl: string) {
-    this.sqs = new SQSClient({
-      region: "eu-central-1",
-    });
+  private constructor(
+    queueUrl: string,
+    client: StacksApiWebSocketClient,
+  ) {
+    this.sqs = new SQSClient({ region: "eu-central-1" });
     this.queueUrl = queueUrl;
+    this.client = client;
+  }
 
-    this._socket = io("https://api.mainnet.hiro.so/", {
-      transports: ["websocket"],
-    });
-    this._socket.on("connect", () =>
-      console.log("socket connected: listening for confirmed blocks...")
-    );
-    this._socket.on("disconnect", () => console.log("socket disconnected"));
-    this._socket.on("connect_error", (err) =>
-      console.log("connection error: ", err)
-    );
+  static async create(queueUrl: string): Promise<StacksListener> {
+    const client = await connectWebSocketClient(HIRO_WS_URL);
+    console.log("websocket connected: listening for confirmed blocks...");
 
-    this.listener = new stacks.StacksApiSocketClient(this._socket);
-
-    const { unsubscribe } = this.listener.subscribeBlocks(
-      this.sendBlock.bind(this)
-    );
-    this.unsubscribeBlocks = unsubscribe;
+    const listener = new StacksListener(queueUrl, client);
+    await client.subscribeBlocks(listener.sendBlock.bind(listener));
+    return listener;
   }
 
   dispose() {
     console.log("closing all websocket connections");
-
-    this.unsubscribeBlocks();
-    this._socket.close();
+    this.client.webSocket.close();
   }
 
-  async sendBlock(block: Block) {
+  async sendBlock(block: BlockMessage) {
     console.log("Received block ", block.height);
 
     try {
@@ -58,7 +56,7 @@ export class StacksListener {
             },
           },
           MessageBody: JSON.stringify(block),
-        })
+        }),
       );
 
       console.log(`Published message ${response.MessageId} to queue.`);
