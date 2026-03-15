@@ -11,6 +11,7 @@ import StStxLogo from "./Logos/StStx";
 import { ButtonLink } from "./ButtonLink";
 import { ToolTip } from "./Tooltip";
 import { WalletInput } from "./WalletInput";
+import { useAppContext } from "./AppContext";
 
 export function Positions({ positions }: { positions: any }) {
   const [inputAddress, setInputAddress] = useState("");
@@ -22,13 +23,15 @@ export function Positions({ positions }: { positions: any }) {
   const [collapsedStStxBtc, setCollapsedStStxBtc] = useState(false);
   const [state, setState] = useState("default");
 
+  const { stxAddress } = useAppContext();
+
   function getPositions() {
     return userPositions ? userPositions : positions;
   }
 
-  async function fetchUserInfo(stxAddress: string) {
+  async function fetchUserInfo(address: string) {
     setState("loading");
-    const result = await api.get(`/positions/${stxAddress}`);
+    const result = await api.get(`/positions/${address}`);
     setUserPositions(result);
     setState("user");
   }
@@ -37,11 +40,14 @@ export function Positions({ positions }: { positions: any }) {
     if (inputAddress !== "") {
       setUserPositions(undefined);
       fetchUserInfo(inputAddress);
+    } else if (stxAddress) {
+      setUserPositions(undefined);
+      fetchUserInfo(stxAddress);
     } else {
       setUserPositions(undefined);
       setState("default");
     }
-  }, [inputAddress]);
+  }, [inputAddress, stxAddress]);
 
   return (
     <div className="mt-3">
@@ -61,7 +67,7 @@ export function Positions({ positions }: { positions: any }) {
                     <img className="w-8 h-8 mr-3 mt-1" src={position.logo} />
                     <div className="flex flex-col">
                       {position.type === "LST" &&
-                      position.name === "StackingDAO" ? (
+                        position.name === "StackingDAO" ? (
                         <div className="font-semibold">
                           {position.name} {position.symbol}
                         </div>

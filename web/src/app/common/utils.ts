@@ -1,10 +1,6 @@
-// @ts-nocheck
-
 import { RPCClient } from "@stacks/rpc-client";
 import { StacksMainnet, StacksTestnet } from "@stacks/network";
 import { MempoolApi } from "@stacks/blockchain-api-client";
-
-require("dotenv").config();
 
 const env = process.env.NEXT_PUBLIC_NETWORK_ENV || "mainnet";
 
@@ -38,7 +34,7 @@ export const getRPCClient = () => {
 
 export const stacksNetwork =
   env === "mainnet" ? new StacksMainnet() : new StacksTestnet();
-(stacksNetwork.coreApiUrl as any) = coreApiUrl;
+(stacksNetwork as any).coreApiUrl = coreApiUrl;
 
 export const blocksToTime = (blocks: number) => {
   const minutesPerBlock = 10;
@@ -65,7 +61,19 @@ export const blocksToTime = (blocks: number) => {
   return days + "d, " + hours + "h, " + minutes + "m";
 };
 
+declare global {
+  interface Window {
+    XverseProviders?: any;
+    AsignaProvider?: any;
+    okxwallet?: any;
+    LeatherProvider?: any;
+    HiroWalletProvider?: any;
+    StacksProvider?: any;
+  }
+}
+
 export const resolveProvider = () => {
+  if (typeof window === "undefined") return null;
   const providerName = localStorage.getItem("stacking-tracker-sign-provider");
   if (!providerName) return null;
 
@@ -88,13 +96,13 @@ export const resolveProvider = () => {
   }
 };
 
-export async function asyncForEach(array, callback) {
+export async function asyncForEach(array: any[], callback: (item: any, index: number, array: any[]) => Promise<void>) {
   for (let index = 0; index < array.length; index++) {
     await callback(array[index], index, array);
   }
 }
 
-export const formatSeconds = function (totalmins) {
+export const formatSeconds = function (totalmins: number) {
   if (Math.sign(totalmins) != -1) {
     const mins = totalmins % 60;
     const hours = Math.floor(totalmins / 60);
@@ -138,7 +146,7 @@ export const currency = {
   }),
 } as const;
 
-export function shortAddress(address) {
+export function shortAddress(address: string) {
   if (!address.startsWith("0x") || address.length <= 10) {
     return address;
   }
@@ -156,7 +164,7 @@ export function shortAddress(address) {
   return `${firstPart}...${lastPart}`;
 }
 
-export function numberToDaysAndHours(number) {
+export function numberToDaysAndHours(number: number) {
   const days = Math.floor(number);
   const hours = Math.floor((number - days) * 24);
 
@@ -171,7 +179,7 @@ export function numberToDaysAndHours(number) {
   return [dayString, hourString].filter(Boolean).join(", ");
 }
 
-export function generateMetaData(title, description) {
+export function generateMetaData(title: string, description: string) {
   return {
     metadataBase: new URL("https://www.stacking-tracker.com/"),
     title: title,

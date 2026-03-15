@@ -11,6 +11,7 @@ import { currency } from "@/app/common/utils";
 import StxLogo from "./Logos/Stx";
 import BtcLogo from "./Logos/Btc";
 import { classNames } from "../common/class-names";
+import { WalletConnectButton } from "./WalletConnectButton";
 
 const navigation = [
   { name: "Stacking Overview", href: "/" },
@@ -20,7 +21,7 @@ const navigation = [
   { name: "Stacks Signers", href: "/signers" },
 ];
 
-export function Header() {
+export function Header({ signOut }: { signOut: () => void }) {
   const { stxPrice, btcPrice } = useAppContext();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const pathname = usePathname();
@@ -91,6 +92,7 @@ export function Header() {
                 ${currency.short.format(Number(btcPrice))}
               </p>
             </div>
+            <WalletConnectButton signOut={signOut} />
           </div>
         </div>
       </nav>
@@ -149,6 +151,9 @@ export function Header() {
                     {item.name}
                   </a>
                 ))}
+              </div>
+              <div className="py-6">
+                <WalletConnectButton className="w-full" signOut={signOut} />
               </div>
             </div>
           </div>

@@ -1,5 +1,3 @@
-// @ts-nocheck
-
 import { useState, Fragment } from "react";
 import { useConnect } from "@stacks/connect-react";
 import { useAppContext } from "./AppContext";
@@ -11,11 +9,16 @@ import { Menu, Transition } from "@headlessui/react";
 import { ExternalLinkIcon, ChevronDownIcon } from "@heroicons/react/outline";
 import Link from "next/link";
 
-export const WalletConnectButton = ({ className, signOut }) => {
-  className = clsx(
+interface Props {
+  className?: string;
+  signOut: () => void;
+}
+
+export const WalletConnectButton = ({ className, signOut }: Props) => {
+  const buttonClass = clsx(
     className,
     "w-36 justify-center inline-flex items-center gap-2 rounded-lg px-4 py-2.5 text-sm font-semibold transition",
-    "bg-dark-green-600 text-white hover:bg-neutral-800"
+    "bg-orange text-black hover:bg-orange/80"
   );
 
   const { setStxAddress, setOkxProvider } = useAppContext();
@@ -64,15 +67,15 @@ export const WalletConnectButton = ({ className, signOut }) => {
       />
 
       {!stxAddress ? (
-        <button className={className} onClick={showModalOrConnectWallet}>
+        <button className={buttonClass} onClick={showModalOrConnectWallet}>
           Connect
         </button>
       ) : (
         <Menu as="div" className="relative inline-block text-left">
           <div>
-            <Menu.Button className="w-fit justify-center inline-flex items-center gap-2 rounded-lg px-4 py-2.5 text-sm font-semibold transition bg-dark-green-600 text-white hover:bg-neutral-800">
+            <Menu.Button className="w-fit justify-center inline-flex items-center gap-2 rounded-lg px-4 py-2.5 text-sm font-semibold transition bg-orange text-black hover:bg-orange/80">
               <svg
-                className="inline-block w-2 h-2 text-fluor-green-500"
+                className="inline-block w-2 h-2 text-white"
                 viewBox="0 0 8 8"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
@@ -95,12 +98,12 @@ export const WalletConnectButton = ({ className, signOut }) => {
             leaveFrom="transform opacity-100 scale-100"
             leaveTo="transform opacity-0 scale-95"
           >
-            <Menu.Items className="absolute right-0 w-56 mt-2 origin-top-right bg-transparent divide-y divide-gray-100 rounded-md shadow-lg ring-1 ring-black/5 focus:outline-none">
+            <Menu.Items className="absolute right-0 w-56 mt-2 origin-top-right bg-gray divide-y divide-white/10 rounded-md shadow-lg ring-1 ring-black/5 focus:outline-none z-50">
               <div className="px-1 py-1 ">
                 <Menu.Item>
                   <button
                     onClick={copyAddress}
-                    className="flex items-center text-dark-green-500 w-full px-2 py-2 text-sm rounded-md group hover:bg-dark-green-500/10"
+                    className="flex items-center text-white w-full px-2 py-2 text-sm rounded-md group hover:bg-white/10"
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -108,7 +111,7 @@ export const WalletConnectButton = ({ className, signOut }) => {
                       viewBox="0 0 24 24"
                       strokeWidth="2"
                       stroke="currentColor"
-                      className="w-4 h-4 mr-2 text-dark-green-500"
+                      className="w-4 h-4 mr-2 text-orange"
                     >
                       <path
                         strokeLinecap="round"
@@ -124,10 +127,10 @@ export const WalletConnectButton = ({ className, signOut }) => {
                     href={`https://explorer.hiro.so/address/${stxAddress}?chain=mainnet`}
                     rel="noopener noreferrer"
                     target="_blank"
-                    className="flex items-center text-dark-green-500 w-full px-2 py-2 text-sm rounded-md group hover:bg-dark-green-500/10"
+                    className="flex items-center text-white w-full px-2 py-2 text-sm rounded-md group hover:bg-white/10"
                   >
                     <ExternalLinkIcon
-                      className="w-4 h-4 mr-2 text-dark-green-500"
+                      className="w-4 h-4 mr-2 text-orange"
                       aria-hidden="true"
                     />
                     View on Explorer
@@ -138,14 +141,14 @@ export const WalletConnectButton = ({ className, signOut }) => {
                 <Menu.Item>
                   <button
                     onClick={signOut}
-                    className="flex items-center text-dark-green-500 w-full px-2 py-2 text-sm rounded-md group hover:bg-dark-green-500/10"
+                    className="flex items-center text-white w-full px-2 py-2 text-sm rounded-md group hover:bg-white/10"
                   >
                     <svg
-                      className="w-4 h-4 mr-2 text-dark-green-500"
+                      className="w-4 h-4 mr-2 text-orange"
                       aria-hidden="true"
                       viewBox="0 0 24 24"
                     >
-                      <path d="m17 8-1.41 1.41L17.17 11H9v2h8.17l-1.58 1.58L17 16l4-4zM5 5h7V3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h7v-2H5z"></path>
+                      <path d="m17 8-1.41 1.41L17.17 11H9v2h8.17l-1.58 1.58L17 16l4-4zM5 5h7V3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h7v-2H5z" fill="currentColor"></path>
                     </svg>
                     Disconnect
                   </button>
