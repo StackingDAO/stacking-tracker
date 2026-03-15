@@ -30,7 +30,7 @@ export function PositionsRow({ firstChild, position }: Props) {
         <table className="w-full table-fixed">
           <tbody>
             <tr>
-              <td className="my-2 pl-6 text-sm text-gray-500 sm:pl-0 pr-12 w-[350px]">
+              <td className="my-2 pl-6 text-sm text-white sm:pl-0 pr-12 w-[350px]">
                 <div>
                   <div className="flex items-center">
                     {firstChild}
@@ -59,7 +59,7 @@ export function PositionsRow({ firstChild, position }: Props) {
                   </div>
                 </div>
               </td>
-              <td className="whitespace-nowrap my-2 pl-4 pr-3 text-sm text-gray-500 sm:pl-0">
+              <td className="whitespace-nowrap my-2 pl-4 pr-3 text-sm text-white sm:pl-0">
                 <div>
                   <div className="flex items-center gap-2">
                     {`${currency.rounded.format(position.tvl)}`}
@@ -70,7 +70,7 @@ export function PositionsRow({ firstChild, position }: Props) {
                   </div>
                 </div>
               </td>
-              <td className="whitespace-nowrap py-2 pl-4 pr-3 text-sm text-gray-500 sm:pl-0">
+              <td className="whitespace-nowrap py-2 pl-4 pr-3 text-sm text-white sm:pl-0">
                 <div>
                   {position.symbol === "stSTX" ? (
                     <>
@@ -123,11 +123,11 @@ export function PositionsRow({ firstChild, position }: Props) {
                   )}
                 </div>
               </td>
-              <td className="whitespace-nowrap py-2 pl-4 pr-3 text-sm text-gray-500 sm:pl-0">
+              <td className="whitespace-nowrap py-2 pl-4 pr-3 text-sm text-white sm:pl-0">
                 {`${position.apy ? currency.short.format(position.apy) + "%" : "TBD"}`}
               </td>
               {showBalance && (
-                <td className="whitespace-nowrap py-2 pl-4 pr-3 text-sm text-gray-500 sm:pl-0">
+                <td className="whitespace-nowrap py-2 pl-4 pr-3 text-sm text-white sm:pl-0">
                   <div>
                     <div className="font-semibold flex items-center gap-2">
                       {`${currency.rounded.format(position.balance)}`}
@@ -149,7 +149,7 @@ export function PositionsRow({ firstChild, position }: Props) {
                 </td>
               )}
 
-              <td className="whitespace-nowrap py-2 pl-4 pr-3 text-sm text-gray-500 sm:pl-0">
+              <td className="whitespace-nowrap py-2 pl-4 pr-3 text-sm text-white sm:pl-0">
                 <div className="text-right">
                   <ButtonLink
                     label="Start Stacking"

@@ -1,16 +1,14 @@
-import { BlocksApi } from '@stacks/blockchain-api-client';
-import { apiUrl, configuration } from './constants';
-import axios from 'axios';
-
-const blocksApi = new BlocksApi(configuration);
+import { stacksApi } from './constants';
 
 export async function getBlocks(maxPages: number, offset: number = 0): Promise<any> {
   let result: any[] = [];
   let pageCounter = 0;
 
   while (pageCounter < maxPages) {
-    const blocks = await blocksApi.getBlocks({ limit: 30, offset: offset + result.length });
-    result = result.concat(blocks.results);
+    const { data } = await stacksApi.get(
+      `/extended/v2/blocks?limit=30&offset=${offset + result.length}`
+    );
+    result = result.concat(data.results);
 
     pageCounter++;
   }
@@ -19,14 +17,16 @@ export async function getBlocks(maxPages: number, offset: number = 0): Promise<a
 }
 
 export async function getBlock(blockHeight: number): Promise<any> {
-  const block = await blocksApi.getBlock({ heightOrHash: blockHeight });
-  return block;
+  const { data } = await stacksApi.get(`/extended/v2/blocks/${blockHeight}`);
+  return data;
 }
 
 export async function getBurnBlockByHeight(burnBlockHeight: number): Promise<any> {
   try {
-    const block = await blocksApi.getBlockByBurnBlockHeight({ burnBlockHeight: burnBlockHeight });
-    return block;
+    const { data } = await stacksApi.get(
+      `/extended/v1/block/by_burn_block_height/${burnBlockHeight}`
+    );
+    return data;
   } catch (error) {
     return await getBurnBlockByHeight(burnBlockHeight + 1);
   }
@@ -34,8 +34,9 @@ export async function getBurnBlockByHeight(burnBlockHeight: number): Promise<any
 
 export async function getBlockByBurnHeight(burnBlockHeight: number): Promise<any> {
   try {
-    const path = `${apiUrl}/extended/v2/burn-blocks/${burnBlockHeight}/blocks`;
-    const data = (await axios.get(path)).data;
+    const { data } = await stacksApi.get(
+      `/extended/v2/burn-blocks/${burnBlockHeight}/blocks`
+    );
     return data;
   } catch (error) {
     return await getBlockByBurnHeight(burnBlockHeight + 1);

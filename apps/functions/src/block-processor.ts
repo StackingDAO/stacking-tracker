@@ -1,6 +1,10 @@
 import type { Context, SQSEvent } from "aws-lambda";
 import { PublishCommand, SNSClient } from "@aws-sdk/client-sns";
-import type { NakamotoBlock } from "@stacks/blockchain-api-client";
+
+interface NakamotoBlock {
+  height: number;
+  hash: string;
+}
 
 const sns = new SNSClient();
 

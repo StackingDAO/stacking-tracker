@@ -15,7 +15,7 @@ export const WalletConnectButton = ({ className, signOut }) => {
   className = clsx(
     className,
     "w-36 justify-center inline-flex items-center gap-2 rounded-lg px-4 py-2.5 text-sm font-semibold transition",
-    "bg-dark-green-600 text-white hover:bg-neutral-800"
+    "bg-gray text-white hover:bg-white/10"
   );
 
   const { setStxAddress, setOkxProvider } = useAppContext();
@@ -70,9 +70,9 @@ export const WalletConnectButton = ({ className, signOut }) => {
       ) : (
         <Menu as="div" className="relative inline-block text-left">
           <div>
-            <Menu.Button className="w-fit justify-center inline-flex items-center gap-2 rounded-lg px-4 py-2.5 text-sm font-semibold transition bg-dark-green-600 text-white hover:bg-neutral-800">
+            <Menu.Button className="w-fit justify-center inline-flex items-center gap-2 rounded-lg px-4 py-2.5 text-sm font-semibold transition bg-gray text-white hover:bg-white/10">
               <svg
-                className="inline-block w-2 h-2 text-fluor-green-500"
+                className="inline-block w-2 h-2 text-green"
                 viewBox="0 0 8 8"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
@@ -95,12 +95,12 @@ export const WalletConnectButton = ({ className, signOut }) => {
             leaveFrom="transform opacity-100 scale-100"
             leaveTo="transform opacity-0 scale-95"
           >
-            <Menu.Items className="absolute right-0 w-56 mt-2 origin-top-right bg-transparent divide-y divide-gray-100 rounded-md shadow-lg ring-1 ring-black/5 focus:outline-none">
+            <Menu.Items className="absolute right-0 w-56 mt-2 origin-top-right bg-transparent divide-y divide-white/10 rounded-md shadow-lg ring-1 ring-black/5 focus:outline-hidden">
               <div className="px-1 py-1 ">
                 <Menu.Item>
                   <button
                     onClick={copyAddress}
-                    className="flex items-center text-dark-green-500 w-full px-2 py-2 text-sm rounded-md group hover:bg-dark-green-500/10"
+                    className="flex items-center text-white/70 w-full px-2 py-2 text-sm rounded-md group hover:bg-white/10"
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -108,7 +108,7 @@ export const WalletConnectButton = ({ className, signOut }) => {
                       viewBox="0 0 24 24"
                       strokeWidth="2"
                       stroke="currentColor"
-                      className="w-4 h-4 mr-2 text-dark-green-500"
+                      className="w-4 h-4 mr-2 text-white/70"
                     >
                       <path
                         strokeLinecap="round"
@@ -124,10 +124,10 @@ export const WalletConnectButton = ({ className, signOut }) => {
                     href={`https://explorer.hiro.so/address/${stxAddress}?chain=mainnet`}
                     rel="noopener noreferrer"
                     target="_blank"
-                    className="flex items-center text-dark-green-500 w-full px-2 py-2 text-sm rounded-md group hover:bg-dark-green-500/10"
+                    className="flex items-center text-white/70 w-full px-2 py-2 text-sm rounded-md group hover:bg-white/10"
                   >
                     <ExternalLinkIcon
-                      className="w-4 h-4 mr-2 text-dark-green-500"
+                      className="w-4 h-4 mr-2 text-white/70"
                       aria-hidden="true"
                     />
                     View on Explorer
@@ -138,10 +138,10 @@ export const WalletConnectButton = ({ className, signOut }) => {
                 <Menu.Item>
                   <button
                     onClick={signOut}
-                    className="flex items-center text-dark-green-500 w-full px-2 py-2 text-sm rounded-md group hover:bg-dark-green-500/10"
+                    className="flex items-center text-white/70 w-full px-2 py-2 text-sm rounded-md group hover:bg-white/10"
                   >
                     <svg
-                      className="w-4 h-4 mr-2 text-dark-green-500"
+                      className="w-4 h-4 mr-2 text-white/70"
                       aria-hidden="true"
                       viewBox="0 0 24 24"
                     >

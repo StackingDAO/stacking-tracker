@@ -1,12 +1,9 @@
-import { AccountsApi } from '@stacks/blockchain-api-client';
-import { configuration } from './constants';
+import { stacksApi } from './constants';
 import { validateStacksAddress } from '@stacks/transactions';
 
-const accountsApi = new AccountsApi(configuration);
-
 export async function getBalances(address: string): Promise<any> {
-  const result = await accountsApi.getAccountBalance({ principal: address });
-  return result;
+  const { data } = await stacksApi.get(`/extended/v1/address/${address}/balances`);
+  return data;
 }
 
 export function isValidStacksAddress(address: string) {

@@ -1,4 +1,3 @@
-import { FunctionComponent } from "react";
 import { Table } from "../../components/Table";
 import * as api from "../../common/public-api";
 import { currency, generateMetaData, shortAddress } from "@/app/common/utils";
@@ -12,12 +11,13 @@ import { ToolTip } from "@/app/components/Tooltip";
 import { ArrowRightIcon } from "@heroicons/react/24/solid";
 
 type Props = {
-  params: {
+  params: Promise<{
     signer: string;
-  };
+  }>;
 };
 
-export async function generateMetadata({ params: { signer } }: Props) {
+export async function generateMetadata({ params }: Props) {
+  const { signer } = await params;
   const signerInfo = await api.get(`/signer/${signer}`);
   const lastCycle = signerInfo.cycles[signerInfo.cycles.length - 1];
   const signerName = signerInfo.name ?? shortAddress(signerInfo.signer_key);
@@ -28,9 +28,8 @@ export async function generateMetadata({ params: { signer } }: Props) {
   return generateMetaData(info.title, info.description);
 }
 
-const Home: FunctionComponent<Props> = async ({
-  params: { signer },
-}: Props) => {
+const Home = async ({ params }: Props) => {
+  const { signer } = await params;
   const signerInfo = await api.get(`/signer/${signer}`);
 
   const chartLabels = signerInfo.cycles.map((info: any) => info.cycle_number);

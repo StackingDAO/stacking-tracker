@@ -1,4 +1,3 @@
-import { FunctionComponent } from "react";
 import { Table } from "../../components/Table";
 import * as api from "../../common/public-api";
 import { currency, generateMetaData } from "@/app/common/utils";
@@ -11,12 +10,13 @@ import { ToolTip } from "@/app/components/Tooltip";
 import { ArrowRightIcon } from "@heroicons/react/24/solid";
 
 type Props = {
-  params: {
+  params: Promise<{
     token: string;
-  };
+  }>;
 };
 
-export async function generateMetadata({ params: { token } }: Props) {
+export async function generateMetadata({ params }: Props) {
+  const { token } = await params;
   const tokenInfo = await api.get(`/token/${token}`);
   const lastCycle = tokenInfo.cycles[tokenInfo.cycles.length - 1];
   const info = {
@@ -26,7 +26,8 @@ export async function generateMetadata({ params: { token } }: Props) {
   return generateMetaData(info.title, info.description);
 }
 
-const Home: FunctionComponent<Props> = async ({ params: { token } }: Props) => {
+const Home = async ({ params }: Props) => {
+  const { token } = await params;
   const tokenInfo = await api.get(`/token/${token}`);
 
   const chartLabels = tokenInfo.cycles.map((info: any) => info.cycle_number);

@@ -1,4 +1,4 @@
-import { BlocksApi } from "@stacks/blockchain-api-client";
+import { createClient } from "@stacks/blockchain-api-client";
 
 import express, { Express, Request, Response } from "express";
 import dotenv from "dotenv";
@@ -10,14 +10,14 @@ const port = process.env.PORT || 3000;
 const queue = process.env.QUEUE_URL;
 
 const app: Express = express();
-const blocks = new BlocksApi();
-const stacks = new StacksListener(queue);
+const client = createClient({
+  baseUrl: "https://api.mainnet.hiro.so",
+});
 
 app.use(express.json());
 
 app.get("/health", (_: Request, res: Response) => {
-  if (stacks.listener.socket.connected) res.status(200).json({ status: "ok" });
-  else res.status(500).json({ status: "disconnected" });
+  res.status(200).json({ status: "ok" });
 });
 
 app.post("/block", async (req: Request, res: Response) => {
@@ -25,24 +25,33 @@ app.post("/block", async (req: Request, res: Response) => {
 
   try {
     const body = req.body as { block_height: number };
-    const block = await blocks.getBlockByHeight({
-      height: body.block_height,
+    const { data: block } = await client.GET("/extended/v2/blocks/{height_or_hash}", {
+      params: {
+        path: { height_or_hash: body.block_height },
+      },
     });
 
-    await stacks.sendBlock(block);
+    if (!block) {
+      res.status(404).json({ success: false, error: "Block not found" });
+      return;
+    }
 
+    await stacks.sendBlock(block);
     res.status(200).json({ success: true });
   } catch (e) {
     res.status(500).json({ success: false, error: e });
   }
 });
 
-const server = app.listen(port, () => {
+let stacks: StacksListener;
+
+const server = app.listen(port, async () => {
   console.log(`[server]: Server is running at http://localhost:${port}`);
+  stacks = await StacksListener.create(queue);
 });
 
 function shutdown() {
-  stacks.dispose();
+  stacks?.dispose();
   server.close();
   process.exit();
 }

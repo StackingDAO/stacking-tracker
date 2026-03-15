@@ -1,4 +1,3 @@
-import { FunctionComponent } from "react";
 import { Table } from "../../components/Table";
 import * as api from "../../common/public-api";
 import { currency, generateMetaData } from "@/app/common/utils";
@@ -11,12 +10,13 @@ import { ToolTip } from "@/app/components/Tooltip";
 import { ArrowRightIcon } from "@heroicons/react/24/solid";
 
 type Props = {
-  params: {
+  params: Promise<{
     pool: string;
-  };
+  }>;
 };
 
-export async function generateMetadata({ params: { pool } }: Props) {
+export async function generateMetadata({ params }: Props) {
+  const { pool } = await params;
   const poolInfo = await api.get(`/pool/${pool}`);
   const lastCycle = poolInfo.cycles[poolInfo.cycles.length - 1];
   const info = {
@@ -26,7 +26,8 @@ export async function generateMetadata({ params: { pool } }: Props) {
   return generateMetaData(info.title, info.description);
 }
 
-const Home: FunctionComponent<Props> = async ({ params: { pool } }: Props) => {
+const Home = async ({ params }: Props) => {
+  const { pool } = await params;
   const poolInfo = await api.get(`/pool/${pool}`);
 
   const chartLabels = poolInfo.cycles.map((info: any) => info.cycle_number);

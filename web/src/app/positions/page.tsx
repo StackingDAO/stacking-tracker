@@ -1,14 +1,6 @@
-import { FunctionComponent } from "react";
 import * as api from "../common/public-api";
 import { Positions } from "../components/Positions";
-import { WalletStatus } from "../components/WalletStatus";
 import { generateMetaData } from "../common/utils";
-
-type Props = {
-  params: {
-    pool: string;
-  };
-};
 
 export async function generateMetadata() {
   const info = {
@@ -19,7 +11,7 @@ export async function generateMetadata() {
   return generateMetaData(info.title, info.description);
 }
 
-const Home: FunctionComponent<Props> = async ({ params: { pool } }: Props) => {
+const Home = async () => {
   const positionsInfo = await api.get(`/positions`);
 
   return (
