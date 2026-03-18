@@ -47,7 +47,12 @@ let stacks: StacksListener;
 
 const server = app.listen(port, async () => {
   console.log(`[server]: Server is running at http://localhost:${port}`);
-  stacks = await StacksListener.create(queue);
+  try {
+    stacks = await StacksListener.create(queue);
+  } catch (e) {
+    console.error("[server] failed to start stacks listener", e);
+    process.exit(1);
+  }
 });
 
 function shutdown() {
