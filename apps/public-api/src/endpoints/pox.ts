@@ -17,7 +17,7 @@ async function getInfoForCycle(cycleNumber: number) {
     stackers,
     rewards,
     prices.stx,
-    prices.btc
+    prices.btc,
   );
 
   info.signers_count = signers.length;
@@ -41,7 +41,7 @@ router.get("/", async (req: Request, res: Response) => {
     pox.next_cycle.blocks_until_prepare_phase / pox.reward_phase_block_length;
   const currentCycleExtrapolationMult = Math.max(
     1.0 / currentCycleProgress,
-    1.0
+    1.0,
   );
 
   const lastCycle = Math.min(pox.current_cycle.id, signersLatestCycle);
@@ -72,6 +72,8 @@ router.get("/", async (req: Request, res: Response) => {
       cycle_number: results[0].cycle_number + 1,
       prepare_phase_start_block:
         pox.next_cycle.prepare_phase_start_block_height,
+      prepare_starts_in_days:
+        (pox.next_cycle.prepare_phase_start_block_height - currentBlock) / 144,
       reward_phase_start_block: nextCycleStartBlock,
       starts_in_days: (nextCycleStartBlock - currentBlock) / 144,
     },

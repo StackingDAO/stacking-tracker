@@ -27,7 +27,7 @@ const Home = async () => {
   const chartLabels = poxInfo.cycles.map((info: any) => info.cycle_number);
   const dataStacked = poxInfo.cycles.map((info: any) => info.stacked_amount);
   const dataRewards = poxInfo.cycles.map(
-    (info: any) => info.extrapolated_rewards_amount || info.rewards_amount
+    (info: any) => info.extrapolated_rewards_amount || info.rewards_amount,
   );
   const lastCycle = poxInfo.cycles[poxInfo.cycles.length - 1];
 
@@ -106,13 +106,13 @@ const Home = async () => {
                     <div className=" inline-flex items-center w-full text-lg font-medium leading-6 text-white gap-x-1">
                       <StxLogo className="w-[18px] h-[18px] shrink-0" />
                       {currency.rounded.format(
-                        poxInfo.current_cycle.stacked_amount
+                        poxInfo.current_cycle.stacked_amount,
                       )}
                     </div>
                     <p className="text-sm text-white/[0.35]">
                       $
                       {currency.rounded.format(
-                        poxInfo.current_cycle.stacked_amount_usd
+                        poxInfo.current_cycle.stacked_amount_usd,
                       )}
                     </p>
                   </dd>
@@ -131,13 +131,13 @@ const Home = async () => {
                     <div className=" inline-flex items-center w-full text-lg font-medium leading-6 text-white gap-x-1">
                       <BtcLogo className="w-[18px] h-[18px] shrink-0" />
                       {currency.short.format(
-                        poxInfo.current_cycle.rewards_amount
+                        poxInfo.current_cycle.rewards_amount,
                       )}
                     </div>
                     <p className="text-sm text-white/[0.35] ">
                       $
                       {currency.rounded.format(
-                        poxInfo.current_cycle.rewards_amount_usd
+                        poxInfo.current_cycle.rewards_amount_usd,
                       )}
                     </p>
                   </dd>
@@ -149,12 +149,12 @@ const Home = async () => {
                   <dd className="w-full text-lg font-medium leading-6 text-white">
                     ~{" "}
                     {currency.rounded.format(
-                      poxInfo.current_cycle.started_days_ago
+                      poxInfo.current_cycle.started_days_ago,
                     )}{" "}
                     Days Ago
                     <p className="text-sm text-white/[0.35]">
                       {getFormattedDate(
-                        -poxInfo.current_cycle.started_days_ago
+                        -poxInfo.current_cycle.started_days_ago,
                       )}
                     </p>
                   </dd>
@@ -166,7 +166,7 @@ const Home = async () => {
                   <dd className="w-full text-lg font-medium leading-6 text-white">
                     ~{" "}
                     {currency.rounded.format(
-                      poxInfo.current_cycle.ends_in_days
+                      poxInfo.current_cycle.ends_in_days,
                     )}{" "}
                     Days
                     <p className="text-sm text-white/[0.35]">
@@ -200,7 +200,10 @@ const Home = async () => {
                     </div>
                   </dt>
                   <dd>
-                    ~ {numberToDaysAndHours(poxInfo.next_cycle.starts_in_days)}
+                    ~{" "}
+                    {numberToDaysAndHours(
+                      poxInfo.next_cycle.prepare_starts_in_days,
+                    )}
                     <p className="text-sm text-white/[0.35] mt-0.5">
                       Block #{poxInfo.next_cycle.prepare_phase_start_block}
                     </p>
@@ -321,7 +324,7 @@ const Home = async () => {
                             <ArrowRightIcon className="w-4 h-4 mx-1 text-white/30" />
                             <span className="opacity-70">
                               {currency.short.format(
-                                info.extrapolated_rewards_amount
+                                info.extrapolated_rewards_amount,
                               )}
                             </span>
                             <BtcLogo className="w-[12px] h-[12px] ml-1" />
@@ -394,7 +397,7 @@ const Home = async () => {
                       <ArrowRightIcon className="w-4 h-4 text-white/30" />
                       <div className="opacity-70">
                         {currency.short.format(
-                          info.extrapolated_rewards_amount
+                          info.extrapolated_rewards_amount,
                         )}
                       </div>
                       <BtcLogo className="w-[12px] h-[12px] ml-1" />
