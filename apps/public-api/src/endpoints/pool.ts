@@ -1,12 +1,16 @@
 import { Router, Request, Response } from "express";
 import * as db from "@repo/database";
 import * as stacks from "@repo/stacks";
-import { poxAddressToPool } from "../constants";
+import { poolSlugToPool } from "../constants";
 import { getPrices } from "../prices";
 
-async function getPoolsInfoForCycle(cycleNumber: number, poxAddress: string) {
+async function getPoolsInfoForCycle(
+  cycleNumber: number,
+  poxAddresses: string[],
+  fee: number,
+) {
   const [stackers, rewards, prices] = await Promise.all([
-    db.getStackersForCycle(cycleNumber, [poxAddress]),
+    db.getStackersForCycle(cycleNumber, poxAddresses),
     db.getRewardsForCycle(cycleNumber),
     getPrices(cycleNumber),
   ]);
@@ -14,25 +18,30 @@ async function getPoolsInfoForCycle(cycleNumber: number, poxAddress: string) {
   let stackedAmount = 0.0;
   let rewardAmount = 0.0;
   let stackersCount = 0;
-  stackers
-    .filter((stacker: any) => stacker.poxAddress === poxAddress)
-    .forEach((stacker: any) => {
-      stackedAmount += stacker.stackedAmount;
-      stackersCount += 1;
-    });
-  rewards
-    .filter((reward: any) => reward.rewardRecipient === poxAddress)
-    .forEach((reward: any) => {
-      rewardAmount += reward.rewardAmount;
-    });
+  for (const poxAddress of poxAddresses) {
+    stackers
+      .filter((stacker: any) => stacker.poxAddress === poxAddress)
+      .forEach((stacker: any) => {
+        stackedAmount += stacker.stackedAmount;
+        stackersCount += 1;
+      });
+    rewards
+      .filter((reward: any) => reward.rewardRecipient === poxAddress)
+      .forEach((reward: any) => {
+        rewardAmount += reward.rewardAmount;
+      });
+  }
 
-  const rewardFeeMult = 1 - poxAddressToPool[poxAddress as string].fee;
-
+  const rewardFeeMult = 1 - fee;
   const previousStackedValue = stackedAmount * prices.stx;
   const previousRewardsValue = rewardAmount * rewardFeeMult * prices.btc;
   // 26 cycles per year
-  const apr = (previousRewardsValue / previousStackedValue) * 26;
-  const apy = (Math.pow(1 + apr / 26, 26) - 1) * 100.0;
+  const apr =
+    previousStackedValue > 0 && Number.isFinite(previousStackedValue)
+      ? (previousRewardsValue / previousStackedValue) * 26
+      : 0;
+  const rawApy = (Math.pow(1 + apr / 26, 26) - 1) * 100.0;
+  const apy = Number.isFinite(rawApy) ? rawApy : 0;
 
   return {
     cycle_number: cycleNumber,
@@ -47,9 +56,11 @@ const router = Router();
 
 router.get("/:slug", async (req: Request, res: Response) => {
   const { slug } = req.params;
-  const poxAddress = Object.keys(poxAddressToPool).filter(
-    (key: string) => poxAddressToPool[key].slug === slug
-  )[0];
+  const pool = poolSlugToPool[slug];
+  if (!pool) {
+    res.status(404).send({ error: "Pool not found" });
+    return;
+  }
 
   const pox = await stacks.getPox();
 
@@ -64,16 +75,16 @@ router.get("/:slug", async (req: Request, res: Response) => {
 
   const promises: any[] = [];
   for (let cycle = currentCycle; cycle >= 84; cycle--) {
-    promises.push(getPoolsInfoForCycle(cycle, poxAddress));
+    promises.push(getPoolsInfoForCycle(cycle, pool.poxAddresses, pool.fee));
   }
 
   const results = await Promise.all(promises);
   res.send({
-    name: poxAddressToPool[poxAddress].name,
-    logo: poxAddressToPool[poxAddress].logo,
-    website: poxAddressToPool[poxAddress].website,
-    fee: poxAddressToPool[poxAddress].fee,
-    feeDisclosed: poxAddressToPool[poxAddress].feeDisclosed,
+    name: pool.name,
+    logo: pool.logo,
+    website: pool.website,
+    fee: pool.fee,
+    feeDisclosed: pool.feeDisclosed,
     cycles: results.reverse().map((result) => {
       if (result.cycle_number === currentCycle) {
         return {

@@ -12,11 +12,12 @@ export function getPoxInfoForCycle(
   ];
 
   let poolsCount = 0;
+  const poolSlugs = new Set<string>();
   for (const poxAddress of poxAddresses) {
-    if (poxAddressToPool[poxAddress as string]) {
-      poolsCount++;
-    }
+    const pool = poxAddressToPool[poxAddress as string];
+    if (pool) poolSlugs.add(pool.slug);
   }
+  poolsCount = poolSlugs.size;
 
   let stackedAmount = 0.0;
   let rewardAmount = 0.0;

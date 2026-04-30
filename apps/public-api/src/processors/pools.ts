@@ -1,4 +1,4 @@
-import { poxAddressToPool } from "../constants";
+import { poolsList } from "../constants";
 
 export function getPoolsInfoForCycle(
   cycleNumber: number,
@@ -8,24 +8,26 @@ export function getPoolsInfoForCycle(
   btcPrice: number,
 ) {
   const pools: any[] = [];
-  for (const poxAddress of Object.keys(poxAddressToPool)) {
+  for (const pool of poolsList) {
     let stackedAmount = 0.0;
     let rewardAmount = 0.0;
     let stackersCount = 0;
-    stackers
-      .filter((stacker: any) => stacker.poxAddress === poxAddress)
-      .forEach((stacker: any) => {
-        stackedAmount += stacker.stackedAmount;
-        stackersCount += 1;
-      });
-    rewards
-      .filter((reward: any) => reward.rewardRecipient === poxAddress)
-      .forEach((reward: any) => {
-        rewardAmount += reward.rewardAmount;
-      });
+    for (const poxAddress of pool.poxAddresses) {
+      stackers
+        .filter((stacker: any) => stacker.poxAddress === poxAddress)
+        .forEach((stacker: any) => {
+          stackedAmount += stacker.stackedAmount;
+          stackersCount += 1;
+        });
+      rewards
+        .filter((reward: any) => reward.rewardRecipient === poxAddress)
+        .forEach((reward: any) => {
+          rewardAmount += reward.rewardAmount;
+        });
+    }
 
-    if (poxAddressToPool[poxAddress as string]) {
-      const rewardFeeMult = 1 - poxAddressToPool[poxAddress as string].fee;
+    {
+      const rewardFeeMult = 1 - pool.fee;
 
       const previousStackedValue = stackedAmount * stxPrice;
       const previousRewardsValue = rewardAmount * rewardFeeMult * btcPrice;
@@ -38,13 +40,14 @@ export function getPoolsInfoForCycle(
       const apy = Number.isFinite(rawApy) ? rawApy : 0;
 
       pools.push({
-        name: poxAddressToPool[poxAddress as string].name,
+        name: pool.name,
         stackers_count: stackersCount,
-        pox_address: poxAddress,
+        pox_address: pool.poxAddresses[0],
         stacked_amount: stackedAmount,
         rewards_amount: rewardAmount,
         apr: apr * 100.0,
         apy: apy ? apy : 0.0,
+        slug: pool.slug,
       });
     }
   }
@@ -113,15 +116,15 @@ export function getPoolEntities(
   btcPrice: number,
 ) {
   const entities: any[] = [];
-  for (const poxAddress of Object.keys(poxAddressToPool)) {
+  for (const pool of poolsList) {
     const lastCycleInfo = cyclesInfo[0].pools.filter(
-      (pool: any) => pool.pox_address === poxAddress,
+      (p: any) => p.slug === pool.slug,
     )[0];
 
     const cycleInfoAddress = [];
     cyclesInfo.forEach((info: any) => {
       const filteredInfo = info.pools.filter(
-        (pool: any) => pool.pox_address === poxAddress,
+        (p: any) => p.slug === pool.slug,
       )[0];
 
       if (filteredInfo) {
@@ -138,21 +141,27 @@ export function getPoolEntities(
     });
 
     entities.push({
-      name: poxAddressToPool[poxAddress].name,
-      entity: poxAddressToPool[poxAddress].entity,
-      fee: poxAddressToPool[poxAddress].fee,
-      feeDisclosed: poxAddressToPool[poxAddress].feeDisclosed,
-      logo: poxAddressToPool[poxAddress].logo,
-      website: poxAddressToPool[poxAddress].website,
-      symbol: poxAddressToPool[poxAddress].symbol,
-      slug: poxAddressToPool[poxAddress].slug,
-      stackers_count: lastCycleInfo.stackers_count,
-      stacked_amount: cycleInfoAddress[0].stacked_amount,
-      rewards_amount: cycleInfoAddress[0].rewards_amount,
-      stacked_amount_usd: cycleInfoAddress[0].stacked_amount * stxPrice,
-      rewards_amount_usd: cycleInfoAddress[0].rewards_amount * btcPrice,
-      apr: aprSum / cycleInfoAddress.slice(1).length,
-      apy: apySum / cycleInfoAddress.slice(1).length,
+      name: pool.name,
+      entity: pool.entity,
+      fee: pool.fee,
+      feeDisclosed: pool.feeDisclosed,
+      logo: pool.logo,
+      website: pool.website,
+      symbol: pool.symbol,
+      slug: pool.slug,
+      stackers_count: lastCycleInfo?.stackers_count ?? 0,
+      stacked_amount: cycleInfoAddress[0]?.stacked_amount ?? 0,
+      rewards_amount: cycleInfoAddress[0]?.rewards_amount ?? 0,
+      stacked_amount_usd: (cycleInfoAddress[0]?.stacked_amount ?? 0) * stxPrice,
+      rewards_amount_usd: (cycleInfoAddress[0]?.rewards_amount ?? 0) * btcPrice,
+      apr:
+        cycleInfoAddress.slice(1).length > 0
+          ? aprSum / cycleInfoAddress.slice(1).length
+          : 0,
+      apy:
+        cycleInfoAddress.slice(1).length > 0
+          ? apySum / cycleInfoAddress.slice(1).length
+          : 0,
     });
   }
 

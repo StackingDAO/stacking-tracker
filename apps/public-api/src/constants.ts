@@ -34,8 +34,20 @@ export const tokensList = [
   },
 ];
 
-export const poxAddressToPool = {
-  bc1qeagslq8gm4ylmgxf9ngx24mnwffsqnprrsjc0n: {
+export type PoolInfo = {
+  name: string;
+  slug: string;
+  logo: string;
+  website: string;
+  symbol: "BTC" | "STX";
+  fee: number;
+  feeDisclosed: boolean;
+  poxAddresses: string[];
+  entity?: string;
+};
+
+export const poolsList: PoolInfo[] = [
+  {
     name: "StackingDAO Pool",
     slug: "stackingdao-pool",
     logo: "/logos/stackingdao.webp",
@@ -43,8 +55,9 @@ export const poxAddressToPool = {
     symbol: "BTC",
     fee: 0.0,
     feeDisclosed: true,
+    poxAddresses: ["bc1qeagslq8gm4ylmgxf9ngx24mnwffsqnprrsjc0n"],
   },
-  bc1qmv2pxw5ahvwsu94kq5f520jgkmljs3af8ly6tr: {
+  {
     name: "Xverse Pool",
     slug: "xverse-pool",
     logo: "/logos/xverse.webp",
@@ -52,8 +65,9 @@ export const poxAddressToPool = {
     symbol: "BTC",
     fee: 0.05,
     feeDisclosed: true,
+    poxAddresses: ["bc1qmv2pxw5ahvwsu94kq5f520jgkmljs3af8ly6tr"],
   },
-  bc1qs0kkdpsrzh3ngqgth7mkavlwlzr7lms2zv3wxe: {
+  {
     name: "Fast Pool",
     slug: "fast-pool",
     logo: "/logos/fastpool.webp",
@@ -61,8 +75,9 @@ export const poxAddressToPool = {
     symbol: "STX",
     fee: 0.047,
     feeDisclosed: true,
+    poxAddresses: ["bc1qs0kkdpsrzh3ngqgth7mkavlwlzr7lms2zv3wxe"],
   },
-  bc1q7w0jpwwjyq48qhyecnuwazfqv56880q67pmtfc: {
+  {
     name: "Fast Pool v2",
     slug: "fast-pool-v2",
     logo: "/logos/fastpool.webp",
@@ -70,8 +85,9 @@ export const poxAddressToPool = {
     symbol: "STX",
     fee: 0.047,
     feeDisclosed: true,
+    poxAddresses: ["bc1q7w0jpwwjyq48qhyecnuwazfqv56880q67pmtfc"],
   },
-  bc1qs33quxgnwkrspgu82lmaczw7gtcfa88pll8fqm: {
+  {
     name: "Planbetter Pool",
     slug: "planbetter-pool",
     logo: "/logos/planbetter.webp",
@@ -79,8 +95,12 @@ export const poxAddressToPool = {
     symbol: "BTC",
     fee: 0.05,
     feeDisclosed: true,
+    poxAddresses: [
+      "bc1qjap5zdtnrmkch3gwt68t48wtptm5e3hx2fyg6x",
+      "bc1qs33quxgnwkrspgu82lmaczw7gtcfa88pll8fqm",
+    ],
   },
-  "15uuC9CPwSuV3inJcuU5Uon111yosYbzAb": {
+  {
     name: "Blockdaemon",
     slug: "blockdaemon",
     logo: "/logos/blockdaemon.webp",
@@ -88,8 +108,9 @@ export const poxAddressToPool = {
     symbol: "BTC",
     fee: 0.0,
     feeDisclosed: false,
+    poxAddresses: ["15uuC9CPwSuV3inJcuU5Uon111yosYbzAb"],
   },
-  bc1qcc2pumtnrtcj4mk9w0y37xynhqarh40zsy5v77: {
+  {
     name: "Luganodes",
     slug: "luganodes",
     logo: "/logos/luganodes.webp",
@@ -97,8 +118,9 @@ export const poxAddressToPool = {
     symbol: "BTC",
     fee: 0.0,
     feeDisclosed: false,
+    poxAddresses: ["bc1qcc2pumtnrtcj4mk9w0y37xynhqarh40zsy5v77"],
   },
-  bc1qsfahfanetg4v75x6qj82mvs033le6sfflghpws: {
+  {
     name: "Senseinode",
     slug: "senseinode",
     logo: "/logos/default.webp",
@@ -106,8 +128,17 @@ export const poxAddressToPool = {
     symbol: "BTC",
     fee: 0.0,
     feeDisclosed: false,
+    poxAddresses: ["bc1qsfahfanetg4v75x6qj82mvs033le6sfflghpws"],
   },
-};
+];
+
+export const poxAddressToPool: Record<string, PoolInfo> = Object.fromEntries(
+  poolsList.flatMap((pool) => pool.poxAddresses.map((a) => [a, pool])),
+);
+
+export const poolSlugToPool: Record<string, PoolInfo> = Object.fromEntries(
+  poolsList.map((p) => [p.slug, p]),
+);
 
 export const delegationAddressToPool = {
   SP4SZE494VC2YC5JYG7AYFQ44F5Q4PYV7DVMDPBG: {
