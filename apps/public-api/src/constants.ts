@@ -75,7 +75,17 @@ export const poolsList: PoolInfo[] = [
     symbol: "STX",
     fee: 0.045,
     feeDisclosed: true,
-    poxAddresses: ["bc1qs0kkdpsrzh3ngqgth7mkavlwlzr7lms2zv3wxe", "bc1q7w0jpwwjyq48qhyecnuwazfqv56880q67pmtfc", "bc1prmczk9umkeldwgn2uj2dxd2tm3ys2mdrlypxdlr90tk5yekjr2jqvaprcr"],
+    poxAddresses: ["bc1qs0kkdpsrzh3ngqgth7mkavlwlzr7lms2zv3wxe"],
+  },
+  {
+    name: "Fast Pool v2",
+    slug: "fast-pool-v2",
+    logo: "/logos/fastpool.webp",
+    website: "https://fastpool.org",
+    symbol: "sBTC",
+    fee: 0.045,
+    feeDisclosed: true,
+    poxAddresses: ["bc1q7w0jpwwjyq48qhyecnuwazfqv56880q67pmtfc", "bc1prmczk9umkeldwgn2uj2dxd2tm3ys2mdrlypxdlr90tk5yekjr2jqvaprcr"],
   },
   {
     name: "Planbetter Pool",
